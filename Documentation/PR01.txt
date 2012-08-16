@@ -1,0 +1,60 @@
+As most of you know, 18xx games are often played via Email, 
+usually using a spread sheet and the CyberBoard program.
+
+CyberBoard is a general purpose game board program that runs
+on each players computer. It generates and accepts move files
+that synchronize the various players copies of the game file.
+
+I have some problems with CyberBoard and the current style 
+of remote play.  To address these problems I have decided to 
+develop an alternative to this current arrangement.
+
+This is my first report on the progress that I have made to
+date. I will outline two things here: my long term vision and
+my mid term plan. And then I will share with you a mock-up
+of part of my program which I am calling Game18. 
+
+Long term:
+
+Game18 will be an interactive web application which is specific 
+to 18xx style games. It will handle both the spreadsheet and 
+the board display functions of the current PBEM paradigm. It
+will be open source and new game boxes should be easy to add.
+
+Mid term:
+
+The first part of Game18 [Board18?] will, like CyberBoard, be 
+limited to game board functions. A spreadsheet will still be 
+needed when using it.  It will not enforce any rules but will
+make it easy to place and remove tiles and tokens on a game 
+board. It will track the progress of games and may have some
+history review functions.
+
+Current:
+
+I have currently achieved a mock-up of this mid term goal. It
+has no server side functionality and does not handle tokens yet.
+
+I have used 1826 as my sample game. I picked it for no strong 
+reason. I have not done the graphics for any other games.
+
+To play with this mock-up, go to http://www.gandalf.ws/game18/
+
+Clicking on a tray causes the tiles in that tray appear.
+Clicking on a tile selects the tile for placement.
+Clicking on a board position places the selected tile there.
+Clicking on a just placed tile rotates it.  
+Rotation can also be done using the rotation buttons. 
+Clicking the add button makes the tile placement permanent.
+Clicking the reset button removes non permanent tiles.
+The submit button has no function at present.
+A number of other things are also missing. 
+. There is no way to remove a permanent tile
+. No count is kept of the number of tiles remaining.
+
+But it is a start. Please let me know what you think.
+
+If you are interested in participating in the development
+of Game18 then please contact me ASAP.
+
+Thanks, Rich

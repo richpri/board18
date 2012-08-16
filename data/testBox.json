@@ -1,0 +1,22 @@
+{
+  "gameName": "1826",
+  "board": {
+    "ImageLocation": "images/1826/Map.png",
+    "ImageHeight": "1249",
+    "ImageWidth": "1418", 
+    "XStart": "0",
+    "XStep": "50",
+    "YStart": "0",
+    "YStep": "86.8"
+  },
+  "market": {
+    "ImageLocation": "images/1826/Chart.png",
+    "ImageHeight": "xx",
+    "ImageWidth": "xx", 
+    "XStart": "xx",
+    "XStep": "xx",
+    "YStart": "xx",
+    "YStep": "xx"
+  } 
+}
+

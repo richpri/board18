@@ -1,0 +1,21 @@
+/* 
+ * This is the Game control table structure
+ */
+
+{
+  "gameName": "1826",
+  "board": {  "ImageLocation": "xx",
+  "ImageHeight": "xx",
+  "ImageWidth": "xx", 
+  "XStart": "xx",
+  "XStep": "xx",
+  "YStart": "xx",
+  "YStep": "xx"},
+  "market": {  "ImageLocation": "xx",
+  "ImageHeight": "xx",
+  "ImageWidth": "xx", 
+  "XStart": "xx",
+  "XStep": "xx",
+  "YStart": "xx",
+  "YStep": "xx"} 
+}

@@ -1,0 +1,25 @@
+/* 
+ * This is the Tile control table structure
+ */
+
+{ "tileSheets": [
+    {
+      "trayName": "xx",
+      "imageLocation": "xx",
+      "count": "xx",
+      "xStart": "xx",
+      "xSize": "xx",
+      "xStep": "xx",
+      "yStart": "xx",
+      "ySize": "xx",
+      "yStep": "xx",
+      "tiles": [
+        {"dups": "xx"},
+        {"rots": [
+            {"counts": "xx"}
+        ]
+      }
+      ]
+    }
+  ]
+}
