@@ -15,8 +15,7 @@
       "yStep": "xx",
       "tiles": [
         {"dups": "xx"},
-        {"rots": [
-            {"counts": "xx"}
+        {"rots": "xx"}
         ]
       }
       ]

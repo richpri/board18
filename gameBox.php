@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 <?php
 /*
 This is the server side code for the AJAX gameBox call.
@@ -9,7 +7,7 @@ Output is JSON game box.
 ** NOTE: It ignores the input and always returns the same box.
 */
 
-$gameBox = file_get_contents ( "./data/testBox" );
+$gameBox = file_get_contents ("data/testBox.json");
 echo $gameBox;
 ?>
 
