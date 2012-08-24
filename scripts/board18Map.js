@@ -53,12 +53,14 @@ function loadBox(box) {
   BD18.bdImage.src = board.imageLocation;
   BD18.bdImage.onload = itemLoaded; 
   BD18.loadCount++ ;
-  $.each(sheets, function(i,sheet) {
+  BD18.tsImage = new Array();
+  var ttt = sheets.length;
+  for(var i=0; i<ttt; i++) {
     BD18.tsImage[i] = new Image();
-    BD18.tsImage[i].src = sheet.imageLocation;
+    BD18.tsImage[i].src = sheets[i].imageLocation;
     BD18.tsImage[i].onload = itemLoaded;
     BD18.loadCount++;
-  })
+  }
   BD18.doneWithLoad = true;
 }
  
