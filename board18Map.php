@@ -81,16 +81,16 @@
 
       </div>
     </div>
-    <section>
+    <section id="mainpart">
       <div id="content" onclick="hexSelect(event)">
-        <canvas id="canvas1" width="1249" height="1418">
+        <canvas id="canvas1">
           Your browser does not support the HTML 5 Canvas. 
         </canvas>
-        <canvas id="canvas2" width="1249" height="1418">
+        <canvas id="canvas2">
         </canvas>
       </div> 
 
-      <footer style="top:1418px">
+      <footer>
         This is a nonfunctional mockup.
       </footer>
 

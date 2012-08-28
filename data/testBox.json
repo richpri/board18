@@ -2,8 +2,8 @@
   "gameName": "1826",
   "board": {
     "imageLocation": "images/1826/Map.png",
-    "imageHeight": "1249",
-    "imageWidth": "1418", 
+    "imageHeight": "1418",
+    "imageWidth": "1249", 
     "xStart": "0",
     "xStep": "50",
     "yStart": "0",

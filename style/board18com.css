@@ -6,21 +6,13 @@ html, body {
   padding: 0;
 }
 
-section {
-  background-color:#ddffdd;
-  position:absolute;
-  left:135px;
-  top:90px;
-  width: 1000px;
-}
-
 #topofpage {
   background-color:#ffeedd;
   position:fixed;
   left:0px;
   top:0px;
   height:90px;
-  width:1000px;
+  width:100%;
   z-index:5;
 }
 

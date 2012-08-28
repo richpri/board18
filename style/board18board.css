@@ -2,6 +2,14 @@
 /* File: style/board18board.css */
 
 
+#mainpart {
+  background-color:#ddffdd;
+  position:relative;
+  left:135px;
+  top:90px;
+  width: 100%;
+}
+
 #sidebar {
  width:120px;
  position: absolute;
@@ -34,29 +42,19 @@
 
 #content {
  background-color:#ffeedd;
- position: absolute;
- left:120px;
- top:0px;
 }
 
 #canvas1 {
-  position: absolute; 
-  left: 0px; 
-  top: 0px; 
-  z-index: 0;
+   z-index: 0;
 }
 
 #canvas2 {
-  position: absolute; 
-  left: 0px; 
-  top: 0px; 
   z-index: 1;
 }
 
 footer {
- background-color:#ffeedd;
- position:absolute; 
- left:120px;
+ background-color:#ddffdd;
+ height: 10;
  clear:both;
  text-align:center;
 }

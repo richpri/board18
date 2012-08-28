@@ -1,24 +1,30 @@
 /* 
- * This is the Tile control table structure
+ * The array tileSheets will have one entry 
+ * for each tile sheet in the game box. Note
+ * that there is an imbeded array [tiles] in
+ * each tileSeet array entry. The tiles array
+ * contains one entry for each tile column on 
+ * the tile sheet. The tileSheets array is 
+ * the second part of the three part JSON data
+ * structure [gameBox].
  */
 
-{ "tileSheets": [
-    {
-      "trayName": "xx",
-      "imageLocation": "xx",
-      "count": "xx",
-      "xStart": "xx",
-      "xSize": "xx",
-      "xStep": "xx",
-      "yStart": "xx",
-      "ySize": "xx",
-      "yStep": "xx",
-      "tiles": [
-        {"dups": "xx"},
-        {"rots": "xx"}
-        ]
-      }
-      ]
+{
+  "tileSheets": [
+  {
+    "trayName": "sssssss",
+    "imageLocation": "url",
+    "xStart": "nn",
+    "xSize": "nn",
+    "xStep": "nn",
+    "yStart": "nn",
+    "ySize": "nn",
+    "yStep": "nn",
+    "tiles": [ {
+      "dups": "nn",
+      "rots": "nn"
     }
+    ]
+  }
   ]
 }

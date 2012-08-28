@@ -11,11 +11,11 @@ indent:4, maxerr:50, newcap:true, white:false */
 var BD18 = {};
 BD18.loadCount = 0;
 BD18.doneWithLoad = false;
+BD18.boardTiles = [];
 BD18.trays = [];
 BD18.curIndex = null;
 BD18.tileIsSelected = false;
 BD18.hexIsSelected = false;
-BD18.boardTiles = [];
 
 /* All BD18 functions are defined in this file. 
  * 
@@ -148,7 +148,12 @@ function mainCanvasApp(){
  */
 function canvasApp()
   {
-	BD18.canvas0 = document.getElementById('canvas0');
+	$('#mainpart').css('height', BD18.gameBoard.height+10);
+  $('#canvas1').css('height', BD18.gameBoard.height); 
+  $('#canvas1').css('width', BD18.gameBoard.width); 
+  $('#canvas2').css('height', BD18.gameBoard.height); 
+  $('#canvas2').css('width', BD18.gameBoard.width); 
+  BD18.canvas0 = document.getElementById('canvas0');
   if (!BD18.canvas0 || !BD18.canvas0.getContext) { return; }
   BD18.context0 = BD18.canvas0.getContext('2d');
   if (!BD18.context0) { return; }

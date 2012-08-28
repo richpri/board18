@@ -1,5 +1,13 @@
 /* 
- * This is the Game control table structure
+ * This JSON data structure is the first part
+ * of of the three part JSON data structure 
+ * [gameBox]. It consists of three objects:
+ * gameName, board and market. Board and market
+ * are complex objects.
+ * 
+ * Two additional JSON strings are appended to 
+ * this file to make gameBox. They describe 
+ * the tiles and tokens in the game box.
  */
 
 {
