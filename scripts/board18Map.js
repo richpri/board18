@@ -14,18 +14,15 @@ BD18.doneWithLoad = false;
 BD18.trays = [];
 BD18.curIndex = null;
 BD18.tileIsSelected = false;
-
-/* currently unused BD18 global variables.
 BD18.hexIsSelected = false;
 BD18.boardTiles = [];
-*/
 
 /* All BD18 functions are defined in this file. 
  * 
  * Constructor functions.
  * 
- * GameBoard is a constructor function which creates gameBoard objects.
- * These objects fully describe a game board and its use.   
+ * GameBoard is a constructor function which creates a gameBoard object.
+ * This object fully describe a game board and its use.   
  * The Start and Step attributes are used to locate the hexes on the
  * board for placement of tiles and tokens.
  *  */
@@ -39,7 +36,7 @@ function GameBoard(image,board) {
   this.yStep=parseInt(board.yStep,10);
   var that = this;
   this.place=function place() {
-    BD18.context1.drawImage(image,0,0,height,width); 
+    BD18.context1.drawImage(image,0,0,this.height,this.width); 
     BD18.hexIsSelected = false;
     BD18.gameBoard = that;
     };
@@ -131,9 +128,19 @@ function trayCanvasApp() {
   BD18.trays[BD18.curTrayNumb].place(BD18.curIndex);
 }
 
-/* dummy function */
-function mainCanvasApp() {
-  alert("mainCanvasApp called");
+/* Function mainCanvasApp calls the gameBoard.place() method.
+ * This sets up the main Canvas.  It then places all existing
+ * tiles on the game board using the BD18.boardTiles array.
+ */
+function mainCanvasApp(){
+  BD18.gameBoard.place();
+  if (BD18.boardTiles.length === 0) return;
+  var tile;
+  for(var i=0;i<BD18.boardTiles.length;i++) {
+    if (!(i in BD18.boardTiles)) continue;
+    tile = BD18.boardTiles[i];
+    tile.place();
+  }
 }
 
 /* Function CanvasApp initializes all canvases.
@@ -159,6 +166,7 @@ function canvasApp()
 function itemLoaded(event) {
   BD18.loadCount--;
   if (BD18.doneWithLoad == true && BD18.loadCount <= 0) {
+    BD18.gameBoard = new GameBoard(BD18.bdImage,BD18.gameBox.board);
     makeTrays();
     canvasApp();
   }
