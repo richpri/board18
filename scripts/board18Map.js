@@ -1,7 +1,7 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, 
 bitwise:true, strict:true, globalstrict:true,
 undef:true, latedef:true, curly:true, browser:true, 
-indent:4, maxerr:50, newcap:true, white:false */
+indent:4, maxerr:50, white:false */
 
 "use strict";
 /* All BD18 global variables are contained in one
@@ -36,7 +36,7 @@ function GameBoard(image,board) {
   this.yStep=parseInt(board.yStep,10);
   var that = this;
   this.place=function place() {
-    BD18.context1.drawImage(image,0,0,this.height,this.width); 
+    BD18.context1.drawImage(image,0,0,this.height,this.width);
     BD18.hexIsSelected = false;
     BD18.gameBoard = that;
     };
@@ -56,9 +56,9 @@ function TileSheet(image,sheet) {
   this.yStart=parseInt(sheet.yStart,10);
   this.ySize=parseInt(sheet.ySize,10);
   this.yStep=parseInt(sheet.yStep,10);
-  this.tilesOnSheet=sheet.tiles.length
-  this.tileDups=new Array;
-  this.tileRots=new Array;
+  this.tilesOnSheet=sheet.tiles.length;
+  this.tileDups=new Array();
+  this.tileRots=new Array();
   for(var i=0;i<this.tilesOnSheet;i++) {
     this.tileDups[i]=parseInt(sheet.tiles[i].dups,10);
     this.tileRots[i]=parseInt(sheet.tiles[i].rots,10);
@@ -77,7 +77,7 @@ function TileSheet(image,sheet) {
     for (var i=0;i<this.tilesOnSheet;i++)
       {
       sx = this.xStart+i*this.xStep;
-      if (high == i) {
+      if (high === i) {
         BD18.context0.fillStyle = "red";
         BD18.context0.fillRect(a,b*i,100,116);
         BD18.context0.fillStyle = "black";
@@ -105,7 +105,7 @@ function TileSheet(image,sheet) {
  * Finally it initializes BD18.curTrayNumb to 0.
  */
 function makeTrays() {
-  var sheets = new Array;
+  var sheets = new Array();
   var i;
   for (i=0;i<BD18.gameBox.tileSheets.length;i++) {
     sheets[i] = BD18.gameBox.tileSheets[i];
@@ -134,10 +134,10 @@ function trayCanvasApp() {
  */
 function mainCanvasApp(){
   BD18.gameBoard.place();
-  if (BD18.boardTiles.length === 0) return;
+  if (BD18.boardTiles.length === 0) {return;}
   var tile;
   for(var i=0;i<BD18.boardTiles.length;i++) {
-    if (!(i in BD18.boardTiles)) continue;
+    if (!(i in BD18.boardTiles)) {continue;}
     tile = BD18.boardTiles[i];
     tile.place();
   }
@@ -148,21 +148,23 @@ function mainCanvasApp(){
  */
 function canvasApp()
   {
-	$('#mainpart').css('height', BD18.gameBoard.height+10);
-  $('#canvas1').css('height', BD18.gameBoard.height); 
-  $('#canvas1').css('width', BD18.gameBoard.width); 
-  $('#canvas2').css('height', BD18.gameBoard.height); 
-  $('#canvas2').css('width', BD18.gameBoard.width); 
-  BD18.canvas0 = document.getElementById('canvas0');
-  if (!BD18.canvas0 || !BD18.canvas0.getContext) { return; }
-  BD18.context0 = BD18.canvas0.getContext('2d');
-  if (!BD18.context0) { return; }
-  BD18.canvas1 = document.getElementById('canvas1');
-  if (!BD18.canvas1 || !BD18.canvas1.getContext) { return; }
-  BD18.context1 = BD18.canvas1.getContext('2d');
-  if (!BD18.context1) { return; }
-  trayCanvasApp();
-  mainCanvasApp();
+    var hh = parseInt(BD18.gameBoard.height);
+    var ww = parseInt(BD18.gameBoard.width);
+    $('#mainpart').css('height', hh+10);
+    $('#canvas1').css('height', hh); 
+    $('#canvas1').css('width', ww); 
+    $('#canvas2').css('height', hh); 
+    $('#canvas2').css('width', ww); 
+    BD18.canvas0 = document.getElementById('canvas0');
+    if (!BD18.canvas0 || !BD18.canvas0.getContext) { return; }
+    BD18.context0 = BD18.canvas0.getContext('2d');
+    if (!BD18.context0) { return; }
+    BD18.canvas1 = document.getElementById('canvas1');
+    if (!BD18.canvas1 || !BD18.canvas1.getContext) { return; }
+    BD18.context1 = BD18.canvas1.getContext('2d');
+    if (!BD18.context1) { return; }
+    trayCanvasApp();
+    mainCanvasApp();
   }
 
 /* This function is an event handler for the game box images.
@@ -170,7 +172,7 @@ function canvasApp()
  */
 function itemLoaded(event) {
   BD18.loadCount--;
-  if (BD18.doneWithLoad == true && BD18.loadCount <= 0) {
+  if (BD18.doneWithLoad === true && BD18.loadCount <= 0) {
     BD18.gameBoard = new GameBoard(BD18.bdImage,BD18.gameBox.board);
     makeTrays();
     canvasApp();
@@ -187,7 +189,9 @@ function loadBox(box) {
   BD18.gameBox = box;
   var board = BD18.gameBox.board;
   var sheets = BD18.gameBox.tileSheets;
-  BD18.bdImage = new Image(board.imageWidth,board.imageHeight);
+  var boardWidth = parseInt(board.imageWidth,10);
+  var boardHeight = parseInt(board.imageHeight,10);
+  BD18.bdImage = new Image(boardWidth,boardHeight);
   BD18.bdImage.src = board.imageLocation;
   BD18.bdImage.onload = itemLoaded; 
   BD18.loadCount++ ;
@@ -202,5 +206,3 @@ function loadBox(box) {
   BD18.doneWithLoad = true;
 }
  
-
-
