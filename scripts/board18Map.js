@@ -150,11 +150,12 @@ function canvasApp()
   {
     var hh = parseInt(BD18.gameBoard.height);
     var ww = parseInt(BD18.gameBoard.width);
-    $('#mainpart').css('height', hh+10);
-    $('#canvas1').css('height', hh); 
-    $('#canvas1').css('width', ww); 
-    $('#canvas2').css('height', hh); 
-    $('#canvas2').css('width', ww); 
+    $('#mainpart').attr('height', hh+10);
+    $('#mainpart').attr('width', ww);
+    $('#canvas1').attr('height', hh); 
+    $('#canvas1').attr('width', ww); 
+    $('#canvas2').attr('height', hh); 
+    $('#canvas2').attr('width', ww); 
     BD18.canvas0 = document.getElementById('canvas0');
     if (!BD18.canvas0 || !BD18.canvas0.getContext) { return; }
     BD18.context0 = BD18.canvas0.getContext('2d');
