@@ -98,6 +98,18 @@ function TileSheet(image,sheet) {
   
 /* Startup functions */
 
+/* Function setPage() adjusts the height and width
+ * of rightofpage and the height of lefttofpage.
+ */
+function setPage()
+  {
+    var winH = $(window).height();
+    var winW = $(window).width();
+    $('#rightofpage').css('height', winH-90);
+    $('#rightofpage').css('width', winW-135);
+    $('#leftofpage').css('height', winH-90);
+  }
+
 /* Function makeTrays() initializes all of the tray objects.
  * It calls the TileSheet constructor for each tile sheet.  
  * It calls the TokenSheet constructor for each token sheet.   
@@ -119,7 +131,7 @@ function makeTrays() {
   }
 
 /*
- * Function tileCanvasApp calls the tileSheet.place() method for the
+ * Function trayCanvasApp calls the tileSheet.place() method for the
  * current tile sheet object. This sets up the tile Canvas. If there 
  * is a currently selected tile then that tile will be highlited.
  */
@@ -150,8 +162,8 @@ function canvasApp()
   {
     var hh = parseInt(BD18.gameBoard.height);
     var ww = parseInt(BD18.gameBoard.width);
-    $('#mainpart').attr('height', hh+10);
-    $('#mainpart').attr('width', ww);
+    $('#content').css('height', hh+10); 
+    $('#content').css('width', ww);     
     $('#canvas1').attr('height', hh); 
     $('#canvas1').attr('width', ww); 
     $('#canvas2').attr('height', hh); 
@@ -167,6 +179,8 @@ function canvasApp()
     trayCanvasApp();
     mainCanvasApp();
   }
+  
+/* Event Handler and Callback Functions.  */
 
 /* This function is an event handler for the game box images.
  * It calls canvasApp after all itemLoaded events have occured.
