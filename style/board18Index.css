@@ -1,0 +1,21 @@
+/* CSS Document for index page  */
+/* File: style/board18Index.css */
+
+#content {
+  background-color:#ffeedd;
+  position: absolute;
+  left:0px;
+  top:0px; 
+  height:350px;
+}
+
+footer {
+  position: absolute;
+  left:0px;
+  bottom:0px; 
+  height:20px;
+  width:100%;
+  clear:both;
+  text-align:center;
+}
+

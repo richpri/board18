@@ -5,8 +5,13 @@
     <title>BOARD18 - Remote Play Tool For 18xx Style Games</title>
     <link rel="shortcut icon" href="images/favicon.ico" >
     <link rel="stylesheet" href="style/board18com.css" />
+    <link rel="stylesheet" href="style/board18Index.css" />
+    <script type="text/javascript" src="scripts/jquery.js">
+    </script> 
+    <script type="text/javascript" src="scripts/board18com.js">
+    </script> 
   </head>
-  <body style="background-color:#ffeedd">
+  <body>
     <div id="topofpage">
       <div id="logo">
         <img src="images/logo.png" alt="Logo" /> 
@@ -16,8 +21,11 @@
         <h1>BOARD18 - Remote Play Tool For 18xx Style Games</h1>
       </div>
     </div>
-    <section style="padding:50px;">  
-      <div>
+    <div id="leftofpage">
+      <p></p>
+    </div>
+    <div id="rightofpage"> 
+      <div id="content">
         <p><b>This is the main page of the Board18 application.</b></p>
         <p>It will eventually contain options to start up new games and to 
           join existing games. <br/>
@@ -26,13 +34,15 @@
           It will also present security features such as session sign in, 
           password recovery and user ID setup.</p>
         <p>But for now it only contains the following button.</p>
+        <div style="position:relative; left:40px;"> 
+          <a href="board18Map.php"><img src="images/start.png" 
+                                        alt="Start BOARD18" /></a>     
+        </div>
+        <footer>
+          This is a nonfunctional mockup.
+        </footer>
       </div> 
-
-      <div style="position:relative; left:40px;"> 
-        <a href="board18Map.php"><img src="images/start.png" 
-                                      alt="Start BOARD18" /></a>     
-      </div> 
-    </section>  
+    </div>  
 
   </body>
 </html>

@@ -98,18 +98,6 @@ function TileSheet(image,sheet) {
   
 /* Startup functions */
 
-/* Function setPage() adjusts the height and width
- * of rightofpage and the height of lefttofpage.
- */
-function setPage()
-  {
-    var winH = $(window).height();
-    var winW = $(window).width();
-    $('#rightofpage').css('height', winH-90);
-    $('#rightofpage').css('width', winW-135);
-    $('#leftofpage').css('height', winH-90);
-  }
-
 /* Function makeTrays() initializes all of the tray objects.
  * It calls the TileSheet constructor for each tile sheet.  
  * It calls the TokenSheet constructor for each token sheet.   

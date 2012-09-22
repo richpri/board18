@@ -6,8 +6,10 @@
     </title>
     <link rel="shortcut icon" href="images/favicon.ico" >
     <link rel="stylesheet" href="style/board18com.css" />
-    <link rel="stylesheet" href="style/board18board.css" />
+    <link rel="stylesheet" href="style/board18Map.css" />
     <script type="text/javascript" src="scripts/jquery.js">
+    </script> 
+    <script type="text/javascript" src="scripts/board18com.js">
     </script> 
     <script type="text/javascript" src="scripts/board18Map.js">
     </script> 
@@ -19,20 +21,13 @@
           msg = msg + "This is probably due to a game box format error.";
           alert(msg); 
         });
-        setPage();
-        $(window).resize(function() {
-          if(this.resizeTO) clearTimeout(this.resizeTO);
-          this.resizeTO = setTimeout(function() {
-            $(this).trigger('resizeEnd');
-          }, 200);
-        });
-        $(window).bind('resizeEnd', function() { setPage(); });
       })
       
     </script>    
   </head>
 
   <body>
+    
     <div id="topofpage">
       <div id="logo">
         <img src="images/logo.png" alt="Logo"/> 
@@ -83,6 +78,7 @@
 
       </div>
     </div>
+    
     <div id="rightofpage">
       <div id="content" onclick="hexSelect(event)">
         <canvas id="canvas1">
@@ -95,6 +91,6 @@
         </footer>
       </div>        
     </div>
-  </div>
-</body>
+    
+  </body>
 </html>
