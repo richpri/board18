@@ -1,60 +1,61 @@
 /* CSS Document for board page  */
 /* File: style/board18board.css */
 
-
-#mainpart {
-  background-color:#ddffdd;
-  position:relative;
-  left:135px;
-  top:90px;
-  width: 100%;
-}
-
 #sidebar {
- width:120px;
- position: absolute;
- background-color:#ddffdd;
- left:0px;
- top:0px; 
+  width:120px;
+  position: absolute;
+  background-color:#ddffdd;
+  left:0px;
+  top:0px; 
 }
 
 #trays {
- height:160px;
- width:115px;
- position:relative;
- left:5px;
- top:0px;
- border-bottom-style:solid;
+  height:160px;
+  width:115px;
+  margin-left: 5px;
+  border-bottom-style:solid;
 }
 
 #trays > ul {
- list-style-type:none;
- margin-top:0px;
- margin-left:-20px;
+  list-style-type:none;
+  margin-top:0px;
 }
 
 #tiles {
- margin-top:5px;
- width:120px;
- float:left;
- overflow:auto;
+  margin-top:5px;
+  width:120px;
+  float:left;
+  overflow:auto;
 }
 
 #content {
- background-color:#ffeedd;
+  background-color:#ffeedd;
+  position: absolute;
+  left:0px;
+  top:0px; 
 }
 
 #canvas1 {
-   z-index: 0;
+  position: absolute;
+  left:0px;
+  top:0px; 
+  z-index: 0;
 }
 
 #canvas2 {
   z-index: 1;
+  position: absolute;
+  left:0px;
+  top:0px; 
 }
 
 footer {
- background-color:#ddffdd;
- height: 10;
- clear:both;
- text-align:center;
+  background-color:#ddffdd;
+  position: absolute;
+  left:0px;
+  bottom:0px; 
+  height:20px;
+  width:100%;
+  clear:both;
+  text-align:center;
 }

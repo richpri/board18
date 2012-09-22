@@ -1,9 +1,3 @@
-<?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -25,6 +19,14 @@
           msg = msg + "This is probably due to a game box format error.";
           alert(msg); 
         });
+        setPage();
+        $(window).resize(function() {
+          if(this.resizeTO) clearTimeout(this.resizeTO);
+          this.resizeTO = setTimeout(function() {
+            $(this).trigger('resizeEnd');
+          }, 200);
+        });
+        $(window).bind('resizeEnd', function() { setPage(); });
       })
       
     </script>    
@@ -81,19 +83,18 @@
 
       </div>
     </div>
-    <section id="mainpart">
+    <div id="rightofpage">
       <div id="content" onclick="hexSelect(event)">
         <canvas id="canvas1">
           Your browser does not support the HTML 5 Canvas. 
         </canvas>
         <canvas id="canvas2">
         </canvas>
-      </div> 
-
-      <footer>
-        This is a nonfunctional mockup.
-      </footer>
-
-    </section>
-  </body>
+        <footer>
+          This is a nonfunctional mockup.
+        </footer>
+      </div>        
+    </div>
+  </div>
+</body>
 </html>

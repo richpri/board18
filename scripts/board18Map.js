@@ -36,7 +36,7 @@ function GameBoard(image,board) {
   this.yStep=parseInt(board.yStep,10);
   var that = this;
   this.place=function place() {
-    BD18.context1.drawImage(image,0,0,this.height,this.width);
+    BD18.context1.drawImage(image,0,0);
     BD18.hexIsSelected = false;
     BD18.gameBoard = that;
     };
@@ -162,7 +162,7 @@ function canvasApp()
   {
     var hh = parseInt(BD18.gameBoard.height);
     var ww = parseInt(BD18.gameBoard.width);
-    $('#content').css('height', hh+10); 
+    $('#content').css('height', hh+20); 
     $('#content').css('width', ww);     
     $('#canvas1').attr('height', hh); 
     $('#canvas1').attr('width', ww); 

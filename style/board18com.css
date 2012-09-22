@@ -22,9 +22,18 @@ html, body {
   overflow-y:scroll;
   left:0px;
   top:90px;
-  height:450px;
   width:135px;
-  z-index:4;
+  height:400px;
+}
+
+#rightofpage {
+  background-color:#ffeedd;
+  position:fixed;
+  overflow-y:scroll;
+  overflow-x:scroll;
+  left:135px;
+  height:400px;
+  top:90px;
 }
 
 #logo {
