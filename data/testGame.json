@@ -1,0 +1,19 @@
+{
+  "serialNumber": "xxxx",
+  "sessionName": "xxxx",
+  "gameName": "xxxx",
+  "gameBox": "xxxx",
+  "players": [ {
+    "playerName": "xxxx",
+    "password": "xxxx",
+    "source": "xxxx",
+    "whateverEalse": "xxxx"
+  } ],
+  "boardTiles": [ {
+    "sheetNumber": "xxxx",
+    "tileNumber": "xxxx",
+    "rotation": "xxxx",
+    "xCoordinate": "xxxx",
+    "yCoordinate": "xxxx"
+  } ]
+}

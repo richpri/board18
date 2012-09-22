@@ -15,10 +15,9 @@
     </script> 
     <script type="text/javascript">
       $(function(){
-        $.getJSON("gameBox.php", "18xx", loadBox)
+        $.getJSON("gameSession.php", "18xx", loadSession)
         .error(function() { 
-          var msg = "Error loading game box file. \n";
-          msg = msg + "This is probably due to a game box format error.";
+          var msg = "Error loading game file. \n";
           alert(msg); 
         });
       })
@@ -56,18 +55,7 @@
       <div id="sidebar">
 
         <div id="trays">
-          <b>Trays</b><br />
-
-          <a href="javascript:;" onclick="BD18.tileSheets[0].place()">
-            Yellow #1</a><br />
-          <a href="javascript:;" onclick="BD18.tileSheets[1].place()">
-            Green #1</a><br />
-          <a href="javascript:;" onclick="BD18.tileSheets[2].place()">
-            Green #2</a><br />
-          <a href="javascript:;" onclick="BD18.tileSheets[3].place()">
-            Brown #1</a><br />
-          <a href="javascript:;" onclick="BD18.tileSheets[4].place()">
-            Grey #1</a><br />
+          <b>Trays</b><br /><br />
         </div>
 
         <div id="tiles" onclick="traySelect(event)">

@@ -39,8 +39,8 @@ function GameBoard(image,board) {
     BD18.context1.drawImage(image,0,0);
     BD18.hexIsSelected = false;
     BD18.gameBoard = that;
-    };
-  }
+  };
+}
   
 /* TileSheet is a constructor function which creates tileSheet objects.
  * These objects fully describe a tile sheet and its contents.   
@@ -49,6 +49,7 @@ function GameBoard(image,board) {
  *  */
 function TileSheet(image,sheet) {
   this.sheetType="tile";
+  this.trayName=sheet.trayName;
   this.image=image;
   this.xStart=parseInt(sheet.xStart,10);
   this.xSize=parseInt(sheet.xSize,10);
@@ -73,15 +74,15 @@ function TileSheet(image,sheet) {
     var szy = this.ySize;
     BD18.curTrayNumb = this.trayNumb;
     BD18.tileIsSelected = false;
-    BD18.canvas0.height = a+(this.tilesOnSheet*b); // ???
+    BD18.canvas0.height = a+(this.tilesOnSheet*b); 
     for (var i=0;i<this.tilesOnSheet;i++)
-      {
+    {
       sx = this.xStart+i*this.xStep;
       if (high === i) {
         BD18.context0.fillStyle = "red";
         BD18.context0.fillRect(a,b*i,100,116);
         BD18.context0.fillStyle = "black";
-        }
+      }
       BD18.context0.drawImage(img,sx,sy,szx,szy,a,b*i,100,116);
       BD18.context0.font = "18pt Arial";
       BD18.context0.textBaseline = "top";
@@ -91,10 +92,10 @@ function TileSheet(image,sheet) {
         BD18.context0.fillStyle = "rgba(255,255,255,0.7)";
         BD18.context0.fillRect(a,b*i,100,116);
         BD18.context0.fillStyle = "black";
-        }      
-      }
-    };
-  }
+      }      
+    }
+  };
+}
   
 /* Startup functions */
 
@@ -114,18 +115,30 @@ function makeTrays() {
   for (i=0;i<sheets.length;i++) {
     BD18.trays[i] = new TileSheet(images[i],sheets[i]);
     BD18.trays[i].trayNumb = i;
-    }
-  BD18.curTrayNumb = 0;
   }
+  BD18.curTrayNumb = 0;
+}
 
 /*
- * Function trayCanvasApp calls the tileSheet.place() method for the
- * current tile sheet object. This sets up the tile Canvas. If there 
- * is a currently selected tile then that tile will be highlited.
+ * Function trayCanvasApp dynamically places 
+ * the links for all trays into the "trays" div. 
+ * It then calls the trays.place() method for 
+ * the current tile sheet object. This sets up the 
+ * tile Canvas. If there is a currently selected
+ * tile, then that tile will be highlited.
  */
 
 function trayCanvasApp() {
-  BD18.trays[BD18.curTrayNumb].place(BD18.curIndex);
+  var atext; 
+  for (var i=0;i<BD18.trays.length;i++) {
+    atext = '<button type="button" onclick="JavaScript:BD18.trays[';
+    atext += i;
+    atext += '].place(null)"> ';
+    atext += BD18.trays[i].trayName;
+    atext += ' </button><br /> ';
+    $('#trays').append(atext);
+  }
+  BD18.trays[BD18.curTrayNumb].place(null);
 }
 
 /* Function mainCanvasApp calls the gameBoard.place() method.
@@ -134,39 +147,51 @@ function trayCanvasApp() {
  */
 function mainCanvasApp(){
   BD18.gameBoard.place();
-  if (BD18.boardTiles.length === 0) {return;}
+  if (BD18.boardTiles.length === 0) {
+    return;
+  }
   var tile;
   for(var i=0;i<BD18.boardTiles.length;i++) {
-    if (!(i in BD18.boardTiles)) {continue;}
+    if (!(i in BD18.boardTiles)) {
+      continue;
+    }
     tile = BD18.boardTiles[i];
     tile.place();
   }
 }
 
 /* Function CanvasApp initializes all canvases.
- * It then calls tileCanvasApp and mainCanvasApp.
+ * It then calls trayCanvasApp and mainCanvasApp.
  */
 function canvasApp()
-  {
-    var hh = parseInt(BD18.gameBoard.height);
-    var ww = parseInt(BD18.gameBoard.width);
-    $('#content').css('height', hh+20); 
-    $('#content').css('width', ww);     
-    $('#canvas1').attr('height', hh); 
-    $('#canvas1').attr('width', ww); 
-    $('#canvas2').attr('height', hh); 
-    $('#canvas2').attr('width', ww); 
-    BD18.canvas0 = document.getElementById('canvas0');
-    if (!BD18.canvas0 || !BD18.canvas0.getContext) { return; }
-    BD18.context0 = BD18.canvas0.getContext('2d');
-    if (!BD18.context0) { return; }
-    BD18.canvas1 = document.getElementById('canvas1');
-    if (!BD18.canvas1 || !BD18.canvas1.getContext) { return; }
-    BD18.context1 = BD18.canvas1.getContext('2d');
-    if (!BD18.context1) { return; }
-    trayCanvasApp();
-    mainCanvasApp();
+{
+  var hh = parseInt(BD18.gameBoard.height);
+  var ww = parseInt(BD18.gameBoard.width);
+  $('#content').css('height', hh+20); 
+  $('#content').css('width', ww);     
+  $('#canvas1').attr('height', hh); 
+  $('#canvas1').attr('width', ww); 
+  $('#canvas2').attr('height', hh); 
+  $('#canvas2').attr('width', ww); 
+  BD18.canvas0 = document.getElementById('canvas0');
+  if (!BD18.canvas0 || !BD18.canvas0.getContext) {
+    return;
   }
+  BD18.context0 = BD18.canvas0.getContext('2d');
+  if (!BD18.context0) {
+    return;
+  }
+  BD18.canvas1 = document.getElementById('canvas1');
+  if (!BD18.canvas1 || !BD18.canvas1.getContext) {
+    return;
+  }
+  BD18.context1 = BD18.canvas1.getContext('2d');
+  if (!BD18.context1) {
+    return;
+  }
+  trayCanvasApp();
+  mainCanvasApp();
+}
   
 /* Event Handler and Callback Functions.  */
 
@@ -186,7 +211,6 @@ function itemLoaded(event) {
  * the gameBox.php getJSON function. It loads 
  * all the game box images.
  */
-
 function loadBox(box) {
   BD18.gameBox = null;
   BD18.gameBox = box;
@@ -208,4 +232,18 @@ function loadBox(box) {
   }
   BD18.doneWithLoad = true;
 }
- 
+
+/* The loadSession function is a callback function for
+ * the gameSession.php getJSON function. It finds and
+ * loads the game box file.
+ */
+function loadSession(session) {
+  BD18.gameSession = null;
+  BD18.gameSession = session;
+  $.getJSON("gameBox.php", "18xx", loadBox)
+  .error(function() { 
+    var msg = "Error loading game box file. \n";
+    msg = msg + "This is probably due to a game box format error.";
+    alert(msg); 
+  });
+}
