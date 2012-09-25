@@ -1,12 +1,63 @@
 /* CSS Document for index page  */
 /* File: style/board18Index.css */
 
+#sidebar {
+  width:120px;
+  position: absolute;
+  background-color:#ddffdd;
+  left:0px;
+  top:0px; 
+}
+
+#open {
+	width: 115px;
+  height:20px;
+  margin-left: 5px;
+  border-bottom-style:solid;
+}
+
+#open:hover {
+	color: rgb(0,0,0);
+	background-color:#ffeedd;	
+}
+
+#login {
+	width: 300px;
+	position: absolute;
+	left: 10px;
+	top: 6px;
+	z-index: 10;
+}
+
+#login form {
+	padding: 10px 10px 10px 10px;
+	display: none;	
+	background-color:#ddffdd;
+}
+#login label {
+	display: inline-block;
+	width: 200px;
+	text-align:right;
+	margin: 0 15px 0 0;
+	color: rgb(58,80,123);
+}
+#login input {
+	font-size: 14px;	
+}
+#login #button {
+	margin-left: 50px;	
+}
+
 #content {
   background-color:#ffeedd;
   position: absolute;
   left:0px;
   top:0px; 
   height:350px;
+}
+
+.error {
+  color: red !important;
 }
 
 footer {
