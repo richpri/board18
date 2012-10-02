@@ -9,7 +9,37 @@
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
     <script type="text/javascript" src="scripts/board18com.js">
-    </script> 
+    </script>
+    <script type="text/javascript" src="scripts/board18index.js">
+    </script>
+    <script type="text/javascript" >
+      $(function() {
+        $('#loginopen').click(function() {
+          $('#login .error').hide();
+          $('#login :text').val('');
+          $('#login form').slideToggle(300);
+        })
+        $('.error').hide();  
+        $("#login").submit(function() {  
+          $('.error').hide();  
+          var name = $("input#username").val();  
+          if (name == "") {  
+            $("label#name_error").show();  
+            $("input#username").focus();  
+            return false;  
+          }  
+          var passwd = $("input#password").val();  
+          if (passwd == "") {  
+            $("label#password_error").show();  
+            $("input#password").focus();  
+            return false;  
+          }  
+          var dataString = 'login='+ name + '&password=' + passwd;  
+          login(dataString);
+          return false;
+        }); 
+      }); // end ready
+    </script>
   </head>
   <body>
     <div id="topofpage">
@@ -18,14 +48,37 @@
       </div>
 
       <div id="heading">
-        <h1>BOARD18 - Remote Play Tool For 18xx Style Games</h1>
+        <h1>BOARD18 - Remote Play Tool For 18xx Style Games </h1>
       </div>
     </div>
     <div id="leftofpage">
-      <p></p>
+      <p id="loginopen">Login</p>
     </div>
     <div id="rightofpage"> 
-      <div id="content">
+      <div id="login">
+        <form name="login" action="">
+          <fieldset>
+            <p>
+              <label for="username">Username:</label>
+              <input type="text" name="username" id="username">
+              <label class="error" for="username" id="name_error">
+                This field is required.</label>
+            </p>
+            <p>
+              <label for="password">Password: </label>
+              <input type="password" name="password" id="password">
+              <label class="error" for="password" id="password_error">
+                This field is required.</label>
+            </p>
+            <p>
+              <input type="submit" name="pwbutton" id="pwbutton" value="Submit" >
+              <label class="error" for="pwbutton" id="signon_error">
+                Username or password is invalid.</label>
+            </p>
+          </fieldset>
+        </form>
+      </div>
+      <div id="content">    
         <p><b>This is the main page of the Board18 application.</b></p>
         <p>It will eventually contain options to start up new games and to 
           join existing games. <br/>
