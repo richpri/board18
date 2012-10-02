@@ -10,13 +10,17 @@
     </script> 
     <script type="text/javascript" src="scripts/board18com.js">
     </script>
+    <script type="text/javascript" src="scripts/board18index.js">
+    </script>
     <script type="text/javascript" >
       $(function() {
-        $('#open').click(function() {
+        $('#loginopen').click(function() {
+          $('#login .error').hide();
+          $('#login :text').val('');
           $('#login form').slideToggle(300);
         })
         $('.error').hide();  
-        $("#pwbutton").click(function() {  
+        $("#login").submit(function() {  
           $('.error').hide();  
           var name = $("input#username").val();  
           if (name == "") {  
@@ -30,22 +34,8 @@
             $("input#password").focus();  
             return false;  
           }  
-          var dataString = 'name='+ name + '&password=' + passwd;  
-          alert (dataString); return false;  
-          $.ajax({  
-            type: "POST",  
-            url: "bin/logon-exec.php",  
-            data: dataString,  
-            success: function() {  
-              $('#contact_form').html("<div id='message'></div>");  
-              $('#message').html("<h2>Contact Form Submitted!</h2>")  
-              .append("<p>We will be in touch soon.</p>")  
-              .hide()  
-              .fadeIn(1500, function() {  
-                $('#message').append("<img id='checkmark' src='images/check.png' />");  
-              });  
-            }  
-          });  
+          var dataString = 'login='+ name + '&password=' + passwd;  
+          login(dataString);
           return false;
         }); 
       }); // end ready
@@ -62,26 +52,30 @@
       </div>
     </div>
     <div id="leftofpage">
-      <p id="open">Login</p>
+      <p id="loginopen">Login</p>
     </div>
     <div id="rightofpage"> 
       <div id="login">
         <form name="login" action="">
-          <p>
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username">
-            <label class="error" for="username" id="name_error">
-              This field is required.</label>
-          </p>
-          <p>
-            <label for="password">Password: </label>
-            <input type="text" name="password" id="password">
-            <label class="error" for="password" id="password_error">
-              This field is required.</label>
-          </p>
-          <p>
-            <input type="submit" name="button" id="pwbutton" value="Submit" >
-          </p>
+          <fieldset>
+            <p>
+              <label for="username">Username:</label>
+              <input type="text" name="username" id="username">
+              <label class="error" for="username" id="name_error">
+                This field is required.</label>
+            </p>
+            <p>
+              <label for="password">Password: </label>
+              <input type="password" name="password" id="password">
+              <label class="error" for="password" id="password_error">
+                This field is required.</label>
+            </p>
+            <p>
+              <input type="submit" name="pwbutton" id="pwbutton" value="Submit" >
+              <label class="error" for="pwbutton" id="signon_error">
+                Username or password is invalid.</label>
+            </p>
+          </fieldset>
         </form>
       </div>
       <div id="content">    

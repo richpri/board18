@@ -7,7 +7,7 @@ Output is JSON game box.
 ** NOTE: It ignores the input and always returns the same box.
 */
 
-$gameBox = file_get_contents ("data/testBox.json");
+$gameBox = file_get_contents ("../data/testBox.json");
 echo $gameBox;
 ?>
 

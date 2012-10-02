@@ -7,6 +7,6 @@ Output is JSON game session data.
 ** NOTE: It ignores the input and always returns the same data.
 */
 
-$gameSession = file_get_contents ("data/testSession.json");
+$gameSession = file_get_contents ("../data/testSession.json");
 echo $gameSession;
 ?>

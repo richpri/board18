@@ -59,6 +59,17 @@ html, body {
   top:5px;
 }
 
+#heading > h3 {
+  margin:0;
+  position:relative;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  left:30px;
+  top:20px;
+}
+
 #menu {
   position: absolute;
   left:90px;

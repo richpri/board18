@@ -9,14 +9,15 @@
   top:0px; 
 }
 
-#open {
+#loginopen {
 	width: 115px;
   height:20px;
   margin-left: 5px;
+  text-indent: 10px;
   border-bottom-style:solid;
 }
 
-#open:hover {
+#loginopen:hover {
 	color: rgb(0,0,0);
 	background-color:#ffeedd;	
 }
@@ -31,20 +32,20 @@
 
 #login form {
 	padding: 10px 10px 10px 10px;
+  border-style: double;
 	display: none;	
 	background-color:#ddffdd;
 }
 #login label {
 	display: inline-block;
 	width: 200px;
-	text-align:right;
 	margin: 0 15px 0 0;
 	color: rgb(58,80,123);
 }
 #login input {
 	font-size: 14px;	
 }
-#login #button {
+#login #pwbutton {
 	margin-left: 50px;	
 }
 

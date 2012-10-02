@@ -240,7 +240,7 @@ function loadBox(box) {
 function loadSession(session) {
   BD18.gameSession = null;
   BD18.gameSession = session;
-  $.getJSON("gameBox.php", "18xx", loadBox)
+  $.getJSON("php/gameBox.php", "18xx", loadBox)
   .error(function() { 
     var msg = "Error loading game box file. \n";
     msg = msg + "This is probably due to a game box format error.";

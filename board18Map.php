@@ -15,7 +15,7 @@
     </script> 
     <script type="text/javascript">
       $(function(){
-        $.getJSON("gameSession.php", "18xx", loadSession)
+        $.getJSON("php/gameSession.php", "18xx", loadSession)
         .error(function() { 
           var msg = "Error loading game file. \n";
           alert(msg); 

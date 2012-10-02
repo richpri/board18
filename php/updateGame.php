@@ -9,7 +9,7 @@ Output should be "success".
 
 $gameSession = $_POST['json'];
 if(isset($gameSession)){
- $x = file_put_contents("working/testSession.json", $gameSession);
+ $x = file_put_contents("../working/testSession.json", $gameSession);
  
 }
 ?>
