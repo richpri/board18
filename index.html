@@ -16,10 +16,16 @@
       $(function() {
         $('#loginopen').click(function() {
           $('#login .error').hide();
+          $('#login #password').val("");
           $('#login :text').val('');
           $('#login form').slideToggle(300);
         })
         $('.error').hide();  
+        $('#logout').hide();
+        $('#logout').click(function() {
+          $.post("php/logout.php", logoutOK);
+          return false;
+        })
         $("#login").submit(function() {  
           $('.error').hide();  
           var name = $("input#username").val();  
@@ -49,10 +55,12 @@
 
       <div id="heading">
         <h1>BOARD18 - Remote Play Tool For 18xx Style Games </h1>
+        <h3 id="lognote"></h3>
       </div>
     </div>
     <div id="leftofpage">
       <p id="loginopen">Login</p>
+      <p id="logout" class="sidebaritem">Logout</p>
     </div>
     <div id="rightofpage"> 
       <div id="login">
@@ -71,7 +79,8 @@
                 This field is required.</label>
             </p>
             <p>
-              <input type="submit" name="pwbutton" id="pwbutton" value="Submit" >
+              <input type="submit" name="pwbutton" id="pwbutton" 
+                     value="Submit" >
               <label class="error" for="pwbutton" id="signon_error">
                 Username or password is invalid.</label>
             </p>
@@ -80,12 +89,12 @@
       </div>
       <div id="content">    
         <p><b>This is the main page of the Board18 application.</b></p>
-        <p>It will eventually contain options to start up new games and to 
-          join existing games. <br/>
+        <p>It will eventually contain options to start up new games and
+          to join existing games. <br/>
           It will probably contain other configuration options and 
           administrative stuff. <br/>
-          It will also present security features such as session sign in, 
-          password recovery and user ID setup.</p>
+          It will also present security features such as session  
+          sign in, password recovery and user ID setup.</p>
         <p>But for now it only contains the following button.</p>
         <div style="position:relative; left:40px;"> 
           <a href="board18Map.php"><img src="images/start.png" 

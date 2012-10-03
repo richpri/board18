@@ -30,10 +30,7 @@
 	//Create query
 	$qry="SELECT * FROM players WHERE login='$login' AND passwd='$password'";
 	$result=mysql_query($qry);
-	// Test code
-  // var_dump($qry);
-  // var_dump($result);
-  // end test code
+
 	//Check whether the query was successful or not
 	if($result) {
 		if(mysql_num_rows($result) == 1) {
@@ -48,12 +45,14 @@
       }
 			$_SESSION['SESS_FIRST_NAME'] = $firstname;
 			$_SESSION['SESS_LAST_NAME'] = $player['lastname'];
-			session_write_close();
+			$_SESSION['SESS_PLAYER_LEVEL'] = $player['level'];
+      session_write_close();
 			$response = array(
         "stat" => "success",
         "id" => $player['player_id'],
         "firstname" => $firstname,
-        "lastname" => $player['lastname']
+        "lastname" => $player['lastname'],
+        "level" => $player['level']
       );
 		}else {
 			//Login failed
@@ -61,7 +60,8 @@
         "stat" => "fail",
         "id" => "",
         "firstname" => "",
-        "lastname" => ""
+        "lastname" => "",      
+        "level" => ""
       );
 		}
     $res = rtrim(ltrim(json_encode($response), "["), "]");
