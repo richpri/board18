@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="style/board18Index.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
+    <script type="text/javascript" src="scripts/sha256-min.js">
+    </script> 
     <script type="text/javascript" src="scripts/board18com.js">
     </script>
     <script type="text/javascript" src="scripts/board18index.js">
@@ -40,7 +42,8 @@
             $("input#password").focus();  
             return false;  
           }  
-          var dataString = 'login='+ name + '&password=' + passwd;  
+          var hash = hex_sha256(passwd);
+          var dataString = 'login='+ name + '&password=' + hash;  
           login(dataString);
           return false;
         }); 
