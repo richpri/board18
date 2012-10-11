@@ -18,33 +18,18 @@
       $(function() {
         $('#loginopen').click(function() {
           $('#login .error').hide();
-          $('#login #password').val("");
+          $('#login #password').val('');
           $('#login :text').val('');
           $('#login form').slideToggle(300);
+          $("#username").focus(); 
         })
         $('.error').hide();  
         $('#logout').hide();
         $('#logout').click(function() {
           $.post("php/logout.php", logoutOK);
-          return false;
         })
         $("#login").submit(function() {  
-          $('.error').hide();  
-          var name = $("input#username").val();  
-          if (name == "") {  
-            $("label#name_error").show();  
-            $("input#username").focus();  
-            return false;  
-          }  
-          var passwd = $("input#password").val();  
-          if (passwd == "") {  
-            $("label#password_error").show();  
-            $("input#password").focus();  
-            return false;  
-          }  
-          var hash = hex_sha256(passwd);
-          var dataString = 'login='+ name + '&password=' + hash;  
-          login(dataString);
+          login();
           return false;
         }); 
       }); // end ready
@@ -62,12 +47,13 @@
       </div>
     </div>
     <div id="leftofpage">
-      <p id="loginopen">Login</p>
+      <p id="loginopen" class="sidebaritem">Login</p>
       <p id="logout" class="sidebaritem">Logout</p>
+      <p id="registeropen" class="sidebaritem">Register</p>
     </div>
     <div id="rightofpage"> 
       <div id="login">
-        <form name="login" action="">
+        <form name="login" class="hideform" action="">
           <fieldset>
             <p>
               <label for="username">Username:</label>
@@ -82,14 +68,55 @@
                 This field is required.</label>
             </p>
             <p>
-              <input type="submit" name="pwbutton" id="pwbutton" 
-                     value="Submit" >
-              <label class="error" for="pwbutton" id="signon_error">
+              <input type="submit" name="pwbutton" class="pwbutton" 
+                     id="button1" value="Submit" >
+              <label class="error" for="button1" id="signon_error">
                 Username or password is invalid.</label>
             </p>
           </fieldset>
         </form>
       </div>
+      <div id="register">
+        <form name="register" class="hideform" action="">
+          <fieldset>
+            <p>
+              <label for="newuser">Enter Username:</label>
+              <input type="text" name="newuser" id="newuser">
+              <label class="error" for="newuser" id="newuser_error">
+                This field is required.</label>
+            </p>
+            <p>
+              <label for="passwrd1">Enter Password: </label>
+              <input type="password" name="passwrd1" id="passwrd1">
+              <label class="error" for="passwrd1" id="passwrd1_error">
+                This field is required.</label>
+            </p>
+            <p>
+              <label for="passwrd2">Reenter Password: </label>
+              <input type="password" name="passwrd2" id="passwrd2">
+              <label class="error" for="passwrd2" id="passwrd2_error">
+                Password field mismatch.</label>
+            </p>
+            <p style="font-size: 150%">Optional Fields: </p>
+            <p>
+              <label for="fname">First Name: </label>
+              <input type="text" name="fname" id="fname">
+            </p>
+            <p>
+              <label for="lname">First Name: </label>
+              <input type="text" name="lname" id="lname">
+            </p>
+            <p>
+              <label for="email">First Name: </label>
+              <input type="text" name="email" id="email">
+            </p>
+            <p>
+              <input type="submit" name="regbutton" class="pwbutton"  
+                     id="button2" value="Submit" >
+            </p>
+          </fieldset>
+        </form>
+      </div>  
       <div id="content">    
         <p><b>This is the main page of the Board18 application.</b></p>
         <p>It will eventually contain options to start up new games and

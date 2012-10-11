@@ -23,7 +23,7 @@
 		return mysql_real_escape_string($str);
 	}
 	
-	//Sanitize the POST values
+	//Sanitize the parameter values
 	$login = clean($_REQUEST['login']);
 	$password = clean($_REQUEST['password']);
 	

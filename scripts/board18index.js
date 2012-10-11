@@ -4,7 +4,8 @@
 function loginOK(response) { 
   var resp = jQuery.parseJSON(response);
   if(resp.stat == 'success') {
-    $('#login form #password').val("");
+    $('#login #password').val('');
+    $('#login :text').val('');
     $('#login form').slideUp(300);
     var loginNote ='You are logged in as ';
     loginNote += resp.firstname + ' ';
@@ -14,8 +15,8 @@ function loginOK(response) {
     $('#logout').show();
   }
   else {
-    $("label#signon_error").show();  
-    $("input#username").focus(); 
+    $("#signon_error").show();  
+    $("#username").focus(); 
   }  
 }
 
@@ -24,7 +25,22 @@ function loginOK(response) {
  * method of the login submit button. It 
  * does an ajax call to updategame.php. 
  */
-function login(dataString) {
+function login() {
+  $('.error').hide();  
+  var name = $("input#username").val();  
+  if (name == "") {  
+    $("#name_error").show();  
+    $("#username").focus();  
+    return false;  
+  }  
+  var passwd = $("input#password").val();  
+  if (passwd == "") {  
+    $("#password_error").show();  
+    $("#password").focus();  
+    return false;  
+  }  
+  var hash = hex_sha256(passwd);
+  var dataString = 'login='+ name + '&password=' + hash;  
   $.post("php/validateUser.php", dataString, loginOK);
   return false;
 }
@@ -43,13 +59,3 @@ function logoutOK(resp) {
   }  
 }
    
-/* 
- * Function doLogout is called by the on-click
- * method of the logout submit button. It 
- * does an ajax call to logout.php. 
- 
-function doLogout() {
-  $.post("php/logout.php", logoutOK);
-  return false;
-}
-*/

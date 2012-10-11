@@ -11,6 +11,7 @@ indent:4, maxerr:50, white:false */
 var BD18 = {};
 BD18.loadCount = 0;
 BD18.doneWithLoad = false;
+BD18.boxID = 4;
 BD18.boardTiles = [];
 BD18.trays = [];
 BD18.curIndex = null;

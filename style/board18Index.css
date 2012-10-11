@@ -22,43 +22,38 @@
 	background-color:#ffeedd;	
 }
 
-#loginopen {
-	width: 115px;
-  height:20px;
-  margin-left: 5px;
-  text-indent: 10px;
-  border-bottom-style:solid;
-}
-
-#loginopen:hover {
-	color: rgb(0,0,0);
-	background-color:#ffeedd;	
-}
-
 #login {
 	width: 300px;
 	position: absolute;
-	left: 10px;
-	top: 6px;
+	left: 12px;
+	top: 8px;
 	z-index: 10;
 }
 
-#login form {
+#register {
+	width: 305px;
+	position: absolute;
+	left: 10px;
+	top: 6px;
+	z-index: 20;
+}
+
+.hideform {
 	padding: 10px 10px 10px 10px;
   border-style: double;
 	display: none;	
 	background-color:#ddffdd;
 }
-#login label {
+.hideform label {
 	display: inline-block;
 	width: 200px;
 	margin: 0 15px 0 0;
 	color: rgb(58,80,123);
 }
-#login input {
+.hideform input {
 	font-size: 14px;	
 }
-#login #pwbutton {
+.pwbutton {
 	margin-left: 50px;	
 }
 
@@ -68,6 +63,7 @@
   left:5px;
   top:0px; 
   height:350px;
+  border: none;
 }
 
 .error {
