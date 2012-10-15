@@ -16,22 +16,33 @@
     </script>
     <script type="text/javascript" >
       $(function() {
+        $('.error').hide();  
+        $('#logout').hide();
         $('#loginopen').click(function() {
           $('#login .error').hide();
           $('#login #password').val('');
           $('#login :text').val('');
           $('#login form').slideToggle(300);
           $("#username").focus(); 
-        })
-        $('.error').hide();  
-        $('#logout').hide();
+        }); // end loginopen
+        $('#registeropen').click(function() {
+          $('#register .error').hide();
+          $('#register :password').val('');
+          $('#register :text').val('');
+          $('#register form').slideToggle(300);
+          $("#newuser").focus(); 
+        }); // end registeropen
         $('#logout').click(function() {
           $.post("php/logout.php", logoutOK);
-        })
+        }); // end logout
         $("#login").submit(function() {  
           login();
           return false;
-        }); 
+        }); // end login
+        $("#register").submit(function() {  
+          register();
+          return false;
+        }); // end register
       }); // end ready
     </script>
   </head>
@@ -55,6 +66,7 @@
       <div id="login">
         <form name="login" class="hideform" action="">
           <fieldset>
+            <p style="font-size: 130%">Login to BOARD18</p>
             <p>
               <label for="username">Username:</label>
               <input type="text" name="username" id="username">
@@ -81,7 +93,7 @@
           <fieldset>
             <p>
               <label for="newuser">Enter Username:</label>
-              <input type="text" name="newuser" id="newuser">
+              <input type="text" name="newuser" id="newuser" class="reg">
               <label class="error" for="newuser" id="newuser_error">
                 This field is required.</label>
             </p>
@@ -97,18 +109,18 @@
               <label class="error" for="passwrd2" id="passwrd2_error">
                 Password field mismatch.</label>
             </p>
-            <p style="font-size: 150%">Optional Fields: </p>
+            <p style="font-size: 130%">Optional Fields: </p>
             <p>
-              <label for="fname">First Name: </label>
-              <input type="text" name="fname" id="fname">
+              <label for="fname">Enter First Name: </label>
+              <input type="text" name="fname" id="fname" class="reg">
             </p>
             <p>
-              <label for="lname">First Name: </label>
-              <input type="text" name="lname" id="lname">
+              <label for="lname">Enter Last Name: </label>
+              <input type="text" name="lname" id="lname" class="reg">
             </p>
             <p>
-              <label for="email">First Name: </label>
-              <input type="text" name="email" id="email">
+              <label for="email">Enter Email Address: </label>
+              <input type="text" name="email" id="email" class="reg">
             </p>
             <p>
               <input type="submit" name="regbutton" class="pwbutton"  

@@ -10,8 +10,8 @@ function loginOK(response) {
     var loginNote ='You are logged in as ';
     loginNote += resp.firstname + ' ';
     loginNote += resp.lastname + ' at ';
-    loginNote += resp.level + ' level'
-    $('#lognote').text(loginNote)
+    loginNote += resp.level + ' level';
+    $('#lognote').text(loginNote);
     $('#logout').show();
   }
   else {
@@ -23,7 +23,8 @@ function loginOK(response) {
 /* 
  * Function login is called by the on-click
  * method of the login submit button. It 
- * does an ajax call to updategame.php. 
+ * checks the input for missing fields and
+ * does an ajax call to validateUser.php. 
  */
 function login() {
   $('.error').hide();  
@@ -59,3 +60,58 @@ function logoutOK(resp) {
   }  
 }
    
+/* Function regResult is the callback function 
+ * for the ajax newUser call. 
+ */
+function regResult(response) { 
+  if(response == 'duplicate') {
+    $("#newuser_error").text('Username is already in use.').show();  
+    $("#newuser").focus();
+  }
+  else if(response == 'success') {
+    $('#login #password').val('');
+    $('#login :text').val('');
+    $('#register form').slideUp(300);
+    $('#login form').slideDown(300);
+    var loginNote ='You have successfully registered. ';
+    $('#lognote').text(loginNote);
+  }
+  else {
+    var errmsg ='Invalid return code from newUser.php.\n'
+    errmsg += response + '\nThis should not happen.'
+    alert(errmsg);
+  }  
+}
+   
+/* 
+ * Function register is called by the on-click
+ * method of the register submit button. It 
+ * checks the input for missing fields and
+ * does an ajax call to ???.php. 
+ */
+function register() {
+  $('.error').hide();  
+  var name = $("input#newuser").val();  
+  if (name == "") {  
+    $("#newuser_error").show();  
+    $("#newuser").focus();  
+    return false;  
+  }  
+  var passwrd1 = $("input#passwrd1").val();  
+  if (passwrd1 == "") {  
+    $("#passwrd1_error").show();  
+    $("#passwrd1").focus();  
+    return false;  
+  }  
+  var passwrd2 = $("input#passwrd2").val();  
+  if (passwrd2 != passwrd1) {  
+    $("#passwrd2_error").show();  
+    $("#passwrd2").focus();  
+    return false;  
+  } 
+  var regString = $('.reg').serialize();
+  var hash = hex_sha256(passwrd1);
+  regString += '&passwrd=' + hash;
+  $.post("php/newUser.php", regString, regResult);
+  return false;
+}
