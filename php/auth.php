@@ -7,5 +7,7 @@
           (trim($_SESSION['SESS_PLAYER_ID']) == '')) {
 		header("location: access-denied.html");
 		exit();
-	}
+	} else {
+    $welcome = $_SESSION['SESS_FIRST_NAME'];
+  }
 ?>

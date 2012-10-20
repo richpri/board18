@@ -1,22 +1,19 @@
 <?php
 	session_start();
 	require_once('config.php');
-	
-	//Connect to mysql server
 	$link = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
 	if(!$link) {
 		error_log('Failed to connect to server: ' . mysql_error());
     exit;
 	}
-	
-	//Select database
 	$db = mysql_select_db(DB_DATABASE);
 	if(!$db) {
 		error_log("Unable to select database");
     exit;
 	}
 	
-	//Function to sanitize values received from the form. Prevents SQL injection
+	//Function to sanitize values received from the form. 
+  //Prevents SQL injection
 	function clean($str) {
 		$str = @trim($str);
 		return mysql_real_escape_string($str);

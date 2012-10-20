@@ -1,19 +1,26 @@
 {
-  "serialNumber": "xxxx",
+  "game_id": "nnnn",
   "sessionName": "xxxx",
-  "gameName": "xxxx",
-  "gameBox": "xxxx",
-  "players": [ {
-    "playerName": "xxxx",
-    "password": "xxxx",
-    "source": "xxxx",
-    "whateverEalse": "xxxx"
-  } ],
+  "box_id": "nnnn",
   "boardTiles": [ {
     "sheetNumber": "xxxx",
     "tileNumber": "xxxx",
-    "rotation": "xxxx",
     "xCoordinate": "xxxx",
-    "yCoordinate": "xxxx"
+    "yCoordinate": "xxxx",
+    "rotation": "xxxx"
+  } ],
+  "boardTokens": [ {
+    "sheetNumber": "xxxx",
+    "tokenNumber": "xxxx",
+    "xCoordinate": "xxxx",
+    "yCoordinate": "xxxx",
+    "fliped": "0"
+  } ],
+  "marketTokens": [ {
+    "sheetNumber": "xxxx",
+    "tokenNumber": "xxxx",
+    "xCoordinate": "xxxx",
+    "yCoordinate": "xxxx",
+    "fliped": "0"
   } ]
 }

@@ -36,23 +36,23 @@
 		if(mysql_num_rows($result) == 1) {
 			//Login Successful
 			session_regenerate_id();
-			$player = mysql_fetch_assoc($result);
-			$_SESSION['SESS_PLAYER_ID'] = $player['player_id'];
-      if ($player['firstname'] == '') {
+			$playerrow = mysql_fetch_assoc($result);
+			$_SESSION['SESS_PLAYER_ID'] = $playerrow['player_id'];
+      if ($playerrow['firstname'] == '') {
         $firstname = $login;
       } else {
-        $firstname = $player['firstname'];
+        $firstname = $playerrow['firstname'];
       }
 			$_SESSION['SESS_FIRST_NAME'] = $firstname;
-			$_SESSION['SESS_LAST_NAME'] = $player['lastname'];
-			$_SESSION['SESS_PLAYER_LEVEL'] = $player['level'];
+			$_SESSION['SESS_LAST_NAME'] = $playerrow['lastname'];
+			$_SESSION['SESS_PLAYER_LEVEL'] = $playerrow['level'];
       session_write_close();
 			$response = array(
         "stat" => "success",
-        "id" => $player['player_id'],
+        "id" => $playerrow['player_id'],
         "firstname" => $firstname,
-        "lastname" => $player['lastname'],
-        "level" => $player['level']
+        "lastname" => $playerrow['lastname'],
+        "level" => $playerrow['level']
       );
 		}else {
 			//Login failed

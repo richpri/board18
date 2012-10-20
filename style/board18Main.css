@@ -1,5 +1,5 @@
-/* CSS Document for index page  */
-/* File: style/board18Index.css */
+/* CSS Document for Main page  */
+/* File: style/board18Main.css */
 
 #sidebar {
   width:120px;
@@ -22,20 +22,18 @@
 	background-color:#b1ccb1;	
 }
 
-#login {
-	width: 300px;
-	position: absolute;
-	left: 12px;
-	top: 8px;
-	z-index: 10;
+#content {
+  background-color:#ffeedd;
+  position: absolute;
+  left:5px;
+  top:0px; 
+  height:350px;
+  border: none;
 }
 
-#register {
+#newgame {
 	width: 500px;
-	position: absolute;
-	left: 10px;
-	top: 6px;
-	z-index: 20;
+  margin-top: 10px;
 }
 
 .hideform {
@@ -55,15 +53,6 @@
 }
 .pwbutton {
 	margin-left: 50px;	
-}
-
-#content {
-  background-color:#ffeedd;
-  position: absolute;
-  left:5px;
-  top:0px; 
-  height:350px;
-  border: none;
 }
 
 .error {

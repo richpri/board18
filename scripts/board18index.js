@@ -6,18 +6,21 @@ function loginOK(response) {
   if(resp.stat == 'success') {
     $('#login #password').val('');
     $('#login :text').val('');
-    $('#login form').slideUp(300);
     var loginNote ='You are logged in as ';
     loginNote += resp.firstname + ' ';
     loginNote += resp.lastname + ' at ';
     loginNote += resp.level + ' level';
     $('#lognote').text(loginNote);
-    $('#logout').show();
-  }
-  else {
+    $('#login form').slideUp(300);
+    window.location = "board18Main.php";
+  } else if(resp.stat == 'fail') {
     $("#signon_error").show();  
     $("#username").focus(); 
-  }  
+   } else {
+    var nerrmsg ='Invalid return code from createGame.php.\n';
+    nerrmsg += response + '\nThis should not happen.';
+    alert(nerrmsg);
+  }
 }
 
 /* 
@@ -46,20 +49,6 @@ function login() {
   return false;
 }
 
-/* Function logoutOK is the callback function for the ajax
- * lgout call. 
- */
-function logoutOK(resp) {
-  if(resp == 'success') {
-    $('#logout').hide();
-    var logoutNote ='Logout successful';
-    $('#lognote').text(logoutNote);
-  }
-  else {
-    alert("Logout failed! This should never happen.") 
-  }  
-}
-   
 /* Function regResult is the callback function 
  * for the ajax newUser call. 
  */

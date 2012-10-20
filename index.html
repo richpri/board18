@@ -17,7 +17,6 @@
     <script type="text/javascript" >
       $(function() {
         $('.error').hide();  
-        $('#logout').hide();
         $('#loginopen').click(function() {
           $('#login .error').hide();
           $('#login #password').val('');
@@ -32,9 +31,6 @@
           $('#register form').slideToggle(300);
           $("#newuser").focus(); 
         }); // end registeropen
-        $('#logout').click(function() {
-          $.post("php/logout.php", logoutOK);
-        }); // end logout
         $("#login").submit(function() {  
           login();
           return false;
@@ -59,7 +55,6 @@
     </div>
     <div id="leftofpage">
       <p id="loginopen" class="sidebaritem">Login</p>
-      <p id="logout" class="sidebaritem">Logout</p>
       <p id="registeropen" class="sidebaritem">Register</p>
     </div>
     <div id="rightofpage"> 
@@ -130,23 +125,31 @@
         </form>
       </div>  
       <div id="content">    
-        <p><b>This is the main page of the Board18 application.</b></p>
-        <p>It will eventually contain options to start up new games and
-          to join existing games. <br/>
-          It will probably contain other configuration options and 
-          administrative stuff. <br/>
-          It will also present security features such as session  
-          sign in, password recovery and user ID setup.</p>
-        <p>But for now it only contains the following button.</p>
-        <div style="position:relative; left:40px;"> 
-          <a href="board18Map.php"><img src="images/start.png" 
-                                        alt="Start BOARD18" /></a>     
-        </div>
-        <footer>
-          This is a nonfunctional mockup.
-        </footer>
-      </div> 
+        <p style="font-size: 130%"><b>Welcome to Board18.</b></p>
+        <p>BOARD18 is intended to be used with a spreadsheet to play an 
+          18xx style game remotely.  The Google+ spreadsheet is a good 
+          choice for this. As each player takes a turn, he will send an 
+          Email to the other players. The Email will contain a list of 
+          recent moves ending with his current move. It may also have an 
+          updated copy of the spread sheet  being use to track the game 
+          finances [if you don't use Google+]. But it will no longer need 
+          to contain any other files.
+        </p>
+        <p>
+          The BOARD18 game session associated with the game will be used 
+          to display the game board and the stock market for the game. 
+          It will be updateable by any player who can log in to the game.
+        </p>
+        <p>          
+          Please use the menu items on the left to login to BOARD18 or to
+          register an account with BOARD18.
+        </p>
+
+      </div>
+      <footer>
+        This is a nonfunctional mockup.
+      </footer>
     </div>  
 
-  </body>
+</body>
 </html>
