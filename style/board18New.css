@@ -1,0 +1,76 @@
+/* CSS Document for Main page  */
+/* File: style/board18Main.css */
+
+#sidebar {
+  width:120px;
+  position: absolute;
+  background-color:#ddffdd;
+  left:0px;
+  top:0px; 
+}
+
+.sidebaritem {
+	width: 115px;
+  height:20px;
+  margin-left: 5px;
+  text-indent: 10px;
+  border-bottom-style:solid;
+}
+
+.sidebaritem:hover {
+	color: rgb(0,0,0);
+	background-color:#b1ccb1;	
+}
+
+.plid {
+	width: 115px;
+  margin-left: 5px;
+  text-indent: 10px;
+}
+
+#content {
+  background-color:#ffeedd;
+  position: absolute;
+  left:5px;
+  top:0px; 
+  height:350px;
+  border: none;
+}
+
+#newgame {
+	width: 500px;
+  margin-top: 10px;
+}
+
+#newgame form {
+	padding: 10px 10px 10px 10px;
+  border-style: double;
+	background-color:#ddffdd;
+}
+#newgame form label {
+	display: inline-block;
+	width: 200px;
+	margin: 0 15px 0 0;
+	color: rgb(58,80,123);
+}
+#newgame form input {
+	font-size: 14px;	
+}
+.pwbutton {
+	margin-left: 50px;	
+}
+
+.error {
+  color: red !important;
+}
+
+footer {
+  position: absolute;
+  left:0px;
+  bottom:0px; 
+  height:20px;
+  width:100%;
+  clear:both;
+  text-align:center;
+}
+
