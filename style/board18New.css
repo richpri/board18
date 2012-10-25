@@ -49,17 +49,34 @@
 }
 #newgame form label {
 	display: inline-block;
-	width: 200px;
 	margin: 0 15px 0 0;
 	color: rgb(58,80,123);
 }
+#newgame .label1 {
+  display: inline-block;
+  text-align:right;
+  width:120px;
+}
+#newgame .label2 {
+  display: inline-block;
+  text-align:right;
+  width:80px;
+}
 #newgame form input {
-	font-size: 14px;	
+	font-size: 14px;
+}
+#sessionname {
+  width:300px;
 }
 .pwbutton {
 	margin-left: 50px;	
 }
-
+.fn1 {
+  width: 40px;
+}
+.fn2 {
+  width: 100px;
+}
 .error {
   color: red !important;
 }

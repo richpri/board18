@@ -29,7 +29,8 @@ function showBoxes() {
     }
     echo "</table>";
   } else {
-    echo "<p style='color: red'>There are no game boxes in the database</p>";
+    echo "<p style='color: red'>";
+    echo "There are no game boxes in the database</p>";
   }
 }
 
@@ -74,6 +75,10 @@ function showPlayers() {
         $('.plid').mouseout(function() {
           $(this).children("span").hide();
         });
+        $("#newgame").submit(function() {  
+          newgame();
+          return false;
+        }); // end newgame
       }); // end ready
     </script>
   </head>
@@ -103,9 +108,10 @@ function showPlayers() {
       <div id="content">   
         <div>
           <h3>Start a New Game Session</h3>
-          <p>Please use this form to strt a new game session. 
-          <br>For your convenience, a list of registered players appears to
-          <br>the right and a table of available game boxes appears below.
+          <p>Please use this form to start a new game session. 
+          <br>For your convenience, a list of registered players 
+          appears to the right<br>and a table of available game 
+          boxes appears below.
           </p>
         </div>
         <div id="newgame">
@@ -118,15 +124,51 @@ function showPlayers() {
                   This field is required.</label>
               </p>
               <p>
-                <label for="playercount"># of Players:</label>
-                <input type="text" name="playercount" id="playercount">
-                <label class="error" for="playercount" id="pc_error">
+                <label for="boxid" class="label1">Game Box ID:</label>
+                <input type="text" name="boxid" 
+                       id="boxid" class="fn1">
+                <label class="error" for="boxid" id="bi_error">
+                  This field is required.</label>
+                <label for="pcount" class="label1"># of Players:</label>
+                <input type="text" name="pcount" 
+                       id="pcount" class="fn1">
+                <label class="error" for="pcount" id="pc_error">
                   This field is required.</label>
               </p>
               <p>
-                <label for="boxidnumb">Game Box ID:</label>
-                <input type="text" name="boxidnumb" id="boxidnumb">
-                <label class="error" for="boxidnumb" id="bi_error">
+                <label for="player1" class="label2">Player 1:</label>
+                <input type="text" name="player1" 
+                       id="player1" class="fn2">
+                <label class="error" for="player1" id="p1_error">
+                  This field is required.</label>
+                <label for="player2" class="label2">Player 2:</label>
+                <input type="text" name="player2" 
+                       id="player2" class="fn2">
+                <label class="error" for="player2" id="p2_error">
+                  This field is required.</label>
+              </p>
+              <p>
+                <label for="player3" class="label2">Player 3:</label>
+                <input type="text" name="player3" 
+                       id="player3" class="fn2">
+                <label class="error" for="player3" id="p3_error">
+                  This field is required.</label>
+                <label for="player4" class="label2">Player 4:</label>
+                <input type="text" name="player4" 
+                       id="player4" class="fn2">
+                <label class="error" for="player4" id="p4_error">
+                  This field is required.</label>
+              </p>
+              <p>
+                <label for="player5" class="label2">Player 5:</label>
+                <input type="text" name="player5" 
+                       id="player5" class="fn2">
+                <label class="error" for="player5" id="p5_error">
+                  This field is required.</label>
+                <label for="player6" class="label2">Player 6:</label>
+                <input type="text" name="player6" 
+                       id="player6" class="fn2">
+                <label class="error" for="player6" id="p6_error">
                   This field is required.</label>
               </p>
               <p>
@@ -137,7 +179,7 @@ function showPlayers() {
               </p>
             </fieldset>
           </form>
-        </div>
+        </div>        
         <div id="boxes">
           <h3>Available Game Boxes</h3>
               <?php showBoxes(); ?>
