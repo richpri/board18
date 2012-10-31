@@ -1,4 +1,4 @@
-/* CSS Document for Main page  */
+/* CSS Document for New page  */
 /* File: style/board18Main.css */
 
 #sidebar {
@@ -82,11 +82,10 @@
 }
 
 footer {
-  position: absolute;
-  left:0px;
-  bottom:0px; 
-  height:20px;
+  padding:10px;
   width:100%;
+  background-color:#ddffdd;
+  margin-top:10px;
   clear:both;
   text-align:center;
 }

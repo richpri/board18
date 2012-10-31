@@ -184,10 +184,10 @@ function showPlayers() {
           <h3>Available Game Boxes</h3>
               <?php showBoxes(); ?>
         </div>
-      </div> 
-      <footer>
-        This is a nonfunctional mockup.
-      </footer>
+        <footer>
+          This is a nonfunctional mockup.
+        </footer>
+      </div>    
     </div>  
   </body>
 </html>

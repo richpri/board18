@@ -1,6 +1,5 @@
 <?php
 	session_start();
-  $player = $_SESSION['SESS_PLAYER_ID'];
   require_once('config.php');
 	$link = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
 	if(!$link) {
@@ -19,12 +18,16 @@
 		$str = @trim($str);
 		return mysql_real_escape_string($str);
 	}
-	
+  
+	$game = json_decode($_REQUEST['newgame']);
 	//Sanitize the POST values
-	$sname = clean($_REQUEST['name']);
-	$count = clean($_REQUEST['pc']);
-	$boxid = clean($_REQUEST['id']);
-
+	$name = clean($game["name"]);
+	$boxid = clean($game["boxid"]);
+  $player = [];
+  $count = count($game["players"]);
+  for ($i = 0; $i < $count; $i++) {
+	  $player[$i] = clean($game["players"][$i]);
+  }
 	//Check for valid boxid ID
   $qry1 = "SELECT name FROM box WHERE box_id='$boxid'";
 	$result1 = mysql_query($qry1);
@@ -38,9 +41,31 @@
 		error_log("Check for valid box: Query failed");
     exit;
 	}
+  
+  // Validate Player Names and lookup player IDs.
+  $playerid = [];
+  for ($i = 0; $i < $count; $i++) { 
+  	$qry5 = "SELECT player_id FROM players WHERE name = '$player[i]'";  
+  	$result5 = mysql_query($qry5);
+	 	if($result5) {
+		if(mysql_num_rows($result5) == 0) { // Invalid Player name!
+      echo "noplayer $i";
+      exit;
+		}
+    else {
+      $temp = mysql_fetch_array($result5);
+      $playerid[i] = $temp[0];
+    }
+	}
+	else {
+		error_log("Check for valid box: Query failed");
+    exit;
+	}
+    mysql_free_result($result5);
+  }
 
 	//Create INSERT query
-	$qry2 = "INSERT INTO game SET name='$sname', box_id='$boxid',
+	$qry2 = "INSERT INTO game SET name='$name', box_id='$boxid',
           player_count='$count', json_text='empty'";  // ***Fix json_text***
 	$result2 = mysql_query($qry2);
 	if(!$result2) {   // Did the query fail
@@ -63,12 +88,17 @@
 	  error_log("SET start_date: Query failed");
     exit;
 	}
-  // create game_player row.
-	$qry5 = "INSERT INTO game_player SET game_id='$gameid', player_id='$player'";
-	$result5 = mysql_query($qry5);
-	if(!$result5) {   // Did the query fail
-	  error_log("Insert new game_player: Query failed");
-    exit;
-	}
+
+  // create game_player rows.
+  for ($i = 0; $i < $count; $i++) { 
+  	$qry6 = "INSERT INTO game_player SET game_id='$gameid', 
+      player_id='$playerid[i]'";  
+  	$result6 = mysql_query($qry6);
+	  if(!$result6) {   // Did the query fail
+	    error_log("Insert new game_player: Query failed");
+      exit;
+	  }
+    mysql_free_result($result6);
+  }
   echo 'success';
 ?>
