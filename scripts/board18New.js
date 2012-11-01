@@ -48,12 +48,16 @@ function makeNewGame(name, boxid, players, player) {
  */
 function newgameOK(response) {
   if (response === "nobox") {
-    $("#bi_error").show();  
+    $("#bi_error").text('Invalid Game Box ID.').show();  
     $("#boxidnumb").focus();
+  } else if (response.indexOf("noplayer") != -1) {  
+    // Response contains "noplayer".
+    var plerr = 'Player #' + response.substr(9) + ' does not exist';
+    $("#pc_error").text(plerr).show();  
+    $("#player1").focus();
   } else if (response === "success") {
     $('#newgame .error').hide();
     $('#newgame :text').val('');
-    $('#newgame form').slideUp(300);
     var loginNote ='New game has been created.';
     $('#lognote').text(loginNote);
   } else {
@@ -113,7 +117,8 @@ function newgame() {
       return false;  
     } 
     if (BD18.player[i] !== "" && i >= BD18.playerCount) {  
-      BD18.errtxt = 'There are more than ' + BD18.playerCount + ' players.';
+      BD18.errtxt = 'There are more than ' + BD18.playerCount 
+        + ' players.';
       $("#pc_error").text(BD18.errtxt).show();  
       $("#pcount").focus();  
       return false;  
@@ -122,8 +127,7 @@ function newgame() {
   if (BD18.errtxt === "") {
     var dataString = makeNewGame(BD18.name, BD18.boxid, 
     BD18.playerCount, BD18.player); 
-    alert(dataString);
     var poststring = 'newgame = ' + dataString;
-    // $.post("php/createGame.php", postString, newgameOK);
+    $.post("php/createGame.php", postString, newgameOK);
   }
 }

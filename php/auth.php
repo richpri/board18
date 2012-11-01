@@ -8,6 +8,8 @@
 		header("location: access-denied.html");
 		exit();
 	} else {
-    $welcome = $_SESSION['SESS_FIRST_NAME'];
+    $welcomename = $_SESSION['SESS_FIRST_NAME'];
+    $headermessage = $_SESSION['SESS_HEADER_MESSAGE'];
+    $_SESSION['SESS_HEADER_MESSAGE'] = '';
   }
 ?>

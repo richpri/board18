@@ -1,6 +1,5 @@
 <?php
-$welcome = '';
-// require_once('php/auth.php');
+require_once('php/auth.php');
 require_once('php/config.php');
 
 function prepareDatabase() {
@@ -33,7 +32,6 @@ function showBoxes() {
     echo "There are no game boxes in the database</p>";
   }
 }
-
 function showPlayers() {
   $qry = "SELECT login, firstname, lastname FROM players";
   $result = mysql_query($qry);
@@ -44,7 +42,8 @@ function showPlayers() {
         <span><br>$row[1] $row[2]</span></p>";
     }  
   } else {
-    echo "<p class='error'>There are no players in the database.</p>";
+    echo "<p style='color: red'>
+      There are no players in the database.</p>";
   }
 }
 ?>
@@ -90,10 +89,10 @@ function showPlayers() {
       </div>
       <div id="heading">
         <h1>BOARD18 - Remote Play Tool For 18xx Style Games </h1>
-        <h3 id="lognote"><?php echo "Welcome $welcome"; ?>. 
+        <h3 id="lognote"><?php echo "$welcomename: $headermessage."; ?>. 
           <span style="font-size: 60%">
             Click <a href="index.html">here</a> 
-            if you are not <?php echo $welcome; ?>.
+            if you are not <?php echo "$welcomename"; ?>.
           </span>
         </h3>
       </div>
