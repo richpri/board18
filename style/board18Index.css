@@ -10,10 +10,10 @@
 }
 
 .sidebaritem {
-	width: 115px;
+	width: 100px;
   height:20px;
   margin-left: 5px;
-  text-indent: 10px;
+  padding-left: 10px;
   border-bottom-style:solid;
 }
 
@@ -58,7 +58,7 @@
 }
 
 #content {
-  background-color:#ffeedd;
+  background: #ffeedd;
   position: absolute;
   left:5px;
   top:0px; 

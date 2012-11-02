@@ -10,10 +10,10 @@
 }
 
 .sidebaritem {
-	width: 115px;
+	width: 100px;
   height:20px;
   margin-left: 5px;
-  text-indent: 10px;
+  padding-left: 10px;
   border-bottom-style:solid;
 }
 
@@ -31,32 +31,12 @@
   border: none;
 }
 
-#newgame {
-	width: 500px;
-  margin-top: 10px;
-}
-
-.hideform {
-	padding: 10px 10px 10px 10px;
-  border-style: double;
-	display: none;	
-	background-color:#ddffdd;
-}
-.hideform label {
-	display: inline-block;
-	width: 200px;
-	margin: 0 15px 0 0;
-	color: rgb(58,80,123);
-}
-.hideform input {
-	font-size: 14px;	
-}
-.pwbutton {
-	margin-left: 50px;	
-}
-
-.error {
-  color: red !important;
+#gamelink {
+  padding: 5px;
+  background-color: white;
+  border: 3px solid #ddffdd;
+  border-radius: 5px;
+  display: none;
 }
 
 footer {
