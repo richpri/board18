@@ -1,5 +1,46 @@
 <?php
-	require_once('php/auth.php');
+require_once('php/auth.php');
+require_once('php/config.php');
+
+$link = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
+if (!$link) {
+  error_log('Failed to connect to server: ' . mysql_error());
+  exit;
+}
+$db = mysql_select_db(DB_DATABASE);
+if (!$db) {
+  error_log("Unable to select database");
+  exit;
+}
+
+
+//Function to sanitize values received from POST. 
+//Prevents SQL injection
+function clean($str) {
+	$str = @trim($str);
+	return mysql_real_escape_string($str);
+}
+	
+//Sanitize the dogame value
+$dogame = clean($_REQUEST['dogame']);
+//Initialize $gamefound flag.
+$gamefound = 'no';
+$qry = "SELECT game_id FROM game_player 
+        WHERE player_id = $loggedinplayer";
+$result = mysql_query($qry);
+if ($result) {
+  while ($row = mysql_fetch_array($result)) {
+    if (intval($row[0]) == intval($dogame)) {
+      $gamefound = 'yes';
+      break;
+    }
+  }  
+} 
+if ($gamefound == 'no') {
+  $_SESSION['SESS_HEADER_MESSAGE'] = 
+    'You are not a player in the selected game!';
+  header("location: board18Main.php");
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -18,7 +59,8 @@
     </script> 
     <script type="text/javascript">
       $(function(){
-        $.getJSON("php/gameSession.php", "18xx", loadSession)
+        var gameToPlay = 'session=<?php echo $dogame; ?>';
+        $.getJSON("php/gameSession.php", gameToPlay, loadSession)
         .error(function() { 
           var msg = "Error loading game file. \n";
           alert(msg); 

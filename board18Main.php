@@ -35,7 +35,7 @@ function showGames() {
         <th>Version</th> <th>Start Date</th> </tr>";
     while ($row = mysql_fetch_array($result)) {
       echo "<td class='gamename'>
-        <a href='board18Map?game=$row[0]'>$row[1]</a></td> 
+        <a href='board18Map?dogame=$row[0]'>$row[1]</a></td> 
         <td>$row[2]</td> <td>$row[3]</td> <td>$row[4]</td> </tr>";
     }
     echo "</table>";
