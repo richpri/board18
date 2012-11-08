@@ -1,0 +1,25 @@
+// Parsed output from the sample JSON game string:
+var BD18 = {}
+BD18.gm.gname = 'test';
+BD18.gm.boxID = 44;
+BD18.gm.brdTls = [];
+BD18.gm.brdTls[0] = {};
+BD18.gm.brdTls[0].sheetNumber = 2;
+BD18.gm.brdTls[0].tileNumber = 3;
+BD18.gm.brdTls[0].xCoord = 55;
+BD18.gm.brdTls[0].yCoord = 66;
+BD18.gm.brdTls[0].rotate = 1;
+BD18.gm.brdTks = [];  
+BD18.gm.brdTks[0] = {};
+BD18.gm.brdTks[0].sheetNumber = 4;
+BD18.gm.brdTks[0].tileNumber = 5;
+BD18.gm.brdTks[0].xCoord = 77;
+BD18.gm.brdTks[0].yCoord = 88;
+BD18.gm.brdTks[0].flip = false;
+BD18.gm.mktTks = [];       
+BD18.gm.mktTks[0] = {};
+BD18.gm.mktTks[0].sheetNumber = 6;
+BD18.gm.mktTks[0].tileNumber = 7;
+BD18.gm.mktTks[0].xCoord = 99;
+BD18.gm.mktTks[0].yCoord = 11;
+BD18.gm.mktTks[0].flip = false;
