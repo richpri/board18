@@ -16,7 +16,7 @@ function prepareDatabase() {
 }
 
 function showBoxes() {
-  $qry = "SELECT box_id, name, version, author, create_date FROM box";
+  $qry = "SELECT box_id, bname, version, author, create_date FROM box";
   $result = mysql_query($qry);
   if ($result) {
     echo "<table border='1'> <tr>

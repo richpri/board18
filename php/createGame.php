@@ -23,14 +23,14 @@ function clean($str) {
 $game = json_decode($_REQUEST['newgame'], true);
 
 //Sanitize the POST values
-$name = clean($game["name"]);
+$name = clean($game["gname"]);
 $boxid = clean($game["boxid"]);
 $count = count($game["players"]);
 for ($i = 0; $i < $count; $i++) {
   $player[$i] = clean($game["players"][$i]);
 }
 //Check for valid boxid ID
-$qry1 = "SELECT name FROM box WHERE box_id='$boxid'";
+$qry1 = "SELECT bname FROM box WHERE box_id='$boxid'";
 $result1 = mysql_query($qry1);
 if ($result1) {
   if (mysql_num_rows($result1) == 0) { // Invalid Box ID!
@@ -63,10 +63,10 @@ for ($i = 0; $i < $count; $i++) {
 }
 
 //Create INSERT query
-$jtxt = '{ "sessionName": "$name", "box_id": "$boxid",';
-$jtxt .= '"boardTiles": [], "boardTokens": [], "marketTokens": [] }';
-$qry2 = "INSERT INTO game SET name='$name', box_id='$boxid',
-          player_count='$count', json_text='$jtxt'";  
+$jtxt = '{ "game": "$name", "boxID": "$boxid",';
+$jtxt .= '"brdTls": [], "brdTks": [], "mktTks": [] }';
+$qry2 = "INSERT INTO game SET gname='$name', box_id='$boxid',
+          json_text='$jtxt'";  
 $result2 = mysql_query($qry2);
 if (!$result2) {   // Did the query fail
   error_log("Insert new game: Query failed");

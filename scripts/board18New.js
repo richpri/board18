@@ -37,7 +37,7 @@ function makeNewGame(name, boxid, players, player) {
   var i;
   for(i=0; i<players; i++) { pp[i] = player[i]; }
   return JSON.stringify({
-    name : name,
+    gname : name,
     boxid : boxid,
     players : pp, 
   });
