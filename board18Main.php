@@ -17,16 +17,16 @@ function prepareDatabase() {
 
 function showGames() {
   prepareDatabase();
-  $you = $_SESSION['SESS_PLAYER_ID'];
+  $you = intval($_SESSION['SESS_PLAYER_ID']);
   
-  $qry = "SELECT b.game_id, b.bname, c.gname, 
+  $qry = "SELECT b.game_id, b.gname, c.bname, 
                  c.version, DATE(b.start_date) 
           FROM game_player AS a 
             JOIN (game AS b, box AS c)
               ON (a.player_id = $you
                 AND a.game_id = b.game_id
                 AND b.box_id = c.box_id)
-          ORDER BY b.bname";
+          ORDER BY b.gname";
   $result = mysql_query($qry);
   if ($result) {
     echo '<h3>You are currently playing the following games</h3>';

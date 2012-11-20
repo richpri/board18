@@ -30,7 +30,7 @@ for ($i = 0; $i < $count; $i++) {
   $player[$i] = clean($game["players"][$i]);
 }
 //Check for valid boxid ID
-$qry1 = "SELECT bname FROM box WHERE box_id='$boxid'";
+$qry1 = "SELECT bname FROM box WHERE box_id=$boxid";
 $result1 = mysql_query($qry1);
 if ($result1) {
   if (mysql_num_rows($result1) == 0) { // Invalid Box ID!
@@ -38,10 +38,9 @@ if ($result1) {
     exit;
   }
 } else {
-  error_log("Check for valid box: Query failed");
   exit;
 }
-
+error_log("Check for valid box: Query failed");
 // Validate Player Names and lookup player IDs.
 for ($i = 0; $i < $count; $i++) {
   $j = $i + 1;
@@ -88,7 +87,6 @@ if (!$result4) {   // Did the query fail
   error_log("SET start_date: Query failed");
   exit;
 }
-
 // create game_player rows.
 for ($i = 0; $i < $count; $i++) {
   $qry6 = "INSERT INTO game_player SET game_id='$gameid', 

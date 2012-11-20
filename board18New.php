@@ -68,6 +68,9 @@ function showPlayers() {
         $('#logout').click(function() {
           $.post("php/logout.php", logoutOK);
         }); // end logout
+        $('#mainpg').click(function() {
+          window.location = "board18Main.php";
+        }); // end mainpg
         $('.plid').mouseover(function() {
           $(this).children("span").show();
         });
@@ -100,6 +103,7 @@ function showPlayers() {
     <div id="leftofpage">
       <div id='sidebar'>
         <p id="logout" class="sidebaritem">Logout</p>
+        <p id="mainpg" class="sidebaritem">Main Page</p>
         <?php showPlayers(); ?>
       </div>
     </div>

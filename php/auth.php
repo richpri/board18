@@ -5,7 +5,9 @@
 	//Check whether the session variable SESS_MEMBER_ID is present or not
 	if(!isset($_SESSION['SESS_PLAYER_ID']) || 
           (trim($_SESSION['SESS_PLAYER_ID']) == '')) {
-		header("location: access-denied.html");
+    $denyloc = "location: http://" . $_SERVER['SERVER_NAME'];
+    $denyloc .= "/BOARD18/access-denied.html";
+		header($denyloc);
 		exit();
 	} else {
     $loggedinplayer = $_SESSION['SESS_PLAYER_ID'];
