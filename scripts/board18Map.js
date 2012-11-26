@@ -59,8 +59,8 @@ function TileSheet(image,sheet) {
   this.ySize=parseInt(sheet.ySize,10);
   this.yStep=parseInt(sheet.yStep,10);
   this.tilesOnSheet=sheet.tiles.length;
-  this.tileDups=new Array();
-  this.tileRots=new Array();
+  this.tileDups=[];
+  this.tileRots=[];
   for(var i=0;i<this.tilesOnSheet;i++) {
     this.tileDups[i]=parseInt(sheet.tiles[i].dups,10);
     this.tileRots[i]=parseInt(sheet.tiles[i].rots,10);
@@ -104,10 +104,11 @@ function TileSheet(image,sheet) {
  * It calls the TileSheet constructor for each tile sheet.  
  * It calls the TokenSheet constructor for each token sheet.   
  * It also adds the trayNumb to each new tray object.
- * Finally it initializes BD18.curTrayNumb to 0.
+ * Finally it initializes BD18.curTrayNumb to 0 and 
+ * BD18.trayCount to the number of tray objects.
  */
 function makeTrays() {
-  var sheets = new Array();
+  var sheets = [];
   var i;
   for (i=0;i<BD18.gameBox.tileSheets.length;i++) {
     sheets[i] = BD18.gameBox.tileSheets[i];
@@ -118,26 +119,22 @@ function makeTrays() {
     BD18.trays[i].trayNumb = i;
   }
   BD18.curTrayNumb = 0;
+  BD18.trayCount = i;
 }
 
 /*
- * Function trayCanvasApp dynamically places 
- * the links for all trays into the "trays" div. 
+ * Function trayCanvasApp dynamically updates 
+ * the links for all trays in the "traylist" div. 
  * It then calls the trays.place() method for 
- * the current tile sheet object. This sets up the 
- * tile Canvas. If there is a currently selected
- * tile, then that tile will be highlited.
+ * the current tile/token sheet object. This sets  
+ * up the tray Canvas. If there is a currently 
+ * selected item, that item will be highlited.
  */
 
 function trayCanvasApp() {
-  var atext; 
   for (var i=0;i<BD18.trays.length;i++) {
-    atext = '<button type="button" onclick="JavaScript:BD18.trays[';
-    atext += i;
-    atext += '].place(null)"> ';
-    atext += BD18.trays[i].trayName;
-    atext += ' </button><br /> ';
-    $('#trays').append(atext);
+    $('#traylist p').eq(1+i)
+      .text(BD18.trays[i].trayName).addClass("acttray");
   }
   BD18.trays[BD18.curTrayNumb].place(null);
 }
@@ -223,7 +220,7 @@ function loadBox(box) {
   BD18.bdImage.src = board.imageLocation;
   BD18.bdImage.onload = itemLoaded; 
   BD18.loadCount++ ;
-  BD18.tsImages = new Array();
+  BD18.tsImages = [];
   var ttt = sheets.length;
   for(var i=0; i<ttt; i++) {
     BD18.tsImages[i] = new Image();
@@ -247,4 +244,16 @@ function loadSession(session) {
     msg = msg + "This is probably due to a game box format error.";
     alert(msg); 
   });
+}
+
+/* Function logoutOK is the callback function for the ajax
+ * lgout call. 
+ */
+function logoutOK(resp) {
+  if(resp === 'success') {
+    window.location = "index.html";
+  }
+  else {
+    alert("Logout failed! This should never happen.");
+  } 
 }

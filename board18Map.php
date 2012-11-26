@@ -59,13 +59,32 @@ if ($gamefound == 'no') {
     </script> 
     <script type="text/javascript">
       $(function(){
+        $('#logout').click(function() {
+          $.post("php/logout.php", logoutOK);
+        }); // end logout
+        $('#mainpg').click(function() {
+          window.location = "board18Main.php";
+        }); // end mainpg
+        $('#trays').mouseover(
+          function() {
+            $('.tray:not(":contains(\'unused\')")').each(function(i) {
+              $(this).delay(i * 100).fadeIn();
+            });
+          }
+        ); // end mouse over
+        $('.tray').click(function() {
+          $(".acttray").fadeOut();
+          var trayid = $(this).attr('id');
+          var inx = parseInt(trayid.substring(4),10);
+          BD18.trays[inx].place(null);
+        }); // end tray click
         var gameToPlay = 'session=<?php echo $dogame; ?>';
         $.getJSON("php/gameSession.php", gameToPlay, loadSession)
         .error(function() { 
           var msg = "Error loading game file. \n";
           alert(msg); 
         });
-      })
+      });
       
     </script>    
   </head>
@@ -98,9 +117,20 @@ if ($gamefound == 'no') {
 
     <div id="leftofpage">
       <div id="sidebar">
-
-        <div id="trays">
-          <b>Trays</b><br /><br />
+        <p id="logout" class="sidebaritem">Logout</p>
+        <p id="mainpg" class="sidebaritem">Main Page</p>
+        <div id="traylist">        
+          <p id="trays" class="sidebaritem"><b>Trays</b></p>
+          <p id="tray0" class="sidebaritem tray">unused</p>
+          <p id="tray1" class="sidebaritem tray">unused</p>
+          <p id="tray2" class="sidebaritem tray">unused</p>
+          <p id="tray3" class="sidebaritem tray">unused</p>
+          <p id="tray4" class="sidebaritem tray">unused</p>
+          <p id="tray5" class="sidebaritem tray">unused</p>
+          <p id="tray6" class="sidebaritem tray">unused</p>
+          <p id="tray7" class="sidebaritem tray">unused</p>
+          <p id="tray8" class="sidebaritem tray">unused</p>
+          <p id="tray9" class="sidebaritem tray">unused</p>
         </div>
 
         <div id="tiles" onclick="traySelect(event)">

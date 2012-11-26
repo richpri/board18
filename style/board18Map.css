@@ -9,16 +9,21 @@
   top:0px; 
 }
 
-#trays {
-  height:160px;
-  width:115px;
+.sidebaritem {
+	width: 100px;
+  height:20px;
   margin-left: 5px;
+  padding-left: 10px;
   border-bottom-style:solid;
 }
 
-#trays > ul {
-  list-style-type:none;
-  margin-top:0px;
+.sidebaritem:hover {
+	color: rgb(0,0,0);
+	background-color:#b1ccb1;	
+}
+
+.tray {
+  display: none;
 }
 
 #tiles {
