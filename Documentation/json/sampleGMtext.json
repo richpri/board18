@@ -27,5 +27,9 @@
       "yCoord":11,
       "flip":false
     }
-  ]
+  ],
+  "trayCounts":[
+    [1]
+  ]  
+  
 }

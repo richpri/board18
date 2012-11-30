@@ -38,7 +38,7 @@ if ($result1) {
   header("location: board18Main.php");
   }
 } else {
-  error_log("Check for valid box: Query failed");
+  error_log("Check for valid game: Query failed");
   exit;
 }
 

@@ -62,8 +62,12 @@ for ($i = 0; $i < $count; $i++) {
 }
 
 //Create INSERT query
-$jtxt = '{ "game": "$name", "boxID": "$boxid",';
-$jtxt .= '"brdTls": [], "brdTks": [], "mktTks": [] }';
+$jtxt = '{ "gname": "';
+$jtxt .= $name;
+$jtxt .= '", "boxID": "';
+$jtxt .= $boxid;
+$jtxt .= '", "brdTls": [], "brdTks": [], ';
+$jtxt .= '"mktTks": [], "trayCounts": []}';
 $qry2 = "INSERT INTO game SET gname='$name', box_id='$boxid',
           json_text='$jtxt'";  
 $result2 = mysql_query($qry2);

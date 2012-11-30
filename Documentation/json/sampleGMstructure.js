@@ -23,3 +23,6 @@ BD18.gm.mktTks[0].tileNumber = 7;
 BD18.gm.mktTks[0].xCoord = 99;
 BD18.gm.mktTks[0].yCoord = 11;
 BD18.gm.mktTks[0].flip = false;
+BD18.gm.trayCounts = [];
+BD18.gm.trayCounts[0] = [];
+BD18.gm.trayCounts[0][0] = 1;

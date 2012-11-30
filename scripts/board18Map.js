@@ -11,10 +11,14 @@ indent:4, maxerr:50, white:false */
 var BD18 = {};
 BD18.loadCount = 0;
 BD18.doneWithLoad = false;
-BD18.boxID = 4;
+BD18.boxID = null;
 BD18.boardTiles = [];
 BD18.trays = [];
+BD18.curTrayNumb = null;
 BD18.curIndex = null;
+BD18.curRot = null;
+BD18.curHexX = null;
+BD18.curHexY = null;
 BD18.tileIsSelected = false;
 BD18.hexIsSelected = false;
 
@@ -23,7 +27,7 @@ BD18.hexIsSelected = false;
  * Constructor functions.
  * 
  * GameBoard is a constructor function which creates a gameBoard object.
- * This object fully describe a game board and its use.   
+ * This object fully describes a game board and its use.   
  * The Start and Step attributes are used to locate the hexes on the
  * board for placement of tiles and tokens.
  *  */
@@ -97,6 +101,32 @@ function TileSheet(image,sheet) {
     }
   };
 }
+
+/* BoardTile is a constructor function which creates boardTile objects.
+ * These objects are used to list the tiles that have been placed on a
+ * board. The sheet index and rotation attributes describe the tile.   
+ * The bx and by parameters are used to locate the tile on the game 
+ * board.
+ * */
+function BoardTile(snumb,index,rotation,bx,by) {
+  this.sheet=BD18.trays[snumb];
+  this.index=index;
+  this.rotation=rotation;
+  this.bx=bx;
+  this.by=by;
+  this.place=function place() {
+    var image = this.sheet.image;
+    var sx = this.sheet.xStart+index*this.sheet.xStep;
+    var sy = this.sheet.yStart+rotation*this.sheet.yStep;
+    var dx = BD18.gameBoard.xStart+BD18.gameBoard.xStep*bx;
+    var dy = BD18.gameBoard.yStart+BD18.gameBoard.yStep*by;
+    var dxf = dx.toFixed();
+    var dyf = dy.toFixed();
+    var szx = this.sheet.xSize;
+    var szy = this.sheet.ySize;
+    BD18.context1.drawImage(image,sx,sy,szx,szy,dxf,dyf,100,116);
+    };
+  }
   
 /* Startup functions */
 
@@ -110,8 +140,8 @@ function TileSheet(image,sheet) {
 function makeTrays() {
   var sheets = [];
   var i;
-  for (i=0;i<BD18.gameBox.tileSheets.length;i++) {
-    sheets[i] = BD18.gameBox.tileSheets[i];
+  for (i=0;i<BD18.bx.tileSheets.length;i++) {
+    sheets[i] = BD18.bx.tileSheets[i];
   }
   var images = BD18.tsImages;
   for (i=0;i<sheets.length;i++) {
@@ -120,6 +150,25 @@ function makeTrays() {
   }
   BD18.curTrayNumb = 0;
   BD18.trayCount = i;
+}
+
+/* This function initializes the BD18.boardTiles array.
+ * It calls the BoardTile constructor for each tile in 
+ * BD18.gm.brdTls array and adds the new object to the
+ * BD18.boardTiles array.
+ */
+function makeBdTileList(){
+  if (BD18.gm.brdTls.length === 0) return;
+  var tile,sn,ix,rot,bx,by;
+  for(var i=0;i<BD18.gm.brdTls.length;i++) {
+    sn = BD18.gm.brdTls[i].sheetNumber;
+    ix = BD18.gm.brdTls[i].tileNumber;
+    rot = BD18.gm.brdTls[i].rotate;
+    bx = BD18.gm.brdTls[i].xCoord;
+    by = BD18.gm.brdTls[i].yCoord;
+    tile = new BoardTile(sn,ix,rot,bx,by);
+    BD18.boardTiles.push(tile);
+  }
 }
 
 /*
@@ -163,8 +212,8 @@ function mainCanvasApp(){
  */
 function canvasApp()
 {
-  var hh = parseInt(BD18.gameBoard.height);
-  var ww = parseInt(BD18.gameBoard.width);
+  var hh = parseInt(BD18.gameBoard.height, 10);
+  var ww = parseInt(BD18.gameBoard.width, 10);
   $('#content').css('height', hh+20); 
   $('#content').css('width', ww);     
   $('#canvas1').attr('height', hh); 
@@ -191,29 +240,32 @@ function canvasApp()
   mainCanvasApp();
 }
   
-/* Event Handler and Callback Functions.  */
+/* Startup Event Handler and Callback Functions.  */
 
 /* This function is an event handler for the game box images.
- * It calls canvasApp after all itemLoaded events have occured.
+ * It calls makeTrays, makeBdTileList and canvasApp after all 
+ * itemLoaded events have occured.
  */
 function itemLoaded(event) {
   BD18.loadCount--;
   if (BD18.doneWithLoad === true && BD18.loadCount <= 0) {
-    BD18.gameBoard = new GameBoard(BD18.bdImage,BD18.gameBox.board);
+    BD18.gameBoard = new GameBoard(BD18.bdImage,BD18.bx.board);
     makeTrays();
+    makeBdTileList();
     canvasApp();
   }
 }
 
 /* The loadBox function is a callback function for
  * the gameBox.php getJSON function. It loads 
- * all the game box images.
+ * all the game box images. It also initializes
+ * the BD18.gm.trayCounts array if it is empty.
  */
 function loadBox(box) {
-  BD18.gameBox = null;
-  BD18.gameBox = box;
-  var board = BD18.gameBox.board;
-  var sheets = BD18.gameBox.tileSheets;
+  BD18.bx = null;
+  BD18.bx = box;
+  var board = BD18.bx.board;
+  var sheets = BD18.bx.tileSheets;
   var boardWidth = parseInt(board.imageWidth,10);
   var boardHeight = parseInt(board.imageHeight,10);
   BD18.bdImage = new Image(boardWidth,boardHeight);
@@ -229,6 +281,21 @@ function loadBox(box) {
     BD18.loadCount++;
   }
   BD18.doneWithLoad = true;
+  itemLoaded(); // Just in case onloads are very fast.
+  if(BD18.gm.trayCounts.length == 0) { // initialize array
+    var ii, jj;
+    for(ii=0;ii<BD18.bx.tray.length;ii++) {
+      if(BD18.bx.tray[ii].type == 'tile') {
+        for(jj=0;jj<BD18.bx.tray[ii].tile.length;jj++) {
+          BD18.gm.trayCounts[ii][jj] = BD18.bx.tray[ii].tile[jj].dups;
+        }
+      } else if(BD18.bx.tray[ii].type == 'btok') { 
+        for(jj=0;jj<BD18.bx.tray[ii].token.length;jj++) {
+          BD18.gm.trayCounts[ii][jj] = BD18.bx.tray[ii].token[jj].dups;
+        }
+      }
+    }
+  }
 }
 
 /* The loadSession function is a callback function for
@@ -236,9 +303,11 @@ function loadBox(box) {
  * loads the game box file.
  */
 function loadSession(session) {
-  BD18.gameSession = null;
-  BD18.gameSession = session;
-  $.getJSON("php/gameBox.php", "18xx", loadBox)
+  BD18.gm = null;
+  BD18.gm = session;
+  var boxstring = 'box=';
+  boxstring = boxstring + BD18.gm.boxID;
+  $.getJSON("php/gameBox.php", boxstring, loadBox)
   .error(function() { 
     var msg = "Error loading game box file. \n";
     msg = msg + "This is probably due to a game box format error.";
@@ -257,3 +326,140 @@ function logoutOK(resp) {
     alert("Logout failed! This should never happen.");
   } 
 }
+
+/* Tile manipulation functions.
+ * These functions manipulate obects on the map board.
+ */ 
+
+/* The dropTile function places a tile at a specified 
+ * location on the map board.  It calls the BoardTile
+ * constructor function and then updates some global
+ * variables to keep tract of the new tile. Note that
+ * this new tile has not yet been permanently added to
+ * the list of placed tiles in BD18.gm.brdTls. It is 
+ * tracked instead in the BD18.tempTile array.
+ */
+function dropTile(xI,yI) {
+  mainCanvasApp();
+  BD18.tempTile = [BD18.curTrayNumb,BD18.curIndex,0,xI,yI];
+  var sn = BD18.tempTile[0];
+  var ix = BD18.tempTile[1];
+  var rot = BD18.tempTile[2];
+  var bx = BD18.tempTile[3];
+  var by = BD18.tempTile[4];
+  var temp=new BoardTile(sn,ix,rot,bx,by);
+  temp.place();
+  BD18.curRot = 0;
+  BD18.curHexX = xI;
+  BD18.curHexY = yI;
+  BD18.hexIsSelected = true;
+}
+
+/* The rotateTile function replaces the tile at a specified 
+ * location on the map board with a rotated version of that
+ * tile. The tile it modifies is the one pointed to by 
+ * BD18.tempTile.  
+ * 
+ * This function calls the BoardTile constructor function
+ * after modifying the rotation counter in BD18.curRot. 
+ */
+function rotateTile(dir) {
+  var maxrot = BD18.tileSheets[BD18.curTrayNumb]
+      .maxrot[BD18.curIndex];
+  if (BD18.hexIsSelected === false) return; 
+  if(dir === "cw") {
+    BD18.curRot += 1;
+    if (BD18.curRot >= maxrot) {
+      BD18.curRot = 0;
+    }
+  } else {
+    BD18.curRot -= 1;
+    if (BD18.curRot < 0) {
+      BD18.curRot = maxrot-1;
+    }
+  }
+  mainCanvasApp();
+  BD18.tempTile.splice(2,1,BD18.curRot);
+  var sn = BD18.tempTile[0];
+  var ix = BD18.tempTile[1];
+  var rot = BD18.tempTile[2];
+  var bx = BD18.tempTile[3];
+  var by = BD18.tempTile[4];
+  var temp=new BoardTile(sn,ix,rot,bx,by);
+  temp.place();
+  BD18.hexIsSelected = true;
+}
+
+/* This function reduces the available count for  
+ * a specific tile or token [item]. These counts 
+ * are stored in the BD18.gm.trayCounts array 
+ * which is indexed by the sheet number and the 
+ * item index. These are the input parameters.
+ * This function returns false if no item is
+ * available and true otherwise.
+ */
+function reduceCount(sheet,ind) {
+  if (BD18.gm.trayCounts[sheet][ind] === 0) 
+    return false;
+  BD18.gm.trayCounts[sheet][ind] -= 1;
+  return true;
+}
+
+/* This function increases the available count for 
+ * a specific tile or token [item]. These counts 
+ * are stored in the BD18.gm.trayCounts array 
+ * which is indexed by the sheet number and the 
+ * item index. These are the input parameters.
+ */
+function increaseCount(sheet,ind) {
+  BD18.gm.trayCounts[sheet][ind] += 1;  
+}
+
+/* This function deletes the board tile object 
+ * from the BD18.boardTiles array.
+ * This function returns false if no tile is
+ * deleted and true otherwise.
+ */
+function clearHex(x,y) {
+  if (BD18.boardTiles.length === 0) return false;
+  var tile;
+  for (var i=0;i<BD18.boardTiles.length;i++) {
+    if (!(i in BD18.boardTiles)) continue ;
+    tile = BD18.boardTiles[i];
+    if (tile.bx === x && tile.by === y) {
+      increaseCount(tile.sheet.trayNumb,tile.index);
+      delete BD18.boardTiles[i];
+      return true;
+      }
+    }
+  return false;
+  }
+  
+/* This function adds the current board tile object 
+ * to the BD18.boardTiles array.  If an object is 
+ * already in the hex in question then that existing 
+ * object is deleted via the clearHex function.
+ * If the tile count for the tile is already 0 then
+ * an error has occured.  This should never happen.
+ */
+function addTile() {
+  if (BD18.hexIsSelected === false) return;
+  var s=BD18.curTrayNumb;
+  var n=BD18.curIndex;
+  var r=BD18.curRot;
+  var x=BD18.curHexX;
+  var y=BD18.curHexY;
+  var tile = new BoardTile(s,n,r,x,y);
+  var stat = reduceCount(tile.sheet.trayNumb,tile.index);
+  if (stat) {
+    clearHex(x,y);
+    BD18.boardTiles.push(tile);
+    BD18.curIndex = null;
+    mainCanvasApp();
+    tileCanvasApp();
+    BD18.hexIsSelected = false;
+    BD18.tileIsSelected = false;
+    } else {
+    alert("ERROR: Tile not available.");
+    }
+  }
