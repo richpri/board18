@@ -36,3 +36,35 @@ $(window).bind('resizeEnd', function() {
 $(function(){
   setPage();  
 });
+
+/* 
+ * Utility Functions 
+ */
+
+/* 
+ * The findPos function finds the real position of an
+ *  element on the page. I got it from this web site:
+ *  http://www.quirksmode.org/js/findpos.html
+ */
+function findPos(obj) {
+  var curLeft = 0;
+  var curTop = 0;
+  do {
+    curLeft += obj.offsetLeft;
+    curTop += obj.offsetTop;
+  } while (obj = obj.offsetParent);
+  return [curLeft, curTop];
+}
+
+/* 
+ * The offsetIn function finds the offset of the
+ * cursor [at a click event] from the top/left 
+ * of the specified containing object.
+ */
+function offsetIn(event, obj) {
+  var a, b;
+  [a, b] = findPos(obj);
+  var x = event.pageX - a;
+  var y = event.pageY - b;
+  return [x, y];
+}

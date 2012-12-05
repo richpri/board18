@@ -16,21 +16,23 @@ BD18.boardTiles = [];
 BD18.trays = [];
 BD18.curTrayNumb = null;
 BD18.curIndex = null;
-BD18.curRot = null;
+BD18.curRot = 0;
+BD18.curFlip = false;
 BD18.curHexX = null;
 BD18.curHexY = null;
 BD18.tileIsSelected = false;
 BD18.hexIsSelected = false;
 
-/* All BD18 functions are defined in this file. 
- * 
+/*  
  * Constructor functions.
- * 
+ */
+
+/* 
  * GameBoard is a constructor function which creates a gameBoard object.
  * This object fully describes a game board and its use.   
  * The Start and Step attributes are used to locate the hexes on the
  * board for placement of tiles and tokens.
- *  */
+ */
 function GameBoard(image,board) {
   this.image=image;
   this.height=parseInt(board.imageHeight,10);
@@ -463,3 +465,38 @@ function addTile() {
     alert("ERROR: Tile not available.");
     }
   }
+  
+/*
+ * These are functions that respond to various onclick events.
+ */
+
+/* This function responds to onclick events in the trays canvas.
+ * It selects a item from those currently displayed and highlites
+ * the selected item.
+ */
+function traySelect(event) {
+  if (BD18.hexIsSelected === true) return;
+  var tray = BD18.trays[BD18.curTrayNumb];
+  var a, b, c, x, y;
+  if(tray.sheetType==="tile") {
+    a = 10;  // This is the tray Top Margin.
+    b = 120; // This is the tray Y Step Value.
+    c = tray.tilesOnSheet;
+  } else if(tray.sheetType==="btok") {
+    a = 10;  // This is the tray Top Margin.
+    b = 35;  // This is the tray Y Step Value.
+    c = tray.tokensOnSheet;
+  } else {
+    return; // Invalid sheet type!!
+  }
+  [x, y] = offsetIn(event, BD18.canvas0);
+  var ind = (y-a)/b;
+  var inde = (ind>=c)?c-1:ind; 
+  var index = Math.floor((inde<0)?0:inde);
+  if (BD18.gm.trayCounts[tray.trayNumb][index] === 0) return;
+  BD18.curIndex = index;
+  BD18.curRot = 0; // Eliminate any previous rotation.
+  BD18.curFlip = false; // Eliminate any previous flip.
+  tray.place(index); // Set highlight.
+  BD18.tileIsSelected = true;
+}
