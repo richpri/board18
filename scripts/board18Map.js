@@ -35,8 +35,8 @@ BD18.hexIsSelected = false;
  */
 function GameBoard(image,board) {
   this.image=image;
-  this.height=parseInt(board.imageHeight,10);
-  this.width=parseInt(board.imageWidth,10);
+  this.height=parseInt(board.imgHght,10);
+  this.width=parseInt(board.imgWdth,10);
   this.xStart=parseInt(board.xStart,10);
   this.xStep=parseInt(board.xStep,10);
   this.yStart=parseInt(board.yStart,10);
@@ -55,8 +55,8 @@ function GameBoard(image,board) {
  * tile sheet.
  *  */
 function TileSheet(image,sheet) {
-  this.sheetType="tile";
-  this.trayName=sheet.trayName;
+  this.sheetType=sheet.type;
+  this.trayName=sheet.tName;
   this.image=image;
   this.xStart=parseInt(sheet.xStart,10);
   this.xSize=parseInt(sheet.xSize,10);
@@ -64,12 +64,12 @@ function TileSheet(image,sheet) {
   this.yStart=parseInt(sheet.yStart,10);
   this.ySize=parseInt(sheet.ySize,10);
   this.yStep=parseInt(sheet.yStep,10);
-  this.tilesOnSheet=sheet.tiles.length;
+  this.tilesOnSheet=sheet.tile.length;
   this.tileDups=[];
   this.tileRots=[];
   for(var i=0;i<this.tilesOnSheet;i++) {
-    this.tileDups[i]=parseInt(sheet.tiles[i].dups,10);
-    this.tileRots[i]=parseInt(sheet.tiles[i].rots,10);
+    this.tileDups[i]=parseInt(sheet.tile[i].dups,10);
+    this.tileRots[i]=parseInt(sheet.tile[i].rots,10);
   }
   this.place=function place(high) {
     var a = 10;  // This is the tray's Top Margin.
@@ -104,6 +104,62 @@ function TileSheet(image,sheet) {
   };
 }
 
+/* TokenSheet is a constructor function which creates tokenSheet
+ * objects. These objects fully describe a token sheet and its    
+ * contents. The Start, Size and Step attributes are used to 
+ * locate tokens on the token sheet.
+ */
+function TokenSheet(image,sheet) {
+  this.sheetType=sheet.type;
+  this.trayName=sheet.tName;
+  this.image=image;
+  this.xStart=parseInt(sheet.xStart,10);
+  this.xSize=parseInt(sheet.xSize,10);
+  this.xStep=parseInt(sheet.xStep,10);
+  this.yStart=parseInt(sheet.yStart,10);
+  this.ySize=parseInt(sheet.ySize,10);
+  this.yStep=parseInt(sheet.yStep,10);
+  this.tokensOnSheet=sheet.token.length;
+  this.tokenDups=[];
+  this.tokenFlip=[];
+  for(var i=0;i<this.tokensOnSheet;i++) {
+    this.tokenDups[i]=parseInt(sheet.token[i].dups,10);
+    this.tokenFlip[i]=sheet.token[i].flip;
+  }
+  this.place=function place(high) {
+    var a = 10; // This is the tray's Top Margin.
+    var b = 40; // This is the tray's Y Step Value.
+    var c = 20; // This is the token padding value.
+    var img = this.image;
+    var sx = this.xStart;
+    var sy;
+    var szx = this.xSize;
+    var szy = this.ySize;
+    BD18.curTrayNumb = this.trayNumb;
+    BD18.tileIsSelected = false;
+    BD18.canvas0.height = a+(this.tokensOnSheet*b); 
+    for (var i=0;i<this.tokensOnSheet;i++)
+    {
+      sy = this.yStart+i*this.yStep;
+      if (high === i) {
+        BD18.context0.fillStyle = "red";
+        BD18.context0.fillRect(a,b*i,100,116);
+        BD18.context0.fillStyle = "black";
+      }
+      BD18.context0.drawImage(img,sx,sy,szx,szy,a+c,b*i,30,30);
+      BD18.context0.font = "18pt Arial";
+      BD18.context0.textBaseline = "top";
+      BD18.context0.textAlign = "left";
+      BD18.context0.fillText(this.tokenDups[i],a,b*i);
+      if (this.tokenDups[i] === 0) {  
+        BD18.context0.fillStyle = "rgba(255,255,255,0.7)";
+        BD18.context0.fillRect(a,b*i,100,116);
+        BD18.context0.fillStyle = "black";
+      }      
+    }
+  };
+}
+
 /* BoardTile is a constructor function which creates boardTile objects.
  * These objects are used to list the tiles that have been placed on a
  * board. The sheet index and rotation attributes describe the tile.   
@@ -127,8 +183,8 @@ function BoardTile(snumb,index,rotation,bx,by) {
     var szx = this.sheet.xSize;
     var szy = this.sheet.ySize;
     BD18.context1.drawImage(image,sx,sy,szx,szy,dxf,dyf,100,116);
-    };
-  }
+  };
+}
   
 /* Startup functions */
 
@@ -140,15 +196,17 @@ function BoardTile(snumb,index,rotation,bx,by) {
  * BD18.trayCount to the number of tray objects.
  */
 function makeTrays() {
-  var sheets = [];
+  var sheets = BD18.bx.tray;
   var i;
-  for (i=0;i<BD18.bx.tileSheets.length;i++) {
-    sheets[i] = BD18.bx.tileSheets[i];
-  }
   var images = BD18.tsImages;
   for (i=0;i<sheets.length;i++) {
-    BD18.trays[i] = new TileSheet(images[i],sheets[i]);
-    BD18.trays[i].trayNumb = i;
+    if(sheets[i].type === 'tile') {
+      BD18.trays[i] = new TileSheet(images[i],sheets[i]);
+      BD18.trays[i].trayNumb = i;
+    } else if(sheets[i].type === 'btok') {
+      BD18.trays[i] = new TokenSheet(images[i],sheets[i]);
+      BD18.trays[i].trayNumb = i;
+    }
   }
   BD18.curTrayNumb = 0;
   BD18.trayCount = i;
@@ -185,7 +243,7 @@ function makeBdTileList(){
 function trayCanvasApp() {
   for (var i=0;i<BD18.trays.length;i++) {
     $('#traylist p').eq(1+i)
-      .text(BD18.trays[i].trayName).addClass("acttray");
+    .text(BD18.trays[i].trayName).addClass("acttray");
   }
   BD18.trays[BD18.curTrayNumb].place(null);
 }
@@ -261,43 +319,43 @@ function itemLoaded(event) {
 /* The loadBox function is a callback function for
  * the gameBox.php getJSON function. It loads 
  * all the game box images. It also initializes
- * the BD18.gm.trayCounts array if it is empty.
+ * the BD18.gm.trayCounts array if it is undefined.
  */
 function loadBox(box) {
   BD18.bx = null;
   BD18.bx = box;
   var board = BD18.bx.board;
-  var sheets = BD18.bx.tileSheets;
-  var boardWidth = parseInt(board.imageWidth,10);
-  var boardHeight = parseInt(board.imageHeight,10);
+  var sheets = BD18.bx.tray;
+  var boardWidth = parseInt(board.imgWdth,10);
+  var boardHeight = parseInt(board.imgHght,10);
   BD18.bdImage = new Image(boardWidth,boardHeight);
-  BD18.bdImage.src = board.imageLocation;
+  BD18.bdImage.src = board.imgLoc;
   BD18.bdImage.onload = itemLoaded; 
   BD18.loadCount++ ;
   BD18.tsImages = [];
   var ttt = sheets.length;
   for(var i=0; i<ttt; i++) {
     BD18.tsImages[i] = new Image();
-    BD18.tsImages[i].src = sheets[i].imageLocation;
+    BD18.tsImages[i].src = sheets[i].imgLoc;
     BD18.tsImages[i].onload = itemLoaded;
     BD18.loadCount++;
   }
-  BD18.doneWithLoad = true;
-  itemLoaded(); // Just in case onloads are very fast.
-  if(BD18.gm.trayCounts.length == 0) { // initialize array
+  if(typeof BD18.gm.trayCounts === 'undefined') { // initialize array
     var ii, jj;
-    for(ii=0;ii<BD18.bx.tray.length;ii++) {
-      if(BD18.bx.tray[ii].type == 'tile') {
-        for(jj=0;jj<BD18.bx.tray[ii].tile.length;jj++) {
-          BD18.gm.trayCounts[ii][jj] = BD18.bx.tray[ii].tile[jj].dups;
+    for(ii=0; ii<ttt; ii++) {
+      if(sheets[ii].type === 'tile') {
+        for(jj=0; jj<sheets[ii].tile.length; jj++) {
+          BD18.gm.trayCounts[ii][jj] = sheets[ii].tile[jj].dups;
         }
-      } else if(BD18.bx.tray[ii].type == 'btok') { 
-        for(jj=0;jj<BD18.bx.tray[ii].token.length;jj++) {
-          BD18.gm.trayCounts[ii][jj] = BD18.bx.tray[ii].token[jj].dups;
+      } else if(sheets[ii].type === 'btok') { 
+        for(jj=0; jj<sheets[ii].token.length; jj++) {
+          BD18.gm.trayCounts[ii][jj] = sheets[ii].token[jj].dups;
         }
       }
     }
   }
+  BD18.doneWithLoad = true;
+  itemLoaded(); // Just in case onloads are very fast.
 }
 
 /* The loadSession function is a callback function for
@@ -367,7 +425,7 @@ function dropTile(xI,yI) {
  */
 function rotateTile(dir) {
   var maxrot = BD18.tileSheets[BD18.curTrayNumb]
-      .maxrot[BD18.curIndex];
+  .maxrot[BD18.curIndex];
   if (BD18.hexIsSelected === false) return; 
   if(dir === "cw") {
     BD18.curRot += 1;
@@ -432,10 +490,10 @@ function clearHex(x,y) {
       increaseCount(tile.sheet.trayNumb,tile.index);
       delete BD18.boardTiles[i];
       return true;
-      }
     }
-  return false;
   }
+  return false;
+}
   
 /* This function adds the current board tile object 
  * to the BD18.boardTiles array.  If an object is 
@@ -461,10 +519,10 @@ function addTile() {
     tileCanvasApp();
     BD18.hexIsSelected = false;
     BD18.tileIsSelected = false;
-    } else {
+  } else {
     alert("ERROR: Tile not available.");
-    }
   }
+}
   
 /*
  * These are functions that respond to various onclick events.
