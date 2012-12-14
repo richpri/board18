@@ -317,9 +317,10 @@ function itemLoaded(event) {
 }
 
 /* The loadBox function is a callback function for
- * the gameBox.php getJSON function. It loads 
- * all the game box images. It also initializes
- * the BD18.gm.trayCounts array if it is undefined.
+ * the gameBox.php getJSON function. It loads all
+ * the game box images. 
+ * It also initializes the BD18.gm.trayCounts  array
+ * if it is undefined or empty.
  */
 function loadBox(box) {
   BD18.bx = null;
@@ -340,9 +341,12 @@ function loadBox(box) {
     BD18.tsImages[i].onload = itemLoaded;
     BD18.loadCount++;
   }
-  if(typeof BD18.gm.trayCounts === 'undefined') { // initialize array
+  if((typeof BD18.gm.trayCounts === 'undefined') || 
+      (BD18.gm.trayCounts.length === 0)) { // initialize array
     var ii, jj;
+    BD18.gm.trayCounts = [];
     for(ii=0; ii<ttt; ii++) {
+      BD18.gm.trayCounts[ii] = [];
       if(sheets[ii].type === 'tile') {
         for(jj=0; jj<sheets[ii].tile.length; jj++) {
           BD18.gm.trayCounts[ii][jj] = sheets[ii].tile[jj].dups;
@@ -424,8 +428,8 @@ function dropTile(xI,yI) {
  * after modifying the rotation counter in BD18.curRot. 
  */
 function rotateTile(dir) {
-  var maxrot = BD18.tileSheets[BD18.curTrayNumb]
-  .maxrot[BD18.curIndex];
+  var maxrot = BD18.bx.tray[BD18.curTrayNumb].
+               tile[BD18.curIndex].rots;
   if (BD18.hexIsSelected === false) return; 
   if(dir === "cw") {
     BD18.curRot += 1;
@@ -523,6 +527,38 @@ function addTile() {
     alert("ERROR: Tile not available.");
   }
 }
+
+/* This function calculates the board coordinates of a map
+ * tile given the raw coordinates of a mouse click event.
+ */
+function tilePos(event) {
+  var xPix, yPix;
+  [xPix, yPix] = offsetIn(event, BD18.canvas1);
+  var yCent = BD18.gameBoard.yStart + BD18.gameBoard.yStep*2/3;
+  var yIndex = Math.round(((yPix-yCent)/BD18.gameBoard.yStep));
+  var xCent = BD18.gameBoard.xStart + BD18.gameBoard.xStep;
+  var xIndex, xCentOdd;
+  if (yIndex%2===0) //if yIndex is even.
+  {    
+    xIndex = Math.round(((xPix-xCent)/BD18.gameBoard.xStep));
+  }
+  else
+  {
+    xCentOdd = xCent + BD18.gameBoard.xStep;
+    xIndex = Math.round(((xPix-xCentOdd)/BD18.gameBoard.xStep)) + 1;
+  }
+  var xDiff = xPix-xIndex*BD18.gameBoard.xStep-xCent;
+  if ((xIndex+yIndex)%2===1) //if not both even or odd.
+  { 
+    if (xDiff>0) {
+      xIndex = xIndex + 1;
+    }
+    else {
+      xIndex = xIndex - 1;
+    }
+  }
+  return [xIndex, yIndex];
+}
   
 /*
  * These are functions that respond to various onclick events.
@@ -542,7 +578,7 @@ function traySelect(event) {
     c = tray.tilesOnSheet;
   } else if(tray.sheetType==="btok") {
     a = 10;  // This is the tray Top Margin.
-    b = 35;  // This is the tray Y Step Value.
+    b = 40;  // This is the tray Y Step Value.
     c = tray.tokensOnSheet;
   } else {
     return; // Invalid sheet type!!
@@ -551,10 +587,28 @@ function traySelect(event) {
   var ind = (y-a)/b;
   var inde = (ind>=c)?c-1:ind; 
   var index = Math.floor((inde<0)?0:inde);
-  if (BD18.gm.trayCounts[tray.trayNumb][index] === 0) return;
+  if (BD18.gm.trayCounts[BD18.curTrayNumb][index] === 0) return;
   BD18.curIndex = index;
   BD18.curRot = 0; // Eliminate any previous rotation.
   BD18.curFlip = false; // Eliminate any previous flip.
   tray.place(index); // Set highlight.
   BD18.tileIsSelected = true;
+}
+
+/* This function responds to on-click events in the map canvas.
+ * It checks various conditions and executes the appropriate
+ * function based on them. If it can find no relevant condition
+ * then it merely returns.
+ */
+function hexSelect(event) {
+  var x, y;
+  [x, y] = tilePos(event);
+  if ((BD18.tileIsSelected === true) &&
+     (BD18.hexIsSelected === true)) { 
+    if (x !== BD18.curHexX) {return}
+    if (y !== BD18.curHexY) {return}
+    rotateTile("cw");
+  } else if (BD18.tileIsSelected === true) {
+    dropTile(x,y);
+  }
 }

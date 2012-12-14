@@ -41,25 +41,42 @@ $(function(){
  * Utility Functions 
  */
 
-/* 
- * The findPos function finds the real position of an
- *  element on the page. I got it from this web site:
- *  http://www.quirksmode.org/js/findpos.html
+
+/* The findPos, getScrolled and getOffset functions 
+ * calculate the real position of an element on the
+ * page adjusted for scrolling. I got them from this 
+ * web site: http://help.dottoro.com/ljnvukbb.php
  */
-function findPos(obj) {
-  var curLeft = 0;
-  var curTop = 0;
-  do {
-    curLeft += obj.offsetLeft;
-    curTop += obj.offsetTop;
-  } while (obj = obj.offsetParent);
-  return [curLeft, curTop];
+function getOffset (object, offset) {
+  if (!object) {return;}
+  offset.x += object.offsetLeft;
+  offset.y += object.offsetTop;
+  getOffset (object.offsetParent, offset);
 }
 
-/* 
- * The offsetIn function finds the offset of the
- * cursor [at a click event] from the top/left 
- * of the specified containing object.
+function getScrolled (object, scrolled) {
+  if (!object) {return;}
+  scrolled.x += object.scrollLeft;
+  scrolled.y += object.scrollTop;
+  if (object.tagName.toLowerCase () != "html") {
+    getScrolled (object.parentNode, scrolled);
+  }
+}
+
+function findPos(obj) {
+  var offset = {x : 0, y : 0};
+  getOffset (obj, offset);
+  var scrolled = {x : 0, y : 0};
+  getScrolled (obj.parentNode, scrolled);
+  var posX = offset.x - scrolled.x;
+  var posY = offset.y - scrolled.y;
+  return [posX, posY]
+}
+
+/* The offsetIn function finds the offset of the
+ * cursor [at a click event] from the top/left
+ * of the specified containing object. It uses 
+ * findPos() to calculate the object's top/left.
  */
 function offsetIn(event, obj) {
   var a, b;
