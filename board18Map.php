@@ -53,6 +53,8 @@ if ($gamefound == 'no') {
     <link rel="stylesheet" href="style/board18Map.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
+    <script type="text/javascript" src="scripts/nav1.1.min.js">
+    </script>
     <script type="text/javascript" src="scripts/board18com.js">
     </script> 
     <script type="text/javascript" src="scripts/board18Map.js">
@@ -78,6 +80,12 @@ if ($gamefound == 'no') {
           var inx = parseInt(trayid.substring(4),10);
           BD18.trays[inx].place(null);
         }); // end tray click
+        $("#mainmenu").navPlugin({
+          'itemWidth': 120,
+          'itemHeight': 40,
+          'navEffect': "slide",
+          'speed': 250
+        }); // end navPlugin
         var gameToPlay = 'session=<?php echo $dogame; ?>';
         $.getJSON("php/gameSession.php", gameToPlay, loadSession)
         .error(function() { 
@@ -100,25 +108,32 @@ if ($gamefound == 'no') {
         <h1>BOARD18 - Remote Play Tool For 18xx Style Games</h1>
       </div>
 
-      <div id="menu">
-        <input type="submit" value="Submit"
-               onclick="doit('submit')" />
-        <input type="submit" value="Reset"
-               onclick="doit('reset')"/>
-        <input type="submit" value="Add"
-               onclick="doit('add')"/>
-        <input type="submit" value="CW"
-               onclick="doit('cw')"/>
-        <input type="submit" value="CCW" 
-               onclick="doit('ccw')"/>
-        <span id="statusline">  </span>
+      <div>
+        <ul id="mainmenu">
+          <li><span>Menu</span>
+            <ul>
+              <li><span>Actions</span>
+                <ul>
+                  <li><span onclick="doit('add')">Accept Move</span></li>
+                  <li><span onclick="doit('reset')">Cancel Move</span></li>
+                </ul>
+              </li>
+              <li><span>Rotate Tile</span>
+                <ul>
+                  <li><span onclick="doit('cw')">CW</span></li>
+                  <li><span onclick="doit('ccw')">CCW</span></li>
+                </ul>
+              </li>
+              <li><span id="mainpg">Main Page</span></li>
+              <li><span id="logout">Logout</span></li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
 
     <div id="leftofpage">
       <div id="sidebar">
-        <p id="logout" class="sidebaritem">Logout</p>
-        <p id="mainpg" class="sidebaritem">Main Page</p>
         <div id="traylist">        
           <p id="trays" class="sidebaritem"><b>Trays</b></p>
           <p id="tray0" class="sidebaritem tray">unused</p>

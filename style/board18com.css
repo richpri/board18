@@ -82,5 +82,50 @@ html, body {
   position:static;
 }
 
+#mainmenu {
+  position: absolute;
+  left:96px;
+  top:50px;
+  margin:0;
+}
 
+#mainmenu ul, #mainmenu li {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
 
+#mainmenu span {
+	background-color: #ddffdd;
+  display: inline-block;
+	font: 16px 'ColaborateLightRegular', Arial, sans-serif;
+  width: 100px;
+  height: 20px;
+  border:  1px solid #000;
+	margin: 0px 10px 0px 0px;
+	padding: 10px 0px 10px 10px;
+	color: rgb(53,75,118);
+}
+
+#mainmenu span:hover {
+	margin: 0px 0px 0px 0px;
+	padding: 10px 10px 10px 10px;
+	background-color: #555;
+	color: white;
+}
+
+#mainmenu .stack > span {
+	background-position: 97% 8px;
+}
+
+#mainmenu .stack > span:hover {
+	background-position: 97% -78px;
+}
+
+#mainmenu ul .stack > span {
+	background-position: 97% -21px;
+}
+
+#mainmenu ul .stack > span:hover {
+	background-position: 97% -54px;
+}
