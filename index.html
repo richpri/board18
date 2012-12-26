@@ -10,6 +10,8 @@
     </script> 
     <script type="text/javascript" src="scripts/sha256-min.js">
     </script> 
+    <script type="text/javascript" src="scripts/nav1.1.min.js">
+    </script>
     <script type="text/javascript" src="scripts/board18com.js">
     </script>
     <script type="text/javascript" src="scripts/board18index.js">
@@ -31,6 +33,12 @@
           $('#register form').slideToggle(300);
           $("#newuser").focus(); 
         }); // end registeropen
+        $("#mainmenu").navPlugin({
+          'itemWidth': 120,
+          'itemHeight': 40,
+          'navEffect': "slide",
+          'speed': 250
+        }); // end navPlugin
         $("#login").submit(function() {  
           login();
           return false;
@@ -50,10 +58,19 @@
       <div id="heading">
         <h1>BOARD18 - Remote Play Tool For 18xx Style Games </h1>
       </div>
+      <div>
+        <ul id="mainmenu">
+          <li><span>Menu</span>
+            <ul>
+              <li><span id="loginopen">Login</span></li>
+              <li><span id="registeropen">Register</span></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
     <div id="leftofpage">
-      <p id="loginopen" class="sidebaritem">Login</p>
-      <p id="registeropen" class="sidebaritem">Register</p>
+
     </div>
     <div id="rightofpage"> 
       <div id="login">
@@ -139,7 +156,7 @@
           It will be updateable by any player who can log in to the game.
         </p>
         <p>          
-          Please use the menu items on the left to login to BOARD18 or to
+          Please use the menu items to login to BOARD18 or to
           register an account with BOARD18.
         </p>
         <p style="color: red">          
@@ -150,9 +167,6 @@
           release of Firefox when accessing BOARD18.
         </p>
       </div>
-      <footer>
-        This is a nonfunctional mockup.
-      </footer>
     </div>  
 
   </body>

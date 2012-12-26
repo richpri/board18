@@ -57,6 +57,8 @@ function showPlayers() {
     <link rel="stylesheet" href="style/board18New.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
+    <script type="text/javascript" src="scripts/nav1.1.min.js">
+    </script>
     <script type="text/javascript" src="scripts/board18com.js">
     </script>
     <script type="text/javascript" src="scripts/board18New.js">
@@ -71,6 +73,12 @@ function showPlayers() {
         $('#mainpg').click(function() {
           window.location = "board18Main.php";
         }); // end mainpg
+        $("#mainmenu").navPlugin({
+          'itemWidth': 120,
+          'itemHeight': 40,
+          'navEffect': "slide",
+          'speed': 250
+        }); // end navPlugin
         $('.plid').mouseover(function() {
           $(this).children("span").show();
         });
@@ -92,18 +100,22 @@ function showPlayers() {
       </div>
       <div id="heading">
         <h1>BOARD18 - Remote Play Tool For 18xx Style Games </h1>
-        <h3 id="lognote"><?php echo "$welcomename: $headermessage."; ?>. 
-          <span style="font-size: 60%">
-            Click <a href="index.html">here</a> 
-            if you are not <?php echo "$welcomename"; ?>.
-          </span>
-        </h3>
+      </div>
+      <div>
+        <ul id="mainmenu">
+          <li><span>Menu</span>
+            <ul>
+              <li><span id="mainpg">Main Page</span></li>
+              <li><span id="logout">Logout</span></li>
+            </ul>
+          </li>
+        </ul>
+        <p id="lognote"><?php echo "$welcomename: $headermessage"; ?>
+        </p>
       </div>
     </div>
     <div id="leftofpage">
       <div id='sidebar'>
-        <p id="logout" class="sidebaritem">Logout</p>
-        <p id="mainpg" class="sidebaritem">Main Page</p>
         <?php showPlayers(); ?>
       </div>
     </div>
@@ -187,9 +199,6 @@ function showPlayers() {
           <h3>Available Game Boxes</h3>
               <?php showBoxes(); ?>
         </div>
-        <footer>
-          This is a nonfunctional mockup.
-        </footer>
       </div>    
     </div>  
   </body>

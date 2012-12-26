@@ -103,11 +103,9 @@ if ($gamefound == 'no') {
       <div id="logo">
         <img src="images/logo.png" alt="Logo"/> 
       </div>
-
       <div id="heading">
         <h1>BOARD18 - Remote Play Tool For 18xx Style Games</h1>
       </div>
-
       <div>
         <ul id="mainmenu">
           <li><span>Menu</span>
@@ -129,6 +127,8 @@ if ($gamefound == 'no') {
             </ul>
           </li>
         </ul>
+        <p id="lognote"><?php echo "$welcomename: $headermessage"; ?>
+        </p>
       </div>
     </div>
 

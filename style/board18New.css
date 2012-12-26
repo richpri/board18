@@ -9,19 +9,6 @@
   top:0px; 
 }
 
-.sidebaritem {
-	width: 115px;
-  height:20px;
-  margin-left: 5px;
-  text-indent: 10px;
-  border-bottom-style:solid;
-}
-
-.sidebaritem:hover {
-	color: rgb(0,0,0);
-	background-color:#b1ccb1;	
-}
-
 .plid {
 	width: 115px;
   margin-left: 5px;

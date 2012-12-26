@@ -86,7 +86,7 @@ function TileSheet(image,sheet) {
     {
       sx = this.xStart+i*this.xStep;
       if (high === i) {
-        BD18.context0.fillStyle = "red";
+        BD18.context0.fillStyle = "#FFEEDD";
         BD18.context0.fillRect(a,b*i,100,116);
         BD18.context0.fillStyle = "black";
       }
@@ -94,8 +94,8 @@ function TileSheet(image,sheet) {
       BD18.context0.font = "18pt Arial";
       BD18.context0.textBaseline = "top";
       BD18.context0.textAlign = "left";
-      BD18.context0.fillText(this.tileDups[i],a,b*i);
-      if (this.tileDups[i] === 0) {  
+      BD18.context0.fillText(BD18.gm.trayCounts[this.trayNumb][i],a,b*i);
+      if (BD18.gm.trayCounts[this.trayNumb][i] === 0) {  
         BD18.context0.fillStyle = "rgba(255,255,255,0.7)";
         BD18.context0.fillRect(a,b*i,100,116);
         BD18.context0.fillStyle = "black";
@@ -150,8 +150,8 @@ function TokenSheet(image,sheet) {
       BD18.context0.font = "18pt Arial";
       BD18.context0.textBaseline = "top";
       BD18.context0.textAlign = "left";
-      BD18.context0.fillText(this.tokenDups[i],a,b*i);
-      if (this.tokenDups[i] === 0) {  
+      BD18.context0.fillText(BD18.gm.trayCounts[this.trayNumb][i],a,b*i);
+      if (BD18.gm.trayCounts[this.trayNumb][i] === 0) {  
         BD18.context0.fillStyle = "rgba(255,255,255,0.7)";
         BD18.context0.fillRect(a,b*i,100,116);
         BD18.context0.fillStyle = "black";
@@ -183,6 +183,15 @@ function BoardTile(snumb,index,rotation,bx,by) {
     var szx = this.sheet.xSize;
     var szy = this.sheet.ySize;
     BD18.context1.drawImage(image,sx,sy,szx,szy,dxf,dyf,100,116);
+  };
+  this.togm=function togm() {
+    var brdTile = {};
+    brdTile.SheetNumber = this.sheet;
+    brdTile.tileNumber = this.index;
+    brdTile.xCoord = this.bx;
+    brdTile.yCoord = this.by;
+    brdTile.rotate = this.rotation;
+    return brdTile;
   };
 }
   
@@ -391,6 +400,35 @@ function logoutOK(resp) {
   } 
 }
 
+/* The fromUpdateGm function is a callback function for
+ * the updateGame.php function. It reports on the status
+ * returned by the updateGame.php AJAX call.
+ */
+function fromUpdateGm(resp) {
+  var msg;
+  if(resp === 'success') {
+    msg ="Your move has been successfully updated ";
+    msg += "to the server database.";
+    $('#lognote').text(msg);
+  }
+  else if(resp === 'failure') {
+    msg = "Your move did not make it to the server database. ";
+    msg += "Contact the site administrator about this error.";
+    alert(msg);
+  }
+  else if(resp.substr(0,9) === 'collision') {
+    msg ="Your move has been backed out because ";
+    msg += resp.substr(10);
+    msg += " updated the database after you read it.";
+    $('#lognote').text(msg);
+  }
+  else {
+    msg = "Invalid return code from updateGame ["+resp+"]. ";
+    msg += "Contact the site administrator about this error.";
+    alert(msg);
+  }
+} 
+
 /* Tile manipulation functions.
  * These functions manipulate obects on the map board.
  */ 
@@ -498,6 +536,20 @@ function clearHex(x,y) {
   }
   return false;
 }
+
+/* This function uses the contents of the 
+ * the BD18.boardTiles array and the
+ * BoardTile.togm method to update the
+ * BD18.gm.brdTls array.
+ */
+function updateGmBrdTiles() {
+  BD18.gm.brdTls = [];
+  for (var i=0;i<BD18.boardTiles.length;i++) {
+    if (BD18.boardTiles[i]) {
+      BD18.gm.brdTls.push(BD18.boardTiles[i].togm);
+    }
+  }
+} 
   
 /* This function adds the current board tile object 
  * to the BD18.boardTiles array.  If an object is 
@@ -520,9 +572,10 @@ function addTile() {
     BD18.boardTiles.push(tile);
     BD18.curIndex = null;
     mainCanvasApp();
-    tileCanvasApp();
+    trayCanvasApp();
     BD18.hexIsSelected = false;
     BD18.tileIsSelected = false;
+    updateGmBrdTiles();
   } else {
     alert("ERROR: Tile not available.");
   }
@@ -612,3 +665,24 @@ function hexSelect(event) {
     dropTile(x,y);
   }
 }
+
+function doit(mm) { // mm is the onclick action to be taken.
+  switch(mm)
+    {
+    case "cw":
+      rotateTile("cw");
+      break;
+    case "ccw":
+      rotateTile("ccw");
+      break;
+    case "add":
+      addTile();
+      break;
+    case "reset":
+      trayCanvasApp();
+      mainCanvasApp();
+      break;
+    default:
+      alert("Button pressed. " + mm);
+    }   
+  }

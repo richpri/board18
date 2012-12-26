@@ -1,5 +1,7 @@
-/* Common BOARD18 CSS Document */
-/* File: style/board18com.css  */
+/* 
+ * This file contains styles that are common to all
+ * board18 web pages. File: style/board18com.css
+ */
 
 html, body {
   margin: 0;
@@ -57,8 +59,22 @@ html, body {
   position:relative;
   left:10px;
   top:5px;
+  font-size: x-large;
 }
 
+#lognote {
+  margin:0;
+  position:absolute;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  left:258px;
+  top:50px;
+  font-size: large;
+}
+
+/* The following style is depreciated and will eventually be removed. */
 #heading > h3 {
   margin:0;
   position:relative;
@@ -70,6 +86,7 @@ html, body {
   top:20px;
 }
 
+/* The following style is depreciated and will eventually be removed. */
 #menu {
   position: absolute;
   left:90px;
@@ -78,6 +95,7 @@ html, body {
   height:40px;
 }
 
+/* The following style is depreciated and will eventually be removed. */
 #menu > input {
   position:static;
 }

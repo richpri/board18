@@ -9,23 +9,10 @@
   top:0px; 
 }
 
-.sidebaritem {
-	width: 100px;
-  height:20px;
-  margin-left: 5px;
-  padding-left: 10px;
-  border-bottom-style:solid;
-}
-
-.sidebaritem:hover {
-	color: rgb(0,0,0);
-	background-color:#b1ccb1;	
-}
-
 #login {
 	width: 300px;
 	position: absolute;
-	left: 12px;
+	left: 150px;
 	top: 8px;
 	z-index: 10;
 }
@@ -33,7 +20,7 @@
 #register {
 	width: 500px;
 	position: absolute;
-	left: 10px;
+	left: 150px;
 	top: 6px;
 	z-index: 20;
 }

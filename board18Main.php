@@ -29,7 +29,8 @@ function showGames() {
           ORDER BY b.gname";
   $result = mysql_query($qry);
   if ($result) {
-    echo '<h3>You are currently playing the following games</h3>';
+    echo "<p id='gamehead'>
+      You are currently playing the following games</p>";
     echo "<table border='1'> <tr>
         <th>Game Name</th> <th>Box Name</th> 
         <th>Version</th> <th>Start Date</th> </tr>";
@@ -40,7 +41,8 @@ function showGames() {
     }
     echo "</table>";
   } else {
-    echo "<h3>You are not currently playing any games</h3>";
+    echo "<p id='gamehead'>
+      You are not currently playing any games</p>";
   }
 }
 ?>
@@ -54,6 +56,8 @@ function showGames() {
     <link rel="stylesheet" href="style/board18Main.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
+    <script type="text/javascript" src="scripts/nav1.1.min.js">
+    </script>
     <script type="text/javascript" src="scripts/board18com.js">
     </script>
     <script type="text/javascript" src="scripts/board18Main.js">
@@ -66,6 +70,12 @@ function showGames() {
         $('#newgame').click(function() {
           window.location = "board18New.php"
         }); // end newgame
+        $("#mainmenu").navPlugin({
+          'itemWidth': 120,
+          'itemHeight': 40,
+          'navEffect': "slide",
+          'speed': 250
+        }); // end navPlugin
         $('.gamename').mouseover(function() {
           var ttLeft,
           ttTop,
@@ -73,8 +83,8 @@ function showGames() {
           $tip = $('#gamelink'),
           triggerPos = $this.offset(),
           tipH = $tip.outerHeight();
-          ttTop = triggerPos.top - tipH - 10;
-          ttLeft = triggerPos.left;
+          ttTop = triggerPos.top - tipH;
+          ttLeft = triggerPos.left + 100;
           $tip
           .css({
             left : ttLeft ,
@@ -96,17 +106,28 @@ function showGames() {
       </div>
       <div id="heading">
         <h1>BOARD18 - Remote Play Tool For 18xx Style Games </h1>
-        <h3 id="lognote"><?php echo "$welcomename: $headermessage."; ?>
-          <span style="font-size: 60%">
+      </div>
+      <div>
+        <ul id="mainmenu">
+          <li><span>Menu</span>
+            <ul>
+              <li><span id="newgame">New Game</span></li>
+              <li><span id="logout">Logout</span></li>
+            </ul>
+          </li>
+        </ul>
+        <p id="lognote"><?php echo "$welcomename: $headermessage"; ?>
+          <span style="font-size: 70%">
             Click <a href="index.html">here</a> 
             if you are not <?php echo "$welcomename"; ?>.
           </span>
-        </h3>
+        </p>
       </div>
+
+
     </div>
     <div id="leftofpage">
-      <p id="logout" class="sidebaritem">Logout</p>
-      <p id="newgame" class="sidebaritem">New Game</p>
+      
     </div>
     <div id="rightofpage"> 
       <div id="content">    
@@ -115,14 +136,11 @@ function showGames() {
         </div>
         <div>
         <p>At this point you can select an existing game to play 
-          or you can use the menu to the left to start up a new game,<br>
-          perform configuration options or do other administrative stuff. 
+          <br>or you can use the menu to start up a new game,<br>
+          perform configuration options or do other stuff. 
         </p>   
         </div>
       </div> 
-      <footer>
-        This is a nonfunctional mockup.
-      </footer>
     </div>  
     <div id="gamelink"><p>Click link to play this game.</p></div>
   </body>
