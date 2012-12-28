@@ -62,12 +62,9 @@ if ($counter != $update_counter) { // collision
   exit;
 }
 
-//Update game session.
-$counter += 1;
-$qry3 = "UPDATE game SET update_counter='$counter',
-                last_updater='$loggedinplayer',
-                json_text='$gameSession'
-         WHERE game_id = '$gameid'";
+//Get name of current player.
+$qry3 = "SELECT firstname FROM players
+         WHERE player_id = '$loggedinplayer'";
 $result3 = mysqli_query($link, $qry3);
 if (!$result3) {   // If query failed
   $logMessage = 'MySQL Error 4: ' . mysqli_error($link);
@@ -76,9 +73,26 @@ if (!$result3) {   // If query failed
   mysqli_query($link, $qry0); // ROLLBACK
   exit;
 }
+$arr3 = mysqli_fetch_array($result3);
+$player = $arr3[0]; // current player name 
+
+//Update game session.
+$counter += 1;
+$qry4 = "UPDATE game SET update_counter='$counter',
+                last_updater='$player',
+                json_text='$gameSession'
+         WHERE game_id = '$gameid'";
+$result4 = mysqli_query($link, $qry4);
+if (!$result4) {   // If query failed
+  $logMessage = 'MySQL Error 5: ' . mysqli_error($link);
+  error_log($logMessage);
+  echo "failure";
+  mysqli_query($link, $qry0); // ROLLBACK
+  exit;
+}
 
 $_SESSION['SESS_UPDATE_COUNTER'] = $counter;
-$qry4 = "COMMIT";
+$qry5 = "COMMIT";
 echo "success";
-mysqli_query($link, $qry4); // COMMIT
+mysqli_query($link, $qry5); // COMMIT
 ?>

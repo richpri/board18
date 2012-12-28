@@ -4,11 +4,7 @@ undef:true, latedef:true, curly:true, browser:true,
 indent:4, maxerr:50, white:false */
 
 "use strict";
-/* All BD18 global variables are contained in one
- * 'master variable' called BD18.  This isolates 
- * them from global variables in other packages. 
- */
-var BD18 = {};
+
 BD18.loadCount = 0;
 BD18.doneWithLoad = false;
 BD18.boxID = null;
@@ -167,6 +163,7 @@ function TokenSheet(image,sheet) {
  * board.
  * */
 function BoardTile(snumb,index,rotation,bx,by) {
+  this.snumb=snumb;
   this.sheet=BD18.trays[snumb];
   this.index=index;
   this.rotation=rotation;
@@ -186,7 +183,7 @@ function BoardTile(snumb,index,rotation,bx,by) {
   };
   this.togm=function togm() {
     var brdTile = {};
-    brdTile.SheetNumber = this.sheet;
+    brdTile.sheetNumber = this.snumb;
     brdTile.tileNumber = this.index;
     brdTile.xCoord = this.bx;
     brdTile.yCoord = this.by;
@@ -355,12 +352,13 @@ function loadBox(box) {
     var ii, jj;
     BD18.gm.trayCounts = [];
     for(ii=0; ii<ttt; ii++) {
-      BD18.gm.trayCounts[ii] = [];
       if(sheets[ii].type === 'tile') {
+        BD18.gm.trayCounts[ii] = [];
         for(jj=0; jj<sheets[ii].tile.length; jj++) {
           BD18.gm.trayCounts[ii][jj] = sheets[ii].tile[jj].dups;
         }
       } else if(sheets[ii].type === 'btok') { 
+        BD18.gm.trayCounts[ii] = [];
         for(jj=0; jj<sheets[ii].token.length; jj++) {
           BD18.gm.trayCounts[ii][jj] = sheets[ii].token[jj].dups;
         }
@@ -407,7 +405,8 @@ function logoutOK(resp) {
 function fromUpdateGm(resp) {
   var msg;
   if(resp === 'success') {
-    msg ="Your move has been successfully updated ";
+    msg = BD18.welcomename + ": ";
+    msg += "Your move has been successfully updated ";
     msg += "to the server database.";
     $('#lognote').text(msg);
   }
@@ -417,10 +416,15 @@ function fromUpdateGm(resp) {
     alert(msg);
   }
   else if(resp.substr(0,9) === 'collision') {
-    msg ="Your move has been backed out because ";
+    msg = BD18.welcomename + ": ";
+    msg += "Your move has been backed out because ";
     msg += resp.substr(10);
     msg += " updated the database after you read it.";
     $('#lognote').text(msg);
+    msg = "Your move will be backed out when ";
+    msg += "you respond to this alert box.";
+    trayCanvasApp();
+    mainCanvasApp();
   }
   else {
     msg = "Invalid return code from updateGame ["+resp+"]. ";
@@ -455,6 +459,9 @@ function dropTile(xI,yI) {
   BD18.curHexX = xI;
   BD18.curHexY = yI;
   BD18.hexIsSelected = true;
+  var messg = "Select 'Menu-Actions-Accept Move' to make ";
+  messg += "tile placement permanent."
+  doLogNote(messg);
 }
 
 /* The rotateTile function replaces the tile at a specified 
@@ -546,10 +553,19 @@ function updateGmBrdTiles() {
   BD18.gm.brdTls = [];
   for (var i=0;i<BD18.boardTiles.length;i++) {
     if (BD18.boardTiles[i]) {
-      BD18.gm.brdTls.push(BD18.boardTiles[i].togm);
+      BD18.gm.brdTls.push(BD18.boardTiles[i].togm());
     }
   }
-} 
+}
+
+/* This function sends the stringified BD18.gm object
+ * to the updateGame.php function via an AJAX call.
+ */
+function updateDatabase() {
+  var jstring = JSON.stringify(BD18.gm);
+  var outstring = "json=" + jstring + "&gameid=" + BD18.gameID;
+  $.post("php/updateGame.php", outstring, fromUpdateGm);
+}
   
 /* This function adds the current board tile object 
  * to the BD18.boardTiles array.  If an object is 
@@ -576,6 +592,7 @@ function addTile() {
     BD18.hexIsSelected = false;
     BD18.tileIsSelected = false;
     updateGmBrdTiles();
+    updateDatabase();
   } else {
     alert("ERROR: Tile not available.");
   }

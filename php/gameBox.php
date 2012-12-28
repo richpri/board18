@@ -35,7 +35,7 @@ if ($result1) {
   if (mysql_num_rows($result1) == 0) { // Invalid box ID!
   $_SESSION['SESS_HEADER_MESSAGE'] = 
     'The selected box is not in the data base!';
-  header("location: board18Main.php");
+  header("location: ../board18Main.php");
   }
 } else {
   error_log("Check for valid box: Query failed");

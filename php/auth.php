@@ -2,7 +2,7 @@
 	//Start session
 	session_start();
 	
-	//Check whether the session variable SESS_MEMBER_ID is present or not
+	//Check whether the session variable SESS_PLAYER_ID is present or not
 	if(!isset($_SESSION['SESS_PLAYER_ID']) || 
           (trim($_SESSION['SESS_PLAYER_ID']) == '')) {
     $denyloc = "location: http://" . $_SERVER['SERVER_NAME'];

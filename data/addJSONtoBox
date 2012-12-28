@@ -3,7 +3,7 @@
 # This script will place the contents of file $2 into the json_text
 # column of the box table record with box_id equal to $1.
 #
-if [ $# -ne 2 ]; then echo "Usage: addJSON box_id FILE"; exit; fi
+if [ $# -ne 2 ]; then echo "Usage: addJSONto Box box_id FILE"; exit; fi
 echo "Add contents of file $2 to json_text in box record with box ID $1"
 value=$(<$2);
 mysql -u board18 -p <<QUERY_INPUT

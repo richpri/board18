@@ -61,6 +61,12 @@ if ($gamefound == 'no') {
     </script> 
     <script type="text/javascript">
       $(function(){
+        BD18.welcomename = "<?php echo "$welcomename"; ?>";
+        BD18.headermessage = "<?php echo "$headermessage"; ?>";
+        BD18.gameID = "<?php echo $dogame; ?>";
+        var startMessage = BD18.welcomename + ": ";
+        startMessage += BD18.headermessage;
+        $('#lognote').text(startMessage);
         $('#logout').click(function() {
           $.post("php/logout.php", logoutOK);
         }); // end logout
@@ -127,8 +133,7 @@ if ($gamefound == 'no') {
             </ul>
           </li>
         </ul>
-        <p id="lognote"><?php echo "$welcomename: $headermessage"; ?>
-        </p>
+        <p id="lognote"></p>
       </div>
     </div>
 
@@ -164,9 +169,6 @@ if ($gamefound == 'no') {
         </canvas>
         <canvas id="canvas2">
         </canvas>
-        <footer>
-          This is a nonfunctional mockup.
-        </footer>
       </div>        
     </div>
     

@@ -3,6 +3,14 @@
  * all board18 web pages.
  */
 
+/* All board18 global variables are contained in one
+ * 'master variable' called BD18.  This isolates 
+ * them from global variables in other packages. 
+ */
+var BD18 = {};
+BD18.noteTimeout = null; // Used by doLogNote().
+BD18.welcomename = null; // Used by doLogNote().
+
 /* Function setPage() adjusts the height and width
  * of rightofpage and the height of lefttofpage.
  */
@@ -84,4 +92,21 @@ function offsetIn(event, obj) {
   var x = event.pageX - a;
   var y = event.pageY - b;
   return [x, y];
+}
+
+/* Function doLogNote displays a lognote for 30 seconds.
+ * A new lognote will replace any previous log note 
+ * that has not yet timed out. BD18.noteTimeout is a
+ * global variable with an initial value of null.
+ */
+function doLogNote(note) {
+  if(BD18.noteTimeout != null) {
+    clearTimeout(BD18.noteTimeout);
+  }
+  var msg = BD18.welcomename + ": " + note;
+  $('#lognote').text(msg);
+  BD18.noteTimeout = setTimeout(function() {
+    $('#lognote').text("");
+    BD18.noteTimeout = null;
+  },"20000");
 }
