@@ -1,7 +1,11 @@
 <?php
+/*
+ * auth.php is included at the start of all password protected pages.
+ * It starts a php session and then checks to see that the player is
+ * logged in.
+ */
 	//Start session
 	session_start();
-	
 	//Check whether the session variable SESS_PLAYER_ID is present or not
 	if(!isset($_SESSION['SESS_PLAYER_ID']) || 
           (trim($_SESSION['SESS_PLAYER_ID']) == '')) {

@@ -11,7 +11,6 @@
  * messing up the database. [And do this without
  * incurring high overhead.]
  */
-
 require_once('auth.php');
 require_once('config.php');
 $link = @mysqli_connect(DB_HOST, DB_USER, 
@@ -23,7 +22,6 @@ if (mysqli_connect_error()) {
   exit;
 }
 mysqli_set_charset($link, "utf-8");
-
 $gameSession = $_REQUEST['json'];
 $gameid = $_REQUEST['gameid'];
 $update_counter = $_SESSION['SESS_UPDATE_COUNTER'];

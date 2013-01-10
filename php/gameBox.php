@@ -1,9 +1,9 @@
 <?php
 /*
-This is the server side code for the AJAX gameBox call.
-Input is the game box id.
-Output is JSON game box data.
-*/
+ * This is the server side code for the AJAX gameBox call.
+ * Input is the game box id.
+ * Output is JSON game box data.
+ */
 
 // require_once('auth.php');
 require_once('config.php');

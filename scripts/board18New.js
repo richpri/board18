@@ -60,6 +60,10 @@ function newgameOK(response) {
     $('#newgame :text').val('');
     var loginNote ='New game has been created.';
     $('#lognote').text(loginNote);
+  } else if (response === "failure") {
+    var ferrmsg ='New game was not created due to an error.\n';
+    ferrmsg += 'Please contact the site administrator.';
+    alert(ferrmsg);
   } else {
     var nerrmsg ='Invalid return code from createGame.php.\n';
     nerrmsg += response + '\nThis should not happen.';

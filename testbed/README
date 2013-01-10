@@ -1,0 +1,5 @@
+This folder contains test pages that can be used to
+test PHP routines that are executed via AJAX calls.
+
+It may also be used as a container for instrumented
+versions of these AJAX called PHP routines

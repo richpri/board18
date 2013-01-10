@@ -1,64 +1,99 @@
 <?php
-
+/*
+ * This is the server side code for the AJAX createGame call.
+ * 
+ * Input is the following JSON data structure.
+ * {
+ *  "gname": "name",
+ *   "boxid": "boxid",
+ *   "players": [
+ *     "pname0",
+ *     . . . . . 
+ *     "pnamen",
+ *   ] 
+ * }
+ * 
+ * Output is the return status: 
+ *   "success", "failure", "nobox" or "noplayer #".
+ */
 require_once('auth.php');
 require_once('config.php');
-$link = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
-if (!$link) {
-  error_log('Failed to connect to server: ' . mysql_error());
+$link = @mysqli_connect(DB_HOST, DB_USER, 
+        DB_PASSWORD, DB_DATABASE);
+if (mysqli_connect_error()) {
+  $logMessage = 'MySQL Error 1: ' . mysqli_connect_error();
+  error_log($logMessage);
+  echo "failure";
   exit;
 }
-$db = mysql_select_db(DB_DATABASE);
-if (!$db) {
-  error_log("Unable to select database");
-  exit;
-}
+mysqli_set_charset($link, "utf-8");
+$qry0 = "ROLLBACK";
 
 //Function to sanitize values received from the form. 
 //Prevents SQL injection
-function clean($str) {
+function clean($link,$str) {
   $str = @trim($str);
-  return mysql_real_escape_string($str);
+  return mysqli_real_escape_string($link,$str);
 }
 
 $game = json_decode($_REQUEST['newgame'], true);
-
 //Sanitize the POST values
-$name = clean($game["gname"]);
-$boxid = clean($game["boxid"]);
+$name = clean($link,$game["gname"]);
+$boxid = intval(clean($link,$game["boxid"]));
 $count = count($game["players"]);
 for ($i = 0; $i < $count; $i++) {
-  $player[$i] = clean($game["players"][$i]);
+  $player[$i] = clean($link,$game["players"][$i]);
 }
+
+// Start transaction.
+$qry1 = "START TRANSACTION";
+$result1 = mysqli_query($link, $qry1);
+if (!$result1) {
+  $logMessage = 'MySQL Error 2: ' . mysqli_error($link);
+  error_log($logMessage);
+  echo "failure";
+  exit;
+}
+
 //Check for valid boxid ID
-$qry1 = "SELECT bname FROM box WHERE box_id=$boxid";
-$result1 = mysql_query($qry1);
-if ($result1) {
-  if (mysql_num_rows($result1) == 0) { // Invalid Box ID!
+$qry2 = "SELECT bname FROM box WHERE box_id='$boxid'";
+$result2 = mysqli_query($link,$qry2);
+if ($result2) {
+  if (mysqli_num_rows($result2) == 0) { // Invalid Box ID!
     echo 'nobox';
+    mysqli_query($link, $qry0); // ROLLBACK
     exit;
   }
 } else {
+  $logMessage = 'MySQL Error 3: ' . mysqli_error($link);
+  error_log($logMessage);
+  echo "failure"; 
+  mysqli_query($link, $qry0); // ROLLBACK
   exit;
 }
-error_log("Check for valid box: Query failed");
+
 // Validate Player Names and lookup player IDs.
 for ($i = 0; $i < $count; $i++) {
-  $j = $i + 1;
-  $qry5 = "SELECT player_id FROM players WHERE login = '$player[$i]'";
-  $result5 = mysql_query($qry5);
-  if ($result5) {
-    if (mysql_num_rows($result5) == 0) { // Invalid Player name!
+  $j = $i + 1; // $j is player number from input form.
+  $qry3 = "SELECT player_id FROM players WHERE login = '$player[$i]'";
+  $result3 = mysqli_query($link,$qry3);
+  if ($result3) {
+    if (mysqli_num_rows($result3) == 0) { // Invalid Player name!
       echo "noplayer $j";
+      mysqli_query($link, $qry0); // ROLLBACK
       exit;
     } else {
-      $temp = mysql_fetch_array($result5);
+      $temp = mysqli_fetch_array($result3);
       $playerid[$i] = $temp[0];
     }
   } else {
-    error_log("Check for valid player $j: Query failed");
+    $logMessage = 'MySQL Error 4: ' . mysqli_error($link);
+    error_log($logMessage);
+    echo "failure"; 
+    mysqli_query($link, $qry0); // ROLLBACK
     exit;
   }
-  mysql_free_result($result5);
+  mysqli_free_result($result3);
 }
 
 //Create INSERT query
@@ -68,38 +103,53 @@ $jtxt .= '", "boxID": "';
 $jtxt .= $boxid;
 $jtxt .= '", "brdTls": [], "brdTks": [], ';
 $jtxt .= '"mktTks": [], "trayCounts": []}';
-$qry2 = "INSERT INTO game SET gname='$name', box_id='$boxid',
+$qry4 = "INSERT INTO game SET gname='$name', box_id='$boxid',
           json_text='$jtxt'";  
-$result2 = mysql_query($qry2);
-if (!$result2) {   // Did the query fail
-  error_log("Insert new game: Query failed");
+$result4 = mysqli_query($link,$qry4);
+if (!$result4) {   // Did the query fail
+  $logMessage = 'MySQL Error 5: ' . mysqli_error($link);
+  error_log($logMessage);
+  echo "failure"; 
+  mysqli_query($link, $qry0); // ROLLBACK
   exit;
 }
-$gameid = mysql_insert_id();
+$gameid = mysqli_insert_id($link);
 
 // Fix start date
-$qry3 = "SELECT activity_date FROM game WHERE game_id = '$gameid'";
-$result3 = mysql_query($qry3);
-if (!$result3 || (mysql_num_rows($result3) != 1)) {
-  error_log("SELECT activity_date: Query failed");
+$qry5 = "SELECT activity_date FROM game WHERE game_id = '$gameid'";
+$result5 = mysqli_query($link,$qry5);
+if (!$result5 || (mysqli_num_rows($result5) != 1)) {
+  $logMessage = 'MySQL Error 6: ' . mysqli_error($link);
+  error_log($logMessage);
+  echo "failure"; 
+  mysqli_query($link, $qry0); // ROLLBACK
   exit;
 }
-$ad = mysql_fetch_array($result3);
-$qry4 = "UPDATE game SET start_date = '$ad[0]' WHERE game_id = '$gameid'";
-$result4 = mysql_query($qry4);
-if (!$result4) {   // Did the query fail
-  error_log("SET start_date: Query failed");
+$ad = mysqli_fetch_array($result5);
+$qry6 = "UPDATE game SET start_date = '$ad[0]' WHERE game_id = '$gameid'";
+$result6 = mysqli_query($link,$qry6);
+if (!$result6) {   // Did the query fail
+  $logMessage = 'MySQL Error 7: ' . mysqli_error($link);
+  error_log($logMessage);
+  echo "failure"; 
+  mysqli_query($link, $qry0); // ROLLBACK
   exit;
 }
+
 // create game_player rows.
 for ($i = 0; $i < $count; $i++) {
-  $qry6 = "INSERT INTO game_player SET game_id='$gameid', 
+  $qry7 = "INSERT INTO game_player SET game_id='$gameid', 
       player_id='$playerid[$i]'";
-  $result6 = mysql_query($qry6);
-  if (!$result6) {   // Did the query fail
-    error_log("Insert new game_player: Query failed");
+  $result7 = mysqli_query($link,$qry7);
+  if (!$result7) {   // Did the query fail
+    $logMessage = 'MySQL Error 8: ' . mysqli_error($link);
+    error_log($logMessage);
+    echo "failure"; 
+    mysqli_query($link, $qry0); // ROLLBACK
     exit;
   }
 }
-echo 'success';
+$qry8 = "COMMIT";
+echo "success";
+mysqli_query($link, $qry8); // COMMIT
 ?>
