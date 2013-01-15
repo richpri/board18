@@ -1,50 +1,5 @@
 <?php
 require_once('php/auth.php');
-require_once('php/config.php');
-
-function prepareDatabase() {
-  $link = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
-  if (!$link) {
-    error_log('Failed to connect to server: ' . mysql_error());
-    exit;
-  }
-  $db = mysql_select_db(DB_DATABASE);
-  if (!$db) {
-    error_log("Unable to select database");
-    exit;
-  }
-}
-
-function showGames() {
-  prepareDatabase();
-  $you = intval($_SESSION['SESS_PLAYER_ID']);
-  
-  $qry = "SELECT b.game_id, b.gname, c.bname, 
-                 c.version, DATE(b.start_date) 
-          FROM game_player AS a 
-            JOIN (game AS b, box AS c)
-              ON (a.player_id = $you
-                AND a.game_id = b.game_id
-                AND b.box_id = c.box_id)
-          ORDER BY b.gname";
-  $result = mysql_query($qry);
-  if ($result) {
-    echo "<p id='gamehead'>
-      You are currently playing the following games</p>";
-    echo "<table border='1'> <tr>
-        <th>Game Name</th> <th>Box Name</th> 
-        <th>Version</th> <th>Start Date</th> </tr>";
-    while ($row = mysql_fetch_array($result)) {
-      echo "<td class='gamename'>
-        <a href='board18Map?dogame=$row[0]'>$row[1]</a></td> 
-        <td>$row[2]</td> <td>$row[3]</td> <td>$row[4]</td> </tr>";
-    }
-    echo "</table>";
-  } else {
-    echo "<p id='gamehead'>
-      You are not currently playing any games</p>";
-  }
-}
 ?>
 <!doctype html>
 <html lang="en">
@@ -64,6 +19,15 @@ function showGames() {
     </script>
     <script type="text/javascript" >
       $(function() {
+        $.ajax({
+          type: 'GET',
+          url: 'php/myGameList.php',
+          processData: true,
+          data: {},
+          dataType: 'json',
+          success: listReturn,
+          error: listError
+        }); // end of ajax
         $('#logout').click(function() {
           $.post("php/logout.php", logoutOK);
         }); // end logout
@@ -132,7 +96,12 @@ function showGames() {
     <div id="rightofpage"> 
       <div id="content">    
         <div id="games">
-          <?php showGames(); ?>
+          <table id='gamelist'> 
+            <tr>
+              <th>Game Name</th> <th>Box Name</th> 
+              <th>Version</th> <th>Start Date</th> 
+            </tr>
+          </table>
         </div>
         <div>
         <p>At this point you can select an existing game to play 

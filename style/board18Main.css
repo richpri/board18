@@ -43,3 +43,22 @@
   border-radius: 5px;
   display: none;
 }
+
+#gamelist {
+  margin: 5px;
+  border: 2px solid black;
+  background-color:#ddffdd; 
+  border-collapse:collapse;
+}
+
+#gamelist td {
+  border: 1px solid black;
+}
+
+#gamelist tr {
+  border: 1px solid black;
+}
+
+#gamelist th {
+  border: 1px solid black;
+}

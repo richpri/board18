@@ -16,8 +16,8 @@
  *   ] 
  * }
  */
-require_once('php/auth.php');
-require_once('php/config.php');
+require_once('auth.php');
+require_once('config.php');
 
 $link = @mysqli_connect(DB_HOST, DB_USER, 
         DB_PASSWORD, DB_DATABASE);
@@ -27,11 +27,12 @@ if (mysqli_connect_error()) {
   exit;
 }
 
+$you = intval($_SESSION['SESS_PLAYER_ID']);
 $qry = "SELECT b.game_id, b.gname, c.bname, 
                c.version, DATE(b.start_date) 
           FROM game_player AS a 
             JOIN (game AS b, box AS c)
-              ON (a.player_id = $loggedinplayer
+              ON (a.player_id = $you
                 AND a.game_id = b.game_id
                 AND b.box_id = c.box_id)
           ORDER BY b.gname";

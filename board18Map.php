@@ -86,6 +86,10 @@ if ($gamefound == 'no') {
           var inx = parseInt(trayid.substring(4),10);
           BD18.trays[inx].place(null);
         }); // end tray click
+        $('#content').on({
+          "mousedown": hexSelect,
+          "contextmenu": function(e){return false;}
+        });
         $("#mainmenu").navPlugin({
           'itemWidth': 120,
           'itemHeight': 40,
@@ -163,7 +167,7 @@ if ($gamefound == 'no') {
     </div>
     
     <div id="rightofpage">
-      <div id="content" onclick="hexSelect(event)">
+      <div id="content">
         <canvas id="canvas1">
           Your browser does not support the HTML 5 Canvas. 
         </canvas>

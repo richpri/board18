@@ -169,7 +169,13 @@ function BoardTile(snumb,index,rotation,bx,by) {
   this.rotation=rotation;
   this.bx=bx;
   this.by=by;
-  this.place=function place() {
+  /*
+   * The place function places the tile on the board.
+   * The optional tmp parameter should be true if this tile
+   * has not been added to the BD18.boardTiles array.
+   */  
+  this.place=function place(tmp) {
+    var temp = typeof tmp !== 'undefined' ? tmp : false;
     var image = this.sheet.image;
     var sx = this.sheet.xStart+index*this.sheet.xStep;
     var sy = this.sheet.yStart+rotation*this.sheet.yStep;
@@ -179,8 +185,13 @@ function BoardTile(snumb,index,rotation,bx,by) {
     var dyf = dy.toFixed();
     var szx = this.sheet.xSize;
     var szy = this.sheet.ySize;
+    if (temp) {BD18.context1.globalAlpha = 0.5;}
     BD18.context1.drawImage(image,sx,sy,szx,szy,dxf,dyf,100,116);
+    BD18.context1.globalAlpha = 1;
   };
+  /*
+   * The togm function exports the boardTile as a JSON string.
+   */
   this.togm=function togm() {
     var brdTile = {};
     brdTile.sheetNumber = this.snumb;
@@ -190,6 +201,74 @@ function BoardTile(snumb,index,rotation,bx,by) {
     brdTile.rotate = this.rotation;
     return brdTile;
   };
+}
+
+/* BoardToken is a constructor function which creates boardToken
+ * objects. These objects are used to list the tokens that have 
+ * been placed on the map board. The snumb, sheet, index and flip 
+ * parameters describe the token. The bx and by parameters are 
+ * used to specify the exact position of the token on the game
+ * board. And the hx and hy calculated parameters identify the 
+ * game board hex that contains the token.
+ * */
+function BoardToken(snumb,index,rotation,bx,by) {
+  this.snumb=snumb;
+  this.sheet=BD18.trays[snumb];
+  this.index=index;
+  this.flip=flip;
+  this.bx=bx;
+  this.by=by;
+  [this.hx, this.hy] = bdHexCord(bx, by)
+  /*
+   * The place function places the token on the board.
+   * The optional tmp parameter should be true if this token
+   * has not been added to the BD18.boardTokens array.
+   */
+  this.place=function place(tmp) {
+    var temp = typeof tmp !== 'undefined' ? tmp : false;
+    var image = this.sheet.image;
+    var sx = this.sheet.xStart+index*this.sheet.xStep;
+    var sy = this.sheet.yStart+rotation*this.sheet.yStep;
+    var szx = this.sheet.xSize;
+    var szy = this.sheet.ySize;
+    if (temp) {BD18.context2.globalAlpha = 0.5;}
+    BD18.context2.drawImage(image,sx,sy,szx,szy,bx,by,30,30);
+    BD18.context2.globalAlpha = 1;
+  };
+  /*
+   * The togm function exports the boardToken as a JSON string.
+   */
+  this.togm=function togm() {
+    var brdToken = {};
+    brdToken.sheetNumber = this.snumb;
+    brdToken.tokenNumber = this.index;
+    brdToken.xCoord = this.bx;
+    brdToken.yCoord = this.by;
+    brdToken.flip = this.flip;
+    return brdToken;
+  };
+/* This function calculates the board coordinates of the containing
+ * containing map hex given the exact position of the token on the
+ * game board.
+ */
+  this.bdHexCord = function bdHexCord(xPix, yPix) {
+    var yCent = BD18.gameBoard.yStart + BD18.gameBoard.yStep*2/3;
+    var yIndex = Math.round(((yPix-yCent)/BD18.gameBoard.yStep));
+    var xCent = BD18.gameBoard.xStart + BD18.gameBoard.xStep;
+    var xIndex, xCentOdd;
+    if (yIndex%2===0) { //if yIndex is even.
+      xIndex = Math.round(((xPix-xCent)/BD18.gameBoard.xStep));
+    } else {
+      xCentOdd = xCent + BD18.gameBoard.xStep;
+      xIndex = Math.round(((xPix-xCentOdd)/BD18.gameBoard.xStep))+1;
+    }
+    var xDiff = xPix-xIndex*BD18.gameBoard.xStep-xCent;
+    if ((xIndex+yIndex)%2===1) { //if not both even or odd.
+      if (xDiff>0) {xIndex = xIndex + 1; }
+      else { xIndex = xIndex - 1; }
+    }
+    return [xIndex, yIndex];
+  }
 }
   
 /* Startup functions */
@@ -454,7 +533,7 @@ function dropTile(xI,yI) {
   var bx = BD18.tempTile[3];
   var by = BD18.tempTile[4];
   var temp=new BoardTile(sn,ix,rot,bx,by);
-  temp.place();
+  temp.place(true);
   BD18.curRot = 0;
   BD18.curHexX = xI;
   BD18.curHexY = yI;
@@ -495,7 +574,7 @@ function rotateTile(dir) {
   var bx = BD18.tempTile[3];
   var by = BD18.tempTile[4];
   var temp=new BoardTile(sn,ix,rot,bx,by);
-  temp.place();
+  temp.place(true);
   BD18.hexIsSelected = true;
 }
 
@@ -665,22 +744,33 @@ function traySelect(event) {
   BD18.tileIsSelected = true;
 }
 
-/* This function responds to on-click events in the map canvas.
+/* This function responds to mousedown events in the map canvas.
  * It checks various conditions and executes the appropriate
  * function based on them. If it can find no relevant condition
  * then it merely returns.
  */
 function hexSelect(event) {
-  var x, y;
-  [x, y] = tilePos(event);
-  if ((BD18.tileIsSelected === true) &&
-     (BD18.hexIsSelected === true)) { 
-    if (x !== BD18.curHexX) {return}
-    if (y !== BD18.curHexY) {return}
-    rotateTile("cw");
-  } else if (BD18.tileIsSelected === true) {
-    dropTile(x,y);
-  }
+  switch (event.which) { // Left or Right
+    case 1:  // left
+    case 2:  // center
+      var x, y;
+      [x, y] = tilePos(event);
+      if ((BD18.tileIsSelected === true) &&
+        (BD18.hexIsSelected === true)) { 
+        if (x !== BD18.curHexX) {
+          return
+        }
+        if (y !== BD18.curHexY) {
+          return
+        }
+        rotateTile("cw");
+      } else if (BD18.tileIsSelected === true) {
+        dropTile(x,y);
+      }
+      break;
+    default:   // right
+  // code popup menu here
+  } 
 }
 
 function doit(mm) { // mm is the onclick action to be taken.
