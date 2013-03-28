@@ -87,7 +87,7 @@ if ($gamefound == 'no') {
           BD18.trays[inx].place(null);
         }); // end tray click
         $('#content').on({
-          "mousedown": hexSelect,
+          "mousedown": mapMouseEvent,
           "contextmenu": function(e){return false;}
         });
         $("#mainmenu").navPlugin({
@@ -122,8 +122,10 @@ if ($gamefound == 'no') {
             <ul>
               <li><span>Actions</span>
                 <ul>
-                  <li><span onclick="doit('add')">Accept Move</span></li>
-                  <li><span onclick="doit('reset')">Cancel Move</span></li>
+                  <li><span onclick="doit('add')">
+                      Accept Move</span></li>
+                  <li><span onclick="doit('reset')">
+                      Cancel Move</span></li>
                 </ul>
               </li>
               <li><span>Rotate Tile</span>

@@ -12,7 +12,7 @@
     $denyloc = "location: http://" . $_SERVER['SERVER_NAME'];
     $denyloc .= "/BOARD18/access-denied.html";
 		header($denyloc);
-		exit();
+		exit;
 	} else {
     $loggedinplayer = $_SESSION['SESS_PLAYER_ID'];
     $welcomename = $_SESSION['SESS_FIRST_NAME'];

@@ -9,6 +9,7 @@ BD18.loadCount = 0;
 BD18.doneWithLoad = false;
 BD18.boxID = null;
 BD18.boardTiles = [];
+BD18.boardTokens = [];
 BD18.trays = [];
 BD18.curTrayNumb = null;
 BD18.curIndex = null;
@@ -17,6 +18,7 @@ BD18.curFlip = false;
 BD18.curHexX = null;
 BD18.curHexY = null;
 BD18.tileIsSelected = false;
+BD18.tokenIsSelected = false;
 BD18.hexIsSelected = false;
 
 /*  
@@ -38,11 +40,35 @@ function GameBoard(image,board) {
   this.yStart=parseInt(board.yStart,10);
   this.yStep=parseInt(board.yStep,10);
   var that = this;
+  /*
+   * The place function places the game board on the canvas.
+   */
   this.place=function place() {
     BD18.context1.drawImage(image,0,0);
     BD18.hexIsSelected = false;
     BD18.gameBoard = that;
   };
+  /* This function calculates the board coordinates of the containing
+   * map hex given an exact position in pixels on the game board.
+   */
+  this.hexCoord = function hexCoord(xPix, yPix) {
+    var yCent = this.yStart + this.yStep*2/3;
+    var yIndex = Math.round(((yPix-yCent)/this.yStep));
+    var xCent = this.xStart + this.xStep;
+    var xIndex, xCentOdd;
+    if (yIndex%2===0) { //if yIndex is even.
+      xIndex = Math.round(((xPix-xCent)/this.xStep));
+    } else {
+      xCentOdd = xCent + this.xStep;
+      xIndex = Math.round(((xPix-xCentOdd)/this.xStep))+1;
+    }
+    var xDiff = xPix-xIndex*this.xStep-xCent;
+    if ((xIndex+yIndex)%2===1) { //if not both even or odd.
+      if (xDiff>0) {xIndex = xIndex + 1; }
+      else { xIndex = xIndex - 1; }
+    }
+    return [xIndex, yIndex];
+  }
 }
   
 /* TileSheet is a constructor function which creates tileSheet objects.
@@ -77,12 +103,13 @@ function TileSheet(image,sheet) {
     var szy = this.ySize;
     BD18.curTrayNumb = this.trayNumb;
     BD18.tileIsSelected = false;
+    BD18.tokenIsSelected = false;
     BD18.canvas0.height = a+(this.tilesOnSheet*b); 
     for (var i=0;i<this.tilesOnSheet;i++)
     {
       sx = this.xStart+i*this.xStep;
       if (high === i) {
-        BD18.context0.fillStyle = "#FFEEDD";
+        BD18.context0.fillStyle = "red";
         BD18.context0.fillRect(a,b*i,100,116);
         BD18.context0.fillStyle = "black";
       }
@@ -133,13 +160,14 @@ function TokenSheet(image,sheet) {
     var szy = this.ySize;
     BD18.curTrayNumb = this.trayNumb;
     BD18.tileIsSelected = false;
+    BD18.tokenIsSelected = false;
     BD18.canvas0.height = a+(this.tokensOnSheet*b); 
     for (var i=0;i<this.tokensOnSheet;i++)
     {
       sy = this.yStart+i*this.yStep;
       if (high === i) {
         BD18.context0.fillStyle = "red";
-        BD18.context0.fillRect(a,b*i,100,116);
+        BD18.context0.fillRect(a,b*i,60,30);
         BD18.context0.fillStyle = "black";
       }
       BD18.context0.drawImage(img,sx,sy,szx,szy,a+c,b*i,30,30);
@@ -149,7 +177,7 @@ function TokenSheet(image,sheet) {
       BD18.context0.fillText(BD18.gm.trayCounts[this.trayNumb][i],a,b*i);
       if (BD18.gm.trayCounts[this.trayNumb][i] === 0) {  
         BD18.context0.fillStyle = "rgba(255,255,255,0.7)";
-        BD18.context0.fillRect(a,b*i,100,116);
+        BD18.context0.fillRect(a,b*i,60,30);
         BD18.context0.fillStyle = "black";
       }      
     }
@@ -211,29 +239,36 @@ function BoardTile(snumb,index,rotation,bx,by) {
  * board. And the hx and hy calculated parameters identify the 
  * game board hex that contains the token.
  * */
-function BoardToken(snumb,index,rotation,bx,by) {
+function BoardToken(snumb,index,flip,bx,by) {
   this.snumb=snumb;
   this.sheet=BD18.trays[snumb];
   this.index=index;
   this.flip=flip;
   this.bx=bx;
   this.by=by;
-  [this.hx, this.hy] = bdHexCord(bx, by)
+  [this.hx, this.hy] = BD18.gameBoard.hexCoord(bx, by);
   /*
    * The place function places the token on the board.
-   * The optional tmp parameter should be true if this token
-   * has not been added to the BD18.boardTokens array.
+   * The optional alpha parameter should be 1 [if this is
+   * a permanent token] or 0.5 [if this is not a permanent 
+   * token] or 0 [to erase the token].  Default is 1.
    */
-  this.place=function place(tmp) {
-    var temp = typeof tmp !== 'undefined' ? tmp : false;
+  this.place=function place(alpha) {
+    var ga = typeof alpha !== 'undefined' ? alpha : 1;
     var image = this.sheet.image;
-    var sx = this.sheet.xStart+index*this.sheet.xStep;
-    var sy = this.sheet.yStart+rotation*this.sheet.yStep;
+    var sx = this.sheet.xStart + (this.flip?this.sheet.xStep:0);
+    var sy = this.sheet.yStart + index*this.sheet.yStep;
     var szx = this.sheet.xSize;
     var szy = this.sheet.ySize;
-    if (temp) {BD18.context2.globalAlpha = 0.5;}
-    BD18.context2.drawImage(image,sx,sy,szx,szy,bx,by,30,30);
-    BD18.context2.globalAlpha = 1;
+    var midx = this.bx - 15; // Adjust to center of token.
+    var midy = this.by - 15; // Adjust to center of token.
+    if (ga == 0) {
+      BD18.context2.clearRect(midx,midy,30,30);
+    } else {
+      BD18.context2.globalAlpha = ga;
+      BD18.context2.drawImage(image,sx,sy,szx,szy,midx,midy,30,30);
+      BD18.context2.globalAlpha = 1;
+    }
   };
   /*
    * The togm function exports the boardToken as a JSON string.
@@ -247,28 +282,6 @@ function BoardToken(snumb,index,rotation,bx,by) {
     brdToken.flip = this.flip;
     return brdToken;
   };
-/* This function calculates the board coordinates of the containing
- * containing map hex given the exact position of the token on the
- * game board.
- */
-  this.bdHexCord = function bdHexCord(xPix, yPix) {
-    var yCent = BD18.gameBoard.yStart + BD18.gameBoard.yStep*2/3;
-    var yIndex = Math.round(((yPix-yCent)/BD18.gameBoard.yStep));
-    var xCent = BD18.gameBoard.xStart + BD18.gameBoard.xStep;
-    var xIndex, xCentOdd;
-    if (yIndex%2===0) { //if yIndex is even.
-      xIndex = Math.round(((xPix-xCent)/BD18.gameBoard.xStep));
-    } else {
-      xCentOdd = xCent + BD18.gameBoard.xStep;
-      xIndex = Math.round(((xPix-xCentOdd)/BD18.gameBoard.xStep))+1;
-    }
-    var xDiff = xPix-xIndex*BD18.gameBoard.xStep-xCent;
-    if ((xIndex+yIndex)%2===1) { //if not both even or odd.
-      if (xDiff>0) {xIndex = xIndex + 1; }
-      else { xIndex = xIndex - 1; }
-    }
-    return [xIndex, yIndex];
-  }
 }
   
 /* Startup functions */
@@ -379,6 +392,14 @@ function canvasApp()
   }
   BD18.context1 = BD18.canvas1.getContext('2d');
   if (!BD18.context1) {
+    return;
+  }
+  BD18.canvas2 = document.getElementById('canvas2');
+  if (!BD18.canvas2 || !BD18.canvas2.getContext) {
+    return;
+  }
+  BD18.context2 = BD18.canvas2.getContext('2d');
+  if (!BD18.context2) {
     return;
   }
   trayCanvasApp();
@@ -646,15 +667,33 @@ function updateDatabase() {
   $.post("php/updateGame.php", outstring, fromUpdateGm);
 }
   
+
+/* This function calls the addTile function if the hex
+ * is selected and the tile is selected. It calls the
+ * addToken function if the hex is selected and the
+ * token is selected. Otherwise it does nothing.
+ */
+function acceptMove() {
+  if (BD18.hexIsSelected === false) return;
+  if (BD18.tileIsSelected === true) {
+    addTile();
+    return;
+  }
+  if (BD18.tokenIsSelected === true) {
+    addToken();
+    return;
+  }
+  return;
+}
+
 /* This function adds the current board tile object 
- * to the BD18.boardTiles array.  If an object is 
+ * to the BD18.boardTiles array.  If a tile is 
  * already in the hex in question then that existing 
- * object is deleted via the clearHex function.
+ * tile is deleted via the clearHex function.
  * If the tile count for the tile is already 0 then
- * an error has occured.  This should never happen.
+ * an error has occured. This should never happen.
  */
 function addTile() {
-  if (BD18.hexIsSelected === false) return;
   var s=BD18.curTrayNumb;
   var n=BD18.curIndex;
   var r=BD18.curRot;
@@ -669,6 +708,7 @@ function addTile() {
     mainCanvasApp();
     trayCanvasApp();
     BD18.hexIsSelected = false;
+    BD18.tokenIsSelected = false;
     BD18.tileIsSelected = false;
     updateGmBrdTiles();
     updateDatabase();
@@ -677,35 +717,41 @@ function addTile() {
   }
 }
 
+/* This function adds the current board token object 
+ * to the BD18.boardTokens array.  
+ * If the token count for the token is already 0 then
+ * an error has occured. This should never happen.
+ */
+function addToken() {
+  var s=BD18.curTrayNumb;
+  var n=BD18.curIndex;
+  var f=BD18.curFlip;
+  var x=BD18.curHexX;
+  var y=BD18.curHexY;
+  var token = new BoardToken(s,n,f,x,y);
+  var stat = reduceCount(token.sheet.trayNumb,token.index);
+  if (stat) {
+    BD18.boardTokens.push(token);
+    BD18.curIndex = null;
+    mainCanvasApp();
+    trayCanvasApp();
+    BD18.hexIsSelected = false;
+    BD18.tokenIsSelected = false;
+    BD18.tileIsSelected = false;
+//  updateGmBrdTiles();
+//  updateDatabase();
+  } else {
+    alert("ERROR: Token not available.");
+  }
+}
+
 /* This function calculates the board coordinates of a map
  * tile given the raw coordinates of a mouse click event.
  */
 function tilePos(event) {
-  var xPix, yPix;
+  var xPix, yPix, xIndex, yIndex;
   [xPix, yPix] = offsetIn(event, BD18.canvas1);
-  var yCent = BD18.gameBoard.yStart + BD18.gameBoard.yStep*2/3;
-  var yIndex = Math.round(((yPix-yCent)/BD18.gameBoard.yStep));
-  var xCent = BD18.gameBoard.xStart + BD18.gameBoard.xStep;
-  var xIndex, xCentOdd;
-  if (yIndex%2===0) //if yIndex is even.
-  {    
-    xIndex = Math.round(((xPix-xCent)/BD18.gameBoard.xStep));
-  }
-  else
-  {
-    xCentOdd = xCent + BD18.gameBoard.xStep;
-    xIndex = Math.round(((xPix-xCentOdd)/BD18.gameBoard.xStep)) + 1;
-  }
-  var xDiff = xPix-xIndex*BD18.gameBoard.xStep-xCent;
-  if ((xIndex+yIndex)%2===1) //if not both even or odd.
-  { 
-    if (xDiff>0) {
-      xIndex = xIndex + 1;
-    }
-    else {
-      xIndex = xIndex - 1;
-    }
-  }
+  [xIndex, yIndex] = BD18.gameBoard.hexCoord(xPix, yPix);
   return [xIndex, yIndex];
 }
   
@@ -726,7 +772,7 @@ function traySelect(event) {
     b = 120; // This is the tray Y Step Value.
     c = tray.tilesOnSheet;
   } else if(tray.sheetType==="btok") {
-    a = 10;  // This is the tray Top Margin.
+    a = 0;  // This is the tray Top Margin.
     b = 40;  // This is the tray Y Step Value.
     c = tray.tokensOnSheet;
   } else {
@@ -741,34 +787,108 @@ function traySelect(event) {
   BD18.curRot = 0; // Eliminate any previous rotation.
   BD18.curFlip = false; // Eliminate any previous flip.
   tray.place(index); // Set highlight.
-  BD18.tileIsSelected = true;
+  if(tray.sheetType==="tile") {BD18.tileIsSelected = true;}
+  if(tray.sheetType==="btok") {BD18.tokenIsSelected = true;}
 }
 
-/* This function responds to mousedown events in the map canvas.
- * It checks various conditions and executes the appropriate
- * function based on them. If it can find no relevant condition
- * then it merely returns.
+
+/* The dropToken function places a token at a specified 
+ * location on the map board.  It calls the BoardToken
+ * constructor function and then updates some global
+ * variables to keep track of the new token. Note that
+ * this new token has not yet been permanently added to
+ * the list of placed tokens in BD18.gm.brdTks. It is 
+ * tracked instead in the BD18.tempToken array.
+ */
+function dropToken(x,y,xI,yI) {
+  // mainCanvasApp();
+  BD18.tempToken = [BD18.curTrayNumb,BD18.curIndex,false,xI,yI];
+  var sn = BD18.tempToken[0];
+  var ix = BD18.tempToken[1];
+  var flip = BD18.tempToken[2];
+  var bx = BD18.tempToken[3];
+  var by = BD18.tempToken[4];
+  var temp=new BoardToken(sn,ix,flip,bx,by);
+  temp.place(0.5); // Semi-transparent
+  BD18.curRot = 0;
+  BD18.curFlip = false;
+  BD18.curHexX = x;
+  BD18.curHexY = y;
+  BD18.hexIsSelected = true;
+  var messg = "Select 'Menu-Actions-Accept Move' to make ";
+  messg += "token placement permanent."
+  doLogNote(messg);
+}
+
+/* The repositionToken function moves the current token  
+ * to a specified new location on the selected tile.  
+ * It calls the BoardToken constructor function. 
+ * Note that this new token has not yet been
+ * permanently added to the list of placed tokens in
+ * BD18.gm.brdTks. It is tracked instead in the 
+ * BD18.tempToken array.
+ */
+function repositionToken(x,y,xI,yI) {
+  var sn = BD18.tempToken[0];
+  var ix = BD18.tempToken[1];
+  var flip = BD18.tempToken[2];
+  var bx = BD18.tempToken[3];
+  var by = BD18.tempToken[4];
+  var old = new BoardToken(sn,ix,flip,bx,by);
+  old.place(0); // Erase existing token.
+  // mainCanvasApp();
+  BD18.tempToken[3] = xI;
+  BD18.tempToken[4] = yI;
+  var sn = BD18.tempToken[0];
+  var ix = BD18.tempToken[1];
+  var flip = BD18.tempToken[2];
+  var bx = BD18.tempToken[3];
+  var by = BD18.tempToken[4];
+  var temp = new BoardToken(sn,ix,flip,bx,by);
+  temp.place(0.5); // Semi-transparent
+  var messg = "Select 'Menu-Actions-Accept Move' to make ";
+  messg += "token placement permanent."
+  doLogNote(messg);
+}
+
+/* This function responds to left mousedown events in the  
+ * map canvas. It checks various conditions and executes 
+ * the appropriate function based on them. If it can find 
+ * no relevant condition then it merely returns.
  */
 function hexSelect(event) {
-  switch (event.which) { // Left or Right
-    case 1:  // left
-    case 2:  // center
-      var x, y;
+      var x, y, xPix, yPix;
       [x, y] = tilePos(event);
-      if ((BD18.tileIsSelected === true) &&
-        (BD18.hexIsSelected === true)) { 
-        if (x !== BD18.curHexX) {
-          return
-        }
-        if (y !== BD18.curHexY) {
-          return
-        }
-        rotateTile("cw");
-      } else if (BD18.tileIsSelected === true) {
-        dropTile(x,y);
-      }
-      break;
-    default:   // right
+      [xPix, yPix] = offsetIn(event, BD18.canvas1);
+  if (BD18.hexIsSelected === true) {
+    if (x !== BD18.curHexX) { return; }
+    if (y !== BD18.curHexY) { return; }
+    if (BD18.tileIsSelected === true) {
+      rotateTile("cw");       
+    }
+    if (BD18.tokenIsSelected === true) {
+      repositionToken(x,y,xPix,yPix);
+    }
+  } else { // BD18.hexIsSelected === false
+    if (BD18.tileIsSelected === true) {
+      dropTile(x,y); 
+    }
+    if (BD18.tokenIsSelected === true) {
+      dropToken(x,y,xPix,yPix); 
+    }   
+  }
+}
+
+/* This function responds to mousedown events on the map canvas.
+ * It uses event.witch to determine which mouse button was
+ * pressed. If the left or center button was presses then it
+ * calls the hexSelect functon. Otherwise it assumes that the
+ * right button was pressed and displays a popup menu.
+ */
+function mapMouseEvent(event) {
+  if (event.which === 0 || event.which === 1) { // Left or Center
+      hexSelect(event)
+  } else { // Right
   // code popup menu here
   } 
 }
@@ -783,7 +903,7 @@ function doit(mm) { // mm is the onclick action to be taken.
       rotateTile("ccw");
       break;
     case "add":
-      addTile();
+      acceptMove();
       break;
     case "reset":
       trayCanvasApp();
