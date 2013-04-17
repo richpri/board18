@@ -17,6 +17,8 @@ BD18.curRot = 0;
 BD18.curFlip = false;
 BD18.curHexX = null;
 BD18.curHexY = null;
+BD18.curMapX = null;
+BD18.curMapY = null;
 BD18.tileIsSelected = false;
 BD18.tokenIsSelected = false;
 BD18.hexIsSelected = false;
@@ -41,12 +43,19 @@ function GameBoard(image,board) {
   this.yStep=parseInt(board.yStep,10);
   var that = this;
   /*
-   * The place function places the game board on the canvas.
+   * The place function places the game board on canvas1.
    */
   this.place=function place() {
     BD18.context1.drawImage(image,0,0);
     BD18.hexIsSelected = false;
     BD18.gameBoard = that;
+  };
+  /*
+   * The clear2 function clears all tokens from canvas2.
+   */
+  this.clear2=function clear2() {
+    BD18.context2.clearRect(0, 0, this.width, this.height);
+    BD18.hexIsSelected = false;
   };
   /* This function calculates the board coordinates of the containing
    * map hex given an exact position in pixels on the game board.
@@ -251,7 +260,7 @@ function BoardToken(snumb,index,flip,bx,by) {
    * The place function places the token on the board.
    * The optional alpha parameter should be 1 [if this is
    * a permanent token] or 0.5 [if this is not a permanent 
-   * token] or 0 [to erase the token].  Default is 1.
+   * token].  Default is 1.
    */
   this.place=function place(alpha) {
     var ga = typeof alpha !== 'undefined' ? alpha : 1;
@@ -262,13 +271,9 @@ function BoardToken(snumb,index,flip,bx,by) {
     var szy = this.sheet.ySize;
     var midx = this.bx - 15; // Adjust to center of token.
     var midy = this.by - 15; // Adjust to center of token.
-    if (ga == 0) {
-      BD18.context2.clearRect(midx,midy,30,30);
-    } else {
-      BD18.context2.globalAlpha = ga;
-      BD18.context2.drawImage(image,sx,sy,szx,szy,midx,midy,30,30);
-      BD18.context2.globalAlpha = 1;
-    }
+    BD18.context2.globalAlpha = ga;
+    BD18.context2.drawImage(image,sx,sy,szx,szy,midx,midy,30,30);
+    BD18.context2.globalAlpha = 1;
   };
   /*
    * The togm function exports the boardToken as a JSON string.
@@ -329,6 +334,25 @@ function makeBdTileList(){
   }
 }
 
+/* This function initializes the BD18.boardTokens array.
+ * It calls the BoardToken constructor for each token in 
+ * BD18.gm.brdTks array and adds the new object to the
+ * BD18.boardTokens array.
+ */
+function makeBdTokenList(){
+  if (BD18.gm.brdTks.length === 0) return;
+  var token,sn,ix,flip,bx,by;
+  for(var i=0;i<BD18.gm.brdTks.length;i++) {
+    sn = BD18.gm.brdTks[i].sheetNumber;
+    ix = BD18.gm.brdTks[i].tokenNumber;
+    flip = BD18.gm.brdTks[i].flip;
+    bx = BD18.gm.brdTks[i].xCoord;
+    by = BD18.gm.brdTks[i].yCoord;
+    token = new BoardToken(sn,ix,flip,bx,by);
+    BD18.boardTokens.push(token);
+  }
+}
+
 /*
  * Function trayCanvasApp dynamically updates 
  * the links for all trays in the "traylist" div. 
@@ -362,6 +386,24 @@ function mainCanvasApp(){
     }
     tile = BD18.boardTiles[i];
     tile.place();
+  }
+}
+
+/* Function toknCanvasApp places all existing tokens 
+ * on the game board using the BD18.boardTokens array.
+ */
+function toknCanvasApp(){
+  BD18.gameBoard.clear2();
+  if (BD18.boardTokens.length === 0) {
+    return;
+  }
+  var token;
+  for(var i=0;i<BD18.boardTokens.length;i++) {
+    if (!(i in BD18.boardTokens)) {
+      continue;
+    }
+    token = BD18.boardTokens[i];
+    token.place();
   }
 }
 
@@ -404,6 +446,7 @@ function canvasApp()
   }
   trayCanvasApp();
   mainCanvasApp();
+  toknCanvasApp();
 }
   
 /* Startup Event Handler and Callback Functions.  */
@@ -418,6 +461,7 @@ function itemLoaded(event) {
     BD18.gameBoard = new GameBoard(BD18.bdImage,BD18.bx.board);
     makeTrays();
     makeBdTileList();
+    makeBdTokenList();
     canvasApp();
   }
 }
@@ -658,6 +702,20 @@ function updateGmBrdTiles() {
   }
 }
 
+/* This function uses the contents of the 
+ * the BD18.boardTokens array and the
+ * BoardToken.togm method to update the
+ * BD18.gm.brdTks array.
+ */
+function updateGmBrdTokens() {
+  BD18.gm.brdTks = [];
+  for (var i=0;i<BD18.boardTokens.length;i++) {
+    if (BD18.boardTokens[i]) {
+      BD18.gm.brdTks.push(BD18.boardTokens[i].togm());
+    }
+  }
+}
+
 /* This function sends the stringified BD18.gm object
  * to the updateGame.php function via an AJAX call.
  */
@@ -726,20 +784,20 @@ function addToken() {
   var s=BD18.curTrayNumb;
   var n=BD18.curIndex;
   var f=BD18.curFlip;
-  var x=BD18.curHexX;
-  var y=BD18.curHexY;
+  var x=BD18.curMapX;
+  var y=BD18.curMapY;
   var token = new BoardToken(s,n,f,x,y);
   var stat = reduceCount(token.sheet.trayNumb,token.index);
   if (stat) {
     BD18.boardTokens.push(token);
     BD18.curIndex = null;
-    mainCanvasApp();
+    toknCanvasApp();
     trayCanvasApp();
     BD18.hexIsSelected = false;
     BD18.tokenIsSelected = false;
     BD18.tileIsSelected = false;
-//  updateGmBrdTiles();
-//  updateDatabase();
+    updateGmBrdTokens();
+    updateDatabase();
   } else {
     alert("ERROR: Token not available.");
   }
@@ -791,7 +849,6 @@ function traySelect(event) {
   if(tray.sheetType==="btok") {BD18.tokenIsSelected = true;}
 }
 
-
 /* The dropToken function places a token at a specified 
  * location on the map board.  It calls the BoardToken
  * constructor function and then updates some global
@@ -801,7 +858,6 @@ function traySelect(event) {
  * tracked instead in the BD18.tempToken array.
  */
 function dropToken(x,y,xI,yI) {
-  // mainCanvasApp();
   BD18.tempToken = [BD18.curTrayNumb,BD18.curIndex,false,xI,yI];
   var sn = BD18.tempToken[0];
   var ix = BD18.tempToken[1];
@@ -814,6 +870,8 @@ function dropToken(x,y,xI,yI) {
   BD18.curFlip = false;
   BD18.curHexX = x;
   BD18.curHexY = y;
+  BD18.curMapX = xI;
+  BD18.curMapY = yI;
   BD18.hexIsSelected = true;
   var messg = "Select 'Menu-Actions-Accept Move' to make ";
   messg += "token placement permanent."
@@ -828,23 +886,18 @@ function dropToken(x,y,xI,yI) {
  * BD18.gm.brdTks. It is tracked instead in the 
  * BD18.tempToken array.
  */
-function repositionToken(x,y,xI,yI) {
-  var sn = BD18.tempToken[0];
-  var ix = BD18.tempToken[1];
-  var flip = BD18.tempToken[2];
-  var bx = BD18.tempToken[3];
-  var by = BD18.tempToken[4];
-  var old = new BoardToken(sn,ix,flip,bx,by);
-  old.place(0); // Erase existing token.
-  // mainCanvasApp();
+function repositionToken(xI,yI) {
   BD18.tempToken[3] = xI;
   BD18.tempToken[4] = yI;
+  BD18.curMapX = xI;
+  BD18.curMapY = yI;
   var sn = BD18.tempToken[0];
   var ix = BD18.tempToken[1];
   var flip = BD18.tempToken[2];
   var bx = BD18.tempToken[3];
   var by = BD18.tempToken[4];
-  var temp = new BoardToken(sn,ix,flip,bx,by);
+  toknCanvasApp();
+  var temp = new BoardToken(sn,ix,flip,xI,yI);
   temp.place(0.5); // Semi-transparent
   var messg = "Select 'Menu-Actions-Accept Move' to make ";
   messg += "token placement permanent."
@@ -867,7 +920,7 @@ function hexSelect(event) {
       rotateTile("cw");       
     }
     if (BD18.tokenIsSelected === true) {
-      repositionToken(x,y,xPix,yPix);
+      repositionToken(xPix,yPix);
     }
   } else { // BD18.hexIsSelected === false
     if (BD18.tileIsSelected === true) {
@@ -881,7 +934,7 @@ function hexSelect(event) {
 
 /* This function responds to mousedown events on the map canvas.
  * It uses event.witch to determine which mouse button was
- * pressed. If the left or center button was presses then it
+ * pressed. If the left or center button was pressed then it
  * calls the hexSelect functon. Otherwise it assumes that the
  * right button was pressed and displays a popup menu.
  */
@@ -908,6 +961,7 @@ function doit(mm) { // mm is the onclick action to be taken.
     case "reset":
       trayCanvasApp();
       mainCanvasApp();
+      toknCanvasApp();
       break;
     default:
       alert("Button pressed. " + mm);
