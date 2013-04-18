@@ -76,7 +76,7 @@ function regResult(response) {
  * Function register is called by the on-click
  * method of the register submit button. It 
  * checks the input for missing fields and
- * does an ajax call to ???.php. 
+ * does an ajax call to newuser.php. 
  */
 function register() {
   $('.error').hide();  

@@ -7,7 +7,6 @@
  * 'master variable' called BD18.  This isolates 
  * them from global variables in other packages. 
  */
-var BD18 = {};
 
 /* I found this generalized numeric test function
  * at http://stackoverflow.com/questions/18082/

@@ -2,7 +2,6 @@
  * 'master variable' called BD18.  This isolates 
  * them from global variables in other packages. 
  */
-var BD18 = {};
 
 /* Function logoutOK is the callback function for the ajax
  * lgout call. 
