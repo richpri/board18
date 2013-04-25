@@ -1,7 +1,3 @@
-/*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, 
- *bitwise:true, undef:true, curly:true, browser:true, 
- *jquery:true, es5:true, indent:4, maxerr:50 
- */
 
 /* All BD18 global variables are contained in one
  * 'master variable' called BD18.  This isolates 
@@ -46,7 +42,9 @@ function makeNewGame(name, boxid, players, player) {
  * newgame call. 
  */
 function newgameOK(response) {
-  if (response === "nobox") {
+  if (response.indexOf("<!doctype html>") != -1) { // User has timed out.
+    window.location = "access-denied.html";
+  } else if (response === "nobox") {
     $("#bi_error").text('Invalid Game Box ID.').show();  
     $("#boxid").focus();
   } else if (response.indexOf("noplayer") != -1) {  

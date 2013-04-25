@@ -21,6 +21,9 @@ function logoutOK(resp) {
  */
 function listReturn(response) {
   if (response) {
+    if (typeof response === "string") { // User has timed out.
+      window.location = "access-denied.html";
+    }   
     var gameHTML ='';
     $.each(response.gamelist,function(index,listInfo) {
       gameHTML += '<tr> <td class="gamename">';

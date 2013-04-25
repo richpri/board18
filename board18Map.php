@@ -54,6 +54,8 @@ if ($gamefound == 'no') {
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
     <script type="text/javascript" src="scripts/nav1.1.min.js">
+    </script> 
+    <script type="text/javascript" src="scripts/jquery.contextMenu.js">
     </script>
     <script type="text/javascript" src="scripts/board18com.js">
     </script> 
@@ -95,6 +97,24 @@ if ($gamefound == 'no') {
         $('#content').on({
           "mousedown": mapMouseEvent,
           "contextmenu": function(e){return false;}
+        });
+        $('#content').contextMenu('board-popup', {
+          'Rotate Tile CW': {
+            click: function(element){doit('cw');},
+            typeCode: "5"
+          },
+          'Rotate Tile CCW': {
+            click: function(element){doit('ccw');},
+            typeCode: "5"
+          },
+          'Cancel': {
+            click: function(element){ }
+          }
+        },
+        {
+          disable_native_context_menu: true,
+          showMenu: function() { },
+          hideMenu: function() { }
         });
         $("#mainmenu").navPlugin({
           'itemWidth': 120,

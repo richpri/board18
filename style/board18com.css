@@ -74,32 +74,6 @@ html, body {
   font-size: large;
 }
 
-/* The following style is depreciated and will eventually be removed. */
-#heading > h3 {
-  margin:0;
-  position:relative;
-  margin-left: 0px;
-  margin-right: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  left:30px;
-  top:20px;
-}
-
-/* The following style is depreciated and will eventually be removed. */
-#menu {
-  position: absolute;
-  left:90px;
-  top:50px;
-  margin:0;
-  height:40px;
-}
-
-/* The following style is depreciated and will eventually be removed. */
-#menu > input {
-  position:static;
-}
-
 #mainmenu {
   position: absolute;
   left:96px;

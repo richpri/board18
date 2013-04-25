@@ -127,6 +127,87 @@ function hexSelect(event) {
   }
 }
 
+/* The isTile function checks if a board tile 
+ * object is located in hex [x,y]. To do this
+ * it searches the BD18.boardTiles array.
+ * 
+ * This function returns false if no tile is
+ * found and true if a tile is found.
+ */
+function isTile(x,y) {
+  if (BD18.boardTiles.length === 0) return false;
+  var tile;
+  for (var i=0;i<BD18.boardTiles.length;i++) {
+    if (!(i in BD18.boardTiles)) continue ;
+    tile = BD18.boardTiles[i];
+    if (tile.bx === x && tile.by === y) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/* The isToken function checks if a board token 
+ * object is located in hex [x,y]. To do this
+ * it searches the BD18.boardTokens array.
+ * 
+ * This function returns false if no token is
+ * found and true if a token is found. This
+ * function dos NOT count the tokens on a hex!
+ */
+function isToken(x,y) {
+  if (BD18.boardTokens.length === 0) return false;
+  var token;
+  for (var i=0;i<BD18.boardTokens.length;i++) {
+    if (!(i in BD18.boardTokens)) continue ;
+    token = BD18.boardTokens[i];
+    if (token.bx === x && token.by === y) {
+      return true;
+    }
+  }
+  return false;
+}
+
+
+/*
+ * The getMenuType() function returns a character
+ * from the list below to specify what type of
+ * menu to display.
+ *
+ * 1 - Hex not selected and current hex has token 
+ * 2 - Hex not selected and current hex has tile
+ * 3 - Hex not selected and current hex has both
+ * 4 - Current hex selected and token selected
+ * 5 - Current hex selected and tile selected
+ * 0 - None of the above
+ *\
+function getMenuType(menu, ae) {
+  var type = "0";
+  if (BD18.hexIsSelected === true) { 
+    if (BD18.tileIsSelected === true) { 
+      type = "5";
+    }
+    if (BD18.tokenIsSelected === true) {
+      type = "4";
+    }
+  } else { 
+    var hexX, hexY;
+    [hexX, hexY] = tilePos(ae);
+    if (BD18.isToken === true &&
+        BD18.isTile === true) {
+      type = "3";
+    } else {
+      if (BD18.isToken === true {
+        type = "1";
+      }
+      if (BD18.isTile === true) {
+        type = "2";
+      }
+    }
+  }
+  reurn type;
+}
+
 /* This function responds to mousedown events on the map canvas.
  * It uses event.witch to determine which mouse button was
  * pressed. If the left or center button was pressed then it

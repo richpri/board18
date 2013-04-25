@@ -20,6 +20,9 @@ function logoutOK(resp) {
  * returned by the updateGame.php AJAX call.
  */
 function fromUpdateGm(resp) {
+  if (response.indexOf("<!doctype html>") != -1) { // User has timed out.
+    window.location = "access-denied.html";
+  } 
   var msg;
   if(resp === 'success') {
     msg = BD18.welcomename + ": ";

@@ -30,6 +30,7 @@ function makeTrays() {
  * BD18.boardTiles array.
  */
 function makeBdTileList(){
+  BD18.boardTiles = [];
   if (BD18.gm.brdTls.length === 0) return;
   var tile,sn,ix,rot,bx,by;
   for(var i=0;i<BD18.gm.brdTls.length;i++) {
@@ -49,6 +50,7 @@ function makeBdTileList(){
  * BD18.boardTokens array.
  */
 function makeBdTokenList(){
+  BD18.boardTokens = [];
   if (BD18.gm.brdTks.length === 0) return;
   var token,sn,ix,flip,bx,by;
   for(var i=0;i<BD18.gm.brdTks.length;i++) {
@@ -182,6 +184,9 @@ function itemLoaded(event) {
  * if it is undefined or empty.
  */
 function loadBox(box) {
+  if (typeof response === "string") { // User has timed out.
+    window.location = "access-denied.html";
+  } 
   BD18.bx = null;
   BD18.bx = box;
   var board = BD18.bx.board;
@@ -227,6 +232,9 @@ function loadBox(box) {
  * loads the game box file.
  */
 function loadSession(session) {
+  if (typeof response === "string")  { // User has timed out.
+    window.location = "access-denied.html";
+  } 
   BD18.gm = null;
   BD18.gm = session;
   var boxstring = 'box=';

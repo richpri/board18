@@ -37,6 +37,7 @@ $qry1 = "SELECT json_text, update_counter
 $result1 = mysqli_query($link, $qry1);
 if ($result1) {
   if (mysqli_num_rows($result1) == 0) { // Invalid Game ID!
+  error_log("Check for valid game: Invalid Game ID: " . $gameid);
   $_SESSION['SESS_HEADER_MESSAGE'] = 
     'The selected game is not in the data base!';
   header("location: board18Main.php");

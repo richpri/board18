@@ -5,34 +5,34 @@
  * Output is JSON game box data.
  */
 
-// require_once('auth.php');
+require_once('auth.php');
 require_once('config.php');
-$link = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
-if (!$link) {
-  error_log('Failed to connect to server: ' . mysql_error());
+
+$link = @mysqli_connect(DB_HOST, DB_USER, 
+        DB_PASSWORD, DB_DATABASE);
+if (mysqli_connect_error()) {
+  $logMessage = 'MySQL Error: ' . mysqli_connect_error();
+  error_log($logMessage);
   exit;
 }
-$db = mysql_select_db(DB_DATABASE);
-if (!$db) {
-  error_log("Unable to select database");
-  exit;
-}
+mysqli_set_charset($link, "utf-8");
 
 //Function to sanitize values received from the form. 
 //Prevents SQL injection
-function clean($str) {
+function clean($link, $str) {
   $str = @trim($str);
-  return mysql_real_escape_string($str);
+  return mysqli_real_escape_string($link, $str);
 }
 
 //Sanitize the POST value
-$boxid = clean($_REQUEST['box']);
+$boxid = clean($link, $_REQUEST['box']);
 
 //Check for valid box ID and get JSON text for box.
 $qry1 = "SELECT json_text FROM box WHERE box_id='$boxid'";
-$result1 = mysql_query($qry1);
+$result1 = mysqli_query($link, $qry1);
 if ($result1) {
-  if (mysql_num_rows($result1) == 0) { // Invalid box ID!
+  if (mysqli_num_rows($result1) == 0) { // Invalid box ID!
+  error_log("Check for valid game box: Invalid Box ID: " . $boxid);
   $_SESSION['SESS_HEADER_MESSAGE'] = 
     'The selected box is not in the data base!';
   header("location: ../board18Main.php");
@@ -42,7 +42,7 @@ if ($result1) {
   exit;
 }
 
-$ad = mysql_fetch_array($result1); // $ad[0] is json_data
+$ad = mysqli_fetch_array($result1); // $ad[0] is json_data
 
 echo $ad[0];
 ?>

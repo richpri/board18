@@ -1,7 +1,10 @@
 /* Function loginOK is the callback function for the ajax
  * Validate User call. 
  */
-function loginOK(response) { 
+function loginOK(response) {
+  if (response.indexOf("<!doctype html>") != -1) { // User has timed out.
+    window.location = "access-denied.html";
+  } 
   var resp = jQuery.parseJSON(response);
   if(resp.stat == 'success') {
     $('#login #password').val('');
@@ -53,6 +56,9 @@ function login() {
  * for the ajax newUser call. 
  */
 function regResult(response) { 
+  if (response.indexOf("<!doctype html>") != -1) { // User has timed out.
+    window.location = "access-denied.html";
+  } 
   if(response == 'duplicate') {
     $("#newuser_error").text('Username is already in use.').show();  
     $("#newuser").focus();
