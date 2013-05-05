@@ -182,6 +182,7 @@ function itemLoaded(event) {
  * the game box images. 
  * It also initializes the BD18.gm.trayCounts  array
  * if it is undefined or empty.
+ * Finally it calls the makeMenues function.
  */
 function loadBox(box) {
   if (typeof response === "string") { // User has timed out.
@@ -223,8 +224,10 @@ function loadBox(box) {
       }
     }
   }
+  makeMenus();    // Register Context Menus
   BD18.doneWithLoad = true;
   itemLoaded(); // Just in case onloads are very fast.
+  
 }
 
 /* The loadSession function is a callback function for

@@ -51,14 +51,17 @@ if ($gamefound == 'no') {
     <link rel="shortcut icon" href="images/favicon.ico" >
     <link rel="stylesheet" href="style/board18com.css" />
     <link rel="stylesheet" href="style/board18Map.css" />
+    <link rel="stylesheet" href="style/jquery.contextMenu.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
-    <script type="text/javascript" src="scripts/nav1.1.min.js">
-    </script> 
-    <script type="text/javascript" src="scripts/jquery.contextMenu.js">
-    </script>
     <script type="text/javascript" src="scripts/board18com.js">
     </script> 
+    <script type="text/javascript" src="scripts/nav1.1.min.js">
+    </script>
+    <script type="text/javascript" src="scripts/jquery.ui.position.js">
+    </script>
+    <script type="text/javascript" src="scripts/jquery.contextMenu.js">
+    </script>
     <script type="text/javascript" src="scripts/board18Map1.js">
     </script> 
     <script type="text/javascript" src="scripts/board18Map2.js">
@@ -97,24 +100,6 @@ if ($gamefound == 'no') {
         $('#content').on({
           "mousedown": mapMouseEvent,
           "contextmenu": function(e){return false;}
-        });
-        $('#content').contextMenu('board-popup', {
-          'Rotate Tile CW': {
-            click: function(element){doit('cw');},
-            typeCode: "5"
-          },
-          'Rotate Tile CCW': {
-            click: function(element){doit('ccw');},
-            typeCode: "5"
-          },
-          'Cancel': {
-            click: function(element){ }
-          }
-        },
-        {
-          disable_native_context_menu: true,
-          showMenu: function() { },
-          hideMenu: function() { }
         });
         $("#mainmenu").navPlugin({
           'itemWidth': 120,

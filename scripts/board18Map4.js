@@ -180,8 +180,8 @@ function isToken(x,y) {
  * 4 - Current hex selected and token selected
  * 5 - Current hex selected and tile selected
  * 0 - None of the above
- *\
-function getMenuType(menu, ae) {
+ */
+function getMenuType(event) {
   var type = "0";
   if (BD18.hexIsSelected === true) { 
     if (BD18.tileIsSelected === true) { 
@@ -192,20 +192,20 @@ function getMenuType(menu, ae) {
     }
   } else { 
     var hexX, hexY;
-    [hexX, hexY] = tilePos(ae);
-    if (BD18.isToken === true &&
-        BD18.isTile === true) {
+    [hexX, hexY] = tilePos(event);
+    if (isToken(hexX, hexY) &&
+        isTile(hexX, hexY)) {
       type = "3";
     } else {
-      if (BD18.isToken === true {
+      if (isToken(hexX, hexY)) {
         type = "1";
       }
-      if (BD18.isTile === true) {
+      if (isTile(hexX, hexY)) {
         type = "2";
       }
     }
   }
-  reurn type;
+  return type;
 }
 
 /* This function responds to mousedown events on the map canvas.
@@ -216,9 +216,12 @@ function getMenuType(menu, ae) {
  */
 function mapMouseEvent(event) {
   if (event.which === 0 || event.which === 1) { // Left or Center
-      hexSelect(event)
-  } else { // Right
-  // code popup menu here
+    hexSelect(event);
+/*} else { // Right
+    var menu = getMenuType(event);
+    $('#content').trigger(
+      $.Event('contextmenu', {pageX: 123, pageY: 123})
+    );  */ 
   } 
 }
 
@@ -247,3 +250,51 @@ function doit(mm) { // mm is the onclick action to be taken.
       alert("Button pressed. " + mm);
     }   
   }
+  
+function makeMenuItems() {
+  return (
+  {
+    zindex: 10,
+    items: {
+      rcw: {
+        name: 'Rotate CW',
+        callback: doit('cw')
+      },
+      rccw: {
+        name: 'Rotate CCW',
+        callback: doit('ccw')
+      }
+    }
+  });
+}
+
+function makeMenus() {
+  $.contextMenu({
+    selector: '#content', 
+    build: function($trigger, e) {
+      // this callback is executed every time the menu is to be shown
+      // its results are destroyed every time the menu is hidden
+      // e is the original contextmenu event, 
+      // containing e.pageX and e.pageY (amongst other data)
+      return {
+        trigger: "right",
+        callback: function(key, options) {
+          var m = "clicked on " + key + " on element ";
+          m =  m + options.$trigger.attr("id");
+          alert(m); 
+        },
+        zindex: 10,
+        items: {
+          rcw: {
+            name: 'Rotate CW',
+            callback: doit('cw')
+          },
+          rccw: {
+            name: 'Rotate CCW',
+            callback: doit('ccw')
+          }
+        }
+      };
+    }
+  });
+}
