@@ -8,49 +8,9 @@
     </script>
     <script type="text/javascript" src="../scripts/jquery.contextMenu.js">
     </script>
+    <script type="text/javascript" src="testContextMenu.js">
+    </script>
     <script type="text/javascript">
-      function makeMenus() {
-        $.contextMenu({
-          selector: '#content', 
-          build: function($trigger, e) {
-            // this callback is executed every time the menu is to be shown
-            // its results are destroyed every time the menu is hidden
-            // e is the original contextmenu event, 
-            // containing e.pageX and e.pageY (amongst other data)
-            return {
-              trigger: "right",
-              determinePosition: function($menu) {
-                // .position() is provided as a jQuery UI utility
-                // (...and it won't work on hidden elements)
-                $menu.css('display', 'block').position({
-                  my: "right top",
-                  at: "left bottom",
-                  of: this,
-                  offset: "0 5",
-                  collision: "fit"
-                }).css('display', 'none');
-                
-              },
-              callback: function(key, options) {
-                var m = "clicked on " + key + " on element ";
-                m =  m + options.$trigger.attr("id");
-                alert(m); 
-              },
-              zindex: 10,
-              items: {
-                rcw: {
-                  name: 'Rotate CW'
-                  //                  callback: doit('cw')
-                },
-                rccw: {
-                  name: 'Rotate CCW'
-                  //                  callback: doit('ccw')
-                }
-              }
-            };
-          }
-        });
-      }
       $(function() {
         makeMenus();        
       });     

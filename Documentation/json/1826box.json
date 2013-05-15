@@ -1,88 +1,299 @@
 {
-  "gameName": "1826",
-  "board": {
-    "imageLocation": "images/1826/Map.png",
-    "imageHeight": "1418",
-    "imageWidth": "1249", 
-    "xStart": "0",
-    "xStep": "50",
-    "yStart": "0",
-    "yStep": "86.8"
-  },
-  "market": {
-    "imageLocation": "images/1826/Chart.png",
-    "imageHeight": "xx",
-    "imageWidth": "xx", 
-    "xStart": "xx",
-    "xStep": "xx",
-    "yStart": "xx",
-    "yStep": "xx"
-  },
-  "tileSheets": [{
-    "trayName": "Yellow Tiles",
-    "imageLocation": "images/1826/Yellow1.png",
-    "xStart": "89",
-    "xSize": "70",
-    "xStep": "89",
-    "yStart": "79",
-    "ySize": "71",
-    "yStep": "79",
-    "tiles": [{
-      "dups": "2",
-      "rots": "6"
-    },
-    {
-      "dups": "6",
-      "rots": "6"
-    },
-        {
-      "dups": "6",
-      "rots": "3"
-    },
-        {
-      "dups": "2",
-      "rots": "6"
-    },
-        {
-      "dups": "2",
-      "rots": "6"
-    },
-        {
-      "dups": "5",
-      "rots": "3"
-    },
-           {
-      "dups": "20",
-      "rots": "6"
-    },
-        {
-      "dups": "30",
-      "rots": "6"
-    },
-        {
-      "dups": "20",
-      "rots": "3"
-    }
-    ]
-  },
-  {
-    "trayName": "Green Tiles",
-    "imageLocation": "images/1826/Green1.png",
-    "xStart": "89",
-    "xSize": "70",
-    "xStep": "89",
-    "yStart": "79",
-    "ySize": "71",
-    "yStep": "79",
-    "tiles": [{
-      "dups": "1",
-      "rots": "6"
-    },
-    {
-      "dups": "1",
-      "rots": "3"
-    }
-    ]
-  }
-  ]
+ "bname":"testBox",
+ "version":"v12.10",
+ "author":"Rich Price",
+ "board": {
+   "imgLoc":"images/test/Map.png",
+   "imgHght":1249,
+   "imgWdth":1418,
+   "xStart":0,
+   "xStep":50,
+   "yStart":0,
+   "yStep":87.0
+ },
+ "market": {
+   "imgLoc":"images/test/Stock.png",
+   "imgHght":1249,
+   "imgWdth":1418,
+   "xStart":0,
+   "xStep":50,
+   "yStart":0,
+   "yStep":50
+ },
+ "tray": [ {
+   "type":"tile",
+   "tName":"Yellow Tiles",
+   "imgLoc":"images/test/Yellow1.png",
+   "xStart":89,
+   "xSize":70,
+   "xStep":89,
+   "yStart":79,
+   "ySize":71,
+   "yStep":79,
+   "tile":[ {
+     "dups":2,
+     "rots":6
+   }, {
+     "dups":6,
+     "rots":6
+   }, {
+     "dups":6,
+     "rots":3
+   }, {
+     "dups":2,
+     "rots":6
+   }, {
+     "dups":2,
+     "rots":6
+   }, {
+     "dups":5,
+     "rots":3
+   }, {
+     "dups":20,
+     "rots":6
+   }, {
+     "dups":30,
+     "rots":6
+   }, {
+     "dups":30,
+     "rots":3
+   }]
+ }, {
+   "type":"tile",
+   "tName":"Green Tiles",
+   "imgLoc":"images/test/Green1.png",
+   "xStart":89,
+   "xSize":70,
+   "xStep":89,
+   "yStart":79,
+   "ySize":71,
+   "yStep":79,
+   "tile":[ {
+     "dups":1,
+     "rots":6
+   }, {
+     "dups":1,
+     "rots":3
+   }, {
+     "dups":4,
+     "rots":6
+   }, {
+     "dups":4,
+     "rots":6
+   }, {
+     "dups":3,
+     "rots":6
+   }, {
+     "dups":1,
+     "rots":6
+   }, {
+     "dups":1,
+     "rots":6
+   }, {
+     "dups":1,
+     "rots":6
+   }, {
+     "dups":1,
+     "rots":6
+   }, {
+     "dups":1,
+     "rots":6
+   }]
+ }, {
+   "type":"tile",
+   "tName":"Green Cities",
+   "imgLoc":"images/test/Green2.png",
+   "xStart":89,
+   "xSize":70,
+   "xStep":89,
+   "yStart":79,
+   "ySize":71,
+   "yStep":79,
+   "tile":[ {
+     "dups":2,
+     "rots":6
+   }, {
+     "dups":2,
+     "rots":3
+   }, {
+     "dups":1,
+     "rots":6
+   }, {
+     "dups":1,
+     "rots":6
+   }, {
+     "dups":1,
+     "rots":6
+   }, {
+     "dups":1,
+     "rots":2
+   }, {
+     "dups":2,
+     "rots":6
+   }, {
+     "dups":3,
+     "rots":3
+   }, {
+     "dups":3,
+     "rots":6
+   }, {
+     "dups":1,
+     "rots":1
+   }, {
+     "dups":3,
+     "rots":6
+   }]
+ }, {
+   "type":"tile",
+   "tName":"Brown Tiles",
+   "imgLoc":"images/test/Brown1.png",
+   "xStart":89,
+   "xSize":70,
+   "xStep":89,
+   "yStart":79,
+   "ySize":71,
+   "yStep":79,
+   "tile":[ {
+     "dups":5,
+     "rots":1
+   }, {
+     "dups":1,
+     "rots":1
+   }, {
+     "dups":2,
+     "rots":2
+   }, {
+     "dups":1,
+     "rots":6
+   }, {
+     "dups":1,
+     "rots":2
+   }, {
+     "dups":2,
+     "rots":6
+   }, {
+     "dups":2,
+     "rots":6
+   }, {
+     "dups":3,
+     "rots":6
+   }, {
+     "dups":1,
+     "rots":3
+   }, {
+     "dups":2,
+     "rots":6
+   }, {
+     "dups":2,
+     "rots":6
+   }, {
+     "dups":3,
+     "rots":3
+   }, {
+     "dups":1,
+     "rots":6
+   }]
+ }, {
+   "type":"tile",
+   "tName":"Grey Tiles",
+   "imgLoc":"images/test/Grey1.png",
+   "xStart":19,
+   "xSize":70,
+   "xStep":89,
+   "yStart":5,
+   "ySize":70,
+   "yStep":79,
+   "tile":[ {
+     "dups":1,
+     "rots":1
+   }, {
+     "dups":1,
+     "rots":1
+   }]
+ }, {
+   "type":"btok",
+   "tName":"Tokens",
+   "imgLoc":"images/test/tokens.png",
+   "xStart":5,
+   "xSize":50,
+   "xStep":60,
+   "yStart":5,
+   "ySize":50,
+   "yStep":56,
+   "token":[ {
+     "dups":5,
+     "flip":false
+   }, {
+     "dups":5,
+     "flip":false
+   }, {
+     "dups":5,
+     "flip":false
+   }, {
+     "dups":5,
+     "flip":false
+   }, {
+     "dups":5,
+     "flip":false
+   }, {
+     "dups":5,
+     "flip":false
+   }, {
+     "dups":5,
+     "flip":false
+   }, {
+     "dups":5,
+     "flip":false
+   }, {
+     "dups":4,
+     "flip":false
+   }, {
+     "dups":5,
+     "flip":false
+   }, {
+     "dups":5,
+     "flip":false
+   }, {
+     "dups":5,
+     "flip":false
+   }, {
+     "dups":1,
+     "flip":false
+   }]
+ }, {
+   "type":"mtok",
+   "tName":"Tokens",
+   "imgLoc":"images/test/tokens.png",
+   "xStart":5,
+   "xSize":50,
+   "xStep":60,
+   "yStart":5,
+   "ySize":50,
+   "yStep":56,
+   "token":[ {
+     "flip":false
+   }, {
+     "flip":false
+   }, {
+     "flip":false
+   }, {
+     "flip":false
+   }, {
+     "flip":false
+   }, {
+     "flip":false
+   }, {
+     "flip":false
+   }, {
+     "flip":false
+   }, {
+     "flip":false
+   }, {
+     "flip":false
+   }, {
+     "flip":false
+   }, {
+     "flip":false
+   }]
+ }]
 }

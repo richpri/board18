@@ -99,7 +99,6 @@ if ($gamefound == 'no') {
         }); // end tray click
         $('#content').on({
           "mousedown": mapMouseEvent,
-          "contextmenu": function(e){return false;}
         });
         $("#mainmenu").navPlugin({
           'itemWidth': 120,

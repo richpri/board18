@@ -115,6 +115,89 @@ function rotateTile(dir) {
   BD18.hexIsSelected = true;
 }
 
+/* The dropToken function places a token at a specified 
+ * location on the map board.  It calls the BoardToken
+ * constructor function and then updates some global
+ * variables to keep track of the new token. Note that
+ * this new token has not yet been permanently added to
+ * the list of placed tokens in BD18.gm.brdTks. It is 
+ * tracked instead in the BD18.tempToken array.
+ */
+function dropToken(x,y,xI,yI) {
+  BD18.tempToken = [BD18.curTrayNumb,BD18.curIndex,false,xI,yI];
+  var sn = BD18.tempToken[0];
+  var ix = BD18.tempToken[1];
+  var flip = BD18.tempToken[2];
+  var bx = BD18.tempToken[3];
+  var by = BD18.tempToken[4];
+  var temp=new BoardToken(sn,ix,flip,bx,by);
+  temp.place(0.5); // Semi-transparent
+  BD18.curRot = 0;
+  BD18.curFlip = false;
+  BD18.curHexX = x;
+  BD18.curHexY = y;
+  BD18.curMapX = xI;
+  BD18.curMapY = yI;
+  BD18.hexIsSelected = true;
+  var messg = "Select 'Menu-Actions-Accept Move' to make ";
+  messg += "token placement permanent."
+  doLogNote(messg);
+}
+
+/* The repositionToken function moves the current token  
+ * to a specified new location on the selected tile.  
+ * It calls the BoardToken constructor function. 
+ * Note that this new token has not yet been
+ * permanently added to the list of placed tokens in
+ * BD18.gm.brdTks. It is tracked instead in the 
+ * BD18.tempToken array.
+ */
+function repositionToken(xI,yI) {
+  BD18.tempToken[3] = xI;
+  BD18.tempToken[4] = yI;
+  BD18.curMapX = xI;
+  BD18.curMapY = yI;
+  var sn = BD18.tempToken[0];
+  var ix = BD18.tempToken[1];
+  var flip = BD18.tempToken[2];
+  var bx = BD18.tempToken[3];
+  var by = BD18.tempToken[4];
+  toknCanvasApp();
+  var temp = new BoardToken(sn,ix,flip,xI,yI);
+  temp.place(0.5); // Semi-transparent
+  var messg = "Select 'Menu-Actions-Accept Move' to make ";
+  messg += "token placement permanent."
+  doLogNote(messg);
+}
+
+/* The flipToken function flips the current token.
+ * It does nothing and returns if flip is disallowed. 
+ * Else it calls the BoardToken constructor function. 
+ * Note that this flipped token has not yet been
+ * permanently added to the list of placed tokens
+ * in BD18.gm.brdTks. It is tracked instead in the 
+ * BD18.tempToken array.
+ */
+function flipToken() {
+  if (BD18.bx.tray[BD18.curTrayNumb].token[BD18.curIndex].flip === false) 
+    {
+      return;
+    }
+  BD18.curFlip = !BD18.tempToken[2];
+  BD18.tempToken[2] = BD18.curFlip;
+  var sn = BD18.tempToken[0];
+  var ix = BD18.tempToken[1];
+  var flip = BD18.tempToken[2];
+  var bx = BD18.tempToken[3];
+  var by = BD18.tempToken[4];
+  toknCanvasApp();
+  var temp = new BoardToken(sn,ix,flip,xI,yI);
+  temp.place(0.5); // Semi-transparent
+  var messg = "Select 'Menu-Actions-Accept Move' to make ";
+  messg += "token placement permanent."
+  doLogNote(messg);
+}
+
 /* This function reduces the available count for  
  * a specific tile or token [item]. These counts 
  * are stored in the BD18.gm.trayCounts array 
@@ -145,7 +228,7 @@ function increaseCount(sheet,ind) {
  * This function returns false if no tile is
  * deleted and true otherwise.
  */
-function clearHex(x,y) {
+function deleteTile(x,y) {
   if (BD18.boardTiles.length === 0) return false;
   var tile;
   for (var i=0;i<BD18.boardTiles.length;i++) {
@@ -219,7 +302,7 @@ function acceptMove() {
 /* This function adds the current board tile object 
  * to the BD18.boardTiles array.  If a tile is 
  * already in the hex in question then that existing 
- * tile is deleted via the clearHex function.
+ * tile is deleted via the deleteTile function.
  * If the tile count for the tile is already 0 then
  * an error has occured. This should never happen.
  */
@@ -232,7 +315,7 @@ function addTile() {
   var tile = new BoardTile(s,n,r,x,y);
   var stat = reduceCount(tile.sheet.trayNumb,tile.index);
   if (stat) {
-    clearHex(x,y);
+    deleteTile(x,y);
     BD18.boardTiles.push(tile);
     BD18.curIndex = null;
     mainCanvasApp();
@@ -274,6 +357,4 @@ function addToken() {
     alert("ERROR: Token not available.");
   }
 }
-
-
-  
+ 

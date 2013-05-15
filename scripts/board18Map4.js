@@ -44,61 +44,6 @@ function traySelect(event) {
   if(tray.sheetType==="btok") {BD18.tokenIsSelected = true;}
 }
 
-/* The dropToken function places a token at a specified 
- * location on the map board.  It calls the BoardToken
- * constructor function and then updates some global
- * variables to keep track of the new token. Note that
- * this new token has not yet been permanently added to
- * the list of placed tokens in BD18.gm.brdTks. It is 
- * tracked instead in the BD18.tempToken array.
- */
-function dropToken(x,y,xI,yI) {
-  BD18.tempToken = [BD18.curTrayNumb,BD18.curIndex,false,xI,yI];
-  var sn = BD18.tempToken[0];
-  var ix = BD18.tempToken[1];
-  var flip = BD18.tempToken[2];
-  var bx = BD18.tempToken[3];
-  var by = BD18.tempToken[4];
-  var temp=new BoardToken(sn,ix,flip,bx,by);
-  temp.place(0.5); // Semi-transparent
-  BD18.curRot = 0;
-  BD18.curFlip = false;
-  BD18.curHexX = x;
-  BD18.curHexY = y;
-  BD18.curMapX = xI;
-  BD18.curMapY = yI;
-  BD18.hexIsSelected = true;
-  var messg = "Select 'Menu-Actions-Accept Move' to make ";
-  messg += "token placement permanent."
-  doLogNote(messg);
-}
-
-/* The repositionToken function moves the current token  
- * to a specified new location on the selected tile.  
- * It calls the BoardToken constructor function. 
- * Note that this new token has not yet been
- * permanently added to the list of placed tokens in
- * BD18.gm.brdTks. It is tracked instead in the 
- * BD18.tempToken array.
- */
-function repositionToken(xI,yI) {
-  BD18.tempToken[3] = xI;
-  BD18.tempToken[4] = yI;
-  BD18.curMapX = xI;
-  BD18.curMapY = yI;
-  var sn = BD18.tempToken[0];
-  var ix = BD18.tempToken[1];
-  var flip = BD18.tempToken[2];
-  var bx = BD18.tempToken[3];
-  var by = BD18.tempToken[4];
-  toknCanvasApp();
-  var temp = new BoardToken(sn,ix,flip,xI,yI);
-  temp.place(0.5); // Semi-transparent
-  var messg = "Select 'Menu-Actions-Accept Move' to make ";
-  messg += "token placement permanent."
-  doLogNote(messg);
-}
-
 /* This function responds to left mousedown events in the  
  * map canvas. It checks various conditions and executes 
  * the appropriate function based on them. If it can find 
@@ -147,25 +92,24 @@ function isTile(x,y) {
   return false;
 }
 
-/* The isToken function checks if a board token 
- * object is located in hex [x,y]. To do this
- * it searches the BD18.boardTokens array.
+/* The isToken function checks if one or more
+ * board token objects are located in hex [x,y]. 
+ * To do this it searches the BD18.boardTokens array.
  * 
- * This function returns false if no token is
- * found and true if a token is found. This
- * function dos NOT count the tokens on a hex!
+ * This function returns the number of tokens 
+ * found on the hex.
  */
 function isToken(x,y) {
-  if (BD18.boardTokens.length === 0) return false;
-  var token;
+  if (BD18.boardTokens.length === 0) return 0;
+  var token, count =0;
   for (var i=0;i<BD18.boardTokens.length;i++) {
     if (!(i in BD18.boardTokens)) continue ;
     token = BD18.boardTokens[i];
     if (token.bx === x && token.by === y) {
-      return true;
+      count =+ 1;
     }
   }
-  return false;
+  return count;
 }
 
 
@@ -174,14 +118,15 @@ function isToken(x,y) {
  * from the list below to specify what type of
  * menu to display.
  *
- * 1 - Hex not selected and current hex has token 
- * 2 - Hex not selected and current hex has tile
- * 3 - Hex not selected and current hex has both
- * 4 - Current hex selected and token selected
- * 5 - Current hex selected and tile selected
- * 0 - None of the above
+ * "0" - Suppress the menue display entirely
+ * "1" - Hex not selected and current hex has token 
+ * "2" - Hex not selected and current hex has tile
+ * "3" - Hex not selected and current hex has both
+ * "4" - Current hex selected and token selected
+ * "5" - Current hex selected and tile selected
  */
 function getMenuType(event) {
+  // if (BD18.z3.on === true) return "0";
   var type = "0";
   if (BD18.hexIsSelected === true) { 
     if (BD18.tileIsSelected === true) { 
@@ -193,14 +138,15 @@ function getMenuType(event) {
   } else { 
     var hexX, hexY;
     [hexX, hexY] = tilePos(event);
-    if (isToken(hexX, hexY) &&
-        isTile(hexX, hexY)) {
+    BD18.numbtok = isToken(hexX, hexY);
+    var tile = isTile(hexX, hexY);
+    if ((BD18.numbtok !== 0) && tile) {
       type = "3";
     } else {
-      if (isToken(hexX, hexY)) {
+      if (BD18.numbtok !== 0) {
         type = "1";
       }
-      if (isTile(hexX, hexY)) {
+      if (tile) {
         type = "2";
       }
     }
@@ -209,19 +155,15 @@ function getMenuType(event) {
 }
 
 /* This function responds to mousedown events on the map canvas.
- * It uses event.witch to determine which mouse button was
- * pressed. If the left or center button was pressed then it
- * calls the hexSelect functon. Otherwise it assumes that the
- * right button was pressed and displays a popup menu.
+ * It uses event.witch to determine which mouse button was pressed.
+ * If the left or center button was pressed then it calls the
+ * hexSelect functon. Otherwise it assumes that the right button
+ * was pressed and does nothing. Right mose events are handled
+ * by the jquery.contextMenu library [see the makeMenus function].
  */
 function mapMouseEvent(event) {
   if (event.which === 0 || event.which === 1) { // Left or Center
     hexSelect(event);
-/*} else { // Right
-    var menu = getMenuType(event);
-    $('#content').trigger(
-      $.Event('contextmenu', {pageX: 123, pageY: 123})
-    );  */ 
   } 
 }
 
@@ -251,50 +193,161 @@ function doit(mm) { // mm is the onclick action to be taken.
     }   
   }
   
-function makeMenuItems() {
-  return (
-  {
-    zindex: 10,
-    items: {
-      rcw: {
-        name: 'Rotate CW',
-        callback: doit('cw')
-      },
-      rccw: {
-        name: 'Rotate CCW',
-        callback: doit('ccw')
-      }
-    }
-  });
+/* 
+ * The makeMenuItems function will use the getMenuType
+ * function to determine which menu items it will
+ * include in the currently displayed menu.  Menu type:
+ * "0" - Suppress the menue display entirely
+ * "1" - Hex not selected and current hex has token 
+ * "2" - Hex not selected and current hex has tile
+ * "3" - Hex not selected and current hex has both
+ * "4" - Current hex selected and token selected
+ * "5" - Current hex selected and tile selected
+ */
+function makeMenuItems(e) {
+  var menuType = getMenuType(e);
+  var menuText;
+  switch(menuType)
+    {
+    case "0":
+      menuText = "0";
+      break;
+    case "1":
+      menuText = "0";
+      break;
+    case "2":
+      menuText = {
+        dtile: {
+          name: 'Delete Tile',
+          callback: function(){
+            var bx, by, hx, hy;
+            [bx,by] =  offsetIn(e, BD18.canvas1);
+            [hx, hy] = BD18.gameBoard.hexCoord(bx, by);
+            deleteTile(hx, hy);
+            mainCanvasApp();
+            trayCanvasApp();
+            updateGmBrdTiles();
+            updateDatabase();
+          }
+        },
+        close: {
+          name: 'Close Menu',
+          callback: function(){}
+        }
+      };
+      break;
+    case "3":
+      menuText = "0";
+      break;
+    case "4":
+      menuText = {
+        flip: {
+          name: 'Flip Token',
+          callback: function(){
+            flipToken();
+          }
+        },
+        accept: {
+          name: 'Accept Move',
+          callback: function(){
+            acceptMove();
+          }
+        },
+        reset: {
+          name: 'Cancel Move',
+          callback: function(){
+            trayCanvasApp();
+            mainCanvasApp();
+            toknCanvasApp();
+          }
+        },
+        close: {
+          name: 'Close Menu',
+          callback: function(){}
+        }
+      };
+      break;
+    case "5":
+      menuText = {
+        rcw: {
+          name: 'Rotate CW',
+          callback: function(){
+            doit("cw");
+          }
+        },
+        rccw: {
+          name: 'Rotate CCW',
+          callback: function(){
+            doit("ccw");
+          }
+        },
+        accept: {
+          name: 'Accept Move',
+          callback: function(){
+            acceptMove();
+          }
+        },
+        reset: {
+          name: 'Cancel Move',
+          callback: function(){
+            trayCanvasApp();
+            mainCanvasApp();
+            toknCanvasApp();
+          }
+        },
+        close: {
+          name: 'Close Menu',
+          callback: function(){}
+        }
+      };
+      break;
+    default:
+      menuText = "0";
+      alert("Invalid Menu Type" + mm + ".");
+    } 
+  return menuText;
 }
 
+
+/* 
+ * The makeMenus function registers a dynamic context menu which
+ * will be rebuilt every time the menu is to be shown. It will
+ * use the makeMenuItems function to include the correct menu 
+ * items in the menu to be displayed for a particular event.
+ */
 function makeMenus() {
   $.contextMenu({
     selector: '#content', 
     build: function($trigger, e) {
-      // this callback is executed every time the menu is to be shown
-      // its results are destroyed every time the menu is hidden
+      // this callback is executed every time the menu is shown.
+      // its results are destroyed every time the menu is hidden.
       // e is the original contextmenu event, 
       // containing e.pageX and e.pageY (amongst other data)
-      return {
+      var items = makeMenuItems(e);
+      if (items === "0") return false;
+      var opts = {
         trigger: "right",
+        determinePosition: function($menu) {
+          // .position() is provided as a jQuery UI utility
+          // (...and it won't work on hidden elements)
+          $menu.css('display', 'block').position({
+            my: "right top",
+            at: "left bottom",
+            of: this,
+            offset: "0 5",
+            collision: "fit"
+          }).css('display', 'none');
+        },
         callback: function(key, options) {
           var m = "clicked on " + key + " on element ";
           m =  m + options.$trigger.attr("id");
           alert(m); 
         },
         zindex: 10,
-        items: {
-          rcw: {
-            name: 'Rotate CW',
-            callback: doit('cw')
-          },
-          rccw: {
-            name: 'Rotate CCW',
-            callback: doit('ccw')
-          }
-        }
+        reposition: false
       };
+      opts.items = items;
+      return opts;
     }
   });
 }

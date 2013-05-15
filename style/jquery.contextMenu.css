@@ -23,21 +23,14 @@
     list-style-type: none;
     
     border: 1px solid #DDD;
-    background: #EEE;
-    
-    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-       -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-        -ms-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-         -o-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    
+    background-color: #ddffdd;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 11px;
 }
 
 .context-menu-item {
     padding: 2px 2px 2px 24px;
-    background-color: #EEE;
+    background-color: #ddffdd;
     position: relative;
     -webkit-user-select: none;
        -moz-user-select: -moz-none;
@@ -60,7 +53,7 @@
 
 .context-menu-item.hover {
     cursor: pointer;
-    background-color: #39F;
+    background-color: #ffeedd;
 }
 
 .context-menu-item.disabled {
