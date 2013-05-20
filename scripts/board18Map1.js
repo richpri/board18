@@ -21,6 +21,10 @@ BD18.curMapY = null;
 BD18.tileIsSelected = false;
 BD18.tokenIsSelected = false;
 BD18.hexIsSelected = false;
+BD18.z3 = {};
+BD18.z3.on = false;
+BD18.z3.go = false;
+BD18.hexList = {};
 
 /*  
  * Constructor functions.
@@ -288,3 +292,42 @@ function BoardToken(snumb,index,flip,bx,by) {
   };
 }
   
+/* 
+ * OnHex is a constructor function which creates an object 
+ * listing all items [tile and tokens] on the hex with the  
+ * supplied coordinates. 
+ */
+function OnHex(hexX, hexY) {
+  this.hexX = hexX;
+  this.hexY = hexY;
+  this.tile = {};
+  this.tokens = [];
+  var item, i;
+  if (BD18.boardTiles.length !== 0) {
+    for (i=0;i<BD18.boardTiles.length;i++) {
+      if (!(i in BD18.boardTiles)) continue ;
+      item = BD18.boardTiles[i];
+      if (item.bx === hexX && item.by === hexY) {
+        this.tile = item;
+        this.tile.btindex = i;
+        break;
+      }
+    }  
+  }
+  if (BD18.boardTokens.length !== 0) {
+    for (i=0;i<BD18.boardTokens.length;i++) {
+      if (!(i in BD18.boardTokens)) continue ;
+      item = BD18.boardTokens[i];
+      if (item.hx === hexX && item.hy === hexY) {
+        this.tokens.push(item);
+        this.tokens[this.tokens.length-1].btindex = i;
+      }
+    }
+  }
+  this.isTile = (this.tile !== {});
+  this.noToken = (this.tokens.length === 0);
+  this.oneToken = (this.tokens.length === 1);
+  this.manyTokens = (this.tokens.length > 1);
+  this.manyItems = (this.manyTokens || 
+    (this.isTile && this.oneToken));
+}

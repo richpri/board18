@@ -113,7 +113,6 @@ if ($gamefound == 'no') {
           alert(msg); 
         });
       });
-      
     </script>    
   </head>
 

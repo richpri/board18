@@ -72,83 +72,37 @@ function hexSelect(event) {
   }
 }
 
-/* The isTile function checks if a board tile 
- * object is located in hex [x,y]. To do this
- * it searches the BD18.boardTiles array.
- * 
- * This function returns false if no tile is
- * found and true if a tile is found.
- */
-function isTile(x,y) {
-  if (BD18.boardTiles.length === 0) return false;
-  var tile;
-  for (var i=0;i<BD18.boardTiles.length;i++) {
-    if (!(i in BD18.boardTiles)) continue ;
-    tile = BD18.boardTiles[i];
-    if (tile.bx === x && tile.by === y) {
-      return true;
-    }
-  }
-  return false;
-}
-
-/* The isToken function checks if one or more
- * board token objects are located in hex [x,y]. 
- * To do this it searches the BD18.boardTokens array.
- * 
- * This function returns the number of tokens 
- * found on the hex.
- */
-function isToken(x,y) {
-  if (BD18.boardTokens.length === 0) return 0;
-  var token, count =0;
-  for (var i=0;i<BD18.boardTokens.length;i++) {
-    if (!(i in BD18.boardTokens)) continue ;
-    token = BD18.boardTokens[i];
-    if (token.bx === x && token.by === y) {
-      count =+ 1;
-    }
-  }
-  return count;
-}
-
-
 /*
  * The getMenuType() function returns a character
  * from the list below to specify what type of
  * menu to display.
  *
- * "0" - Suppress the menue display entirely
- * "1" - Hex not selected and current hex has token 
- * "2" - Hex not selected and current hex has tile
- * "3" - Hex not selected and current hex has both
- * "4" - Current hex selected and token selected
- * "5" - Current hex selected and tile selected
+ * "0" - Suppress the menue display entirely.
+ * "1" - Current hex selected and token selected
+ * "2" - Current hex selected and tile selected
+ * "3" - Current unselected hex has only one token [no tile]
+ * "4" - Current unselected hex has mutiple tokens [no tile]
+ * "5" - Current unselected hex has only a tile [no token] 
+ * "6" - Current unselected hex has a tile and one token
+ * "7" - Current unselected hex has a tile and mutiple tokens
  */
 function getMenuType(event) {
-  // if (BD18.z3.on === true) return "0";
+  if (BD18.z3.on) return "0";
   var type = "0";
   if (BD18.hexIsSelected === true) { 
-    if (BD18.tileIsSelected === true) { 
-      type = "5";
-    }
-    if (BD18.tokenIsSelected === true) {
-      type = "4";
-    }
+    if (BD18.tokenIsSelected === true) type = "1";
+    if (BD18.tileIsSelected === true) type = "2";
   } else { 
     var hexX, hexY;
     [hexX, hexY] = tilePos(event);
-    BD18.numbtok = isToken(hexX, hexY);
-    var tile = isTile(hexX, hexY);
-    if ((BD18.numbtok !== 0) && tile) {
-      type = "3";
+    BD18.hexList = new OnHex(hexX, hexY);
+    if (!BD18.hexList.isTile) {
+      if (BD18.hexList.oneToken) type = "3";
+      if (BD18.hexList.manyTokens) type = "4";
     } else {
-      if (BD18.numbtok !== 0) {
-        type = "1";
-      }
-      if (tile) {
-        type = "2";
-      }
+      if (BD18.hexList.noToken) type = "5";
+      if (BD18.hexList.oneToken) type = "6";
+      if (BD18.hexList.manyTokens) type = "7";
     }
   }
   return type;
@@ -197,12 +151,14 @@ function doit(mm) { // mm is the onclick action to be taken.
  * The makeMenuItems function will use the getMenuType
  * function to determine which menu items it will
  * include in the currently displayed menu.  Menu type:
- * "0" - Suppress the menue display entirely
- * "1" - Hex not selected and current hex has token 
- * "2" - Hex not selected and current hex has tile
- * "3" - Hex not selected and current hex has both
- * "4" - Current hex selected and token selected
- * "5" - Current hex selected and tile selected
+ * "0" - Suppress the menue display entirely.
+ * "1" - Current hex selected and token selected
+ * "2" - Current hex selected and tile selected
+ * "3" - Current unselected hex has only one token [no tile]
+ * "4" - Current unselected hex has mutiple tokens [no tile]
+ * "5" - Current unselected hex has only a tile [no token] 
+ * "6" - Current unselected hex has a tile and one token
+ * "7" - Current unselected hex has a tile and mutiple tokens
  */
 function makeMenuItems(e) {
   var menuType = getMenuType(e);
@@ -213,33 +169,6 @@ function makeMenuItems(e) {
       menuText = "0";
       break;
     case "1":
-      menuText = "0";
-      break;
-    case "2":
-      menuText = {
-        dtile: {
-          name: 'Delete Tile',
-          callback: function(){
-            var bx, by, hx, hy;
-            [bx,by] =  offsetIn(e, BD18.canvas1);
-            [hx, hy] = BD18.gameBoard.hexCoord(bx, by);
-            deleteTile(hx, hy);
-            mainCanvasApp();
-            trayCanvasApp();
-            updateGmBrdTiles();
-            updateDatabase();
-          }
-        },
-        close: {
-          name: 'Close Menu',
-          callback: function(){}
-        }
-      };
-      break;
-    case "3":
-      menuText = "0";
-      break;
-    case "4":
       menuText = {
         flip: {
           name: 'Flip Token',
@@ -267,7 +196,7 @@ function makeMenuItems(e) {
         }
       };
       break;
-    case "5":
+    case "2":
       menuText = {
         rcw: {
           name: 'Rotate CW',
@@ -301,13 +230,42 @@ function makeMenuItems(e) {
         }
       };
       break;
+    case "3":
+      menuText = "0";
+      break;
+    case "4":
+      menuText = "0";
+      break;
+    case "5":
+      menuText = {
+        dtile: {
+          name: 'Delete Tile',
+          callback: function(){
+            deleteTile(BD18.hexList.tile.btindex);
+            mainCanvasApp();
+            trayCanvasApp();
+            updateGmBrdTiles();
+            updateDatabase();
+          }
+        },
+        close: {
+          name: 'Close Menu',
+          callback: function(){}
+        }
+      };
+      break;
+    case "6":
+      menuText = "0";
+      break;
+    case "7":
+      menuText = "0";
+      break;
     default:
       menuText = "0";
       alert("Invalid Menu Type" + mm + ".");
     } 
   return menuText;
 }
-
 
 /* 
  * The makeMenus function registers a dynamic context menu which
@@ -350,4 +308,15 @@ function makeMenus() {
       return opts;
     }
   });
+}
+
+/* 
+ * The doZ3Logic function check if a z3 selection menu is
+ * needed for a multi-item hex request. It is triggered by 
+ * any mouse click that filters down to the rightofpage 
+ * division. It either returns or displays the needed menu.
+ */
+function doZ3Logic() {
+  // if (!BD18.z3.go) return;
+  alert("made it");
 }

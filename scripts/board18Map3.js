@@ -223,24 +223,38 @@ function increaseCount(sheet,ind) {
   BD18.gm.trayCounts[sheet][ind] += 1;  
 }
 
-/* This function deletes the board tile object 
- * from the BD18.boardTiles array.
- * This function returns false if no tile is
- * deleted and true otherwise.
+/* 
+ * The deleteTile function deletes a board tile object 
+ * from the BD18.boardTiles array. The ix parameter is
+ * the index of the tile to be deleted.  This function 
+ * also increases the count of available tiles for the
+ * tile that is being deleted.  This function returns
+ * false if no tile is deleted and true otherwise.
  */
-function deleteTile(x,y) {
+function deleteTile(ix) {
   if (BD18.boardTiles.length === 0) return false;
-  var tile;
-  for (var i=0;i<BD18.boardTiles.length;i++) {
-    if (!(i in BD18.boardTiles)) continue ;
-    tile = BD18.boardTiles[i];
-    if (tile.bx === x && tile.by === y) {
-      increaseCount(tile.sheet.trayNumb,tile.index);
-      delete BD18.boardTiles[i];
-      return true;
-    }
-  }
-  return false;
+  var tix = BD18.boardTiles[ix];
+  if (!tix) return false;
+  increaseCount(tix.sheet.trayNumb,tix.index);
+  delete BD18.boardTiles[ix];
+  return true;
+}
+
+/* 
+ * The deleteToken function deletes a board token object 
+ * from the BD18.boardTokens array. The ix parameter is
+ * the index of the tile to be deleted.  This function 
+ * also increases the count of available tokens for the
+ * token that is being deleted.  This function returns
+ * false if no token is deleted and true otherwise.
+ */
+function deleteToken(ix) {
+  if (BD18.boardTokens.length === 0) return false;
+  var tix = BD18.boardTokens[ix];
+  if (!tix) return false;
+  increaseCount(tix.sheet.trayNumb,tix.index);
+  delete BD18.boardTokens[ix];
+  return true;
 }
 
 /* This function uses the contents of the 
@@ -315,7 +329,10 @@ function addTile() {
   var tile = new BoardTile(s,n,r,x,y);
   var stat = reduceCount(tile.sheet.trayNumb,tile.index);
   if (stat) {
-    deleteTile(x,y);
+    var hexhas = new OnHex(x,y);
+    if (hexhas.isTile) {
+      deleteTile(hexhas.tile.btindex);
+    }
     BD18.boardTiles.push(tile);
     BD18.curIndex = null;
     mainCanvasApp();
