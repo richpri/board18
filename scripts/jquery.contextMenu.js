@@ -9,6 +9,8 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
+ *   
+ *   Modified by Rich Price on 5/22/2013 - removed 'filter: alpha(opacity=50);' from line 1186
  *
  */
 
@@ -1181,7 +1183,7 @@ var // currently active contextMenu trigger
         layer: function(opt, zIndex) {
             // add transparent layer for click area
             // filter and background for Internet Explorer, Issue #23
-            var $layer = opt.$layer = $('<div id="context-menu-layer" style="position:fixed; z-index:' + zIndex + '; top:0; left:0; opacity: 0; filter: alpha(opacity=0); background-color: #000;"></div>')
+            var $layer = opt.$layer = $('<div id="context-menu-layer" style="position:fixed; z-index:' + zIndex + '; top:0; left:0; opacity: 0; background-color: #000;"></div>')
                 .css({height: $win.height(), width: $win.width(), display: 'block'})
                 .data('contextMenuRoot', opt)
                 .insertBefore(this)

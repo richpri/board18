@@ -35,7 +35,7 @@
     -webkit-user-select: none;
        -moz-user-select: -moz-none;
         -ms-user-select: none;
-            user-select: none;
+/*          user-select: none;*/
 }
 
 .context-menu-separator {
@@ -48,7 +48,7 @@
     -webkit-user-select: text;
        -moz-user-select: text;
         -ms-user-select: text;
-            user-select: text;
+/*          user-select: text;*/
 }
 
 .context-menu-item.hover {
@@ -80,7 +80,7 @@
     In case you want to use sprites for icons (which I would suggest you do) have a look at
     http://css-tricks.com/13224-pseudo-spriting/ to get an idea of how to implement 
     .context-menu-item.icon:before {}
- */
+
 .context-menu-item.icon { min-height: 18px; background-repeat: no-repeat; background-position: 4px 2px; }
 .context-menu-item.icon-edit { background-image: url(images/page_white_edit.png); }
 .context-menu-item.icon-cut { background-image: url(images/cut.png); }
@@ -89,7 +89,7 @@
 .context-menu-item.icon-delete { background-image: url(images/page_white_delete.png); }
 .context-menu-item.icon-add { background-image: url(images/page_white_add.png); }
 .context-menu-item.icon-quit { background-image: url(images/door.png); }
-
+*/
 /* vertically align inside labels */
 .context-menu-input > label > * { vertical-align: top; }
 
@@ -122,7 +122,6 @@
 .context-menu-item > .context-menu-list {
     display: none;
     /* re-positioned by js */
-    right: -5px;
     top: 5px;
 }
 

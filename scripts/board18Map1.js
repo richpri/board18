@@ -1,7 +1,7 @@
 "use strict";
 
 /* All BD18 global variables are contained in one
- * 'master variable' called BD18.  This isolates 
+ * 'master' object called BD18.  This isolates 
  * them from global variables in other packages. 
  */
 BD18.loadCount = 0;
@@ -21,9 +21,9 @@ BD18.curMapY = null;
 BD18.tileIsSelected = false;
 BD18.tokenIsSelected = false;
 BD18.hexIsSelected = false;
-BD18.z3 = {};
-BD18.z3.on = false;
-BD18.z3.go = false;
+BD18.tknMenu = {};
+BD18.tknMenu.on = false;
+BD18.tknMenu.go = false;
 BD18.hexList = {};
 
 /*  
@@ -302,6 +302,7 @@ function OnHex(hexX, hexY) {
   this.hexY = hexY;
   this.tile = {};
   this.tokens = [];
+  this.isTile = false;
   var item, i;
   if (BD18.boardTiles.length !== 0) {
     for (i=0;i<BD18.boardTiles.length;i++) {
@@ -310,6 +311,7 @@ function OnHex(hexX, hexY) {
       if (item.bx === hexX && item.by === hexY) {
         this.tile = item;
         this.tile.btindex = i;
+        this.isTile = true;
         break;
       }
     }  
@@ -324,7 +326,6 @@ function OnHex(hexX, hexY) {
       }
     }
   }
-  this.isTile = (this.tile !== {});
   this.noToken = (this.tokens.length === 0);
   this.oneToken = (this.tokens.length === 1);
   this.manyTokens = (this.tokens.length > 1);

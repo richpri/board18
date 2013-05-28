@@ -184,7 +184,9 @@ if ($gamefound == 'no') {
         </canvas>
         <canvas id="canvas2">
         </canvas>
-      </div>        
+      </div>  
+      <canvas id="canvas3">
+      </canvas>
     </div>
     
   </body>

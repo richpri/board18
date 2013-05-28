@@ -87,7 +87,7 @@ function hexSelect(event) {
  * "7" - Current unselected hex has a tile and mutiple tokens
  */
 function getMenuType(event) {
-  if (BD18.z3.on) return "0";
+  if (BD18.tknMenu.on) return "0";
   var type = "0";
   if (BD18.hexIsSelected === true) { 
     if (BD18.tokenIsSelected === true) type = "1";
@@ -231,10 +231,55 @@ function makeMenuItems(e) {
       };
       break;
     case "3":
-      menuText = "0";
+      menuText = {
+        dtoken: {
+          name: 'Delete Token',
+          callback: function(){
+            deleteToken(BD18.hexList.tokens[0].btindex);
+            toknCanvasApp();
+            trayCanvasApp();
+            updateGmBrdTokens();
+            updateDatabase();
+          }
+        },
+//      mtoken: {
+//        name: 'Move Token',
+//        callback: function(){
+//          deleteToken(BD18.hexList.tokens[0].btindex);
+//    **** Insert other logic to set up move
+//          toknCanvasApp();
+//          trayCanvasApp();
+//          updateGmBrdTokens();
+//          updateDatabase();
+//        }
+//      },
+        close: {
+          name: 'Close Menu',
+          callback: function(){}
+        }
+      };
       break;
     case "4":
-      menuText = "0";
+      menuText = {
+        stoken1: {
+          name: 'Select Token to Delete',
+          callback: function(){
+            BD18.tknMenu.funct = 'delete';
+            selectToken(e);
+          }
+        },
+//      stoken2: {
+//        name: 'Select Token to Move',
+//        callback: function(){
+//          BD18.tknMenu.funct = 'move';
+//          selectToken();
+//        }
+//      },
+        close: {
+          name: 'Close Menu',
+          callback: function(){}
+        }
+      };
       break;
     case "5":
       menuText = {
@@ -276,6 +321,7 @@ function makeMenuItems(e) {
 function makeMenus() {
   $.contextMenu({
     selector: '#content', 
+    trigger: "right",
     build: function($trigger, e) {
       // this callback is executed every time the menu is shown.
       // its results are destroyed every time the menu is hidden.
@@ -284,7 +330,6 @@ function makeMenus() {
       var items = makeMenuItems(e);
       if (items === "0") return false;
       var opts = {
-        trigger: "right",
         determinePosition: function($menu) {
           // .position() is provided as a jQuery UI utility
           // (...and it won't work on hidden elements)
@@ -301,7 +346,7 @@ function makeMenus() {
           m =  m + options.$trigger.attr("id");
           alert(m); 
         },
-        zindex: 10,
+        zIndex: 10,
         reposition: false
       };
       opts.items = items;
@@ -311,12 +356,10 @@ function makeMenus() {
 }
 
 /* 
- * The doZ3Logic function check if a z3 selection menu is
- * needed for a multi-item hex request. It is triggered by 
- * any mouse click that filters down to the rightofpage 
- * division. It either returns or displays the needed menu.
+ * The doTknMenu function check if a token selection menu is
+ * . . . 
  */
-function doZ3Logic() {
-  // if (!BD18.z3.go) return;
+function doTknMenu() {
+  // if (!BD18.tknMenu.go) return;
   alert("made it");
 }
