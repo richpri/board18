@@ -383,12 +383,15 @@ function addToken() {
  */
 function selectToken(event) {
   var numbtok = BD18.hexList.tokens.length;
+  $('#canvas3').css('opacity', '1');
   $('#canvas3').attr('height', 40); 
   $('#canvas3').attr('width', numbtok*40);
   $('#canvas3').position({
-    my: "left",
-    at: "right+30",
-    of: event
+    my: "right top",
+    at: "left bottom",
+    offset: "0 5",
+    of: event,
+    collision: "fit"
   });
   BD18.canvas3 = document.getElementById('canvas3');
   if (!BD18.canvas3 || !BD18.canvas3.getContext) {
@@ -414,4 +417,9 @@ function selectToken(event) {
     mx = 5 + i*40;
     BD18.context3.drawImage(image,sx,sy,szx,szy,mx,5,30,30);
   }
+  $('#canvas3').on({
+    "click": doTknMenu,
+    "mouseout": delayHideTknMenu,
+    "mousein": killHideTknMenu,
+  });
 }

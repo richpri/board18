@@ -57,8 +57,10 @@
 #canvas3 {
   z-index: 6;
   position: absolute;
-  left:100px;
-  top:100px; 
+  left: 100px;
+  top: -200px; 
+  border:solid 3px #DDFFDD;
+  opacity:0;
 }
 
 .context-menu {

@@ -272,7 +272,7 @@ function makeMenuItems(e) {
 //        name: 'Select Token to Move',
 //        callback: function(){
 //          BD18.tknMenu.funct = 'move';
-//          selectToken();
+//          selectToken(e);
 //        }
 //      },
         close: {
@@ -356,10 +356,49 @@ function makeMenus() {
 }
 
 /* 
- * The doTknMenu function check if a token selection menu is
- * . . . 
+ * The hideTknMenu function resets the canvas3 token menu.
+ */
+function hideTknMenu() {
+  var numbtok = BD18.hexList.tokens.length;
+  BD18.context3.clearRect(0, 0, numbtok*40, 40);
+  $('#canvas3').css({
+    opacity: '0',
+    top: '-200'
+  });
+  BD18.tknMenu.timeoutID = 0;
+  $('#canvas3').off({
+    "click": doTknMenu,
+    "mouseout": delayHideTknMenu,
+    "mousein": killHideTknMenu,
+  });
+}
+
+/* 
+ * The delayHideTknMenu function waits 2 seconds before
+ * calling the hideTknMenu function.
+ */
+function delayHideTknMenu() {
+  BD18.tknMenu.timeoutID = window.setTimeout(hideTknMenu, 2000);
+}
+
+/* 
+ * The killHideTknMenu function stops any delayed
+ * calling of the hideTknMenu function.
+ */
+function killHideTknMenu() {
+  if (BD18.tknMenu.timeoutID) {
+    window.clearTimeout(BD18.tknMenu.timeoutID);
+  }
+}
+
+/* 
+ * The doTknMenu function processes a click on canvas3
+ * This canvas is used to select one of multiple tokens
+ * on the same hex.  
  */
 function doTknMenu() {
-  // if (!BD18.tknMenu.go) return;
+  // find token that was clicked
+  // do requested function to that token.
   alert("made it");
+  hideTknMenu();
 }

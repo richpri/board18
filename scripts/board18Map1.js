@@ -22,6 +22,7 @@ BD18.tileIsSelected = false;
 BD18.tokenIsSelected = false;
 BD18.hexIsSelected = false;
 BD18.tknMenu = {};
+BD18.tknMenu.timeoutID = 0;
 BD18.tknMenu.on = false;
 BD18.tknMenu.go = false;
 BD18.hexList = {};
