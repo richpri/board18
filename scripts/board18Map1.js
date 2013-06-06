@@ -299,8 +299,8 @@ function BoardToken(snumb,index,flip,bx,by) {
  * supplied coordinates. 
  */
 function OnHex(hexX, hexY) {
-  this.hexX = hexX;
-  this.hexY = hexY;
+  this.hexX = parseInt(hexX);
+  this.hexY = parseInt(hexY);
   this.tile = {};
   this.tokens = [];
   this.isTile = false;

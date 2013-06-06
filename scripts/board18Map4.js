@@ -300,10 +300,75 @@ function makeMenuItems(e) {
       };
       break;
     case "6":
-      menuText = "0";
+      menuText = {
+        dtile: {
+          name: 'Delete Tile',
+          callback: function(){
+            deleteTile(BD18.hexList.tile.btindex);
+            mainCanvasApp();
+            trayCanvasApp();
+            updateGmBrdTiles();
+            updateDatabase();
+          }
+        },
+        dtoken: {
+          name: 'Delete Token',
+          callback: function(){
+            deleteToken(BD18.hexList.tokens[0].btindex);
+            toknCanvasApp();
+            trayCanvasApp();
+            updateGmBrdTokens();
+            updateDatabase();
+          }
+        },
+//      mtoken: {
+//        name: 'Move Token',
+//        callback: function(){
+//          deleteToken(BD18.hexList.tokens[0].btindex);
+//    **** Insert other logic to set up move
+//          toknCanvasApp();
+//          trayCanvasApp();
+//          updateGmBrdTokens();
+//          updateDatabase();
+//        }
+//      },
+        close: {
+          name: 'Close Menu',
+          callback: function(){}
+        }
+      };
       break;
     case "7":
-      menuText = "0";
+      menuText = {
+        dtile: {
+          name: 'Delete Tile',
+          callback: function(){
+            deleteTile(BD18.hexList.tile.btindex);
+            mainCanvasApp();
+            trayCanvasApp();
+            updateGmBrdTiles();
+            updateDatabase();
+          }
+        },
+        stoken1: {
+          name: 'Select Token to Delete',
+          callback: function(){
+            BD18.tknMenu.funct = 'delete';
+            selectToken(e);
+          }
+        },
+//      stoken2: {
+//        name: 'Select Token to Move',
+//        callback: function(){
+//          BD18.tknMenu.funct = 'move';
+//          selectToken(e);
+//        }
+//      },
+        close: {
+          name: 'Close Menu',
+          callback: function(){}
+        }
+      };
       break;
     default:
       menuText = "0";
@@ -394,11 +459,25 @@ function killHideTknMenu() {
 /* 
  * The doTknMenu function processes a click on canvas3
  * This canvas is used to select one of multiple tokens
- * on the same hex.  
+ * on the same hex. The requested function is performed
+ * for the selected token.
  */
-function doTknMenu() {
+function doTknMenu(event) {
   // find token that was clicked
+  var xPix, yPix, index;
+  [xPix, yPix] = offsetIn(event, BD18.canvas3); 
+  index = Math.floor(xPix/40);
   // do requested function to that token.
-  alert("made it");
+  switch(BD18.tknMenu.funct) {
+    case "delete":
+      deleteToken(BD18.hexList.tokens[index].btindex);
+      toknCanvasApp();
+      trayCanvasApp();
+      updateGmBrdTokens();
+      updateDatabase();
+      break;
+    case "move":
+      break;
+  }
   hideTknMenu();
 }
