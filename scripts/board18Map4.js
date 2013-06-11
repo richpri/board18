@@ -242,17 +242,20 @@ function makeMenuItems(e) {
             updateDatabase();
           }
         },
-//      mtoken: {
-//        name: 'Move Token',
-//        callback: function(){
-//          deleteToken(BD18.hexList.tokens[0].btindex);
-//    **** Insert other logic to set up move
-//          toknCanvasApp();
-//          trayCanvasApp();
-//          updateGmBrdTokens();
-//          updateDatabase();
-//        }
-//      },
+        mtoken: {
+          name: 'Move Token',
+          callback: function(){
+            var xPix, yPix;
+            var ix = BD18.hexList.tokens[0].btindex;
+            var bdtok = BD18.boardTokens[ix];
+            [xPix, yPix] = offsetIn(e, BD18.canvas1);
+            bdtok.bx = xPix;
+            bdtok.by = yPix;
+            toknCanvasApp();
+            updateGmBrdTokens();
+            updateDatabase();
+          }
+        },
         close: {
           name: 'Close Menu',
           callback: function(){}
@@ -268,13 +271,13 @@ function makeMenuItems(e) {
             selectToken(e);
           }
         },
-//      stoken2: {
-//        name: 'Select Token to Move',
-//        callback: function(){
-//          BD18.tknMenu.funct = 'move';
-//          selectToken(e);
-//        }
-//      },
+        stoken2: {
+          name: 'Select Token to Move',
+          callback: function(){
+            BD18.tknMenu.funct = 'move';
+            selectToken(e);
+          }
+        },
         close: {
           name: 'Close Menu',
           callback: function(){}
@@ -321,17 +324,20 @@ function makeMenuItems(e) {
             updateDatabase();
           }
         },
-//      mtoken: {
-//        name: 'Move Token',
-//        callback: function(){
-//          deleteToken(BD18.hexList.tokens[0].btindex);
-//    **** Insert other logic to set up move
-//          toknCanvasApp();
-//          trayCanvasApp();
-//          updateGmBrdTokens();
-//          updateDatabase();
-//        }
-//      },
+        mtoken: {
+          name: 'Move Token',
+          callback: function(){
+            var xPix, yPix;
+            var ix = BD18.hexList.tokens[0].btindex;
+            var bdtok = BD18.boardTokens[ix];
+            [xPix, yPix] = offsetIn(e, BD18.canvas1);
+            bdtok.bx = xPix;
+            bdtok.by = yPix;
+            toknCanvasApp();
+            updateGmBrdTokens();
+            updateDatabase();
+          }
+        },
         close: {
           name: 'Close Menu',
           callback: function(){}
@@ -357,13 +363,13 @@ function makeMenuItems(e) {
             selectToken(e);
           }
         },
-//      stoken2: {
-//        name: 'Select Token to Move',
-//        callback: function(){
-//          BD18.tknMenu.funct = 'move';
-//          selectToken(e);
-//        }
-//      },
+        stoken2: {
+          name: 'Select Token to Move',
+          callback: function(){
+            BD18.tknMenu.funct = 'move';
+            selectToken(e);
+          }
+        },
         close: {
           name: 'Close Menu',
           callback: function(){}
@@ -395,15 +401,14 @@ function makeMenus() {
       var items = makeMenuItems(e);
       if (items === "0") return false;
       var opts = {
-        determinePosition: function($menu) {
+         determinePosition: function($menu) {
           // .position() is provided as a jQuery UI utility
           // (...and it won't work on hidden elements)
           $menu.css('display', 'block').position({
-            my: "right top",
-            at: "left bottom",
+            my: "right",
+            at: "left",
             of: this,
-            offset: "0 5",
-            collision: "fit"
+            collision: "flip"
           }).css('display', 'none');
         },
         callback: function(key, options) {
@@ -428,7 +433,7 @@ function hideTknMenu() {
   BD18.context3.clearRect(0, 0, numbtok*40, 40);
   $('#canvas3').css({
     opacity: '0',
-    top: '-200'
+    top: '-200px'
   });
   BD18.tknMenu.timeoutID = 0;
   $('#canvas3').off({
@@ -477,6 +482,13 @@ function doTknMenu(event) {
       updateDatabase();
       break;
     case "move":
+      var ix = BD18.hexList.tokens[index].btindex;
+      var bdtok = BD18.boardTokens[ix];
+      bdtok.bx = xPix;
+      bdtok.by = yPix;
+      toknCanvasApp();
+      updateGmBrdTokens();
+      updateDatabase();
       break;
   }
   hideTknMenu();

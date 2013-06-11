@@ -389,9 +389,8 @@ function selectToken(event) {
   $('#canvas3').position({
     my: "right top",
     at: "left bottom",
-    offset: "0 5",
     of: event,
-    collision: "fit"
+    collision: "none"
   });
   BD18.canvas3 = document.getElementById('canvas3');
   if (!BD18.canvas3 || !BD18.canvas3.getContext) {
