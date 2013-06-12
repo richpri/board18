@@ -162,7 +162,7 @@ function repositionToken(xI,yI) {
   var flip = BD18.tempToken[2];
   var bx = BD18.tempToken[3];
   var by = BD18.tempToken[4];
-  toknCanvasApp();
+  toknCanvasApp(true);
   var temp = new BoardToken(sn,ix,flip,xI,yI);
   temp.place(0.5); // Semi-transparent
   var messg = "Select 'Menu-Actions-Accept Move' to make ";

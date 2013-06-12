@@ -56,10 +56,11 @@ function GameBoard(image,board) {
   };
   /*
    * The clear2 function clears all tokens from canvas2.
+   * The default value for keepHexSelect is false;
    */
-  this.clear2=function clear2() {
+  this.clear2=function clear2(keepHexSelect) {
     BD18.context2.clearRect(0, 0, this.width, this.height);
-    BD18.hexIsSelected = false;
+    BD18.hexIsSelected = (keepHexSelect) ? true : false;
   };
   /* This function calculates the board coordinates of the containing
    * map hex given an exact position in pixels on the game board.

@@ -102,9 +102,10 @@ function mainCanvasApp(){
 
 /* Function toknCanvasApp places all existing tokens 
  * on the game board using the BD18.boardTokens array.
+ * 
  */
-function toknCanvasApp(){
-  BD18.gameBoard.clear2();
+function toknCanvasApp(keepHexSelect){
+  BD18.gameBoard.clear2(keepHexSelect);
   if (BD18.boardTokens.length === 0) {
     return;
   }
