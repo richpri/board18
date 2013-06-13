@@ -245,15 +245,22 @@ function makeMenuItems(e) {
         mtoken: {
           name: 'Move Token',
           callback: function(){
-            var xPix, yPix;
             var ix = BD18.hexList.tokens[0].btindex;
             var bdtok = BD18.boardTokens[ix];
-            [xPix, yPix] = offsetIn(e, BD18.canvas1);
-            bdtok.bx = xPix;
-            bdtok.by = yPix;
-            toknCanvasApp();
-            updateGmBrdTokens();
-            updateDatabase();
+            BD18.tempToken = [bdtok.snumb,bdtok.index,
+            bdtok.flip,bdtok.bx,bdtok.by];
+            BD18.hexIsSelected = true;
+            BD18.tokenIsSelected = true;
+            BD18.curTrayNumb = bdtok.snumb
+            BD18.curIndex = bdtok.index
+            BD18.curRot = 0;
+            BD18.curFlip = bdtok.flip;
+            BD18.curHexX = bdtok.hx;
+            BD18.curHexY = bdtok.hy;
+            BD18.curMapX = bdtok.bx;
+            BD18.curMapY = bdtok.by;
+            deleteToken(ix);
+            repositionToken(BD18.curMapX,BD18.curMapY);
           }
         },
         close: {
@@ -327,15 +334,22 @@ function makeMenuItems(e) {
         mtoken: {
           name: 'Move Token',
           callback: function(){
-            var xPix, yPix;
             var ix = BD18.hexList.tokens[0].btindex;
             var bdtok = BD18.boardTokens[ix];
-            [xPix, yPix] = offsetIn(e, BD18.canvas1);
-            bdtok.bx = xPix;
-            bdtok.by = yPix;
-            toknCanvasApp();
-            updateGmBrdTokens();
-            updateDatabase();
+            BD18.tempToken = [bdtok.snumb,bdtok.index,
+            bdtok.flip,bdtok.bx,bdtok.by];
+            BD18.hexIsSelected = true;
+            BD18.tokenIsSelected = true;
+            BD18.curTrayNumb = bdtok.snumb
+            BD18.curIndex = bdtok.index
+            BD18.curRot = 0;
+            BD18.curFlip = bdtok.flip;
+            BD18.curHexX = bdtok.hx;
+            BD18.curHexY = bdtok.hy;
+            BD18.curMapX = bdtok.bx;
+            BD18.curMapY = bdtok.by;
+            deleteToken(ix);
+            repositionToken(BD18.curMapX,BD18.curMapY);
           }
         },
         close: {
