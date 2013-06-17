@@ -70,6 +70,8 @@ if ($gamefound == 'no') {
     </script> 
     <script type="text/javascript" src="scripts/board18Map4.js">
     </script> 
+    <script type="text/javascript" src="scripts/board18Map5.js">
+    </script> 
     <script type="text/javascript">
       $(function(){
         BD18.welcomename = "<?php echo "$welcomename"; ?>";
@@ -98,7 +100,7 @@ if ($gamefound == 'no') {
           BD18.trays[inx].place(null);
         }); // end tray click
         $('#content').on({
-          "mousedown": mapMouseEvent,
+          "mousedown": mapMouseEvent
         });
         $("#mainmenu").navPlugin({
           'itemWidth': 120,
@@ -131,16 +133,16 @@ if ($gamefound == 'no') {
             <ul>
               <li><span>Actions</span>
                 <ul>
-                  <li><span onclick="doit('add')">
+                  <li><span onclick="doit('add');">
                       Accept Move</span></li>
-                  <li><span onclick="doit('reset')">
+                  <li><span onclick="doit('reset');">
                       Cancel Move</span></li>
                 </ul>
               </li>
               <li><span>Rotate Tile</span>
                 <ul>
-                  <li><span onclick="doit('cw')">CW</span></li>
-                  <li><span onclick="doit('ccw')">CCW</span></li>
+                  <li><span onclick="doit('cw');">CW</span></li>
+                  <li><span onclick="doit('ccw');">CCW</span></li>
                 </ul>
               </li>
               <li><span id="mainpg">Main Page</span></li>
@@ -168,7 +170,7 @@ if ($gamefound == 'no') {
           <p id="tray9" class="sidebaritem tray">unused</p>
         </div>
 
-        <div id="tiles" onclick="traySelect(event)">
+        <div id="tiles" onclick="traySelect(event);">
           <canvas id="canvas0" width="120">
             Your browser does not support the HTML 5 Canvas. 
           </canvas>

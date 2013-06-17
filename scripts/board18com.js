@@ -66,7 +66,7 @@ function getScrolled (object, scrolled) {
   if (!object) {return;}
   scrolled.x += object.scrollLeft;
   scrolled.y += object.scrollTop;
-  if (object.tagName.toLowerCase () != "html") {
+  if (object.tagName.toLowerCase () !== "html") {
     getScrolled (object.parentNode, scrolled);
   }
 }
@@ -78,7 +78,7 @@ function findPos(obj) {
   getScrolled (obj.parentNode, scrolled);
   var posX = offset.x - scrolled.x;
   var posY = offset.y - scrolled.y;
-  return [posX, posY]
+  return [posX, posY];
 }
 
 /* The offsetIn function finds the offset of the
@@ -100,7 +100,7 @@ function offsetIn(event, obj) {
  * global variable with an initial value of null.
  */
 function doLogNote(note) {
-  if(BD18.noteTimeout != null) {
+  if(BD18.noteTimeout !== null) {
     clearTimeout(BD18.noteTimeout);
   }
   var msg = BD18.welcomename + ": " + note;
