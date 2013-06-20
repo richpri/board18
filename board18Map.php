@@ -71,6 +71,8 @@ if ($gamefound == 'no') {
     <script type="text/javascript" src="scripts/board18Map4.js">
     </script> 
     <script type="text/javascript" src="scripts/board18Map5.js">
+    </script>
+    <script type="text/javascript" src="scripts/board18Map6.js">
     </script> 
     <script type="text/javascript">
       $(function(){

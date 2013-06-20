@@ -82,7 +82,7 @@ function GameBoard(image,board) {
       else { xIndex = xIndex - 1; }
     }
     return [xIndex, yIndex];
-  }
+  };
 }
   
 /* TileSheet is a constructor function which creates tileSheet objects.

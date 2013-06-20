@@ -1,5 +1,5 @@
 /* 
- * boardd18Map4.js contains all the functions that
+ * board18Map4.js contains all the functions that
  * implement the multi token selection logic for
  * cases where more than one token is on the same hex.
  */
@@ -115,8 +115,8 @@ function doTknMenu(event) {
       bdtok.flip,bdtok.bx,bdtok.by];
       BD18.hexIsSelected = true;
       BD18.tokenIsSelected = true;
-      BD18.curTrayNumb = bdtok.snumb
-      BD18.curIndex = bdtok.index
+      BD18.curTrayNumb = bdtok.snumb;
+      BD18.curIndex = bdtok.index;
       BD18.curRot = 0;
       BD18.curFlip = bdtok.flip;
       BD18.curHexX = bdtok.hx;
