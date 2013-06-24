@@ -55,8 +55,6 @@ if ($gamefound == 'no') {
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
     <script type="text/javascript" src="scripts/board18com.js">
-    </script> 
-    <script type="text/javascript" src="scripts/nav1.1.min.js">
     </script>
     <script type="text/javascript" src="scripts/jquery.ui.position.js">
     </script>
