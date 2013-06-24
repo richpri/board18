@@ -82,12 +82,6 @@ if ($gamefound == 'no') {
         var startMessage = BD18.welcomename + ": ";
         startMessage += BD18.headermessage;
         $('#lognote').text(startMessage);
-        $('#logout').click(function() {
-          $.post("php/logout.php", logoutOK);
-        }); // end logout
-        $('#mainpg').click(function() {
-          window.location = "board18Main.php";
-        }); // end mainpg
         $('#trays').mouseover(
           function() {
             $('.tray:not(":contains(\'unused\')")').each(function(i) {
@@ -104,12 +98,7 @@ if ($gamefound == 'no') {
         $('#content').on({
           "mousedown": mapMouseEvent
         });
-        $("#mainmenu").navPlugin({
-          'itemWidth': 120,
-          'itemHeight': 40,
-          'navEffect': "slide",
-          'speed': 250
-        }); // end navPlugin
+        registerMainMenu();
         var gameToPlay = 'session=<?php echo $dogame; ?>';
         $.getJSON("php/gameSession.php", gameToPlay, loadSession)
         .error(function() { 
@@ -130,28 +119,7 @@ if ($gamefound == 'no') {
         <h1>BOARD18 - Remote Play Tool For 18xx Style Games</h1>
       </div>
       <div>
-        <ul id="mainmenu">
-          <li><span>Menu</span>
-            <ul>
-              <li><span>Actions</span>
-                <ul>
-                  <li><span onclick="doit('add');">
-                      Accept Move</span></li>
-                  <li><span onclick="doit('reset');">
-                      Cancel Move</span></li>
-                </ul>
-              </li>
-              <li><span>Rotate Tile</span>
-                <ul>
-                  <li><span onclick="doit('cw');">CW</span></li>
-                  <li><span onclick="doit('ccw');">CCW</span></li>
-                </ul>
-              </li>
-              <li><span id="mainpg">Main Page</span></li>
-              <li><span id="logout">Logout</span></li>
-            </ul>
-          </li>
-        </ul>
+        <span id="newmainmenu"> MENU </span>
         <p id="lognote"></p>
       </div>
     </div>

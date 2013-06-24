@@ -2,6 +2,69 @@
  * These are functions that respond to various onclick events.
  */
 
+/* The registerMainMenu function creates the 
+ * main menu on the board18Map page. It uses
+ * the jquery context menu plugin.
+ */
+function registerMainMenu() {
+  $.contextMenu({
+    selector: "#newmainmenu", 
+    trigger: "left",
+    className: "bigMenu",
+    items: {
+      accept: {
+        name: "Accept Move",
+        callback: function(){
+          acceptMove();
+        }
+      },
+      reset: {
+        name: "Cancel Move",
+        callback: function(){
+          trayCanvasApp();
+          mainCanvasApp();
+          toknCanvasApp();
+        }
+      },
+      stock: {
+        name: "Stock Market",
+        callback: function(){
+          window.location = "board18Main.php";
+        }
+      },
+      main: {
+        name: "Main Page",
+        callback: function(){
+          window.location = "board18Main.php";
+        }
+      },
+      logout: {
+        name: "Log Out",
+        callback: function(){
+          $.post("php/logout.php", logoutOK);
+        }
+      },
+      close: {
+        name: "Close Menu",
+        callback: function(){}
+      }
+    },
+    zIndex: 10,
+    position: function(opt, x, y) {
+      opt.$menu.position({
+        my: 'left top',
+        at: 'left bottom',
+        of: opt.$trigger
+      });
+    },
+    callback: function(key, options) {
+      var m = "clicked on " + key + " on element ";
+      m =  m + options.$trigger.attr("id");
+      alert(m); 
+    }
+  });
+}
+
 /* This function calculates the board coordinates of a map
  * tile given the raw coordinates of a mouse click event.
  */

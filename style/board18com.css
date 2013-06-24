@@ -69,11 +69,29 @@ html, body {
   margin-right: 0px;
   padding-left: 0px;
   padding-right: 0px;
-  left:258px;
+  left:220px;
   top:50px;
   font-size: large;
 }
 
+#newmainmenu {
+  display: inline-block;
+  position: absolute;
+  left:140px;
+  top:50px;
+  width: 60px;
+  text-align: center;
+  margin:0px;
+  padding:5px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  background-color: #ddffdd;
+  border: 1px solid #000;
+}
+
+.bigMenu {
+  border: 1px solid #000 !important;
+  font-size: larger !important;
+}
 #mainmenu {
   position: absolute;
   left:96px;
