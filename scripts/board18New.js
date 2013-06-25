@@ -34,7 +34,7 @@ function makeNewGame(name, boxid, players, player) {
   return JSON.stringify({
     gname : name,
     boxid : boxid,
-    players : pp, 
+    players : pp
   });
 }
 
@@ -42,12 +42,12 @@ function makeNewGame(name, boxid, players, player) {
  * newgame call. 
  */
 function newgameOK(response) {
-  if (response.indexOf("<!doctype html>") != -1) { // User has timed out.
+  if (response.indexOf("<!doctype html>") !== -1) { // User has timed out.
     window.location = "access-denied.html";
   } else if (response === "nobox") {
     $("#bi_error").text('Invalid Game Box ID.').show();  
     $("#boxid").focus();
-  } else if (response.indexOf("noplayer") != -1) {  
+  } else if (response.indexOf("noplayer") !== -1) {  
     // Response contains "noplayer".
     var plerr = 'Player #' + response.substr(9) + ' does not exist';
     $("#pc_error").text(plerr).show();  
@@ -133,4 +133,47 @@ function newgame() {
       newgameOK(response);
     });
   }
+}
+
+/* The registerMainMenu function creates the 
+ * main menu on the board18New page. It uses
+ * the jquery context menu plugin.
+ */
+function registerMainMenu() {
+  $.contextMenu({
+    selector: "#newmainmenu", 
+    trigger: "left",
+    className: "bigMenu",
+    items: {
+      mainmenu: {
+        name: "Main Menu",
+        callback: function(){
+          window.location = "board18Main.php";
+        }
+      },
+      logout: {
+        name: "Log Out",
+        callback: function(){
+          $.post("php/logout.php", logoutOK);
+        }
+      },
+      close: {
+        name: "Close Menu",
+        callback: function(){}
+      }
+    },
+    zIndex: 10,
+    position: function(opt, x, y) {
+      opt.$menu.position({
+        my: 'left top',
+        at: 'left bottom',
+        of: opt.$trigger
+      });
+    },
+    callback: function(key, options) {
+      var m = "clicked on " + key + " on element ";
+      m =  m + options.$trigger.attr("id");
+      alert(m); 
+    }
+  });
 }

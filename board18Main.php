@@ -7,11 +7,14 @@ require_once('php/auth.php');
     <meta charset="utf-8" />
     <title>BOARD18 - Remote Play Tool For 18xx Style Games</title>
     <link rel="shortcut icon" href="images/favicon.ico" >
+    <link rel="stylesheet" href="style/jquery.contextMenu.css" />
     <link rel="stylesheet" href="style/board18com.css" />
     <link rel="stylesheet" href="style/board18Main.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
-    <script type="text/javascript" src="scripts/nav1.1.min.js">
+    <script type="text/javascript" src="scripts/jquery.ui.position.js">
+    </script>
+    <script type="text/javascript" src="scripts/jquery.contextMenu.js">
     </script>
     <script type="text/javascript" src="scripts/board18com.js">
     </script>
@@ -28,18 +31,7 @@ require_once('php/auth.php');
           success: listReturn,
           error: listError
         }); // end of ajax
-        $('#logout').click(function() {
-          $.post("php/logout.php", logoutOK);
-        }); // end logout
-        $('#newgame').click(function() {
-          window.location = "board18New.php"
-        }); // end newgame
-        $("#mainmenu").navPlugin({
-          'itemWidth': 120,
-          'itemHeight': 40,
-          'navEffect': "slide",
-          'speed': 250
-        }); // end navPlugin
+        registerMainMenu();
         $('.gamename').mouseover(function() {
           var ttLeft,
           ttTop,
@@ -64,22 +56,16 @@ require_once('php/auth.php');
     </script>
   </head>
   <body>
+    
     <div id="topofpage">
       <div id="logo">
-        <img src="images/logo.png" alt="Logo" /> 
+        <img src="images/logo.png" alt="Logo"/> 
       </div>
       <div id="heading">
-        <h1>BOARD18 - Remote Play Tool For 18xx Style Games </h1>
+        <h1>BOARD18 - Remote Play Tool For 18xx Style Games</h1>
       </div>
       <div>
-        <ul id="mainmenu">
-          <li><span>Menu</span>
-            <ul>
-              <li><span id="newgame">New Game</span></li>
-              <li><span id="logout">Logout</span></li>
-            </ul>
-          </li>
-        </ul>
+        <span id="newmainmenu"> MENU </span>
         <p id="lognote"><?php echo "$welcomename: $headermessage"; ?>
           <span style="font-size: 70%">
             Click <a href="index.html">here</a> 
@@ -87,8 +73,6 @@ require_once('php/auth.php');
           </span>
         </p>
       </div>
-
-
     </div>
     <div id="leftofpage">
       
