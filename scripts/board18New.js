@@ -145,8 +145,8 @@ function registerMainMenu() {
     trigger: "left",
     className: "bigMenu",
     items: {
-      mainmenu: {
-        name: "Main Menu",
+      main: {
+        name: "Main Page",
         callback: function(){
           window.location = "board18Main.php";
         }
