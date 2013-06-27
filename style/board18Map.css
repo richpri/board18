@@ -6,7 +6,7 @@
   position: absolute;
   background-color:#ddffdd;
   left:0px;
-  top:0px; 
+  top:50px; 
 }
 
 .sidebaritem {
@@ -21,8 +21,25 @@
 	background-color:#b1ccb1;	
 }
 
-.tray {
-  display: none;
+#traymenu {
+  display: inline-block;
+  z-index: 9;
+  position: absolute;
+  left:15px;
+  top:5px;
+  width: 70px;
+  text-align: center;
+  margin:0px;
+  padding:5px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  background-color: #ffeedd;
+  border: 2px solid #000;
+}
+
+.leftMenu {
+  border: 2px solid #000 !important;
+  font-size: larger !important;
+  background-color: #ffeedd !important;
 }
 
 #tiles {

@@ -22,6 +22,7 @@ function makeTrays() {
   }
   BD18.curTrayNumb = 0;
   BD18.trayCount = i;
+  registerTrayMenu();
 }
 
 /* This function initializes the BD18.boardTiles array.

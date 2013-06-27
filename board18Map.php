@@ -13,14 +13,13 @@ if (!$db) {
   exit;
 }
 
-
 //Function to sanitize values received from POST. 
 //Prevents SQL injection
 function clean($str) {
-	$str = @trim($str);
-	return mysql_real_escape_string($str);
+  $str = @trim($str);
+  return mysql_real_escape_string($str);
 }
-	
+
 //Sanitize the dogame value
 $dogame = clean($_REQUEST['dogame']);
 //Initialize $gamefound flag.
@@ -34,11 +33,11 @@ if ($result) {
       $gamefound = 'yes';
       break;
     }
-  }  
-} 
+  }
+}
 if ($gamefound == 'no') {
-  $_SESSION['SESS_HEADER_MESSAGE'] = 
-    'You are not a player in the selected game!';
+  $_SESSION['SESS_HEADER_MESSAGE'] =
+          'You are not a player in the selected game!';
   header("location: board18Main.php");
 }
 ?>
@@ -73,42 +72,43 @@ if ($gamefound == 'no') {
     <script type="text/javascript" src="scripts/board18Map6.js">
     </script> 
     <script type="text/javascript">
-      $(function(){
+      $(function() {
         BD18.welcomename = "<?php echo "$welcomename"; ?>";
         BD18.headermessage = "<?php echo "$headermessage"; ?>";
         BD18.gameID = "<?php echo $dogame; ?>";
         var startMessage = BD18.welcomename + ": ";
         startMessage += BD18.headermessage;
         $('#lognote').text(startMessage);
-        $('#trays').mouseover(
-          function() {
-            $('.tray:not(":contains(\'unused\')")').each(function(i) {
-              $(this).delay(i * 100).fadeIn();
-            });
-          }
+/*        $('#trays').mouseover(
+                function() {
+                  $('.tray:not(":contains(\'unused\')")').each(function(i) {
+                    $(this).delay(i * 100).fadeIn();
+                  });
+                }
         ); // end mouse over
         $('.tray').click(function() {
           $(".acttray").fadeOut();
           var trayid = $(this).attr('id');
-          var inx = parseInt(trayid.substring(4),10);
+          var inx = parseInt(trayid.substring(4), 10);
           BD18.trays[inx].place(null);
         }); // end tray click
+        */
         $('#content').on({
           "mousedown": mapMouseEvent
         });
         registerMainMenu();
         var gameToPlay = 'session=<?php echo $dogame; ?>';
         $.getJSON("php/gameSession.php", gameToPlay, loadSession)
-        .error(function() { 
+                .error(function() {
           var msg = "Error loading game file. \n";
-          alert(msg); 
+          alert(msg);
         });
       });
     </script>    
   </head>
 
   <body>
-    
+
     <div id="topofpage">
       <div id="logo">
         <img src="images/logo.png" alt="Logo"/> 
@@ -123,21 +123,8 @@ if ($gamefound == 'no') {
     </div>
 
     <div id="leftofpage">
+      <span id="traymenu"> Trays </span>
       <div id="sidebar">
-        <div id="traylist">        
-          <p id="trays" class="sidebaritem"><b>Trays</b></p>
-          <p id="tray0" class="sidebaritem tray">unused</p>
-          <p id="tray1" class="sidebaritem tray">unused</p>
-          <p id="tray2" class="sidebaritem tray">unused</p>
-          <p id="tray3" class="sidebaritem tray">unused</p>
-          <p id="tray4" class="sidebaritem tray">unused</p>
-          <p id="tray5" class="sidebaritem tray">unused</p>
-          <p id="tray6" class="sidebaritem tray">unused</p>
-          <p id="tray7" class="sidebaritem tray">unused</p>
-          <p id="tray8" class="sidebaritem tray">unused</p>
-          <p id="tray9" class="sidebaritem tray">unused</p>
-        </div>
-
         <div id="tiles" onclick="traySelect(event);">
           <canvas id="canvas0" width="120">
             Your browser does not support the HTML 5 Canvas. 
@@ -146,7 +133,7 @@ if ($gamefound == 'no') {
 
       </div>
     </div>
-    
+
     <div id="rightofpage">
       <div id="content">
         <canvas id="canvas1">
@@ -158,6 +145,6 @@ if ($gamefound == 'no') {
       <canvas id="canvas3">
       </canvas>
     </div>
-    
+
   </body>
 </html>

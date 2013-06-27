@@ -65,6 +65,50 @@ function registerMainMenu() {
   });
 }
 
+/* The makeTrayItems function will use the 
+ * BD18.trays array to construct the items
+ * to be displayed in the tray menu.
+ */
+function makeTrayItems() {
+  var menuText = '{';
+  var lastItem = BD18.trays.length - 1;
+  for (var ix = 0; ix < BD18.trays.length; ix++) {
+    menuText += '"tray' + ix + '": ';
+    menuText += '{"name": "' + BD18.trays[ix].trayName;
+    menuText += '"}'
+    menuText += (ix === lastItem) ? '}' : ',';
+  }
+  var menuItems = $.parseJSON(menuText);
+  return menuItems;
+}
+
+/* The registerTrayMenu function creates the 
+ * tray menu on the board18Map page. It uses
+ * the jquery context menu plugin and the
+ * makeTrayItems function.
+ */
+function registerTrayMenu() {
+  var itemlist = makeTrayItems();
+  $.contextMenu({
+    selector: "#traymenu", 
+    trigger: "left",
+    className: "leftMenu",
+    zIndex: 10,
+    position: function(opt, x, y) {
+      opt.$menu.position({
+        my: 'left top',
+        at: 'left bottom',
+        of: opt.$trigger
+      });
+    },
+    callback: function(key, options) {
+      var ix = parseInt(key.substring(4));
+      BD18.trays[ix].place(null);
+    },
+    items: itemlist
+  });
+}
+
 /* This function calculates the board coordinates of a map
  * tile given the raw coordinates of a mouse click event.
  */
