@@ -5,9 +5,9 @@
 	
 	//Function to sanitize values received from the form. 
   //Prevents SQL injection.
-	function clean($str) {
+	function clean( $conn, $str) {
 		$str = @trim($str);
-		return mysqli_real_escape_string($str);
+		return mysqli_real_escape_string( $conn, $str );
 	}
 	
 	$link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
@@ -18,8 +18,8 @@
 	}
 	
 	//Sanitize the parameter values
-	$login = clean($_REQUEST['login']);
-	$password = clean($_REQUEST['password']);
+	$login = clean( $link, $_REQUEST['login'] );
+	$password = clean( $link, $_REQUEST['password'] );
 	
 	//Create query
 	$qry="SELECT * FROM players WHERE login='$login' AND passwd='$password'";

@@ -4,9 +4,9 @@
 
 	//Function to sanitize values received from the form. 
   //Prevents SQL injection
-	function clean($str) {
+	function clean( $conn, $str ) {
 		$str = @trim($str);
-		return mysqli_real_escape_string($str);
+		return mysqli_real_escape_string( $conn, $str);
 	}
 
 	$link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
@@ -17,11 +17,11 @@
 	}
 	
 	//Sanitize the POST values
-	$fname = clean($_REQUEST['fname']);
-	$lname = clean($_REQUEST['lname']);
-	$login = clean($_REQUEST['newuser']);
-	$passwrd = clean($_REQUEST['passwrd']);
-	$email = clean($_REQUEST['email']);
+	$fname = clean( $link, $_REQUEST['fname'] );
+	$lname = clean( $link, $_REQUEST['lname'] );
+	$login = clean( $link, $_REQUEST['newuser'] );
+	$passwrd = clean( $link, $_REQUEST['passwrd'] );
+	$email = clean( $link, $_REQUEST['email'] );
 
 	//Check for duplicate login ID
   $qry1 = "SELECT * FROM players WHERE login='$login'";
