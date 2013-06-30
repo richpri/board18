@@ -3,26 +3,23 @@ require_once('php/auth.php');
 require_once('php/config.php');
 
 function prepareDatabase() {
-  $link = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
-  if (!$link) {
-    error_log('Failed to connect to server: ' . mysql_error());
-    exit;
-  }
-  $db = mysql_select_db(DB_DATABASE);
-  if (!$db) {
-    error_log("Unable to select database");
-    exit;
-  }
+	$link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+	if ( !$link ) {
+		error_log('Failed to connect to server: ' . mysqli_connect_error());
+		die( 'Connect error: (' . mysqli_connect_errno() . ') ' . mysqli_connect_error() );
+		exit; // just in case
+	}
+
 }
 
 function showBoxes() {
   $qry = "SELECT box_id, bname, version, author, create_date FROM box";
-  $result = mysql_query($qry);
+  $result = mysqli_query($qry);
   if ($result) {
     echo "<table border='1'> <tr>
         <th>ID</th> <th>Box Name</th> <th>Version</th>
         <th>Author</th> <th>Date</th> </tr>";
-    while ($row = mysql_fetch_array($result)) {
+    while ($row = mysqli_fetch_array($result)) {
       echo "<tr> <td>$row[0]</td> <td>$row[1]</td> <td>$row[2]</td>
         <td>$row[3]</td> <td>$row[4]</td> </tr>";
     }
@@ -34,10 +31,10 @@ function showBoxes() {
 }
 function showPlayers() {
   $qry = "SELECT login, firstname, lastname FROM players";
-  $result = mysql_query($qry);
+  $result = mysqli_query($qry);
   if ($result) {
     echo "<h3 style='text-indent: 15px'>Players<br></h3>";
-    while ($row = mysql_fetch_array($result)) {
+    while ($row = mysqli_fetch_array($result)) {
       echo "<p class='plid'>$row[0] 
         <span><br>$row[1] $row[2]</span></p>";
     }  
