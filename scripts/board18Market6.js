@@ -161,8 +161,8 @@ function hexSelect(event) {
       [x, y] = tilePos(event);
       [xPix, yPix] = offsetIn(event, BD18.canvas1);
   if (BD18.hexIsSelected === true) {
-    if (x !== BD18.curHexX) { return; }
-    if (y !== BD18.curHexY) { return; }
+    if (x !== BD18.curBoxX) { return; }
+    if (y !== BD18.curBoxY) { return; }
     if (BD18.tileIsSelected === true) {
       rotateTile("cw");       
     }

@@ -149,12 +149,12 @@ function makeMenuItems(e) {
             BD18.curIndex = bdtok.index;
             BD18.curRot = 0;
             BD18.curFlip = bdtok.flip;
-            BD18.curHexX = bdtok.hx;
-            BD18.curHexY = bdtok.hy;
-            BD18.curMapX = bdtok.bx;
-            BD18.curMapY = bdtok.by;
+            BD18.curBoxX = bdtok.hx;
+            BD18.curBoxY = bdtok.hy;
+            BD18.curMktX = bdtok.bx;
+            BD18.curMktY = bdtok.by;
             deleteToken(ix);
-            repositionToken(BD18.curMapX,BD18.curMapY);
+            repositionToken(BD18.curMktX,BD18.curMktY);
           }
         },
         close: {
@@ -238,12 +238,12 @@ function makeMenuItems(e) {
             BD18.curIndex = bdtok.index
             BD18.curRot = 0;
             BD18.curFlip = bdtok.flip;
-            BD18.curHexX = bdtok.hx;
-            BD18.curHexY = bdtok.hy;
-            BD18.curMapX = bdtok.bx;
-            BD18.curMapY = bdtok.by;
+            BD18.curBoxX = bdtok.hx;
+            BD18.curBoxY = bdtok.hy;
+            BD18.curMktX = bdtok.bx;
+            BD18.curMktY = bdtok.by;
             deleteToken(ix);
-            repositionToken(BD18.curMapX,BD18.curMapY);
+            repositionToken(BD18.curMktX,BD18.curMktY);
           }
         },
         close: {

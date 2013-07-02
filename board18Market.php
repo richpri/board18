@@ -49,7 +49,7 @@ if ($gamefound == 'no') {
     </title>
     <link rel="shortcut icon" href="images/favicon.ico" >
     <link rel="stylesheet" href="style/board18com.css" />
-    <link rel="stylesheet" href="style/board18Map.css" />
+    <link rel="stylesheet" href="style/board18Market.css" />
     <link rel="stylesheet" href="style/jquery.contextMenu.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
@@ -59,17 +59,17 @@ if ($gamefound == 'no') {
     </script>
     <script type="text/javascript" src="scripts/jquery.contextMenu.js">
     </script>
-    <script type="text/javascript" src="scripts/board18Map1.js">
+    <script type="text/javascript" src="scripts/board18Market1.js">
     </script> 
-    <script type="text/javascript" src="scripts/board18Map2.js">
+    <script type="text/javascript" src="scripts/board18Market2.js">
     </script> 
-    <script type="text/javascript" src="scripts/board18Map3.js">
+    <script type="text/javascript" src="scripts/board18Market3.js">
     </script> 
-    <script type="text/javascript" src="scripts/board18Map4.js">
+    <script type="text/javascript" src="scripts/board18Market4.js">
     </script> 
-    <script type="text/javascript" src="scripts/board18Map5.js">
-    </script>
-    <script type="text/javascript" src="scripts/board18Map6.js">
+    <script type="text/javascript" src="scripts/board18Market5.js">
+    </script> 
+    <script type="text/javascript" src="scripts/board18Market6.js">
     </script> 
     <script type="text/javascript">
       $(function() {
@@ -82,7 +82,7 @@ if ($gamefound == 'no') {
         $('#content').on({
           "mousedown": mapMouseEvent
         });
-        registerMainMenu();
+        registerMainMenu(); 
         var gameToPlay = 'session=<?php echo $dogame; ?>';
         $.getJSON("php/gameSession.php", gameToPlay, loadSession)
                 .error(function() {
