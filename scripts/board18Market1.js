@@ -20,7 +20,7 @@ BD18.tokenIsSelected = false;
 BD18.boxIsSelected = false;
 BD18.tknMenu = {};
 BD18.tknMenu.timeoutID = 0;
-BD18.hexList = {};
+BD18.onBoxList = {};
 
 /*  
  * Constructor functions.
@@ -46,16 +46,26 @@ function StockMarket(image,market) {
    */
   this.place=function place() {
     BD18.context1.drawImage(image,0,0);
-    BD18.hexIsSelected = false;
+    BD18.boxIsSelected = false;
     BD18.stockMarket = that;
   };
   /*
    * The clear2 function clears all tokens from canvas2.
    * The default value for keepHexSelect is false;
    */
-  this.clear2=function clear2(keepHexSelect) {
+  this.clear2=function clear2(keepBoxSelect) {
     BD18.context2.clearRect(0, 0, this.width, this.height);
-    BD18.hexIsSelected = (keepHexSelect) ? true : false;
+    BD18.boxIsSelected = (keepBoxSelect) ? true : false;
+  };
+  /* This function calculates the chart coordinates of the containing
+   * price box given an exact position in pixels on the stock market.
+   */
+  this.chartCoord = function chartCoord(xPix, yPix) {
+    var yCent = this.yStart + this.yStep/2;
+    var yIndex = Math.round(((yPix-yCent)/this.yStep));
+    var xCent = this.xStart + this.xStep/2;
+    var xIndex = Math.round(((xPix-xCent)/this.xStep));
+    return [xIndex, yIndex];
   };
 }  
   
@@ -106,24 +116,24 @@ function TokenSheet(image,sheet) {
   };
 }
 
-/* BoardToken is a constructor function which creates boardToken
+/* MarketToken is a constructor function which creates marketToken
  * objects. These objects are used to list the tokens that have 
- * been placed on the map board. The snumb, sheet, index and flip 
+ * been placed on the stock market. The snumb, sheet, index and flip 
  * parameters describe the token. The bx and by parameters are 
- * used to specify the exact position of the token on the game
- * board. And the hx and hy calculated parameters identify the 
- * game board hex that contains the token.
+ * used to specify the exact position of the token on the stock
+ * market. And the hx and hy calculated parameters identify the 
+ * market price box that contains the token.
  * */
-function BoardToken(snumb,index,flip,bx,by) {
+function MarketToken(snumb,index,flip,bx,by) {
   this.snumb=snumb;
   this.sheet=BD18.trays[snumb];
   this.index=index;
   this.flip=flip;
   this.bx=bx;
   this.by=by;
- // [this.hx, this.hy] = BD18.gameBoard.hexCoord(bx, by);
+  [this.hx, this.hy] = BD18.stockMarket.chartCoord(bx, by);
   /*
-   * The place function places the token on the board.
+   * The place function places the token on the stock market.
    * The optional alpha parameter should be 1 [if this is
    * a permanent token] or 0.5 [if this is not a permanent 
    * token].  Default is 1.
@@ -142,56 +152,40 @@ function BoardToken(snumb,index,flip,bx,by) {
     BD18.context2.globalAlpha = 1;
   };
   /*
-   * The togm function exports the boardToken as a JSON string.
+   * The togm function exports the marketToken as a JSON object.
    */
   this.togm=function togm() {
-    var brdToken = {};
-    brdToken.sheetNumber = this.snumb;
-    brdToken.tokenNumber = this.index;
-    brdToken.xCoord = this.bx;
-    brdToken.yCoord = this.by;
-    brdToken.flip = this.flip;
-    return brdToken;
+    var mktToken = {};
+    mktToken.sheetNumber = this.snumb;
+    mktToken.tokenNumber = this.index;
+    mktToken.xCoord = this.bx;
+    mktToken.yCoord = this.by;
+    mktToken.flip = this.flip;
+    return mktToken;
   };
 }
   
 /* 
- * OnHex is a constructor function which creates an object 
- * listing all items [tile and tokens] on the hex with the  
- * supplied coordinates. 
+ * OnBox is a constructor function which creates an object 
+ * listing all tokens on the stock market price box with  
+ * the supplied coordinates. 
  */
-function OnHex(hexX, hexY) {
-  this.hexX = parseInt(hexX);
-  this.hexY = parseInt(hexY);
-  this.tile = {};
+function OnBox(boxX, boxY) {
+  this.boxX = parseInt(boxX);
+  this.boxY = parseInt(boxY);
   this.tokens = [];
-  this.isTile = false;
   var item, i;
-  if (BD18.boardTiles.length !== 0) {
-    for (i=0;i<BD18.boardTiles.length;i++) {
-      if (!(i in BD18.boardTiles)) continue ;
-      item = BD18.boardTiles[i];
-      if (item.bx === hexX && item.by === hexY) {
-        this.tile = item;
-        this.tile.btindex = i;
-        this.isTile = true;
-        break;
-      }
-    }  
-  }
-  if (BD18.boardTokens.length !== 0) {
-    for (i=0;i<BD18.boardTokens.length;i++) {
-      if (!(i in BD18.boardTokens)) continue ;
-      item = BD18.boardTokens[i];
-      if (item.hx === hexX && item.hy === hexY) {
+  if (BD18.marketTokens.length !== 0) {
+    for (i=0;i<BD18.marketTokens.length;i++) {
+      if (!(i in BD18.marketTokens)) continue ;
+      item = BD18.marketTokens[i];
+      if (item.hx === boxX && item.hy === boxY) {
         this.tokens.push(item);
-        this.tokens[this.tokens.length-1].btindex = i;
+        this.tokens[this.tokens.length-1].mtindex = i;
       }
     }
   }
   this.noToken = (this.tokens.length === 0);
   this.oneToken = (this.tokens.length === 1);
   this.manyTokens = (this.tokens.length > 1);
-  this.manyItems = (this.manyTokens || 
-    (this.isTile && this.oneToken));
 }

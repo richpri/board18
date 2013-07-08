@@ -1,6 +1,6 @@
 /* 
- * Tile and token manipulation functions.
- * These functions manipulate obects on the map board.
+ * The board18Map3 file contains tile and token manipulation
+ * functions. These functions manipulate obects on the map board.
  */ 
 
 /* Function logoutOK is the callback function for the ajax
@@ -41,10 +41,9 @@ function fromUpdateGm(resp) {
     msg += resp.substr(10);
     msg += " updated the database after you read it.";
     $('#lognote').text(msg);
-    msg = "Your move will be backed out when ";
-    msg += "you respond to this alert box.";
     trayCanvasApp();
     mainCanvasApp();
+c
   }
   else {
     msg = "Invalid return code from updateGame ["+resp+"]. ";
@@ -75,7 +74,7 @@ function dropTile(xI,yI) {
   BD18.curHexX = xI;
   BD18.curHexY = yI;
   BD18.hexIsSelected = true;
-  var messg = "Select 'Menu-Actions-Accept Move' to make ";
+  var messg = "Select 'Menu-Accept Move' to make ";
   messg += "tile placement permanent."
   doLogNote(messg);
 }
@@ -139,7 +138,7 @@ function dropToken(x,y,xI,yI) {
   BD18.curMapX = xI;
   BD18.curMapY = yI;
   BD18.hexIsSelected = true;
-  var messg = "Select 'Menu-Actions-Accept Move' to make ";
+  var messg = "Select 'Menu-Accept Move' to make ";
   messg += "token placement permanent."
   doLogNote(messg);
 }
@@ -165,7 +164,7 @@ function repositionToken(xI,yI) {
   toknCanvasApp(true);
   var temp = new BoardToken(sn,ix,flip,xI,yI);
   temp.place(0.5); // Semi-transparent
-  var messg = "Select 'Menu-Actions-Accept Move' to make ";
+  var messg = "Select 'Menu-Accept Move' to make ";
   messg += "token placement permanent."
   doLogNote(messg);
 }
@@ -193,7 +192,7 @@ function flipToken() {
   toknCanvasApp();
   var temp = new BoardToken(sn,ix,flip,xI,yI);
   temp.place(0.5); // Semi-transparent
-  var messg = "Select 'Menu-Actions-Accept Move' to make ";
+  var messg = "Select 'Menu-Accept Move' to make ";
   messg += "token placement permanent."
   doLogNote(messg);
 }

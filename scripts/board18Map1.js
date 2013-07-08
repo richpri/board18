@@ -232,7 +232,7 @@ function BoardTile(snumb,index,rotation,bx,by) {
     BD18.context1.globalAlpha = 1;
   };
   /*
-   * The togm function exports the boardTile as a JSON string.
+   * The togm function exports the boardTile as a JSON object.
    */
   this.togm=function togm() {
     var brdTile = {};
@@ -281,7 +281,7 @@ function BoardToken(snumb,index,flip,bx,by) {
     BD18.context2.globalAlpha = 1;
   };
   /*
-   * The togm function exports the boardToken as a JSON string.
+   * The togm function exports the boardToken as a JSON object.
    */
   this.togm=function togm() {
     var brdToken = {};

@@ -1,17 +1,17 @@
 /* 
- * board18Map4.js contains all the functions that
- * implement the multi token selection logic for
- * cases where more than one token is on the same hex.
+ * board18Market4.js contains all the functions that
+ * implement the multi token selection logic for cases
+ * where more than one token is on the same price box.
  */
 
-/* The selectToken function uses the  BD18.hexList.tokens
+/* The selectToken function uses the  BD18.onBoxList.tokens
  * array to display a graphical list of the tokens on a
- * given hex. This list is displayed on canvas3 which is
+ * given box. This list is displayed on canvas3 which is
  * defined within the rightofpage division. Clicking on 
  * a token should cause canvas3 to be cleared.
  */
 function selectToken(event) {
-  var numbtok = BD18.hexList.tokens.length;
+  var numbtok = BD18.onBoxList.tokens.length;
   $('#canvas3').css('opacity', '1');
   $('#canvas3').attr('height', 40); 
   $('#canvas3').attr('width', numbtok*40);
@@ -35,13 +35,13 @@ function selectToken(event) {
   BD18.context3.fillRect(0, 0, numbtok*40, 40);
   var image,sx,sy,szx,szy,ix,mx;
   for (i=0;i<numbtok;i++) {
-    image = BD18.hexList.tokens[i].sheet.image;
-    ix = BD18.hexList.tokens[i].index;
-    sx = BD18.hexList.tokens[i].sheet.xStart;
-    sy = BD18.hexList.tokens[i].sheet.yStart + 
-       ix*BD18.hexList.tokens[i].sheet.yStep;
-    szx = BD18.hexList.tokens[i].sheet.xSize;
-    szy = BD18.hexList.tokens[i].sheet.ySize;
+    image = BD18.onBoxList.tokens[i].sheet.image;
+    ix = BD18.onBoxList.tokens[i].index;
+    sx = BD18.onBoxList.tokens[i].sheet.xStart;
+    sy = BD18.onBoxList.tokens[i].sheet.yStart + 
+       ix*BD18.onBoxList.tokens[i].sheet.yStep;
+    szx = BD18.onBoxList.tokens[i].sheet.xSize;
+    szy = BD18.onBoxList.tokens[i].sheet.ySize;
     mx = 5 + i*40;
     BD18.context3.drawImage(image,sx,sy,szx,szy,mx,5,30,30);
   }
@@ -56,7 +56,7 @@ function selectToken(event) {
  * The hideTknMenu function resets the canvas3 token menu.
  */
 function hideTknMenu() {
-  var numbtok = BD18.hexList.tokens.length;
+  var numbtok = BD18.onBoxList.tokens.length;
   BD18.context3.clearRect(0, 0, numbtok*40, 40);
   $('#canvas3').css({
     opacity: '0',
@@ -91,7 +91,7 @@ function killHideTknMenu() {
 /* 
  * The doTknMenu function processes a click on canvas3
  * This canvas is used to select one of multiple tokens
- * on the same hex. The requested function is performed
+ * on the same box. The requested function is performed
  * for the selected token.
  */
 function doTknMenu(event) {
@@ -102,27 +102,27 @@ function doTknMenu(event) {
   // do requested function to that token.
   switch(BD18.tknMenu.funct) {
     case "delete":
-      deleteToken(BD18.hexList.tokens[index].btindex);
+      deleteToken(BD18.onBoxList.tokens[index].mtindex);
       toknCanvasApp();
       trayCanvasApp();
-      updateGmBrdTokens();
+      updateMarketTokens();
       updateDatabase();
       break;
     case "move":
-      var ix = BD18.hexList.tokens[index].btindex;
-      var bdtok = BD18.boardTokens[ix];
-      BD18.tempToken = [bdtok.snumb,bdtok.index,
-      bdtok.flip,bdtok.bx,bdtok.by];
-      BD18.hexIsSelected = true;
+      var ix = BD18.onBoxList.tokens[index].mtindex;
+      var mktok = BD18.marketTokens[ix];
+      BD18.tempToken = [mktok.snumb,mktok.index,
+      mktok.flip,mktok.bx,mktok.by];
+      BD18.boxIsSelected = true;
       BD18.tokenIsSelected = true;
-      BD18.curTrayNumb = bdtok.snumb;
-      BD18.curIndex = bdtok.index;
+      BD18.curTrayNumb = mktok.snumb;
+      BD18.curIndex = mktok.index;
       BD18.curRot = 0;
-      BD18.curFlip = bdtok.flip;
-      BD18.curBoxX = bdtok.hx;
-      BD18.curBoxY = bdtok.hy;
-      BD18.curMktX = bdtok.bx;
-      BD18.curMktY = bdtok.by;
+      BD18.curFlip = mktok.flip;
+      BD18.curBoxX = mktok.hx;
+      BD18.curBoxY = mktok.hy;
+      BD18.curMktX = mktok.bx;
+      BD18.curMktY = mktok.by;
       deleteToken(ix);
       repositionToken(BD18.curMktX,BD18.curMktY);
       break;

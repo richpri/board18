@@ -13,11 +13,11 @@
   }, 
   "market": {
     "imgLoc":"images/test/Stock.png", 
-    "imgHght":1249, 
-    "imgWdth":1418, 
-    "xStart":0, 
-    "xStep":50, 
-    "yStart":0, 
+    "imgHght":527, 
+    "imgWdth":1174, 
+    "xStart":80, 
+    "xStep":60, 
+    "yStart":80, 
     "yStep":50
   }, 
   "tray": [ {

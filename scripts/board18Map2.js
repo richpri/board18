@@ -9,15 +9,17 @@
  */
 function makeTrays() {
   var sheets = BD18.bx.tray;
-  var i;
+  var i=0;
   var images = BD18.tsImages;
-  for (i=0;i<sheets.length;i++) {
-    if(sheets[i].type === 'tile') {
-      BD18.trays[i] = new TileSheet(images[i],sheets[i]);
+  for (var ix=0;ix<sheets.length;ix++) {
+    if(sheets[ix].type === 'tile') {
+      BD18.trays[i] = new TileSheet(images[ix],sheets[ix]);
       BD18.trays[i].trayNumb = i;
+      i++;
     } else if(sheets[i].type === 'btok') {
-      BD18.trays[i] = new TokenSheet(images[i],sheets[i]);
+      BD18.trays[i] = new TokenSheet(images[ix],sheets[ix]);
       BD18.trays[i].trayNumb = i;
+      i++;
     }
   }
   BD18.curTrayNumb = 0;
@@ -66,19 +68,12 @@ function makeBdTokenList(){
 }
 
 /*
- * Function trayCanvasApp dynamically updates 
- * the links for all trays in the "traylist" div. 
- * It then calls the trays.place() method for 
- * the current tile/token sheet object. This sets  
- * up the tray Canvas. If there is a currently 
- * selected item, that item will be highlited.
+ * Function trayCanvasApp calls the trays.place() 
+ * method for the current tile/token sheet object.  
+ * This sets up the tray Canvas. 
  */
 
 function trayCanvasApp() {
-  for (var i=0;i<BD18.trays.length;i++) {
-    $('#traylist p').eq(1+i)
-    .text(BD18.trays[i].trayName).addClass("acttray");
-  }
   BD18.trays[BD18.curTrayNumb].place(null);
 }
 

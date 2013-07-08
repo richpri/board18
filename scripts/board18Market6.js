@@ -1,10 +1,13 @@
 /*
- * These are functions that respond to various onclick events.
+ * The board18Market6.js file contains all the functions that
+ * respond to various onclick events on the stock chart in the 
+ * Market page and on the main and tray menues.  But right click 
+ * events that cause a context menu to be displayed are handled
+ * by functions in the board18Market5.js file.
  */
 
-/* The registerMainMenu function creates the 
- * main menu on the board18Map page. It uses
- * the jquery context menu plugin.
+/* The registerMainMenu function creates the main menu on the 
+ * board18Market page. It uses the jquery context menu plugin.
  */
 function registerMainMenu() {
   $.contextMenu({
@@ -26,10 +29,10 @@ function registerMainMenu() {
           toknCanvasApp();
         }
       },
-      stock: {
-        name: "Stock Market",
+      map: {
+        name: "Map Board",
         callback: function(){
-          window.location = "board18Market?dogame=" + BD18.gameID;
+          window.location = "board18Map?dogame=" + BD18.gameID;
         }
       },
       main: {
@@ -75,7 +78,7 @@ function makeTrayItems() {
   for (var ix = 0; ix < BD18.trays.length; ix++) {
     menuText += '"tray' + ix + '": ';
     menuText += '{"name": "' + BD18.trays[ix].trayName;
-    menuText += '"}'
+    menuText += '"}';
     menuText += (ix === lastItem) ? '}' : ',';
   }
   var menuItems = $.parseJSON(menuText);
@@ -83,7 +86,7 @@ function makeTrayItems() {
 }
 
 /* The registerTrayMenu function creates the 
- * tray menu on the board18Map page. It uses
+ * tray menu on the board18Market page. It uses
  * the jquery context menu plugin and the
  * makeTrayItems function.
  */
@@ -109,13 +112,13 @@ function registerTrayMenu() {
   });
 }
 
-/* This function calculates the board coordinates of a map
- * tile given the raw coordinates of a mouse click event.
+/* This function calculates the board coordinates of a stock price
+ * box given the raw coordinates of a mouse click event.
  */
-function tilePos(event) {
+function boxPos(event) {
   var xPix, yPix, xIndex, yIndex;
   [xPix, yPix] = offsetIn(event, BD18.canvas1);
-  [xIndex, yIndex] = BD18.gameBoard.hexCoord(xPix, yPix);
+  [xIndex, yIndex] = BD18.stockMarket.chartCoord(xPix, yPix);
   return [xIndex, yIndex];
 }
 
@@ -124,14 +127,10 @@ function tilePos(event) {
  * the selected item.
  */
 function traySelect(event) {
-  if (BD18.hexIsSelected === true) return;
+  if (BD18.boxIsSelected === true) return;
   var tray = BD18.trays[BD18.curTrayNumb];
   var a, b, c, x, y;
-  if(tray.sheetType==="tile") {
-    a = 10;  // This is the tray Top Margin.
-    b = 120; // This is the tray Y Step Value.
-    c = tray.tilesOnSheet;
-  } else if(tray.sheetType==="btok") {
+  if(tray.sheetType==="mtok") {
     a = 0;  // This is the tray Top Margin.
     b = 40;  // This is the tray Y Step Value.
     c = tray.tokensOnSheet;
@@ -142,13 +141,10 @@ function traySelect(event) {
   var ind = (y-a)/b;
   var inde = (ind>=c)?c-1:ind; 
   var index = Math.floor((inde<0)?0:inde);
-  if (BD18.gm.trayCounts[BD18.curTrayNumb][index] === 0) return;
   BD18.curIndex = index;
-  BD18.curRot = 0; // Eliminate any previous rotation.
   BD18.curFlip = false; // Eliminate any previous flip.
   tray.place(index); // Set highlight.
-  if(tray.sheetType==="tile") {BD18.tileIsSelected = true;}
-  if(tray.sheetType==="btok") {BD18.tokenIsSelected = true;}
+  BD18.tokenIsSelected = true;
 }
 
 /* This function responds to left mousedown events in the  
@@ -156,23 +152,17 @@ function traySelect(event) {
  * the appropriate function based on them. If it can find 
  * no relevant condition then it merely returns.
  */
-function hexSelect(event) {
+function boxSelect(event) {
       var x, y, xPix, yPix;
-      [x, y] = tilePos(event);
+      [x, y] = boxPos(event);
       [xPix, yPix] = offsetIn(event, BD18.canvas1);
-  if (BD18.hexIsSelected === true) {
+  if (BD18.boxIsSelected === true) {
     if (x !== BD18.curBoxX) { return; }
     if (y !== BD18.curBoxY) { return; }
-    if (BD18.tileIsSelected === true) {
-      rotateTile("cw");       
-    }
     if (BD18.tokenIsSelected === true) {
       repositionToken(xPix,yPix);
     }
-  } else { // BD18.hexIsSelected === false
-    if (BD18.tileIsSelected === true) {
-      dropTile(x,y); 
-    }
+  } else { // BD18.boxIsSelected === false
     if (BD18.tokenIsSelected === true) {
       dropToken(x,y,xPix,yPix); 
     }   
@@ -182,40 +172,12 @@ function hexSelect(event) {
 /* This function responds to mousedown events on the map canvas.
  * It uses event.witch to determine which mouse button was pressed.
  * If the left or center button was pressed then it calls the
- * hexSelect functon. Otherwise it assumes that the right button
+ * boxSelect functon. Otherwise it assumes that the right button
  * was pressed and does nothing. Right mose events are handled
  * by the jquery.contextMenu library [see the makeMenus function].
  */
 function mapMouseEvent(event) {
   if (event.which === 0 || event.which === 1) { // Left or Center
-    hexSelect(event);
+    boxSelect(event);
   } 
 }
-
-/* This function is called via onclick events coded into the
- * main menu on the board18Map page. the passed parameter 
- * indicates the menue choice to be acted upon.
- */
-function doit(mm) { // mm is the onclick action to be taken.
-  switch(mm)
-  {
-    case "cw":
-      rotateTile("cw");
-      break;
-    case "ccw":
-      rotateTile("ccw");
-      break;
-    case "add":
-      acceptMove();
-      break;
-    case "reset":
-      trayCanvasApp();
-      mainCanvasApp();
-      toknCanvasApp();
-      break;
-    default:
-      alert("Button pressed. " + mm);
-  }   
-}
-
-

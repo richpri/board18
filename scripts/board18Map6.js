@@ -1,5 +1,9 @@
 /*
- * These are functions that respond to various onclick events.
+ * The board18Map6.js file contains all the functions that
+ * respond to various onclick events on the game board in the 
+ * Map page and on the main and tray menues.  But right click 
+ * events that cause a context menu to be displayed are handled
+ * by functions in the board18Map5.js file.
  */
 
 /* The registerMainMenu function creates the 
