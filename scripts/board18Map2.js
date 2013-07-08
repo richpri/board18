@@ -1,4 +1,4 @@
-/* Startup functions */
+/* The board18Map2 file contains startup functions */
 
 /* Function makeTrays() initializes all of the tray objects.
  * It calls the TileSheet constructor for each tile sheet.  

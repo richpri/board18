@@ -193,7 +193,6 @@ function addToken() {
   var x = BD18.curMktX;
   var y = BD18.curMktY;
   var token = new MarketToken(s, n, f, x, y);
-  var stat = reduceCount(token.sheet.trayNumb, token.index);
   BD18.marketTokens.push(token);
   BD18.curIndex = null;
   toknCanvasApp();

@@ -22,7 +22,7 @@ function getMenuType(event) {
     if (BD18.tokenIsSelected === true) type = "1";
   } else { 
     var boxX, boxY;
-    [boxX, boxY] = tilePos(event);
+    [boxX, boxY] = boxPos(event);
     BD18.onBoxList = new OnBox(boxX, boxY);
     if (BD18.onBoxList.oneToken) type = "3";
     if (BD18.onBoxList.manyTokens) type = "4";
@@ -91,7 +91,7 @@ function makeMenuItems(e) {
           name: 'Move Token',
           callback: function(){
             var ix = BD18.onBoxList.tokens[0].mtindex;
-            var smtok = BD18.boardTokens[ix];
+            var smtok = BD18.marketTokens[ix];
             BD18.tempToken = [smtok.snumb,smtok.index,
             smtok.flip,smtok.bx,smtok.by];
             BD18.boxIsSelected = true;

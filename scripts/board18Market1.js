@@ -1,5 +1,3 @@
-"use strict";
-
 /* All BD18 global variables are contained in one
  * 'master' object called BD18.  This isolates 
  * them from global variables in other packages. 
