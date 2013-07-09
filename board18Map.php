@@ -2,33 +2,30 @@
 require_once('php/auth.php');
 require_once('php/config.php');
 
-$link = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
-if (!$link) {
-  error_log('Failed to connect to server: ' . mysql_error());
-  exit;
-}
-$db = mysql_select_db(DB_DATABASE);
-if (!$db) {
-  error_log("Unable to select database");
-  exit;
-}
-
 //Function to sanitize values received from POST. 
 //Prevents SQL injection
-function clean($str) {
+function clean( $conn, $str ) {
   $str = @trim($str);
-  return mysql_real_escape_string($str);
+  return mysqli_real_escape_string( $conn, $str );
 }
 
+$link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+if ( !$link ) {
+	error_log('Failed to connect to server: ' . mysqli_connect_error());
+	die( 'Connect error: (' . mysqli_connect_errno() . ') ' . mysqli_connect_error() );
+	exit; // just in case
+}
+
+
 //Sanitize the dogame value
-$dogame = clean($_REQUEST['dogame']);
+$dogame = clean( $link, $_REQUEST['dogame']);
 //Initialize $gamefound flag.
 $gamefound = 'no';
 $qry = "SELECT game_id FROM game_player 
         WHERE player_id = $loggedinplayer";
-$result = mysql_query($qry);
+$result = mysqli_query( $link, $qry );
 if ($result) {
-  while ($row = mysql_fetch_array($result)) {
+  while ($row = mysqli_fetch_array($result)) {
     if (intval($row[0]) == intval($dogame)) {
       $gamefound = 'yes';
       break;
