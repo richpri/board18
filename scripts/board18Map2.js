@@ -122,11 +122,11 @@ function canvasApp()
 {
   var hh = parseInt(BD18.gameBoard.height, 10);
   var ww = parseInt(BD18.gameBoard.width, 10);
-  $('#content').css('height', hh+20); 
+  $('#content').css('height', hh+120); 
   $('#content').css('width', ww);     
-  $('#canvas1').attr('height', hh); 
+  $('#canvas1').attr('height', hh+100); 
   $('#canvas1').attr('width', ww); 
-  $('#canvas2').attr('height', hh); 
+  $('#canvas2').attr('height', hh+100); 
   $('#canvas2').attr('width', ww); 
   BD18.canvas0 = document.getElementById('canvas0');
   if (!BD18.canvas0 || !BD18.canvas0.getContext) {

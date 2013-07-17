@@ -27,7 +27,7 @@ function listReturn(response) {
     var gameHTML ='';
     $.each(response.gamelist,function(index,listInfo) {
       gameHTML += '<tr> <td class="gamename">';
-      gameHTML += '<a href="board18Map?dogame=';
+      gameHTML += '<a href="board18Map.php?dogame=';
       gameHTML += listInfo.game_id + ' ">';
       gameHTML += listInfo.gname + '</a></td> <td>';
       gameHTML += listInfo.bname + '</td> <td>';

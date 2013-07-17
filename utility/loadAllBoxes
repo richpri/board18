@@ -1,14 +1,11 @@
 #!/bin/bash 
 #
 # This script will create a new game box row in the box
-# table of board18.
+# table of board18 for each JSON file in the given dir.
 # The positional input parameters are as follows:
-#   boxname   char
-#   version   char
-#   author    char
-#   textfile  fully qualified file name
+#   directory  -  fully qualified directory name
 # 
-# The text file shuld contain the complete json
+# The text file should contain the complete json
 # object for the game box as a text file.
 # 
 # The script will then display the newly created row.

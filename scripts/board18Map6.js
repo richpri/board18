@@ -33,7 +33,7 @@ function registerMainMenu() {
       stock: {
         name: "Stock Market",
         callback: function(){
-          window.location = "board18Market?dogame=" + BD18.gameID;
+          window.location = "board18Market.php?dogame=" + BD18.gameID;
         }
       },
       main: {

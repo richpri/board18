@@ -32,7 +32,7 @@ function registerMainMenu() {
       map: {
         name: "Map Board",
         callback: function(){
-          window.location = "board18Map?dogame=" + BD18.gameID;
+          window.location = "board18Map.php?dogame=" + BD18.gameID;
         }
       },
       main: {

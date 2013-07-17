@@ -18,7 +18,11 @@
 	if(!isset($_SESSION['SESS_PLAYER_ID']) || 
           (trim($_SESSION['SESS_PLAYER_ID']) == '')) {
     $denyloc = "location: http://" . $_SERVER['SERVER_NAME'];
-    $denyloc .= "/BOARD18/access-denied.html";
+    if(substr ($_SERVER['REQUEST_URI'],1,7)== 'BOARD18') {
+      $denyloc .= "/BOARD18/access-denied.html";
+    } else {
+      $denyloc .= "/access-denied.html";
+    }
 		header($denyloc);
 		exit;
 	} else {
