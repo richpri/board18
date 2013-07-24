@@ -79,7 +79,7 @@ function makeTrayItems() {
   for (var ix = 0; ix < BD18.trays.length; ix++) {
     menuText += '"tray' + ix + '": ';
     menuText += '{"name": "' + BD18.trays[ix].trayName;
-    menuText += '"}'
+    menuText += '"}';
     menuText += (ix === lastItem) ? '}' : ',';
   }
   var menuItems = $.parseJSON(menuText);
@@ -118,8 +118,14 @@ function registerTrayMenu() {
  */
 function tilePos(event) {
   var xPix, yPix, xIndex, yIndex;
-  [xPix, yPix] = offsetIn(event, BD18.canvas1);
-  [xIndex, yIndex] = BD18.gameBoard.hexCoord(xPix, yPix);
+// [xPix, yPix] = offsetIn(event, BD18.canvas1);
+  var tArray = offsetIn(event, BD18.canvas1);
+  xPix = tArray[0];
+  yPix = tArray[1];
+// [xIndex, yIndex] = BD18.gameBoard.hexCoord(xPix, yPix);
+  tArray = BD18.gameBoard.hexCoord(xPix, yPix);
+  xIndex = tArray[0];
+  yIndex = tArray[1];
   return [xIndex, yIndex];
 }
 
@@ -142,7 +148,10 @@ function traySelect(event) {
   } else {
     return; // Invalid sheet type!!
   }
-  [x, y] = offsetIn(event, BD18.canvas0);
+// [x, y] = offsetIn(event, BD18.canvas0);
+  var tArray = offsetIn(event, BD18.canvas0);
+  x = tArray[0];
+  y = tArray[1];
   var ind = (y-a)/b;
   var inde = (ind>=c)?c-1:ind; 
   var index = Math.floor((inde<0)?0:inde);
@@ -162,8 +171,14 @@ function traySelect(event) {
  */
 function hexSelect(event) {
       var x, y, xPix, yPix;
-      [x, y] = tilePos(event);
-      [xPix, yPix] = offsetIn(event, BD18.canvas1);
+//     [x, y] = tilePos(event);
+      var tArray = tilePos(event);
+      x = tArray[0];
+      y = tArray[1];
+//     [xPix, yPix] = offsetIn(event, BD18.canvas1);
+      tArray = offsetIn(event, BD18.canvas1);
+      xPix = tArray[0];
+      yPix = tArray[1];
   if (BD18.hexIsSelected === true) {
     if (x !== BD18.curHexX) { return; }
     if (y !== BD18.curHexY) { return; }

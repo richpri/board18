@@ -88,7 +88,10 @@ function findPos(obj) {
  */
 function offsetIn(event, obj) {
   var a, b;
-  [a, b] = findPos(obj);
+// [a, b] = findPos(obj);
+  var tArray = findPos(obj);
+  a = tArray[0];
+  b = tArray[1];
   var x = event.pageX - a;
   var y = event.pageY - b;
   return [x, y];

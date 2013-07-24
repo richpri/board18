@@ -27,7 +27,10 @@ function getMenuType(event) {
     if (BD18.tileIsSelected === true) type = "2";
   } else { 
     var hexX, hexY;
-    [hexX, hexY] = tilePos(event);
+//   [hexX, hexY] = tilePos(event);
+    var tArray = tilePos(event); 
+    hexX = tArray[0];
+    hexY = tArray[1];
     BD18.hexList = new OnHex(hexX, hexY);
     if (!BD18.hexList.isTile) {
       if (BD18.hexList.oneToken) type = "3";
@@ -137,7 +140,7 @@ function makeMenuItems(e) {
           }
         },
         mtoken: {
-          name: 'Move Token',
+          name: 'Adjust Token on Hex',
           callback: function(){
             var ix = BD18.hexList.tokens[0].btindex;
             var bdtok = BD18.boardTokens[ix];
@@ -173,7 +176,7 @@ function makeMenuItems(e) {
           }
         },
         stoken2: {
-          name: 'Select Token to Move',
+          name: 'Select Token to Adjust',
           callback: function(){
             BD18.tknMenu.funct = 'move';
             selectToken(e);
@@ -234,8 +237,8 @@ function makeMenuItems(e) {
             bdtok.flip,bdtok.bx,bdtok.by];
             BD18.hexIsSelected = true;
             BD18.tokenIsSelected = true;
-            BD18.curTrayNumb = bdtok.snumb
-            BD18.curIndex = bdtok.index
+            BD18.curTrayNumb = bdtok.snumb;
+            BD18.curIndex = bdtok.index;
             BD18.curRot = 0;
             BD18.curFlip = bdtok.flip;
             BD18.curHexX = bdtok.hx;

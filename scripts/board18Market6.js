@@ -117,8 +117,14 @@ function registerTrayMenu() {
  */
 function boxPos(event) {
   var xPix, yPix, xIndex, yIndex;
-  [xPix, yPix] = offsetIn(event, BD18.canvas1);
-  [xIndex, yIndex] = BD18.stockMarket.chartCoord(xPix, yPix);
+// [xPix, yPix] = offsetIn(event, BD18.canvas1);
+  var tArray = offsetIn(event, BD18.canvas1);
+  xPix = tArray[0];
+  yPix = tArray[1];
+// [xIndex, yIndex] = BD18.stockMarket.chartCoord(xPix, yPix);
+  var tArray = BD18.stockMarket.chartCoord(xPix, yPix);
+  xIndex = tArray[0];
+  yIndex = tArray[1];
   return [xIndex, yIndex];
 }
 
@@ -137,7 +143,10 @@ function traySelect(event) {
   } else {
     return; // Invalid sheet type!!
   }
-  [x, y] = offsetIn(event, BD18.canvas0);
+// [x, y] = offsetIn(event, BD18.canvas0);
+  var tArray = offsetIn(event, BD18.canvas0);
+  x = tArray[0];
+  y = tArray[1];
   var ind = (y-a)/b;
   var inde = (ind>=c)?c-1:ind; 
   var index = Math.floor((inde<0)?0:inde);
@@ -153,9 +162,15 @@ function traySelect(event) {
  * no relevant condition then it merely returns.
  */
 function boxSelect(event) {
-      var x, y, xPix, yPix;
-      [x, y] = boxPos(event);
-      [xPix, yPix] = offsetIn(event, BD18.canvas1);
+  var x, y, xPix, yPix;
+// [x, y] = boxPos(event);
+  var tArray = boxPos(event);
+  x = tArray[0];
+  y = tArray[1];
+// [xPix, yPix] = offsetIn(event, BD18.canvas1);
+  var tArray = offsetIn(event, BD18.canvas1);
+  xPix = tArray[0];
+  yPix = tArray[1];
   if (BD18.boxIsSelected === true) {
     if (x !== BD18.curBoxX) { return; }
     if (y !== BD18.curBoxY) { return; }

@@ -97,7 +97,10 @@ function killHideTknMenu() {
 function doTknMenu(event) {
   // find token that was clicked
   var xPix, yPix, index;
-  [xPix, yPix] = offsetIn(event, BD18.canvas3); 
+// [xPix, yPix] = offsetIn(event, BD18.canvas3); 
+  var tArray = offsetIn(event, BD18.canvas3); 
+  xPix = tArray[0];
+  yPix = tArray[1];
   index = Math.floor(xPix/40);
   // do requested function to that token.
   switch(BD18.tknMenu.funct) {

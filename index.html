@@ -21,7 +21,8 @@
     </script>
     <script type="text/javascript" >
       $(function() {
-        $('.error').hide();  
+        $('.error').hide(); 
+        $('#pointer').hide(); 
          registerMainMenu();
         $("#login").submit(function() {  
           login();
@@ -31,6 +32,15 @@
           register();
           return false;
         }); // end register
+        $("#content").click(function(){
+          $('#pointer').fadeToggle(600);
+        }); // end content click
+        $("#leftofpage").click(function(){
+          $('#pointer').fadeToggle(600);
+        }); // end leftofpage click
+        $("#pointer").click(function(){
+          $('#pointer').fadeOut(600);
+        }); // end pointer click
       }); // end ready
     </script>
   </head>
@@ -119,7 +129,10 @@
             </p>
           </fieldset>
         </form>
-      </div>  
+      </div> 
+      <div id="pointer">
+        <img src="images/clickmenu.png" alt="To Start Click Menu"/>
+      </div>
       <div id="content"  style="padding: 10px">    
         <p style="font-size: 130%"><b>Welcome to Board18.</b></p>
         <p>BOARD18 is intended to be used with a spreadsheet to play an 

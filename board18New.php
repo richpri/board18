@@ -121,7 +121,7 @@ function showPlayers( $conn ) {
           <h3>Start a New Game Session</h3>
           <p>Please use this form to start a new game session. 
           <br>For your convenience, a list of registered players 
-          appears to the right<br>and a table of available game 
+          appears to the left<br>and a table of available game 
           boxes appears below.
           </p>
         </div>

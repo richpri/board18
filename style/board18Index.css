@@ -25,6 +25,13 @@
 	z-index: 20;
 }
 
+#pointer {
+  position: absolute;
+	left: 70px;
+	top: 0px;
+	z-index: 5;
+}
+
 .hideform {
 	padding: 10px 10px 10px 10px;
   border-style: double;
@@ -57,13 +64,4 @@
   color: red !important;
 }
 
-footer {
-  position: absolute;
-  left:0px;
-  bottom:0px; 
-  height:20px;
-  width:100%;
-  clear:both;
-  text-align:center;
-}
 

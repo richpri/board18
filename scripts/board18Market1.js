@@ -129,7 +129,10 @@ function MarketToken(snumb,index,flip,bx,by) {
   this.flip=flip;
   this.bx=bx;
   this.by=by;
-  [this.hx, this.hy] = BD18.stockMarket.chartCoord(bx, by);
+// [this.hx, this.hy] = BD18.stockMarket.chartCoord(bx, by);
+  var tArray = BD18.stockMarket.chartCoord(bx, by);
+  this.hx = tArray[0];
+  this.hy = tArray[1];
   /*
    * The place function places the token on the stock market.
    * The optional alpha parameter should be 1 [if this is

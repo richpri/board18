@@ -22,7 +22,10 @@ function getMenuType(event) {
     if (BD18.tokenIsSelected === true) type = "1";
   } else { 
     var boxX, boxY;
-    [boxX, boxY] = boxPos(event);
+//   [boxX, boxY] = boxPos(event);
+    var tArray = boxPos(event);
+    boxX = tArray[0];
+    boxY = tArray[1];
     BD18.onBoxList = new OnBox(boxX, boxY);
     if (BD18.onBoxList.oneToken) type = "3";
     if (BD18.onBoxList.manyTokens) type = "4";
@@ -87,8 +90,8 @@ function makeMenuItems(e) {
             updateDatabase();
           }
         },
-        mtoken: {
-          name: 'Move Token',
+        adjtoken: {
+          name: 'Adjust Token in Box',
           callback: function(){
             var ix = BD18.onBoxList.tokens[0].mtindex;
             var smtok = BD18.marketTokens[ix];
@@ -100,9 +103,87 @@ function makeMenuItems(e) {
             BD18.curIndex = smtok.index;
             BD18.curRot = 0;
             BD18.curFlip = smtok.flip;
-            BD18.curBoxX = smtok.hx;
-            BD18.curBoxY = smtok.hy;
             BD18.curMktX = smtok.bx;
+            BD18.curMktY = smtok.by;
+            deleteToken(ix);
+            repositionToken(BD18.curMktX,BD18.curMktY);
+          }
+        },
+        mutoken: {
+          name: 'Move Token Up',
+          callback: function(){
+            var ix = BD18.onBoxList.tokens[0].mtindex;
+            var addY = parseInt(BD18.stockMarket.xStep);
+            var smtok = BD18.marketTokens[ix];
+            BD18.tempToken = [smtok.snumb,smtok.index,
+            smtok.flip,smtok.bx,smtok.by];
+            BD18.boxIsSelected = true;
+            BD18.tokenIsSelected = true;
+            BD18.curTrayNumb = smtok.snumb;
+            BD18.curIndex = smtok.index;
+            BD18.curRot = 0;
+            BD18.curFlip = smtok.flip;
+            BD18.curMktX = smtok.bx;
+            BD18.curMktY = smtok.by-addY;
+            deleteToken(ix);
+            repositionToken(BD18.curMktX,BD18.curMktY);
+          }
+        },
+        mltoken: {
+          name: 'Move Token Left',
+          callback: function(){
+            var ix = BD18.onBoxList.tokens[0].mtindex;
+            var addX = parseInt(BD18.stockMarket.xStep);
+            var smtok = BD18.marketTokens[ix];
+            BD18.tempToken = [smtok.snumb,smtok.index,
+            smtok.flip,smtok.bx,smtok.by];
+            BD18.boxIsSelected = true;
+            BD18.tokenIsSelected = true;
+            BD18.curTrayNumb = smtok.snumb;
+            BD18.curIndex = smtok.index;
+            BD18.curRot = 0;
+            BD18.curFlip = smtok.flip;
+            BD18.curMktX = smtok.bx+addX;
+            BD18.curMktY = smtok.by;
+            deleteToken(ix);
+            repositionToken(BD18.curMktX,BD18.curMktY);
+          }
+        },
+        mdtoken: {
+          name: 'Move Token Down',
+          callback: function(){
+            var ix = BD18.onBoxList.tokens[0].mtindex;
+            var addY = parseInt(BD18.stockMarket.xStep);
+            var smtok = BD18.marketTokens[ix];
+            BD18.tempToken = [smtok.snumb,smtok.index,
+            smtok.flip,smtok.bx,smtok.by];
+            BD18.boxIsSelected = true;
+            BD18.tokenIsSelected = true;
+            BD18.curTrayNumb = smtok.snumb;
+            BD18.curIndex = smtok.index;
+            BD18.curRot = 0;
+            BD18.curFlip = smtok.flip;
+            BD18.curMktX = smtok.bx;
+            BD18.curMktY = smtok.by+addY;
+            deleteToken(ix);
+            repositionToken(BD18.curMktX,BD18.curMktY);
+          }
+        },
+        mrtoken: {
+          name: 'Move Token Right',
+          callback: function(){
+            var ix = BD18.onBoxList.tokens[0].mtindex;
+            var addX = parseInt(BD18.stockMarket.xStep);
+            var smtok = BD18.marketTokens[ix];
+            BD18.tempToken = [smtok.snumb,smtok.index,
+            smtok.flip,smtok.bx,smtok.by];
+            BD18.boxIsSelected = true;
+            BD18.tokenIsSelected = true;
+            BD18.curTrayNumb = smtok.snumb;
+            BD18.curIndex = smtok.index;
+            BD18.curRot = 0;
+            BD18.curFlip = smtok.flip;
+            BD18.curMktX = smtok.bx-addX;
             BD18.curMktY = smtok.by;
             deleteToken(ix);
             repositionToken(BD18.curMktX,BD18.curMktY);
@@ -124,12 +205,40 @@ function makeMenuItems(e) {
           }
         },
         stoken2: {
-          name: 'Select Token to Move',
+          name: 'Select Token to Adjust in Box',
           callback: function(){
-            BD18.tknMenu.funct = 'move';
+            BD18.tknMenu.funct = 'adjust';
             selectToken(e);
           }
         },
+        stoken3: {
+          name: 'Select Token to Move Up',
+          callback: function(){
+            BD18.tknMenu.funct = 'up';
+            selectToken(e);
+          }
+        },
+        stoken4: {
+          name: 'Select Token to Move Right',
+          callback: function(){
+            BD18.tknMenu.funct = 'right';
+            selectToken(e);
+          }
+        },
+        stoken5: {
+          name: 'Select Token to Move Down',
+          callback: function(){
+            BD18.tknMenu.funct = 'down';
+            selectToken(e);
+          }
+        },
+        stoken6: {
+          name: 'Select Token to Move Left',
+          callback: function(){
+            BD18.tknMenu.funct = 'left';
+            selectToken(e);
+          }
+        },     
         close: {
           name: 'Close Menu',
           callback: function(){}

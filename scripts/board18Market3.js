@@ -100,6 +100,8 @@ function repositionToken(xI, yI) {
   var by = BD18.tempToken[4];
   toknCanvasApp(true);
   var temp = new MarketToken(sn, ix, flip, xI, yI);
+  BD18.curBoxX = temp.hx;
+  BD18.curBoxY = temp.hy;
   temp.place(0.5); // Semi-transparent
   var messg = "Select 'Menu-Accept Move' to make ";
   messg += "token placement permanent.";

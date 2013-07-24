@@ -97,20 +97,23 @@ function killHideTknMenu() {
 function doTknMenu(event) {
   // find token that was clicked
   var xPix, yPix, index;
-  [xPix, yPix] = offsetIn(event, BD18.canvas3); 
+// [xPix, yPix] = offsetIn(event, BD18.canvas3); 
+  var tArray = offsetIn(event, BD18.canvas3); 
+  xPix = tArray[0];
+  yPix = tArray[1];
   index = Math.floor(xPix/40);
   // do requested function to that token.
+  var ix = BD18.onBoxList.tokens[index].mtindex;
+  var mktok = BD18.marketTokens[ix];
   switch(BD18.tknMenu.funct) {
     case "delete":
-      deleteToken(BD18.onBoxList.tokens[index].mtindex);
+      deleteToken(ix);
       toknCanvasApp();
       trayCanvasApp();
       updateMarketTokens();
       updateDatabase();
       break;
-    case "move":
-      var ix = BD18.onBoxList.tokens[index].mtindex;
-      var mktok = BD18.marketTokens[ix];
+    case "adjust":
       BD18.tempToken = [mktok.snumb,mktok.index,
       mktok.flip,mktok.bx,mktok.by];
       BD18.boxIsSelected = true;
@@ -119,8 +122,6 @@ function doTknMenu(event) {
       BD18.curIndex = mktok.index;
       BD18.curRot = 0;
       BD18.curFlip = mktok.flip;
-      BD18.curBoxX = mktok.hx;
-      BD18.curBoxY = mktok.hy;
       BD18.curMktX = mktok.bx;
       BD18.curMktY = mktok.by;
       deleteToken(ix);
