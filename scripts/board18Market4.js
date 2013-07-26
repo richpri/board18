@@ -89,6 +89,22 @@ function killHideTknMenu() {
 }
 
 /* 
+ * The moveSetup function sets a nmber of global [BD18]
+ * variables in preparation for a token move or a token   
+ * position adjustment on the stock market.
+ */
+function moveSetup(mktok) {
+  BD18.tempToken = [mktok.snumb,mktok.index,
+  mktok.flip,mktok.bx,mktok.by];
+  BD18.boxIsSelected = true;
+  BD18.tokenIsSelected = true;
+  BD18.curTrayNumb = mktok.snumb;
+  BD18.curIndex = mktok.index;
+  BD18.curRot = 0;
+  BD18.curFlip = mktok.flip;
+}
+
+/* 
  * The doTknMenu function processes a click on canvas3
  * This canvas is used to select one of multiple tokens
  * on the same box. The requested function is performed
@@ -114,15 +130,40 @@ function doTknMenu(event) {
       updateDatabase();
       break;
     case "adjust":
-      BD18.tempToken = [mktok.snumb,mktok.index,
-      mktok.flip,mktok.bx,mktok.by];
-      BD18.boxIsSelected = true;
-      BD18.tokenIsSelected = true;
-      BD18.curTrayNumb = mktok.snumb;
-      BD18.curIndex = mktok.index;
-      BD18.curRot = 0;
-      BD18.curFlip = mktok.flip;
+      moveSetup(mktok);
       BD18.curMktX = mktok.bx;
+      BD18.curMktY = mktok.by;
+      deleteToken(ix);
+      repositionToken(BD18.curMktX,BD18.curMktY);
+      break;
+    case "up":
+      moveSetup(mktok);
+      var subY = parseInt(BD18.stockMarket.yStep);
+      BD18.curMktX = mktok.bx;
+      BD18.curMktY = mktok.by-subY;
+      deleteToken(ix);
+      repositionToken(BD18.curMktX,BD18.curMktY);
+      break;
+    case "right":
+      moveSetup(mktok);
+      var addX = parseInt(BD18.stockMarket.xStep);
+      BD18.curMktX = mktok.bx+addX;
+      BD18.curMktY = mktok.by;
+      deleteToken(ix);
+      repositionToken(BD18.curMktX,BD18.curMktY);
+      break;
+    case "down":
+      moveSetup(mktok);
+      var addY = parseInt(BD18.stockMarket.yStep);
+      BD18.curMktX = mktok.bx;
+      BD18.curMktY = mktok.by+addY;
+      deleteToken(ix);
+      repositionToken(BD18.curMktX,BD18.curMktY);
+      break;
+    case "left":
+      moveSetup(mktok);
+      var subX = parseInt(BD18.stockMarket.xStep);
+      BD18.curMktX = mktok.bx-subX;
       BD18.curMktY = mktok.by;
       deleteToken(ix);
       repositionToken(BD18.curMktX,BD18.curMktY);

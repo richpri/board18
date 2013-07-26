@@ -113,7 +113,7 @@ function makeMenuItems(e) {
           name: 'Move Token Up',
           callback: function(){
             var ix = BD18.onBoxList.tokens[0].mtindex;
-            var addY = parseInt(BD18.stockMarket.xStep);
+            var addY = parseInt(BD18.stockMarket.yStep);
             var smtok = BD18.marketTokens[ix];
             BD18.tempToken = [smtok.snumb,smtok.index,
             smtok.flip,smtok.bx,smtok.by];
@@ -153,7 +153,7 @@ function makeMenuItems(e) {
           name: 'Move Token Down',
           callback: function(){
             var ix = BD18.onBoxList.tokens[0].mtindex;
-            var addY = parseInt(BD18.stockMarket.xStep);
+            var addY = parseInt(BD18.stockMarket.yStep);
             var smtok = BD18.marketTokens[ix];
             BD18.tempToken = [smtok.snumb,smtok.index,
             smtok.flip,smtok.bx,smtok.by];
