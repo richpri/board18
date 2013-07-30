@@ -95,14 +95,7 @@ function makeMenuItems(e) {
           callback: function(){
             var ix = BD18.onBoxList.tokens[0].mtindex;
             var smtok = BD18.marketTokens[ix];
-            BD18.tempToken = [smtok.snumb,smtok.index,
-            smtok.flip,smtok.bx,smtok.by];
-            BD18.boxIsSelected = true;
-            BD18.tokenIsSelected = true;
-            BD18.curTrayNumb = smtok.snumb;
-            BD18.curIndex = smtok.index;
-            BD18.curRot = 0;
-            BD18.curFlip = smtok.flip;
+            moveSetup(smtok);
             BD18.curMktX = smtok.bx;
             BD18.curMktY = smtok.by;
             deleteToken(ix);
@@ -115,14 +108,7 @@ function makeMenuItems(e) {
             var ix = BD18.onBoxList.tokens[0].mtindex;
             var addY = parseInt(BD18.stockMarket.yStep);
             var smtok = BD18.marketTokens[ix];
-            BD18.tempToken = [smtok.snumb,smtok.index,
-            smtok.flip,smtok.bx,smtok.by];
-            BD18.boxIsSelected = true;
-            BD18.tokenIsSelected = true;
-            BD18.curTrayNumb = smtok.snumb;
-            BD18.curIndex = smtok.index;
-            BD18.curRot = 0;
-            BD18.curFlip = smtok.flip;
+            moveSetup(smtok);
             BD18.curMktX = smtok.bx;
             BD18.curMktY = smtok.by-addY;
             deleteToken(ix);
@@ -135,15 +121,8 @@ function makeMenuItems(e) {
             var ix = BD18.onBoxList.tokens[0].mtindex;
             var addX = parseInt(BD18.stockMarket.xStep);
             var smtok = BD18.marketTokens[ix];
-            BD18.tempToken = [smtok.snumb,smtok.index,
-            smtok.flip,smtok.bx,smtok.by];
-            BD18.boxIsSelected = true;
-            BD18.tokenIsSelected = true;
-            BD18.curTrayNumb = smtok.snumb;
-            BD18.curIndex = smtok.index;
-            BD18.curRot = 0;
-            BD18.curFlip = smtok.flip;
-            BD18.curMktX = smtok.bx+addX;
+            moveSetup(smtok);
+            BD18.curMktX = smtok.bx-addX;
             BD18.curMktY = smtok.by;
             deleteToken(ix);
             repositionToken(BD18.curMktX,BD18.curMktY);
@@ -155,14 +134,7 @@ function makeMenuItems(e) {
             var ix = BD18.onBoxList.tokens[0].mtindex;
             var addY = parseInt(BD18.stockMarket.yStep);
             var smtok = BD18.marketTokens[ix];
-            BD18.tempToken = [smtok.snumb,smtok.index,
-            smtok.flip,smtok.bx,smtok.by];
-            BD18.boxIsSelected = true;
-            BD18.tokenIsSelected = true;
-            BD18.curTrayNumb = smtok.snumb;
-            BD18.curIndex = smtok.index;
-            BD18.curRot = 0;
-            BD18.curFlip = smtok.flip;
+            moveSetup(smtok);
             BD18.curMktX = smtok.bx;
             BD18.curMktY = smtok.by+addY;
             deleteToken(ix);
@@ -175,15 +147,8 @@ function makeMenuItems(e) {
             var ix = BD18.onBoxList.tokens[0].mtindex;
             var addX = parseInt(BD18.stockMarket.xStep);
             var smtok = BD18.marketTokens[ix];
-            BD18.tempToken = [smtok.snumb,smtok.index,
-            smtok.flip,smtok.bx,smtok.by];
-            BD18.boxIsSelected = true;
-            BD18.tokenIsSelected = true;
-            BD18.curTrayNumb = smtok.snumb;
-            BD18.curIndex = smtok.index;
-            BD18.curRot = 0;
-            BD18.curFlip = smtok.flip;
-            BD18.curMktX = smtok.bx-addX;
+            moveSetup(smtok);
+            BD18.curMktX = smtok.bx+addX;
             BD18.curMktY = smtok.by;
             deleteToken(ix);
             repositionToken(BD18.curMktX,BD18.curMktY);

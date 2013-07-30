@@ -114,19 +114,22 @@ function TokenSheet(image,sheet) {
   };
 }
 
-/* MarketToken is a constructor function which creates marketToken
+/* 
+ * MarketToken is a constructor function which creates marketToken
  * objects. These objects are used to list the tokens that have 
  * been placed on the stock market. The snumb, sheet, index and flip 
- * parameters describe the token. The bx and by parameters are 
+ * parameters describe the token. The stack parameter [initially set
+ * to zero] controls terminal stacking. The bx and by parameters are 
  * used to specify the exact position of the token on the stock
  * market. And the hx and hy calculated parameters identify the 
  * market price box that contains the token.
- * */
-function MarketToken(snumb,index,flip,bx,by) {
+ */
+function MarketToken(snumb,index,flip,stack,bx,by) {
   this.snumb=snumb;
   this.sheet=BD18.trays[snumb];
   this.index=index;
   this.flip=flip;
+  this.stack=stack;
   this.bx=bx;
   this.by=by;
 // [this.hx, this.hy] = BD18.stockMarket.chartCoord(bx, by);
@@ -162,6 +165,7 @@ function MarketToken(snumb,index,flip,bx,by) {
     mktToken.xCoord = this.bx;
     mktToken.yCoord = this.by;
     mktToken.flip = this.flip;
+    mktToken.stack = this.stack;
     return mktToken;
   };
 }

@@ -67,6 +67,8 @@ if ($gamefound == 'no') {
     <script type="text/javascript" src="scripts/board18Map5.js">
     </script>
     <script type="text/javascript" src="scripts/board18Map6.js">
+    </script>
+    <script type="text/javascript" src="scripts/board18Map7.js">
     </script> 
     <script type="text/javascript">
       $(function() {
@@ -76,6 +78,7 @@ if ($gamefound == 'no') {
         var startMessage = BD18.welcomename + ": ";
         startMessage += BD18.headermessage;
         $('#lognote').text(startMessage);
+        setUpKeys();
         $('#content').on({
           "mousedown": mapMouseEvent
         });

@@ -71,6 +71,8 @@ if ($gamefound == 'no') {
     </script> 
     <script type="text/javascript" src="scripts/board18Market6.js">
     </script> 
+    <script type="text/javascript" src="scripts/board18Market7.js">
+    </script> 
     <script type="text/javascript">
       $(function() {
         BD18.welcomename = "<?php echo "$welcomename"; ?>";
@@ -79,6 +81,7 @@ if ($gamefound == 'no') {
         var startMessage = BD18.welcomename + ": ";
         startMessage += BD18.headermessage;
         $('#lognote').text(startMessage);
+        setUpKeys();
         $('#content').on({
           "mousedown": mapMouseEvent
         });

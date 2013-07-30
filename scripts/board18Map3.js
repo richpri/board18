@@ -20,7 +20,7 @@ function logoutOK(resp) {
  * returned by the updateGame.php AJAX call.
  */
 function fromUpdateGm(resp) {
-  if (resp.indexOf("<!doctype html>") != -1) { // User has timed out.
+  if (resp.indexOf("<!doctype html>") !== -1) { // User has timed out.
     window.location = "access-denied.html";
   } 
   var msg;
@@ -43,7 +43,6 @@ function fromUpdateGm(resp) {
     $('#lognote').text(msg);
     trayCanvasApp();
     mainCanvasApp();
-c
   }
   else {
     msg = "Invalid return code from updateGame ["+resp+"]. ";
@@ -75,7 +74,7 @@ function dropTile(xI,yI) {
   BD18.curHexY = yI;
   BD18.hexIsSelected = true;
   var messg = "Select 'Menu-Accept Move' to make ";
-  messg += "tile placement permanent."
+  messg += "tile placement permanent.";
   doLogNote(messg);
 }
 
@@ -139,7 +138,7 @@ function dropToken(x,y,xI,yI) {
   BD18.curMapY = yI;
   BD18.hexIsSelected = true;
   var messg = "Select 'Menu-Accept Move' to make ";
-  messg += "token placement permanent."
+  messg += "token placement permanent.";
   doLogNote(messg);
 }
 
@@ -165,7 +164,7 @@ function repositionToken(xI,yI) {
   var temp = new BoardToken(sn,ix,flip,xI,yI);
   temp.place(0.5); // Semi-transparent
   var messg = "Select 'Menu-Accept Move' to make ";
-  messg += "token placement permanent."
+  messg += "token placement permanent.";
   doLogNote(messg);
 }
 
@@ -193,7 +192,7 @@ function flipToken() {
   var temp = new BoardToken(sn,ix,flip,xI,yI);
   temp.place(0.5); // Semi-transparent
   var messg = "Select 'Menu-Accept Move' to make ";
-  messg += "token placement permanent."
+  messg += "token placement permanent.";
   doLogNote(messg);
 }
 

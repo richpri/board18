@@ -30,14 +30,17 @@ function makeTrays() {
 function makeMktTokenList(){
   BD18.marketTokens = [];
   if (BD18.gm.mktTks.length === 0) return;
-  var token,sn,ix,flip,bx,by;
+  var token,sn,ix,flip,stack,bx,by;
   for(var i=0;i<BD18.gm.mktTks.length;i++) {
     sn = BD18.gm.mktTks[i].sheetNumber;
     ix = BD18.gm.mktTks[i].tokenNumber;
     flip = BD18.gm.mktTks[i].flip;
+//  stack = BD18.gm.mktTks[i].stack;
+    stack = (typeof BD18.gm.mktTks[i].stack!=='undefined')
+             ? BD18.gm.mktTks[i].stack : 0;
     bx = BD18.gm.mktTks[i].xCoord;
     by = BD18.gm.mktTks[i].yCoord;
-    token = new MarketToken(sn,ix,flip,bx,by);
+    token = new MarketToken(sn,ix,flip,stack,bx,by);
     BD18.marketTokens.push(token);
   }
 }

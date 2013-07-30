@@ -22,10 +22,19 @@ if (mysqli_connect_error()) {
   exit;
 }
 mysqli_set_charset($link, "utf-8");
-$gameSession = $_REQUEST['json'];
-$gameid = $_REQUEST['gameid'];
 $update_counter = $_SESSION['SESS_UPDATE_COUNTER'];
 $qry0 = "ROLLBACK";
+
+//Function to sanitize values received from the form. 
+//Prevents SQL injection
+function clean($link,$str) {
+  $str = @trim($str);
+  return mysqli_real_escape_string($link,$str);
+}
+
+//Sanitize the POST values (but not json string)
+$gameSession = $_REQUEST['json'];
+$gameid = clean($link,$_REQUEST['gameid']);
 
 // Start transaction.
 $qry1 = "START TRANSACTION";

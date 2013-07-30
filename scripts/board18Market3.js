@@ -67,7 +67,7 @@ function dropToken(x, y, xI, yI) {
   var flip = BD18.tempToken[2];
   var bx = BD18.tempToken[3];
   var by = BD18.tempToken[4];
-  var temp = new MarketToken(sn, ix, flip, bx, by);
+  var temp = new MarketToken(sn, ix, flip, 0, bx, by);
   temp.place(0.5); // Semi-transparent
   BD18.curFlip = false;
   BD18.curBoxX = x;
@@ -99,7 +99,7 @@ function repositionToken(xI, yI) {
   var bx = BD18.tempToken[3];
   var by = BD18.tempToken[4];
   toknCanvasApp(true);
-  var temp = new MarketToken(sn, ix, flip, xI, yI);
+  var temp = new MarketToken(sn, ix, flip, 0, xI, yI);
   BD18.curBoxX = temp.hx;
   BD18.curBoxY = temp.hy;
   temp.place(0.5); // Semi-transparent
@@ -127,7 +127,7 @@ function flipToken() {
   var bx = BD18.tempToken[3];
   var by = BD18.tempToken[4];
   toknCanvasApp();
-  var temp = new MarketToken(sn, ix, flip, xI, yI);
+  var temp = new MarketToken(sn, ix, flip, 0, bx, by);
   temp.place(0.5); // Semi-transparent
   var messg = "Select 'Menu-Accept Move' to make ";
   messg += "token placement permanent.";
@@ -150,12 +150,30 @@ function deleteToken(ix) {
   return true;
 }
 
-/* This function uses the contents of the 
- * the BD18.marketTokens array and the
- * MarketToken.togm method to update the
+/* 
+ * The tokenSort function sorts an array of 
+ * MarketToken objects so that tokens in the
+ * same price box are placed in reverse order
+ * of their stack values.
+ */
+function tokenSort(tokA, tokB) {
+  if (tokA.hx < tokB.hx) return -1;
+  if (tokA.hx > tokB.hx) return 1;
+  if (tokA.hy < tokB.hy) return -1;
+  if (tokA.hy > tokB.hy) return 1;
+  if (tokA.stack < tokB.stack) return 1;
+  if (tokA.stack > tokB.stack) return -1;
+  return 0;
+}
+
+/* 
+ * This function first sorts the BD18.marketTokens 
+ * array. It then uses the contents of this array 
+ * and the MarketToken.togm method to update the
  * BD18.gm.mktTks array.
  */
 function updateMarketTokens() {
+  BD18.marketTokens.sort(tokenSort);
   BD18.gm.mktTks = [];
   for (var i = 0; i < BD18.marketTokens.length; i++) {
     if (BD18.marketTokens[i]) {
@@ -194,13 +212,16 @@ function addToken() {
   var f = BD18.curFlip;
   var x = BD18.curMktX;
   var y = BD18.curMktY;
-  var token = new MarketToken(s, n, f, x, y);
+  var token = new MarketToken(s, n, f, 0, x, y);
+  var curBox = [];
+  curBox = new OnBox(token.hx, token.hy);
+  if (!curBox.noToken) token.stack = curBox.tokens.length;
   BD18.marketTokens.push(token);
   BD18.curIndex = null;
+  updateMarketTokens();
   toknCanvasApp();
   trayCanvasApp();
   BD18.boxIsSelected = false;
   BD18.tokenIsSelected = false;
-  updateMarketTokens();
   updateDatabase();
 }
