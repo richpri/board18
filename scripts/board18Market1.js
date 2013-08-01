@@ -10,6 +10,7 @@ BD18.trays = [];
 BD18.curTrayNumb = null;
 BD18.curIndex = null;
 BD18.curFlip = false;
+BD18.curStack = null;
 BD18.curBoxX = null;     
 BD18.curBoxY = null;     
 BD18.curMktX = null;     

@@ -27,6 +27,8 @@ function registerMainMenu() {
           trayCanvasApp();
           mainCanvasApp();
           toknCanvasApp();
+          BD18.boxIsSelected = false;
+          BD18.tokenIsSelected = false;
         }
       },
       map: {

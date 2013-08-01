@@ -70,6 +70,8 @@ function makeMenuItems(e) {
             trayCanvasApp();
             mainCanvasApp();
             toknCanvasApp();
+            BD18.boxIsSelected = false;
+            BD18.tokenIsSelected = false;
           }
         },
         close: {
@@ -84,10 +86,12 @@ function makeMenuItems(e) {
           name: 'Delete Token',
           callback: function(){
             deleteToken(BD18.onBoxList.tokens[0].mtindex);
+            updateMarketTokens();
             toknCanvasApp();
             trayCanvasApp();
-            updateMarketTokens();
             updateDatabase();
+            BD18.boxIsSelected = false;
+            BD18.tokenIsSelected = false;
           }
         },
         adjtoken: {
@@ -108,6 +112,7 @@ function makeMenuItems(e) {
             var ix = BD18.onBoxList.tokens[0].mtindex;
             var addY = parseInt(BD18.stockMarket.yStep);
             var smtok = BD18.marketTokens[ix];
+            smtok.stack = null;
             moveSetup(smtok);
             BD18.curMktX = smtok.bx;
             BD18.curMktY = smtok.by-addY;
@@ -121,6 +126,7 @@ function makeMenuItems(e) {
             var ix = BD18.onBoxList.tokens[0].mtindex;
             var addX = parseInt(BD18.stockMarket.xStep);
             var smtok = BD18.marketTokens[ix];
+            smtok.stack = null;
             moveSetup(smtok);
             BD18.curMktX = smtok.bx-addX;
             BD18.curMktY = smtok.by;
@@ -134,6 +140,7 @@ function makeMenuItems(e) {
             var ix = BD18.onBoxList.tokens[0].mtindex;
             var addY = parseInt(BD18.stockMarket.yStep);
             var smtok = BD18.marketTokens[ix];
+            smtok.stack = null;
             moveSetup(smtok);
             BD18.curMktX = smtok.bx;
             BD18.curMktY = smtok.by+addY;
@@ -147,6 +154,7 @@ function makeMenuItems(e) {
             var ix = BD18.onBoxList.tokens[0].mtindex;
             var addX = parseInt(BD18.stockMarket.xStep);
             var smtok = BD18.marketTokens[ix];
+            smtok.stack = null;
             moveSetup(smtok);
             BD18.curMktX = smtok.bx+addX;
             BD18.curMktY = smtok.by;

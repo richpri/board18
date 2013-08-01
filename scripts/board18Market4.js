@@ -95,13 +95,14 @@ function killHideTknMenu() {
  */
 function moveSetup(mktok) {
   BD18.tempToken = [mktok.snumb,mktok.index,
-  mktok.flip,mktok.bx,mktok.by];
+  mktok.flip,mktok.bx,mktok.by,mktok.stack];
   BD18.boxIsSelected = true;
   BD18.tokenIsSelected = true;
   BD18.curTrayNumb = mktok.snumb;
   BD18.curIndex = mktok.index;
   BD18.curRot = 0;
   BD18.curFlip = mktok.flip;
+  BD18.curStack = mktok.stack;
 }
 
 /* 
@@ -124,10 +125,12 @@ function doTknMenu(event) {
   switch(BD18.tknMenu.funct) {
     case "delete":
       deleteToken(ix);
+      updateMarketTokens();
       toknCanvasApp();
       trayCanvasApp();
-      updateMarketTokens();
       updateDatabase();
+      BD18.boxIsSelected = false;
+      BD18.tokenIsSelected = false;
       break;
     case "adjust":
       moveSetup(mktok);
@@ -137,6 +140,7 @@ function doTknMenu(event) {
       repositionToken(BD18.curMktX,BD18.curMktY);
       break;
     case "up":
+      mktok.stack = null;
       moveSetup(mktok);
       var subY = parseInt(BD18.stockMarket.yStep);
       BD18.curMktX = mktok.bx;
@@ -145,6 +149,7 @@ function doTknMenu(event) {
       repositionToken(BD18.curMktX,BD18.curMktY);
       break;
     case "right":
+      mktok.stack = null;
       moveSetup(mktok);
       var addX = parseInt(BD18.stockMarket.xStep);
       BD18.curMktX = mktok.bx+addX;
@@ -153,6 +158,7 @@ function doTknMenu(event) {
       repositionToken(BD18.curMktX,BD18.curMktY);
       break;
     case "down":
+      mktok.stack = null;
       moveSetup(mktok);
       var addY = parseInt(BD18.stockMarket.yStep);
       BD18.curMktX = mktok.bx;
@@ -161,6 +167,7 @@ function doTknMenu(event) {
       repositionToken(BD18.curMktX,BD18.curMktY);
       break;
     case "left":
+      mktok.stack = null;
       moveSetup(mktok);
       var subX = parseInt(BD18.stockMarket.xStep);
       BD18.curMktX = mktok.bx-subX;

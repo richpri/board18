@@ -61,15 +61,17 @@ function fromUpdateGm(resp) {
  * tracked instead in the BD18.tempToken array.
  */
 function dropToken(x, y, xI, yI) {
-  BD18.tempToken = [BD18.curTrayNumb, BD18.curIndex, false, xI, yI];
+  BD18.tempToken = [BD18.curTrayNumb, BD18.curIndex, false, xI, yI, null];
   var sn = BD18.tempToken[0];
   var ix = BD18.tempToken[1];
   var flip = BD18.tempToken[2];
   var bx = BD18.tempToken[3];
   var by = BD18.tempToken[4];
-  var temp = new MarketToken(sn, ix, flip, 0, bx, by);
+  var stack = BD18.tempToken[5];
+  var temp = new MarketToken(sn, ix, flip, stack, bx, by);
   temp.place(0.5); // Semi-transparent
   BD18.curFlip = false;
+  BD18.curStack = stack;
   BD18.curBoxX = x;
   BD18.curBoxY = y;
   BD18.curMktX = xI;
@@ -98,8 +100,9 @@ function repositionToken(xI, yI) {
   var flip = BD18.tempToken[2];
   var bx = BD18.tempToken[3];
   var by = BD18.tempToken[4];
+  var stack = BD18.tempToken[5];  
   toknCanvasApp(true);
-  var temp = new MarketToken(sn, ix, flip, 0, xI, yI);
+  var temp = new MarketToken(sn, ix, flip, stack, xI, yI);
   BD18.curBoxX = temp.hx;
   BD18.curBoxY = temp.hy;
   temp.place(0.5); // Semi-transparent
@@ -126,8 +129,9 @@ function flipToken() {
   var flip = BD18.tempToken[2];
   var bx = BD18.tempToken[3];
   var by = BD18.tempToken[4];
+  var stack = BD18.tempToken[5]; 
   toknCanvasApp();
-  var temp = new MarketToken(sn, ix, flip, 0, bx, by);
+  var temp = new MarketToken(sn, ix, flip, stack, bx, by);
   temp.place(0.5); // Semi-transparent
   var messg = "Select 'Menu-Accept Move' to make ";
   messg += "token placement permanent.";
@@ -207,15 +211,26 @@ function acceptMove() {
  * to the BD18.boardTokens array.  
  */
 function addToken() {
-  var s = BD18.curTrayNumb;
+  var t = BD18.curTrayNumb;
   var n = BD18.curIndex;
   var f = BD18.curFlip;
+  var s = BD18.curStack;
   var x = BD18.curMktX;
   var y = BD18.curMktY;
-  var token = new MarketToken(s, n, f, 0, x, y);
-  var curBox = [];
-  curBox = new OnBox(token.hx, token.hy);
-  if (!curBox.noToken) token.stack = curBox.tokens.length;
+  var token = new MarketToken(t, n, f, s, x, y);
+  if (BD18.curStack === null) {
+    var curBox = new OnBox(token.hx, token.hy);
+    if (curBox.noToken) {
+      token.stack = 0;
+    } else {
+      var max = 0;
+      for (var i = 0; i < curBox.tokens.length; i++) {
+        max = Math.max(max, curBox.tokens[i].stack); 
+      }
+      token.stack = max + 1;
+    }
+    BD18.curStack = token.stack;
+  }
   BD18.marketTokens.push(token);
   BD18.curIndex = null;
   updateMarketTokens();

@@ -27,6 +27,8 @@ function setUpKeys() {
         trayCanvasApp();
         mainCanvasApp();
         toknCanvasApp();
+        BD18.boxIsSelected = false;
+        BD18.tokenIsSelected = false;
         break;    
       case 77: // "M" keycode
         window.location = "board18Map.php?dogame=" + BD18.gameID;
@@ -42,6 +44,8 @@ function setUpKeys() {
             BD18.tokenIsSelected === true){
           var subX = parseInt(BD18.stockMarket.xStep);
           BD18.curMktX -= subX;
+          BD18.tempToken[5] = null;
+          BD18.curStack  = null;
           repositionToken(BD18.curMktX,BD18.curMktY);
         };
         break; 
@@ -50,6 +54,8 @@ function setUpKeys() {
             BD18.tokenIsSelected === true){
           var addX = parseInt(BD18.stockMarket.xStep);
           BD18.curMktX += addX;
+          BD18.tempToken[5] = null;
+          BD18.curStack  = null;
           repositionToken(BD18.curMktX,BD18.curMktY);
         };
         break; 
@@ -58,6 +64,8 @@ function setUpKeys() {
             BD18.tokenIsSelected === true){
           var subY = parseInt(BD18.stockMarket.yStep);
           BD18.curMktY -= subY;
+          BD18.tempToken[5] = null;
+          BD18.curStack  = null;
           repositionToken(BD18.curMktX,BD18.curMktY);
         };
         break; 
@@ -66,6 +74,8 @@ function setUpKeys() {
             BD18.tokenIsSelected === true){
           var addY = parseInt(BD18.stockMarket.yStep);
           BD18.curMktY += addY;
+          BD18.tempToken[5] = null;
+          BD18.curStack  = null;
           repositionToken(BD18.curMktX,BD18.curMktY);
         };
         break;  
