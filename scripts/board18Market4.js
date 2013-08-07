@@ -175,6 +175,22 @@ function doTknMenu(event) {
       deleteToken(ix);
       repositionToken(BD18.curMktX,BD18.curMktY);
       break;
+    case "top":
+      moveSetup(mktok);
+      BD18.curMktX = mktok.bx;
+      BD18.curMktY = mktok.by;
+      BD18.curStack = 0;
+      deleteToken(ix);
+      repositionToken(BD18.curMktX,BD18.curMktY);
+      break;
+    case "bottom":
+      moveSetup(mktok);
+      BD18.curMktX = mktok.bx;
+      BD18.curMktY = mktok.by;
+      BD18.curStack = BD18.onBoxList.tokens.length+1;
+      deleteToken(ix);
+      repositionToken(BD18.curMktX,BD18.curMktY);
+      break;
     default:
       alert("Invalid token menu function: " + BD18.tknMenu.funct);
   }

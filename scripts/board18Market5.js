@@ -27,6 +27,7 @@ function getMenuType(event) {
     boxX = tArray[0];
     boxY = tArray[1];
     BD18.onBoxList = new OnBox(boxX, boxY);
+    BD18.onBoxList.stackNorm();
     if (BD18.onBoxList.oneToken) type = "3";
     if (BD18.onBoxList.manyTokens) type = "4";
   }
@@ -211,7 +212,21 @@ function makeMenuItems(e) {
             BD18.tknMenu.funct = 'left';
             selectToken(e);
           }
-        },     
+        }, 
+        stoken7: {
+          name: 'Select Token to Put on Top',
+          callback: function(){
+            BD18.tknMenu.funct = 'top';
+            selectToken(e);
+          }
+        }, 
+        stoken8: {
+          name: 'Select Token to Put on Bottom',
+          callback: function(){
+            BD18.tknMenu.funct = 'bottom';
+            selectToken(e);
+          }
+        }, 
         close: {
           name: 'Close Menu',
           callback: function(){}

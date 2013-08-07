@@ -194,4 +194,47 @@ function OnBox(boxX, boxY) {
   this.noToken = (this.tokens.length === 0);
   this.oneToken = (this.tokens.length === 1);
   this.manyTokens = (this.tokens.length > 1);
+  /*
+   * The stackSort function orders the tokens by stack
+   * value high to low. It returns false if no tokens.
+   */
+  this.stackSort=function stackSort() {
+    if (this.noToken) return false;
+    if (this.oneToken) return true;
+    this.tokens.sort(function(tokA, tokB) {
+      if (tokA.stack < tokB.stack) return 1;
+      if (tokA.stack > tokB.stack) return -1;
+      return 0;
+    });
+    return true;
+  };
+  /*
+   * The stackNorm function calls stackSort.
+   * It then normalizes the stack values for
+   * the tokens in the tokens array such that
+   * the last token has a stack value of 1 and
+   * each preceding token has a value 1 higher. 
+   * It returns false if no tokens.
+   */
+  this.stackNorm=function stackNorm() {
+    if (!this.stackSort()) return false;
+    var max = this.tokens.length;
+    for (var i=0;i<max;i++) {
+      this.tokens[i].stack = max - i;
+    }
+    return true;
+  };
+  /*
+   * The stackSpread function adds one to the
+   * stack value of each token that has a current
+   * stack value that is greater than ss. 
+   */
+  this.stackSpread=function stackSpread(ss) {
+    var i, curS;
+    for (i=0;i<this.tokens.length;i++) {
+      curS = this.tokens[i].stack;
+      this.tokens[i].stack= (curS>ss)?++curS:curS;
+    }
+    return true;
+  };
 }
