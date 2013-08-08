@@ -1,8 +1,12 @@
 <?php
+/*
+ * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
+ */
 require_once('php/auth.php');
 require_once('php/config.php');
 
-/**
+/*
 *	returns a mySQL link to the board18 database
 *
 *	mysql_connect created a MySQL link identifier, but it was a bit unclear if the 

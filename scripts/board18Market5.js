@@ -226,7 +226,21 @@ function makeMenuItems(e) {
             BD18.tknMenu.funct = 'bottom';
             selectToken(e);
           }
+        },
+        stoken9: {
+          name: 'Select Token to Raise 1 Step',
+          callback: function(){
+            BD18.tknMenu.funct = 'raise';
+            selectToken(e);
+          }
         }, 
+        stoken10: {
+          name: 'Select Token to Lower 1 Step',
+          callback: function(){
+            BD18.tknMenu.funct = 'lower';
+            selectToken(e);
+          }
+        },   
         close: {
           name: 'Close Menu',
           callback: function(){}

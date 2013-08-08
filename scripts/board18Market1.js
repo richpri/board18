@@ -227,13 +227,13 @@ function OnBox(boxX, boxY) {
   /*
    * The stackSpread function adds one to the
    * stack value of each token that has a current
-   * stack value that is greater than ss. 
+   * stack value that is greater than or equal to ss. 
    */
   this.stackSpread=function stackSpread(ss) {
     var i, curS;
     for (i=0;i<this.tokens.length;i++) {
       curS = this.tokens[i].stack;
-      this.tokens[i].stack= (curS>ss)?++curS:curS;
+      this.tokens[i].stack= (curS>=ss)?++curS:curS;
     }
     return true;
   };

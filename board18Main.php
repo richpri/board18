@@ -2,6 +2,10 @@
 require_once('php/auth.php');
 ?>
 <!doctype html>
+<!--
+Copyright (c) 2013 Richard E. Price under the The MIT License.
+A copy of this license can be found in the LICENSE.text file.
+-->
 <html lang="en">
   <head>
     <meta charset="utf-8" />

@@ -122,6 +122,7 @@ function doTknMenu(event) {
   // do requested function to that token.
   var ix = BD18.onBoxList.tokens[index].mtindex;
   var mktok = BD18.marketTokens[ix];
+  var ss = BD18.marketTokens[ix].stack;
   switch(BD18.tknMenu.funct) {
     case "delete":
       deleteToken(ix);
@@ -176,20 +177,22 @@ function doTknMenu(event) {
       repositionToken(BD18.curMktX,BD18.curMktY);
       break;
     case "top":
-      moveSetup(mktok);
-      BD18.curMktX = mktok.bx;
-      BD18.curMktY = mktok.by;
-      BD18.curStack = 0;
-      deleteToken(ix);
-      repositionToken(BD18.curMktX,BD18.curMktY);
+      mktok.stack = 0;
+      finishMove();
       break;
     case "bottom":
-      moveSetup(mktok);
-      BD18.curMktX = mktok.bx;
-      BD18.curMktY = mktok.by;
-      BD18.curStack = BD18.onBoxList.tokens.length+1;
-      deleteToken(ix);
-      repositionToken(BD18.curMktX,BD18.curMktY);
+      mktok.stack = BD18.onBoxList.tokens.length+1;
+      finishMove();
+      break;
+    case "raise":
+      BD18.onBoxList.stackSpread(ss-1);
+      mktok.stack = ss-1;
+      finishMove();
+      break;
+    case "lower":
+      BD18.onBoxList.stackSpread(ss+1);
+      mktok.stack = ss+1;
+      finishMove();
       break;
     default:
       alert("Invalid token menu function: " + BD18.tknMenu.funct);

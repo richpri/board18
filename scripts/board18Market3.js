@@ -208,7 +208,8 @@ function acceptMove() {
 }
 
 /* This function adds the current board token object 
- * to the BD18.boardTokens array.  
+ * to the BD18.marketTokens array.  It then calls
+ * the finishMove function.
  */
 function addToken() {
   var t = BD18.curTrayNumb;
@@ -232,6 +233,14 @@ function addToken() {
     BD18.curStack = token.stack;
   }
   BD18.marketTokens.push(token);
+  finishMove();
+}
+
+/* This function updates the Market Tokens
+ * array and the board18 database. It also
+ * redisplays the stock market.
+ */
+function finishMove() {
   BD18.curIndex = null;
   updateMarketTokens();
   toknCanvasApp();
