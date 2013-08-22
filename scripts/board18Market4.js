@@ -190,8 +190,8 @@ function doTknMenu(event) {
       finishMove();
       break;
     case "lower":
-      BD18.onBoxList.stackSpread(ss+1);
-      mktok.stack = ss+1;
+      BD18.onBoxList.stackSpread(ss+2);
+      mktok.stack = ss+2;
       finishMove();
       break;
     default:

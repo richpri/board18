@@ -1,0 +1,73 @@
+/* 
+ * This file contains styles that are common to all
+ * board18 web pages. File: style/board18com.css
+ */
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+#topofpage {
+  background-color:#ffeedd;
+  position:fixed;
+  left:0px;
+  top:0px;
+  height:90px;
+  width:1004px;
+}
+
+#leftofpage {
+  background-color:#ddffdd;
+  padding: 10px;
+  position:fixed;
+  left:0px;
+  top:90px;
+  width:115px;
+  height:384px;
+}
+
+#leftofpage ul {
+list-style-type:none; 
+font-weight:bold; 
+padding-left:0px;
+}
+
+#leftofpage ul li {
+height:30px;
+}
+
+#rightofpage {
+  background-color:#ffeedd;
+  border: 2px black solid;
+  padding: 20px;
+  position:fixed;
+  left:130px;
+  height:360px;
+  top:90px;
+  width:830px;
+}
+
+#logo {
+  position: absolute;
+  left:5px;
+  top:0px;
+  height:90px;
+  width:75px;
+
+}
+#heading {
+  position: absolute;
+  left:100px;
+  top:20px;
+  color:#008800;
+  height:50px;
+}
+
+#heading > h1 {
+  margin:0;
+  position:relative;
+  left:30px;
+  top:5px;
+  font-size: x-large;
+}
