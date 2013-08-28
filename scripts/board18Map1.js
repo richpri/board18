@@ -21,6 +21,7 @@ BD18.curMapY = null;
 BD18.tileIsSelected = false;
 BD18.tokenIsSelected = false;
 BD18.hexIsSelected = false;
+BD18.hideMapItems = false;
 BD18.tknMenu = {};
 BD18.tknMenu.timeoutID = 0;
 BD18.tknMenu.on = false;

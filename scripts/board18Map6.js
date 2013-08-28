@@ -30,6 +30,22 @@ function registerMainMenu() {
           toknCanvasApp();
         }
       },
+      hideshow: {
+        name: "Toggle Map",
+        callback: function(){
+          if (BD18.hideMapItems === false) {
+            BD18.hideMapItems = true;
+            trayCanvasApp();
+            BD18.gameBoard.place();
+            BD18.gameBoard.clear2();
+          } else {
+            BD18.hideMapItems = false;
+            trayCanvasApp();
+            mainCanvasApp();
+            toknCanvasApp();
+          }
+        }
+      },
       stock: {
         name: "Stock Market",
         callback: function(){
@@ -236,5 +252,3 @@ function doit(mm) { // mm is the onclick action to be taken.
       alert("Button pressed. " + mm);
   }   
 }
-
-

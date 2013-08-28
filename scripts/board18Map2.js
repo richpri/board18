@@ -82,6 +82,7 @@ function trayCanvasApp() {
  * tiles on the game board using the BD18.boardTiles array.
  */
 function mainCanvasApp(){
+  BD18.hideMapItems = false;
   BD18.gameBoard.place();
   if (BD18.boardTiles.length === 0) {
     return;
