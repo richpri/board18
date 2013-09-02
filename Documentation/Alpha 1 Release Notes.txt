@@ -1,0 +1,41 @@
+BOARD18 0.1.0 Alpha 1 Release Notes
+
+Changes from Pre Alpha Release:
+
+* Fixed all problems discovered in pre alpha test. 
+
+* Added "Help" item on all main menu's. Selecting Help 
+  will display the User's Guide Page from the BOARD18 
+  WIKI in a separate window or a separate tab.
+  
+* Remove all syntax errors reported by Nashorn.
+
+* Fixed multi token functions on context menus.
+
+* Support for Chromium browser has been tested.  It is 
+  possible that Chrome and Safari browsers may also work.
+
+* Added keyboard shortcuts.
+
+* Added token raise, lower, top and bottom functions to
+  multi token context menus on Stock Market. Default for
+  token move into an occupied box is now bottom of stack.
+  
+* Added Toggle function to Map Board main menu. This will
+  hide all tokens and tiles on the Map Board until it is
+  pressed again. Enables better view of board graphics.
+
+Issues not resolved in this release:
+
+* No prevision for handling lost password.
+
+* No prevision for handling lost player ID.
+
+* Support for Chrome and Safari browsers has not been tested.
+
+* There is no "undo" capability.
+
+* Some context menus may not be positioned correctly.
+
+* Support for creating new game boxes is VERY rudimentary.
+

@@ -157,6 +157,12 @@ function registerMainMenu() {
           $.post("php/logout.php", logoutOK);
         }
       },
+      help: {
+        name: "Help",
+        callback: function(){
+          window.open("http://wiki.board18.org/w/User%27s_Guide", "UserGuide");
+        }
+      },
       close: {
         name: "Close Menu",
         callback: function(){}
