@@ -1,7 +1,8 @@
 #!/usr/bin/php
 <?php
 
-if ($argc != 2 || in_array($argv[1], array('--help', '-help', '-h', '-?'))) {
+if ($argc != 2 || 
+        in_array($argv[1], array('--help', '-help', '-h', '-?'))) {
 ?>
 
 This is a command line PHP script with one option.
@@ -28,7 +29,8 @@ require_once('config.php');
 $link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 if ( !$link ) {
 	error_log('Failed to connect to server: ' . mysqli_connect_error());
-	die( 'Connect error: (' . mysqli_connect_errno() . ') ' . mysqli_connect_error() );
+	die( 'Connect error: (' . mysqli_connect_errno() . ') ' 
+          . mysqli_connect_error() );
 	exit; // just in case
 }
 $qry1 = "INSERT INTO box SET bname = '$bname',version = '$ver',

@@ -1,33 +1,26 @@
 #!/bin/bash 
 #
-# This script will create a new game box row in the box
-# table of board18 for each JSON file in the given dir.
-# The positional input parameters are as follows:
-#   directory  -  fully qualified directory name
-# 
-# The text file should contain the complete json
-# object for the game box as a text file.
-# 
-# The script will then display the newly created row.
+# THIS SCRIPT HAS NOT BEEN TESTED
 #
-if [ $# -ne 4 ]
+# This script will create a new game box row in the box
+# table of the board18 database for each JSON file in 
+# the given diectory.
+# The positional input parameter is as follows:
+#   directory  -  qualified directory name
+# 
+# Each JSON file should contain the complete json
+# object for a game box as a text file.
+# 
+# The script will display each newly created row.
+#
+if [ $# -ne 1 ]
 then 
-   echo "Usage: loadGameBox boxname version author FILE"
+   echo "Usage: loadAllBoxes boxname version author FILE"
    exit
 fi
-echo "Create game box $1 using the JSON text in $4"
-jsontext=$(<$4);
-mysql -u board18 -p <<QUERY_INPUT
-USE board18
-INSERT INTO box SET 
-   bname = '$1',
-   version = '$2',
-   author = '$3',
-   json_text = '$jsontext';
-UPDATE box SET create_date = activity_date 
-   WHERE box_id = LAST_INSERT_ID();
-SELECT bname, version, author, activity_date 
-   FROM box WHERE box_id = LAST_INSERT_ID();
-SELECT json_text FROM box WHERE box_id = LAST_INSERT_ID();
-QUERY_INPUT
-
+shopt -s nullglob
+for file in $1/*
+do
+  ./loadGameBox.php $file 
+done
+shopt -u nullglob #revert nullglob back to it's default state
