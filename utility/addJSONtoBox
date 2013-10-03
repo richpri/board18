@@ -6,7 +6,7 @@
 if [ $# -ne 2 ]; then echo "Usage: addJSONto Box box_id FILE"; exit; fi
 echo "Add contents of file $2 to json_text in box record with box ID $1"
 value=$(<$2);
-mysql -u board18 -p <<QUERY_INPUT
+mysql -u board18 -pboard18 <<QUERY_INPUT
 use board18
 UPDATE box SET json_text = '$value' WHERE box_id = '$1';
 SELECT bname, version, author FROM box WHERE box_id = '$1';
