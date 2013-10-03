@@ -66,8 +66,8 @@ function mainCanvasApp(){
  * on the stock market using the BD18.marketTokens array.
  * 
  */
-function toknCanvasApp(keepHexSelect){
-  BD18.stockMarket.clear2(keepHexSelect);
+function toknCanvasApp(keepBoxSelect){
+  BD18.stockMarket.clear2(keepBoxSelect);
   if (BD18.marketTokens.length === 0) {
     return;
   }

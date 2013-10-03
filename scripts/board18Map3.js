@@ -122,16 +122,16 @@ function rotateTile(dir) {
  * tracked instead in the BD18.tempToken array.
  */
 function dropToken(x,y,xI,yI) {
-  BD18.tempToken = [BD18.curTrayNumb,BD18.curIndex,false,xI,yI];
+  BD18.tempToken = [BD18.curTrayNumb,BD18.curIndex,BD18.curFlip,xI,yI];
   var sn = BD18.tempToken[0];
   var ix = BD18.tempToken[1];
   var flip = BD18.tempToken[2];
   var bx = BD18.tempToken[3];
   var by = BD18.tempToken[4];
   var temp=new BoardToken(sn,ix,flip,bx,by);
+  toknCanvasApp(true);
   temp.place(0.5); // Semi-transparent
   BD18.curRot = 0;
-  BD18.curFlip = false;
   BD18.curHexX = x;
   BD18.curHexY = y;
   BD18.curMapX = xI;
@@ -161,7 +161,7 @@ function repositionToken(xI,yI) {
   var bx = BD18.tempToken[3];
   var by = BD18.tempToken[4];
   toknCanvasApp(true);
-  var temp = new BoardToken(sn,ix,flip,xI,yI);
+  var temp = new BoardToken(sn,ix,flip,bx,by);
   temp.place(0.5); // Semi-transparent
   var messg = "Select 'Menu-Accept Move' to make ";
   messg += "token placement permanent.";
@@ -177,19 +177,19 @@ function repositionToken(xI,yI) {
  * BD18.tempToken array.
  */
 function flipToken() {
-  if (BD18.bx.tray[BD18.curTrayNumb].token[BD18.curIndex].flip === false) 
+  if (BD18.trays[BD18.curTrayNumb].tokenFlip[BD18.curIndex] === false) 
     {
       return;
     }
-  BD18.curFlip = !BD18.tempToken[2];
-  BD18.tempToken[2] = BD18.curFlip;
+  BD18.tempToken[2] = !BD18.curFlip;
+  BD18.curFlip = BD18.tempToken[2];
   var sn = BD18.tempToken[0];
   var ix = BD18.tempToken[1];
   var flip = BD18.tempToken[2];
   var bx = BD18.tempToken[3];
   var by = BD18.tempToken[4];
-  toknCanvasApp();
-  var temp = new BoardToken(sn,ix,flip,xI,yI);
+  toknCanvasApp(true);
+  var temp = new BoardToken(sn,ix,flip,bx,by);
   temp.place(0.5); // Semi-transparent
   var messg = "Select 'Menu-Accept Move' to make ";
   messg += "token placement permanent.";
@@ -366,6 +366,7 @@ function addToken() {
     BD18.hexIsSelected = false;
     BD18.tokenIsSelected = false;
     BD18.tileIsSelected = false;
+    BD18.curFlip = false;
     updateGmBrdTokens();
     updateDatabase();
   } else {
