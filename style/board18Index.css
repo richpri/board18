@@ -24,6 +24,13 @@
 	top: 6px;
 	z-index: 20;
 }
+#lostid {
+	width: 300px;
+	position: absolute;
+	left: 150px;
+	top: 6px;
+	z-index: 30;
+}
 
 #pointer {
   position: absolute;

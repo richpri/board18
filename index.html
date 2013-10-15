@@ -32,14 +32,38 @@ A copy of this license can be found in the LICENSE.text file.
           login();
           return false;
         }); // end login
+        $("#buttonx").click(function(){
+          $('#login form').slideUp(300);
+          $('#lostid form').slideDown(300);
+          return false;
+        }); // end buttonx click
         $("#register").submit(function() {  
           register();
           return false;
-        }); // end register
+        }); // end register submit
+        $("#button3").click(function(){
+          $('#register form').slideUp(300);
+          return false;
+        }); // end button3 click
+        $("#lostid").submit(function() {  
+          lostid();
+          return false;
+        }); // end lostid submit
+        $("#button5").click(function(){
+          $('#lostid form').slideUp(300);
+          $('#login form').slideDown(300);
+          return false;
+        }); // end button3 click
         $("#content").click(function(){
+          $('#lostid form').hide();
+          $('#register form').hide();
+          $('#login form').hide();
           $('#pointer').fadeToggle(600);
         }); // end content click
         $("#leftofpage").click(function(){
+          $('#lostid form').hide();
+          $('#register form').hide();
+          $('#login form').hide();
           $('#pointer').fadeToggle(600);
         }); // end leftofpage click
         $("#pointer").click(function(){
@@ -73,7 +97,7 @@ A copy of this license can be found in the LICENSE.text file.
           <fieldset>
             <p style="font-size: 130%">Login to BOARD18</p>
             <p>
-              <label for="username">Username:</label>
+              <label for="username">Player ID:</label>
               <input type="text" name="username" id="username">
               <label class="error" for="username" id="name_error">
                 This field is required.</label>
@@ -90,6 +114,10 @@ A copy of this license can be found in the LICENSE.text file.
               <label class="error" for="button1" id="signon_error">
                 Username or password is invalid.</label>
             </p>
+            <p>
+              <input type="button" name="lostbutton" class="pwbutton" 
+                     id="buttonx" value="Forgot your Player ID?" >
+            </p>
           </fieldset>
         </form>
       </div>
@@ -97,7 +125,7 @@ A copy of this license can be found in the LICENSE.text file.
         <form name="register" class="hideform" action="">
           <fieldset>
             <p>
-              <label for="newuser">Enter Username:</label>
+              <label for="newuser">Enter Player ID:</label>
               <input type="text" name="newuser" id="newuser" class="reg">
               <label class="error" for="newuser" id="newuser_error">
                 This field is required.</label>
@@ -114,6 +142,12 @@ A copy of this license can be found in the LICENSE.text file.
               <label class="error" for="passwrd2" id="passwrd2_error">
                 Password field mismatch.</label>
             </p>
+            <p>
+              <label for="email">Enter Email Address: </label>
+              <input type="text" name="email" id="email" class="reg">
+              <label class="error" for="email" id="email_error">
+                This field is required.</label>
+            </p>
             <p style="font-size: 130%">Optional Fields: </p>
             <p>
               <label for="fname">Enter First Name: </label>
@@ -124,16 +158,36 @@ A copy of this license can be found in the LICENSE.text file.
               <input type="text" name="lname" id="lname" class="reg">
             </p>
             <p>
-              <label for="email">Enter Email Address: </label>
-              <input type="text" name="email" id="email" class="reg">
-            </p>
-            <p>
               <input type="submit" name="regbutton" class="pwbutton"  
                      id="button2" value="Submit" >
+              <input type="button" name="canbutton" class="pwbutton"  
+                     id="button3" value="Cancel" >              
             </p>
           </fieldset>
         </form>
       </div> 
+      <div id="lostid">
+        <form name="lostid" class="hideform" action="">
+          <fieldset>
+            <p style="font-size: 130%">
+              Enter the email address that we have on file for you
+              and your Player ID will be emailed to you.
+            </p>
+            <p>
+              <label for="email1">Email Address: </label>
+              <input type="text" name="email1" id="email1">
+              <label class="error" for="email1" id="email1_error">
+                This field is required.</label>
+            </p>
+            <p>
+              <input type="submit" name="regbutton1" class="pwbutton"  
+                     id="button4" value="Submit" >
+              <input type="button" name="canbutton1" class="pwbutton"  
+                     id="button5" value="Cancel" >              
+            </p>
+          </fieldset>
+        </form>
+      </div>
       <div id="pointer">
         <img src="images/clickmenu.png" alt="To Start Click Menu"/>
       </div>
@@ -161,8 +215,8 @@ A copy of this license can be found in the LICENSE.text file.
           <span style="font-size: 130%">NOTE:</span> 
           BOARD18 is designed to take advantage of the HTML5 standard.
           Currently Internet Explorer does not fully support this 
-          standard. For best results, please use a fairly current 
-          release of Firefox when accessing BOARD18.
+          standard. <br>For best results, please use a fairly current 
+          release of Firefox, Chrome or Safari when accessing BOARD18.
         </p>
       </div>
     </div>  

@@ -65,6 +65,16 @@ function regResult(response) {
     $("#newuser_error").text('Username is already in use.').show();  
     $("#newuser").focus();
   }
+  else if(response === 'bademail') {
+    $("#email_error").text('Invalid email format, please correct.').show();  
+    $("#email").focus();
+  }
+  else if(response.substring(0,5) === 'email') {
+    var logmessage = 'User ' + response.substring(5);
+    logmessage += ' is already using this email.';
+    $("#email_error").text(logmessage).show();  
+    $("#email").focus();
+  }
   else if(response === 'success') {
     $('#login #password').val('');
     $('#login :text').val('');
@@ -106,10 +116,71 @@ function register() {
     $("#passwrd2").focus();  
     return false;  
   } 
+  var email = $("input#email").val();  
+  if (email === "") {  
+    $("#email_error").show();  
+    $("#email").focus();  
+    return false;  
+  }
   var regString = $('.reg').serialize();
   var hash = hex_sha256(passwrd1);
   regString += '&passwrd=' + hash;
   $.post("php/newUser.php", regString, regResult);
+  return false;
+}
+
+/* 
+ * Function emailPlayerResult is the callback function 
+ * for the ajax emailPlayerID call. 
+ */
+function emailPlayerResult(response) {
+  if(response === 'sentemail') {
+    $("#email1_error").text('Email has been sent.').show();  
+    $("#email1").focus();
+  }
+  else if(response === 'bademail') {
+    $("#email1_error").text('Format of email address is invalid.')
+                      .show();  
+    $("#email1").focus();
+  }
+  else if(response === 'noemail') {
+    $("#email1_error").text('Entered email address is not on file.')
+                      .show();  
+    $("#email1").focus();
+  }
+  else if(response === 'cantsend') {
+    $("#email1_error").text('SMTP server could not send this email.')
+                      .show();  
+    $("#email1").focus();
+  }
+  else if(response === 'error') {  
+    $("#email1_error").text('An error ocured while sending this email.')
+                      .show();  
+    $("#email1").focus();
+  }
+  else {   
+    $("#email1_error").text('Invalid return code. This should never happen.')
+                      .show();  
+    $("#email1").focus(); 
+  } 
+} 
+
+/* 
+ * Function lostid is called by the on-click
+ * method of the lostid submit button. It 
+ * checks the input for missing fields and
+ * does an ajax call to emailPlayerID.php. 
+ */
+function lostid() {
+  $('.error').hide();  
+  var email = $("input#email1").val();  
+  if (email === "") {  
+    $("#email1_error").show();  
+    $("#email1").focus();  
+    return false;  
+  }  
+  var dataString = 'email=' + email;  
+  $.post("php/emailPlayerID.php", dataString, emailPlayerResult);
   return false;
 }
 

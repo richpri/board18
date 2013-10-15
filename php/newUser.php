@@ -36,6 +36,29 @@
 		error_log("Check duplicate name: Query failed");
     exit;
 	}
+  
+  	//Check for ill formed email address
+  if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    // The email address is ill formed
+    echo 'bademail';
+    exit;
+  }
+  
+  	//Check for duplicate email address
+  $qry2 = "SELECT login FROM players WHERE email='$email'";
+	$result2 = mysqli_query( $link, $qry2 );
+	if($result2) {
+		if(mysqli_num_rows($result2) > 0) { // duplicate email!
+      $playerrow = mysqli_fetch_assoc($result2);
+      $duperr = 'email' . $playerrow['player_id'];
+      echo $duperr;
+      exit;
+		}
+	}
+	else {
+		error_log("Check duplicate email: Query failed");
+    exit;
+	}
 
 	//Create INSERT query
 	$qry = "INSERT INTO players SET firstname='$fname', lastname='$lname',
