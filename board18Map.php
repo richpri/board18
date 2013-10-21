@@ -16,7 +16,8 @@ function clean( $conn, $str ) {
 $link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 if ( !$link ) {
 	error_log('Failed to connect to server: ' . mysqli_connect_error());
-	die( 'Connect error: (' . mysqli_connect_errno() . ') ' . mysqli_connect_error() );
+	die( 'Connect error: (' . mysqli_connect_errno() . ') ' . 
+          mysqli_connect_error() );
 	exit; // just in case
 }
 

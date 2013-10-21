@@ -16,16 +16,10 @@
   $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
 	//Check whether the session variable SESS_PLAYER_ID is present or not
 	if(!isset($_SESSION['SESS_PLAYER_ID']) || 
-          (trim($_SESSION['SESS_PLAYER_ID']) == '')) {
-    $denyloc = "location: http://" . $_SERVER['SERVER_NAME'];
-    if(substr ($_SERVER['REQUEST_URI'],1,7)== 'BOARD18') {
-      $denyloc .= "/BOARD18/access-denied.html";
-    } else {
-      $denyloc .= "/access-denied.html";
-    }
-		header($denyloc);
+          (trim($_SESSION['SESS_PLAYER_ID']) == '')) { // not present
+  	header("location: access-denied.html");
 		exit;
-	} else {
+	} else { // present
     $loggedinplayer = $_SESSION['SESS_PLAYER_ID'];
     $welcomename = $_SESSION['SESS_FIRST_NAME'];
     $headermessage = $_SESSION['SESS_HEADER_MESSAGE'];

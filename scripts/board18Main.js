@@ -68,6 +68,12 @@ function registerMainMenu() {
           window.location = "board18New.php";
         }
       },
+      administration: {
+        name: "Administration",
+        callback: function(){
+          window.location = "board18Admin.php?force=no";
+        }
+      },
       logout: {
         name: "Log Out",
         callback: function(){
