@@ -1,5 +1,5 @@
 /* 
- * board18Map7.js contains all the functions that
+ * board18Market7.js contains all the functions that
  * implement the keyboard shortcut events.
  */
 

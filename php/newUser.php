@@ -50,7 +50,7 @@
 	if($result2) {
 		if(mysqli_num_rows($result2) > 0) { // duplicate email!
       $playerrow = mysqli_fetch_assoc($result2);
-      $duperr = 'email' . $playerrow['player_id'];
+      $duperr = 'email' . $playerrow['login'];
       echo $duperr;
       exit;
 		}
