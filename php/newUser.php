@@ -12,8 +12,8 @@
 	$link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 	if ( !$link ) {
 		error_log('Failed to connect to server: ' . mysqli_connect_error());
-		die( 'Connect error: (' . mysqli_connect_errno() . ') ' . mysqli_connect_error() );
-		exit; // just in case
+		echo 'fail';
+		exit; 
 	}
 	
 	//Sanitize the POST values
@@ -34,6 +34,7 @@
 	}
 	else {
 		error_log("Check duplicate name: Query failed");
+    echo 'fail';
     exit;
 	}
   
@@ -57,6 +58,7 @@
 	}
 	else {
 		error_log("Check duplicate email: Query failed");
+		echo 'fail';
     exit;
 	}
 
@@ -68,6 +70,6 @@
 		echo 'success';
 	}else {
 		error_log("Insert new player: Query failed");
-    echo 'failed';
+    echo 'fail';
 	}
 ?>

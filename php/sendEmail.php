@@ -8,7 +8,6 @@ require_once('configMail.php');
 // information. You can use the SMTP server provided by your
 // ISP or your hosting service for these Emails.
 function sendEmail($email, $subject, $body) {
-  error_log("entering sendEmail");
   $mailObj = new PHPMailer;
 
   $mailObj->isSMTP();             // Set mailer to use SMTP.
@@ -29,9 +28,9 @@ function sendEmail($email, $subject, $body) {
   $mailObj->Body = $body;
   $mailObj->Debugoutput = "error_log";
   if ($mailObj->send()) {
-    echo 'sentemail';
+    echo 'success';
   } else {
-    echo 'cantsend';
+    echo 'fail';
   }
 }
 ?>

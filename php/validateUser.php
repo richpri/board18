@@ -9,12 +9,17 @@
 		$str = @trim($str);
 		return mysqli_real_escape_string( $conn, $str );
 	}
-	
+  
+  // setup JSON failure object.
+  $farray = array("stat" => "fail");
+  $fail = rtrim(ltrim(json_encode($farray), "["), "]");
+	error_log($fail);
+  
 	$link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 	if ( !$link ) {
 		error_log('Failed to connect to server: ' . mysqli_connect_error());
-		die( 'Connect error: (' . mysqli_connect_errno() . ') ' . mysqli_connect_error() );
-		exit; // just in case
+    echo $fail;
+		exit; 
 	}
 	
 	//Sanitize the parameter values
@@ -52,7 +57,7 @@
 		}else {
 			//Login failed
 			$response = array(
-        "stat" => "fail",
+        "stat" => "no",
         "id" => "",
         "firstname" => "",
         "lastname" => "",      
@@ -63,5 +68,6 @@
     echo $res;
 	}else {
 		error_log("Query failed");
+    echo $fail;
 	}
 ?>
