@@ -14,7 +14,7 @@
  * }
  * 
  * Output is the return status: 
- *   "success", "failure", "nobox" or "noplayer #".
+ *   "success", "fail", "nobox" or "noplayer #".
  */
 require_once('auth.php');
 require_once('config.php');
@@ -23,7 +23,7 @@ $link = @mysqli_connect(DB_HOST, DB_USER,
 if (mysqli_connect_error()) {
   $logMessage = 'MySQL Error 1: ' . mysqli_connect_error();
   error_log($logMessage);
-  echo "failure";
+  echo "fail";
   exit;
 }
 mysqli_set_charset($link, "utf-8");
@@ -51,7 +51,7 @@ $result1 = mysqli_query($link, $qry1);
 if (!$result1) {
   $logMessage = 'MySQL Error 2: ' . mysqli_error($link);
   error_log($logMessage);
-  echo "failure";
+  echo "fail";
   exit;
 }
 
@@ -67,7 +67,7 @@ if ($result2) {
 } else {
   $logMessage = 'MySQL Error 3: ' . mysqli_error($link);
   error_log($logMessage);
-  echo "failure"; 
+  echo "fail"; 
   mysqli_query($link, $qry0); // ROLLBACK
   exit;
 }
@@ -89,7 +89,7 @@ for ($i = 0; $i < $count; $i++) {
   } else {
     $logMessage = 'MySQL Error 4: ' . mysqli_error($link);
     error_log($logMessage);
-    echo "failure"; 
+    echo "fail"; 
     mysqli_query($link, $qry0); // ROLLBACK
     exit;
   }
@@ -109,7 +109,7 @@ $result4 = mysqli_query($link,$qry4);
 if (!$result4) {   // Did the query fail
   $logMessage = 'MySQL Error 5: ' . mysqli_error($link);
   error_log($logMessage);
-  echo "failure"; 
+  echo "fail"; 
   mysqli_query($link, $qry0); // ROLLBACK
   exit;
 }
@@ -121,7 +121,7 @@ $result5 = mysqli_query($link,$qry5);
 if (!$result5 || (mysqli_num_rows($result5) != 1)) {
   $logMessage = 'MySQL Error 6: ' . mysqli_error($link);
   error_log($logMessage);
-  echo "failure"; 
+  echo "fail"; 
   mysqli_query($link, $qry0); // ROLLBACK
   exit;
 }
@@ -131,7 +131,7 @@ $result6 = mysqli_query($link,$qry6);
 if (!$result6) {   // Did the query fail
   $logMessage = 'MySQL Error 7: ' . mysqli_error($link);
   error_log($logMessage);
-  echo "failure"; 
+  echo "fail"; 
   mysqli_query($link, $qry0); // ROLLBACK
   exit;
 }
@@ -144,7 +144,7 @@ for ($i = 0; $i < $count; $i++) {
   if (!$result7) {   // Did the query fail
     $logMessage = 'MySQL Error 8: ' . mysqli_error($link);
     error_log($logMessage);
-    echo "failure"; 
+    echo "fail"; 
     mysqli_query($link, $qry0); // ROLLBACK
     exit;
   }

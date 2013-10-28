@@ -1,5 +1,11 @@
 <?php
-
+/*
+ * forxePasswd.php is the server side code for the 
+ * AJAX forxePasswd call.
+ * 
+ * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
+ */
 session_start();
 require_once('config.php');
 
@@ -12,10 +18,9 @@ function clean($conn, $str) {
 
 $link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 if (!$link) {
-  error_log('Failed to connect to server: ' . mysqli_connect_error());
-  die('Connect error: (' . mysqli_connect_errno() . ') ' . 
-          mysqli_connect_error());
-  exit; // just in case
+		error_log('Failed to connect to server: ' . mysqli_connect_error());
+    echo 'fail';
+		exit; 
 }
 
 //Sanitize the POST value
@@ -26,12 +31,14 @@ $qry1 = "SELECT * FROM players WHERE player_id='$loggedinplayer'";
 $result1 = mysqli_query($link, $qry1);
 if ($result1) {
   if (mysqli_num_rows($result1) === 0) { // no such user!
-    echo 'nouser';
+    error_log("Check for existing user: User not found!");
+    echo 'fail';
     exit;
   } 
 } else {
   error_log("Check for existing user: Query failed");
-  exit;
+  echo 'fail';
+	exit; 
 }
 
 //Create UPDATE query
@@ -41,6 +48,7 @@ if ($result) {   // Was the query successful
   echo 'success';
 } else {
   error_log("Update player: Query failed");
-  echo 'failed';
+  echo 'fail';
+	exit; 
 }
 ?>

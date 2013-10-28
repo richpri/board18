@@ -57,13 +57,13 @@ function newgameOK(response) {
     $('#newgame :text').val('');
     var loginNote ='New game has been created.';
     $('#lognote').text(loginNote);
-  } else if (response === "failure") {
+  } else if (response === "fail") {
     var ferrmsg ='New game was not created due to an error.\n';
-    ferrmsg += 'Please contact the site administrator.';
+    ferrmsg += 'Please contact the BOARD18 webmaster.';
     alert(ferrmsg);
-  } else {
+  } else { // Something is definitly wrong in the code.
     var nerrmsg ='Invalid return code from createGame.php.\n';
-    nerrmsg += response + '\nThis should not happen.';
+    nerrmsg += response + 'Please contact the BOARD18 webmaster.';
     alert(nerrmsg);
   }
 }

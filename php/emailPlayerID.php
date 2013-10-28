@@ -1,5 +1,11 @@
 <?php
-
+/*
+ * emailPlayerID.php is the server side code for the 
+ * AJAX emailPlayerID call.
+ * 
+ * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
+ */
 require_once('config.php');
 require_once('sendEmail.php');
 
@@ -7,7 +13,7 @@ $link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 if (!$link) {
   error_log('Failed to connect to server: ' . mysqli_connect_error());
   echo 'fail';
-  exit; // just in case
+  exit; 
 }
 
 //Function to sanitize values received from the form. 

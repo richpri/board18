@@ -6,24 +6,19 @@ function forceResult(response) {
   if (response.indexOf("<!doctype html>") !== -1) { // User has timed out.
     window.location = "access-denied.html";
   }
-  if (response === 'nouser') {
-    var errmsg = 'Invalid player ID.\n';
-    errmsg += response + '\nThis should not happen.';
-    alert(errmsg);
-  }
-  else if (response === 'failed') {
+  else if (response === 'fail') {
     var errmsg = 'Data Base update failed.\n';
-    errmsg += response + '\nThis should not happen.';
+    errmsg += response + 'Please contact the BOARD18 webmaster.';
     alert(errmsg);
   }
   else if (response === 'success') {
     var loginNote = 'Password successfully changed. ';
     $('#lognote').text(loginNote);
   }
-  else {
-    var errmsg = 'Invalid return code from forcePasswd.php.\n';
-    errmsg += response + '\nThis should not happen.';
-    alert(errmsg);
+  else { // Something is definitly wrong in the code.
+    var nerrmsg ='Invalid return code from forcePasswd.php.\n';
+    nerrmsg += response + 'Please contact the BOARD18 webmaster.';
+    alert(nerrmsg);
   }
 }
 
@@ -76,18 +71,13 @@ function adminResult(response) {
   if (response.indexOf("<!doctype html>") !== -1) { // User has timed out.
     window.location = "access-denied.html";
   }
-  if (response === 'nouser') {
-    var errmsg = 'Invalid player ID.\n';
-    errmsg += '\nThis should not happen.';
-    alert(errmsg);
-  }
   else if (response === 'bademail') {
     $("#email_error").text('Invalid email format, please correct.').show();
     $("#email").focus();
   }
   else if (response.substring(0, 5) === 'email') {
     var logmessage = 'User ' + response.substring(5);
-    logmessage += ' is already using this email.';
+    logmessage += ' is already using this email address.';
     $("#email_error").text(logmessage).show();
     $("#email").focus();
   }
@@ -99,10 +89,15 @@ function adminResult(response) {
     var loginNote = 'Your registration has been successfully updated. ';
     $('#lognote').text(loginNote);
   }
-  else {
-    var errmsg = 'Invalid return code from updateUser.php.\n';
-    errmsg += response + '\nThis should not happen.';
+  else if (response === 'fail') {
+    var errmsg = 'Data Base update failed.\n';
+    errmsg += response + 'Please contact the BOARD18 webmaster.';
     alert(errmsg);
+  }
+  else { // Something is definitly wrong in the code.
+    var nerrmsg ='Invalid return code from updateUser.php.\n';
+    nerrmsg += response + 'Please contact the BOARD18 webmaster.';
+    alert(nerrmsg);
   }
 }
 
