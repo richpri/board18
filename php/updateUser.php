@@ -17,7 +17,7 @@
  * A copy of this license can be found in the LICENSE.text file.
  */
 
-session_start();
+require_once('auth.php');
 require_once('config.php');
 
 //Function to sanitize values received from the form. 

@@ -71,7 +71,7 @@ function registerMainMenu() {
       administration: {
         name: "Administration",
         callback: function(){
-          window.location = "board18Admin.php?force=no";
+          window.location = "board18Admin.php?changeit=no";
         }
       },
       logout: {

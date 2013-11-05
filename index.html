@@ -37,6 +37,11 @@ A copy of this license can be found in the LICENSE.text file.
           $('#lostid form').slideDown(300);
           return false;
         }); // end buttonx click
+        $("#buttony").click(function(){
+          $('#login form').slideUp(300);
+          $('#lostpw form').slideDown(300);
+          return false;
+        }); // end buttonx click
         $("#register").submit(function() {  
           register();
           return false;
@@ -53,14 +58,25 @@ A copy of this license can be found in the LICENSE.text file.
           $('#lostid form').slideUp(300);
           $('#login form').slideDown(300);
           return false;
-        }); // end button3 click
+        }); // end button5 click
+        $("#lostpw").submit(function() {  
+          lostpw();
+          return false;
+        }); // end lostid submit
+        $("#button7").click(function(){
+          $('#lostpw form').slideUp(300);
+          $('#login form').slideDown(300);
+          return false;
+        }); // end button5 click      
         $("#content").click(function(){
+          $('#lostpw form').hide();
           $('#lostid form').hide();
           $('#register form').hide();
           $('#login form').hide();
           $('#pointer').fadeToggle(600);
         }); // end content click
         $("#leftofpage").click(function(){
+          $('#lostpw form').hide();
           $('#lostid form').hide();
           $('#register form').hide();
           $('#login form').hide();
@@ -115,8 +131,10 @@ A copy of this license can be found in the LICENSE.text file.
                 Username or password is invalid.</label>
             </p>
             <p>
-              <input type="button" name="lostbutton" class="pwbutton" 
+              <input type="button" name="lostbuttonx" class="pwbutton" 
                      id="buttonx" value="Forgot your Player ID?" >
+              <input type="button" name="lostbuttony" class="pwbutton" 
+                     id="buttony" value="Forgot your Password?" >
             </p>
           </fieldset>
         </form>
@@ -190,6 +208,34 @@ A copy of this license can be found in the LICENSE.text file.
           </fieldset>
         </form>
       </div>
+      <div id="lostpw">
+        <form name="lostpw" class="hideform" action="">
+          <fieldset>
+            <p style="font-size: 110%">
+              Enter your Player ID and Email Address. <br>
+              A temporary Password will be emailed to you.
+            </p>
+            <p>
+              <label for="username1">Player ID:</label>
+              <input type="text" name="username1" id="username1">
+              <label class="error" for="username1" id="name1_error">
+                This field is required.</label>
+            </p>
+            <p>
+              <label for="email2">Email Address: </label>
+              <input type="text" name="email2" id="email2">
+              <label class="error" for="email2" id="email2_error">
+                This field is required.</label>
+            </p>
+            <p>
+              <input type="submit" name="regbutton2" class="pwbutton"  
+                     id="button6" value="Submit" >
+              <input type="button" name="canbutton2" class="pwbutton"  
+                     id="button7" value="Cancel" >              
+            </p>
+          </fieldset>
+        </form>
+      </div>   
       <div id="pointer">
         <img src="images/clickmenu.png" alt="To Start Click Menu"/>
       </div>

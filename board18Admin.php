@@ -3,28 +3,17 @@
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
-//Function to sanitize values received from POST. 
-//Prevents SQL injection
-function clean( $conn, $str ) {
-  $str = @trim($str);
-  return mysqli_real_escape_string( $conn, $str );
-}
 
 require_once('php/auth.php');
 require_once('php/config.php');
 
 $link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+$open = '';
 if (!$link) {
   error_log('Failed to connect to server: ' . mysqli_connect_error());
-  die('Connect error: (' . mysqli_connect_errno() . ') ' .
-          mysqli_connect_error());
-  exit; // just in case
+  $open = 'fail';
+  exit;
 }
-
-//Sanitize the force value
-$forcex = clean( $link, $_REQUEST['force']);
-// $force must be 'yes' or 'no'.
-$force = ($forcex  === 'yes') ? : 'no';
 
 //Create query
 $qry = "SELECT * FROM players WHERE player_id='$loggedinplayer'";
@@ -40,13 +29,14 @@ if ($result) {
     $email = $playerrow['email'];
     $login = $playerrow['login'];
     $passwd = $playerrow['passwd'];
+    $changeit = $playerrow['changeit'];
   } else {
     //Player not found
     header("location: access-denied.html");
   }
 } else {
-  error_log("Query failed");
-  header("location: access-denied.html");
+  error_log("player_id query failed");
+  $open = 'fail';
 }
 ?>
 
@@ -60,6 +50,8 @@ if ($result) {
     <link rel="stylesheet" href="style/board18Admin.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
+    <script type="text/javascript" src="scripts/sha256-min.js">
+    </script>
     <script type="text/javascript" src="scripts/board18com.js">
     </script>
     <script type="text/javascript" src="scripts/board18Admin.js">
@@ -67,22 +59,26 @@ if ($result) {
     <script type="text/javascript" >
       $(function() {
         $('.error').hide();
-
-        if ('<?php echo "$force"; ?>' === 'yes') {
+        if ('<?php echo "$open"; ?>' === 'fail') {
+          var errmsg = 'Data Base access failed.\n';
+          errmsg += response + 'Please contact the BOARD18 webmaster.';
+          alert(errmsg);
+        }
+        if (<?php echo "$changeit"; ?> === 1) {
           $('#passwd form').show();
         } else {
           $('#admin form').show();
-        }
-        $("#passwd").submit(function() {  
+        } // end changeit
+        $("#passwd").submit(function() {
           forceChange('<?php echo $passwd; ?>');
           return false;
         }); // end passwd
-        $("#admin").submit(function() {  
+        $("#admin").submit(function() {
           administrate('<?php echo $passwd; ?>');
           return false;
-        }); // admin
-        $("#button2").click(function(){
-          $('.error').hide(); 
+        }); // end admin
+        $("#button2").click(function() {
+          $('.error').hide();
           $('#admin form #pname').val('<?php echo $login; ?>');
           $('#admin form #email').val('<?php echo $email; ?>');
           $('#admin form #fname').val('<?php echo $firstname; ?>');
@@ -92,10 +88,10 @@ if ($result) {
           $('#admin form #passwrd2').val('');
           return false;
         }); // end button2 click
-        $("#button4").click(function(){
+        $("#button4").click(function() {
           window.location = "board18Main.php";
           return false;
-        }); // end button2 click
+        }); // end button4 click
       }); // end ready
     </script>
   </head>
@@ -192,9 +188,9 @@ if ($result) {
                 Please change your temporary password before proceeding.
               </p>
               <p>
-                <label for="oldpw2">Enter Player ID:</label>
-                <input type="password" name="oldpw2" id="oldpw2">
-                <label class="error" for="oldpw2" id="oldpw2_error">
+                <label for="pname2">Enter Player ID:</label>
+                <input type="text" name="pname2" id="pname2">
+                <label class="error" for="pname2" id="pname2_error">
                   This field is required.</label>
               </p>
               <p>
@@ -210,7 +206,7 @@ if ($result) {
                   Password field mismatch.</label>
               </p>
               <p>
-                <input type="submit" name="forcebutton" class="pwbutton"  
+                <input type="submit" name="changeitbutton" class="pwbutton"  
                        id="button3" value="Submit" >
               </p>
             </fieldset>

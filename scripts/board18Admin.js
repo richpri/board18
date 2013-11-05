@@ -6,14 +6,20 @@ function forceResult(response) {
   if (response.indexOf("<!doctype html>") !== -1) { // User has timed out.
     window.location = "access-denied.html";
   }
+  else if (response === 'success') {
+    var changeNote = 'You password has been successfully changed.';
+    $('#lognote').text(changeNote);
+    $('#passwd form').slideUp(300);
+    setTimeout(function(){window.location = "board18Main.php";}, 5000);
+  }
+  else if (response === 'player') {
+    $("#pname2_error").text('Invalid player ID.').show();
+    $("#pname2").focus();
+  }
   else if (response === 'fail') {
     var errmsg = 'Data Base update failed.\n';
-    errmsg += response + 'Please contact the BOARD18 webmaster.';
+    errmsg += 'Please contact the BOARD18 webmaster.';
     alert(errmsg);
-  }
-  else if (response === 'success') {
-    var loginNote = 'Password successfully changed. ';
-    $('#lognote').text(loginNote);
   }
   else { // Something is definitly wrong in the code.
     var nerrmsg ='Invalid return code from forcePasswd.php.\n';
@@ -30,16 +36,10 @@ function forceResult(response) {
  */
 function forceChange(currpw) {
   $('.error').hide();  
-  var oldpw2 = $("input#oldpw2").val();
-  if (oldpw2 === "") {
-    $("#oldpw2_error").show();
-    $("#oldpw2").focus();
-    return false;
-  }
-  if (oldpw2 === currpw) {
-    var pwmessage = "Invalid Current Password.";
-    $("#oldpw2_error").text(pwmessage).show();
-    $("#oldpw2").focus();
+  var pname2 = $("input#pname2").val();
+  if (pname2 === "") {
+    $("#pname2_error").show();
+    $("#pname2").focus();
     return false;
   }
 
@@ -58,7 +58,7 @@ function forceChange(currpw) {
   }
 
   var hash = hex_sha256(passwrd3);
-  var regString = '&passwd=' + hash;
+  var regString = 'player=' + pname2 + '&passwd=' + hash;
   $.post("php/forcePasswd.php", regString, forceResult);
   return false;
 }
@@ -91,7 +91,7 @@ function adminResult(response) {
   }
   else if (response === 'fail') {
     var errmsg = 'Data Base update failed.\n';
-    errmsg += response + 'Please contact the BOARD18 webmaster.';
+    errmsg += 'Please contact the BOARD18 webmaster.';
     alert(errmsg);
   }
   else { // Something is definitly wrong in the code.
@@ -115,7 +115,8 @@ function administrate(currpw) {
     $("#oldpw1").focus();
     return false;
   }
-  if (oldpw1 === currpw) {
+  var hash1 = hex_sha256(oldpw1);
+  if (hash1 !== currpw) {
     var pwmessage = "Invalid Current Password.";
     $("#oldpw1_error").text(pwmessage).show();
     $("#oldpw1").focus();

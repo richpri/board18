@@ -21,20 +21,24 @@ function loginOK(response) {
     loginNote += resp.level + ' level';
     $('#lognote').text(loginNote);
     $('#login form').slideUp(300);
-    window.location = "board18Main.php";
+    if (resp.changeit === 0) {
+      window.location = "board18Main.php";
+    } else {
+      window.location = "board18Admin.php";
+    }
   } 
   else if (resp.stat === 'no') {
     $("#signon_error").show();
     $("#username").focus();
   } 
-  else if (response === 'fail') {
+  else if (resp.stat === 'fail') {
     var errmsg1 = 'Program error in validateUser.php.\n';
-    errmsg1 += response + 'Please contact the BOARD18 webmaster.';
+    errmsg1 += 'Please contact the BOARD18 webmaster.';
     alert(errmsg1);
   } 
   else {  // Something is definitly wrong in the code.
     var nerrmsg = 'Invalid return code from validateUser.php.\n';
-    nerrmsg += response + 'Please contact the BOARD18 webmaster.';
+    nerrmsg += response + '\nPlease contact the BOARD18 webmaster.';
     alert(nerrmsg);
   }
 }
@@ -97,12 +101,12 @@ function regResult(response) {
   }
   else if (response === 'fail') {
     var errmsg1 = 'Program error in newUser.php.\n';
-    errmsg1 += response + 'Please contact the BOARD18 webmaster.';
+    errmsg1 += 'Please contact the BOARD18 webmaster.';
     alert(errmsg1);
   }
   else {  // Something is definitly wrong in the code.
     var errmsg2 = 'Invalid return code from newUser.php.\n';
-    errmsg2 += response + 'Please contact the BOARD18 webmaster.';
+    errmsg2 += response + '\nPlease contact the BOARD18 webmaster.';
     alert(errmsg2);
   }
 }
@@ -152,8 +156,11 @@ function register() {
  */
 function emailPlayerResult(response) {
   if (response === 'success') {
-    $("#email1_error").text('Email has been sent.').show();
-    $("#email1").focus();
+    $('#lostid :text').val('');
+    $('#lostid form').slideUp(300);
+    $('#login form').slideDown(300);
+    var lostidNote = 'Email with player ID has been sent.';
+    $('#lognote').text(lostidNote);
   }
   else if (response === 'bademail') {
     $("#email1_error").text('Format of email address is invalid.')
@@ -161,13 +168,13 @@ function emailPlayerResult(response) {
     $("#email1").focus();
   }
   else if (response === 'fail') {
-    var errmsg2 = 'Program error in newUser.php.\n';
-    errmsg1 += response + 'Please contact the BOARD18 webmaster.';
+    var errmsg1 = 'Program error in emailPlayerID.php.\n';
+    errmsg1 += 'Please contact the BOARD18 webmaster.';
     alert(errmsg1);
   }
   else {  // Something is definitly wrong in the code.
     var errmsg2 = 'Invalid return code from emailPlayerID.php.\n';
-    errmsg2 += response + 'Please contact the BOARD18 webmaster.';
+    errmsg2 +=  response + '\nPlease contact the BOARD18 webmaster.';
     alert(errmsg2);
   }
 }
@@ -188,6 +195,70 @@ function lostid() {
   }
   var dataString = 'email=' + email;
   $.post("php/emailPlayerID.php", dataString, emailPlayerResult);
+  return false;
+}
+
+/* 
+ * Function emailPasswdResult is the callback function 
+ * for the ajax emailPassword call. 
+ */
+function emailPasswdResult(response) {
+  if (response === 'success') {
+    $('#lostpw :text').val('');
+    $('#lostpw form').slideUp(300);
+    $('#login form').slideDown(300);
+    var lostpwNote = 'Email with temporary password has been sent.';
+    $('#lognote').text(lostpwNote);
+  }
+  else if (response === 'bademail') {
+    $("#email2_error").text('Format of email address is invalid.')
+            .show();
+    $("#email2").focus();
+  }
+  else if (response === 'noplayer') {
+    $("#name1_error").text('Player ID is not correct.')
+            .show();
+    $("#username1").focus();
+  }
+  else if (response === 'noemail') {
+    $("#email2_error").text('Email address is not correct.')
+            .show();
+    $("#email2").focus();
+  }
+  else if (response === 'fail') {
+    var errmsg1 = 'Program error in emailPassword.php.\n';
+    errmsg1 += 'Please contact the BOARD18 webmaster.';
+    alert(errmsg1);
+  }
+  else {  // Something is definitly wrong in the code.
+    var errmsg2 = 'Invalid return code from emailPassword.php.\n';
+    errmsg2 += response + '\nPlease contact the BOARD18 webmaster.';
+    alert(errmsg2);
+  }
+}
+
+/* 
+ * Function lostpw is called by the on-click
+ * method of the lostpw submit button. It 
+ * checks the input for missing fields and
+ * does an ajax call to emailPassword.php. 
+ */
+function lostpw() {
+  $('.error').hide();
+  var name = $("input#username1").val();
+  if (email === "") {
+    $("#name1_error").show();
+    $("#username1").focus();
+    return false;
+  }
+  var email = $("input#email2").val();
+  if (email === "") {
+    $("#email1_error").show();
+    $("#email1").focus();
+    return false;
+  }
+  var dataString = 'name=' + name + '&email=' + email;
+  $.post("php/emailPassword.php", dataString, emailPasswdResult);
   return false;
 }
 

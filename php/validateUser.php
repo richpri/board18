@@ -3,6 +3,20 @@
  * validateUser.php is the server side code for the 
  * AJAX validateUser call. 
  * 
+ * Input consists the following parameters:
+ *   login
+ *   password
+ * 
+ * Output will be an array containing at a minimum the named
+ * value "stat" which will be set to "success", "fail" or an 
+ * edit failure code. If "stat" = "success" then the array
+ * will also contain values for the following key names:
+ *   "id" 
+ *   "firstname" 
+ *   "lastname" 
+ *   "level" 
+ *   "changeit" 
+ * 
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
@@ -21,7 +35,6 @@ function clean($conn, $str) {
 // setup JSON failure object.
 $farray = array("stat" => "fail");
 $fail = rtrim(ltrim(json_encode($farray), "["), "]");
-error_log($fail);
 
 $link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 if (!$link) {
@@ -60,22 +73,19 @@ if ($result) {
         "id" => $playerrow['player_id'],
         "firstname" => $firstname,
         "lastname" => $playerrow['lastname'],
-        "level" => $playerrow['level']
+        "level" => $playerrow['level'],
+        "changeit" => $playerrow['changeit']
     );
   } else {
     //Login failed
     $response = array(
-        "stat" => "no",
-        "id" => "",
-        "firstname" => "",
-        "lastname" => "",
-        "level" => ""
+        "stat" => "no"
     );
   }
   $res = rtrim(ltrim(json_encode($response), "["), "]");
   echo $res;
 } else {
-  error_log("Query failed");
+  error_log("Log In query failed");
   echo $fail;
 }
 ?>
