@@ -3,56 +3,82 @@
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
+
 require_once('php/auth.php');
 require_once('php/config.php');
 
-/*
-*	returns a mySQL link to the board18 database
-*
-*	mysql_connect created a MySQL link identifier, but it was a bit unclear if the 
-*	the link existed only within the function. mysqli_connect creates the same MySQL
-*	link, but the updated function explicitly pushes the link back out
-*/
-function prepareDatabase() {
-	$link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
-	if ( !$link ) {
-		error_log('Failed to connect to server: ' . mysqli_connect_error());
-		die( 'Connect error: (' . mysqli_connect_errno() . ') ' . mysqli_connect_error() );
-		exit; // just in case
-	} else {
-		return $link;
-	}
-} // end of functions prepareDatabase
+$theLink = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+$open = '';
+if (!$theLink) {
+  error_log('Failed to connect to server: ' . mysqli_connect_error());
+  $open = 'fail';
+  exit;
+}
 
-function showBoxes( $conn ) {
+$qry = "SELECT login FROM players WHERE player_id = $loggedinplayer";
+$result = mysqli_query($theLink, $qry);
+if ($result) {
+  if (mysqli_num_rows($result) === 1) {
+    $row = mysqli_fetch_array($result);
+    $login = $row[0];
+  } else {
+    error_log('SELECT login: no player found.');
+    $open = 'fail';
+  }
+} else {
+  error_log('SELECT login: select call failed.');
+  $open = 'fail';
+  exit;
+}
+
+function showBoxes($conn) {
+  global $open;
   $qry = "SELECT box_id, bname, version, author, create_date FROM box";
   $result = mysqli_query($conn, $qry);
   if ($result) {
-    echo "<table border='1'> <tr>
+    if (mysqli_num_rows($result) !== 0) {
+      echo "<table border='1'> <tr>
         <th>ID</th> <th>Box Name</th> <th>Version</th>
         <th>Author</th> <th>Date</th> </tr>";
-    while ($row = mysqli_fetch_array($result)) {
-      echo "<tr> <td>$row[0]</td> <td>$row[1]</td> <td>$row[2]</td>
-        <td>$row[3]</td> <td>$row[4]</td> </tr>";
+      while ($row = mysqli_fetch_array($result)) {
+        echo "<tr class='gbrow'> <td class='gbid'>$row[0]</td> 
+          <td>$row[1]</td> <td>$row[2]</td>
+          <td>$row[3]</td> <td>$row[4]</td> </tr>";
+      }
+      echo "</table>";
+    } else {
+      echo "<p style='color: red'>";
+      echo "There are no game boxes in the database</p>";
     }
-    echo "</table>";
   } else {
-    echo "<p style='color: red'>";
-    echo "There are no game boxes in the database</p>";
+    error_log('Show boxes: select call failed.');
+    $open = 'fail';
+    exit;
   }
 }
-function showPlayers( $conn ) {
-  $qry = "SELECT login, firstname, lastname FROM players";
-  $result = mysqli_query( $conn, $qry);
+
+function showPlayers($conn) {
+  global $open;
+  $qry = "SELECT login, firstname, lastname, player_id FROM players";
+  $result = mysqli_query($conn, $qry);
   if ($result) {
-    echo "<h3 style='text-indent: 15px'>Players<br></h3>";
-    while ($row = mysqli_fetch_array($result)) {
-      echo "<p class='plid'>$row[0] 
-        <span><br>$row[1] $row[2]</span></p>";
-    }  
+    if (mysqli_num_rows($result) !== 0) {
+      echo "<h3 style='text-indent: 15px'>Players<br></h3>";
+      while ($row = mysqli_fetch_array($result)) {
+        echo "<p class='plall'><span class='plid'>$row[0]</span>
+        <br><span class='plnm'>$row[1] $row[2]</span></p>";
+        if ($row[3] === $loggedinplayer) {
+          //
+        }
+      }
+    } else {
+      echo "<p style='color: red'>";
+      echo "There are no players in the database.</p>";
+    }
   } else {
-    echo "<p style='color: red'>
-      There are no players in the database.</p>";
+    error_log('Show players: select call failed.');
+    $open = 'fail';
+    exit;
   }
 }
 ?>
@@ -78,24 +104,36 @@ function showPlayers( $conn ) {
     <script type="text/javascript" >
       $(function() {
         $('.error').hide();
-        $('.plid').children("span").hide(); 
+        if ('<?php echo "$open"; ?>' === 'fail') {
+          var errmsg = 'Data Base access failed.\n';
+          errmsg += 'Please contact the BOARD18 webmaster.';
+          alert(errmsg);
+        }
+        $('.plnm').hide();
         registerMainMenu();
-        $('.plid').mouseover(function() {
-          $(this).children("span").show();
+        $('.plall').mouseover(function() {
+          $(this).children('.plnm').show();
         });
-        $('.plid').mouseout(function() {
-          $(this).children("span").hide();
+        $('.plall').mouseout(function() {
+          $(this).children('.plnm').hide();
         });
-        $("#newgame").submit(function() {  
+        $('.plall').mousedown(function() {
+          addPlayer($(this).children('.plid').text());
+        });
+        $('.gbrow').mousedown(function() {
+          $('#boxid').val($(this).children('.gbid').text());
+//        selectGameBox($(this).children('.gbid').text());
+        });
+        $("#newgame").submit(function() {
           newgame();
           return false;
         }); // end newgame
+//      Make this player be player 1 in the new game.
+        addPlayer('<?php echo "$login"; ?>'); 
       }); // end ready
     </script>
   </head>
   <body>
-    <?php $theLink = prepareDatabase(); ?>
-    
     <div id="topofpage">
       <div id="logo">
         <img src="images/logo.png" alt="Logo"/> 
@@ -113,10 +151,10 @@ function showPlayers( $conn ) {
         </p>
       </div>
     </div>
- 
+
     <div id="leftofpage">
       <div id='sidebar'>
-        <?php showPlayers( $theLink ); ?>
+<?php showPlayers($theLink); ?>
       </div>
     </div>
     <div id="rightofpage"> 
@@ -124,9 +162,9 @@ function showPlayers( $conn ) {
         <div>
           <h3>Start a New Game Session</h3>
           <p>Please use this form to start a new game session. 
-          <br>For your convenience, a list of registered players 
-          appears to the left<br>and a table of available game 
-          boxes appears below.
+            <br>For your convenience, a list of registered players 
+            appears to the left<br>and a table of available game 
+            boxes appears below.
           </p>
         </div>
         <div id="newgame">
@@ -197,7 +235,7 @@ function showPlayers( $conn ) {
         </div>        
         <div id="boxes">
           <h3>Available Game Boxes</h3>
-              <?php showBoxes( $theLink ); ?>
+<?php showBoxes($theLink); ?>
         </div>
       </div>    
     </div>  

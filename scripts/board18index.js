@@ -21,7 +21,7 @@ function loginOK(response) {
     loginNote += resp.level + ' level';
     $('#lognote').text(loginNote);
     $('#login form').slideUp(300);
-    if (resp.changeit === 0) {
+    if (resp.changeit === '0') {
       window.location = "board18Main.php";
     } else {
       window.location = "board18Admin.php";

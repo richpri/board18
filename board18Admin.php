@@ -61,7 +61,7 @@ if ($result) {
         $('.error').hide();
         if ('<?php echo "$open"; ?>' === 'fail') {
           var errmsg = 'Data Base access failed.\n';
-          errmsg += response + 'Please contact the BOARD18 webmaster.';
+          errmsg += 'Please contact the BOARD18 webmaster.';
           alert(errmsg);
         }
         if (<?php echo "$changeit"; ?> === 1) {

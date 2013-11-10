@@ -70,8 +70,8 @@ if ($result1) {
       if ($result2) {   // If the query was successful.
         $subject = 'BOARD18 Password recovery';
         $body = 'The new temporary password for user ' . $name . 
-            ' at ' . $email . ' is ' . $pw1[$rnd10] . 
-            '  /n/n You must change this password when you next log in.';
+            ' at ' . $email . ' is  ' . $pw1[$rnd10] . 
+            '  - - -  You must change this password when you next log in.';
         sendEmail($email, $subject, $body);
         exit; 
       } else { 

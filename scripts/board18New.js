@@ -1,10 +1,12 @@
 
-/* All BD18 global variables are contained in one
+/* 
+ * All BD18 global variables are contained in one
  * 'master variable' called BD18.  This isolates 
  * them from global variables in other packages. 
  */
 
-/* I found this generalized numeric test function
+/* 
+ * I found this generalized numeric test function
  * at http://stackoverflow.com/questions/18082/
  *    validate-numbers-in-javascript-isnumeric 
  */
@@ -12,7 +14,8 @@ function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-/* Function logoutOK is the callback function for the ajax
+/* 
+ * Function logoutOK is the callback function for the ajax
  * lgout call. 
  */
 function logoutOK(resp) {
@@ -24,13 +27,31 @@ function logoutOK(resp) {
   } 
 }
 
-/* Function makeNewGame creates a JSON object for the ajax
+/* 
+ * Function addPlayer adds a player to the newgame form. 
+ */
+function addPlayer(player) {
+  $('.fn2').each(function(i) {
+    if ($(this).val() === "") { 
+      $(this).val(player); 
+      return false; 
+    } 
+  });
+}
+
+/* 
+ * Function makeNewGame creates a JSON object for the ajax
  * newgame call. 
  */
 function makeNewGame(name, boxid, players, player) {
   var pp = [];
-  var i;
-  for(i=0; i<players; i++) { pp[i] = player[i]; }
+  var i, j;
+  for(i=0; i<players; i++) { 
+    pp[i] = player[i]; 
+    for(j=0; j<i; j++) { // test for duplicate player.
+      if (pp[j] === pp[i]) return;
+    }
+  }
   return JSON.stringify({
     gname : name,
     boxid : boxid,
@@ -38,7 +59,8 @@ function makeNewGame(name, boxid, players, player) {
   });
 }
 
-/* Function newgameOK is the callback function for the ajax
+/* 
+ * Function newgameOK is the callback function for the ajax
  * newgame call. 
  */
 function newgameOK(response) {
@@ -99,9 +121,9 @@ function newgame() {
     $("#pcount").focus();  
     return;  
   }
-  if (!isNumber(BD18.playerCount) || (BD18.playerCount < 2) || 
+  if (!isNumber(BD18.playerCount) || (BD18.playerCount < 1) || 
     (BD18.playerCount > 6)) {  
-    $("#pc_error").text('# of players must be between 2 and 6.').show();  
+    $("#pc_error").text('# of players must be between 1 and 6.').show();  
     $("#pcount").focus();  
     return;  
   }
@@ -128,6 +150,11 @@ function newgame() {
   if (BD18.errtxt === "") {
     var dataString = makeNewGame(BD18.name, BD18.boxid, 
     BD18.playerCount, BD18.player); 
+    if (dataString === undefined) {
+      $("#pc_error").text('Do not duplicate player names.').show();  
+      $("#pcount").focus();  
+      return; 
+    }
     var postString = 'newgame=' + dataString;
     $.post("php/createGame.php", postString,  function(response) {
       newgameOK(response);
@@ -135,7 +162,8 @@ function newgame() {
   }
 }
 
-/* The registerMainMenu function creates the 
+/* 
+ * The registerMainMenu function creates the 
  * main menu on the board18New page. It uses
  * the jquery context menu plugin.
  */
