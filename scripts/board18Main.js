@@ -20,12 +20,13 @@ function logoutOK(resp) {
  * to the table in board18Main.php.
  */
 function listReturn(response) {
-  if (response) {
-    if (typeof response === "string") { // User has timed out.
-      window.location = "access-denied.html";
-    }   
+  if (response.indexOf("<!doctype html>") !== -1) { // User has timed out.
+    window.location = "access-denied.html";
+  }
+  var resp = jQuery.parseJSON(response);
+  if (resp.stat === 'success') {
     var gameHTML ='';
-    $.each(response.gamelist,function(index,listInfo) {
+    $.each(resp.games,function(index,listInfo) {
       gameHTML += '<tr> <td class="gamename">';
       gameHTML += '<a href="board18Map.php?dogame=';
       gameHTML += listInfo.game_id + ' ">';
@@ -35,27 +36,21 @@ function listReturn(response) {
       gameHTML += listInfo.start_date + '</td> </tr>';
     }); // end of each
     $('#gamelist').append(gameHTML);
-  } else {
+  } else if (resp.stat === 'none') {
     var nogames = '<p id="gamehead">';
     nogames += 'You are not currently playing any games</p>';
     $('#games').append(nogames);
-  } 
+  } else if (resp.stat === 'fail') {
+    var errmsg1 = 'Program error in myGameList.php.\n';
+    errmsg1 += 'Please contact the BOARD18 webmaster.';
+    alert(errmsg1);
+  } else {  // Something is definitly wrong in the code.
+    var nerrmsg = 'Invalid return code from myGameList.php.\n';
+    nerrmsg += response + '\nPlease contact the BOARD18 webmaster.';
+    alert(nerrmsg);
+  }
 } // end of listReturn
 
-/* Function listError is the error callback function for 
- * the ajax myGameList.php call. It should never be used.
- * It alerts the player about the error.
- */
-function listError(a, b, c) {
-  var errmsg = 'Error returned to board18Main from myGameList.php:\n';
-  errmsg += (c ? c : a.status);
-  alert(errmsg);
-} // end of listError 
-
-/* The registerMainMenu function creates the 
- * main menu on the board18Main page. It uses
- * the jquery context menu plugin.
- */
 function registerMainMenu() {
   $.contextMenu({
     selector: "#newmainmenu", 

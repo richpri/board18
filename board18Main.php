@@ -26,15 +26,7 @@ A copy of this license can be found in the LICENSE.text file.
     </script>
     <script type="text/javascript" >
       $(function() {
-        $.ajax({
-          type: 'GET',
-          url: 'php/myGameList.php',
-          processData: true,
-          data: {},
-          dataType: 'json',
-          success: listReturn,
-          error: listError
-        }); // end of ajax
+        $.post('php/myGameList.php', listReturn);
         registerMainMenu();
         $('.gamename').mouseover(function() {
           var ttLeft,
