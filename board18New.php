@@ -5,15 +5,7 @@
  */
 
 require_once('php/auth.php');
-require_once('php/config.php');
-
-$theLink = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
-$open = '';
-if (!$theLink) {
-  error_log('Failed to connect to server: ' . mysqli_connect_error());
-  $open = 'fail';
-  exit;
-}
+require_once('php/makeTables.php');
 
 $qry = "SELECT login FROM players WHERE player_id = $loggedinplayer";
 $result = mysqli_query($theLink, $qry);
@@ -31,53 +23,6 @@ if ($result) {
   exit;
 }
 
-function showBoxes($conn) {
-  global $open;
-  $qry = "SELECT box_id, bname, version, author, create_date FROM box";
-  $result = mysqli_query($conn, $qry);
-  if ($result) {
-    if (mysqli_num_rows($result) !== 0) {
-      echo "<table border='1'> <tr>
-        <th>ID</th> <th>Box Name</th> <th>Version</th>
-        <th>Author</th> <th>Date</th> </tr>";
-      while ($row = mysqli_fetch_array($result)) {
-        echo "<tr class='gbrow'> <td class='gbid'>$row[0]</td> 
-          <td>$row[1]</td> <td>$row[2]</td>
-          <td>$row[3]</td> <td>$row[4]</td> </tr>";
-      }
-      echo "</table>";
-    } else {
-      echo "<p style='color: red'>";
-      echo "There are no game boxes in the database</p>";
-    }
-  } else {
-    error_log('Show boxes: select call failed.');
-    $open = 'fail';
-    exit;
-  }
-}
-
-function showPlayers($conn) {
-  global $open;
-  $qry = "SELECT login, firstname, lastname, player_id FROM players";
-  $result = mysqli_query($conn, $qry);
-  if ($result) {
-    if (mysqli_num_rows($result) !== 0) {
-      echo "<h3 style='text-indent: 15px'>Players<br></h3>";
-      while ($row = mysqli_fetch_array($result)) {
-        echo "<p class='plall'><span class='plid'>$row[0]</span>
-        <br><span class='plnm'>$row[1] $row[2]</span></p>";
-      }
-    } else {
-      echo "<p style='color: red'>";
-      echo "There are no players in the database.</p>";
-    }
-  } else {
-    error_log('Show players: select call failed.');
-    $open = 'fail';
-    exit;
-  }
-}
 ?>
 <!doctype html>
 <html lang="en">

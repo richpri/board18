@@ -5,7 +5,7 @@
  */
 
 require_once('php/auth.php');
-require_once('php/config.php');
+require_once('php/makeTables.php');
 
 //Function to sanitize values received from POST. 
 //Prevents SQL injection
@@ -14,24 +14,16 @@ function clean( $conn, $str ) {
   return mysqli_real_escape_string( $conn, $str );
 }
 
-$link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
-$open = '';
-if (!$link) {
-  error_log('Failed to connect to server: ' . mysqli_connect_error());
-  $open = 'fail';
-  exit;
-}
-
 //Sanitize the dogame value
 $dogame = 'no';
 if (isset($_REQUEST['dogame'])) {
-    $dogame = clean( $link, $_REQUEST['dogame']);
+    $dogame = clean( $theLink, $_REQUEST['dogame']);
 }
 
 //Create query
 $qry = "SELECT * FROM players WHERE player_id='$loggedinplayer'";
 
-$result = mysqli_query($link, $qry);
+$result = mysqli_query($theLink, $qry);
 //Check whether the query was successful or not
 if ($result) {
   if (mysqli_num_rows($result) == 1) {
@@ -83,6 +75,16 @@ if ($result) {
           if ('<?php echo "$dogame"; ?>' !== 'no')  {
             $('#players form').show();
             $('#players table').show();
+            $('.plnm').hide();
+            $('.plall').mouseover(function() {
+              $(this).children('.plnm').show();
+            });
+            $('.plall').mouseout(function() {
+              $(this).children('.plnm').hide();
+            });
+            $('.plall').mousedown(function() {
+              $('#pname4').val($(this).children('.plid').text());
+            });
             var curgame = <?php echo "$dogame"; ?>;
             var gameString = 'gameID=' + curgame;
             $.post("php/gamePlayers.php", gameString, gamePlayersResult);
@@ -141,6 +143,13 @@ if ($result) {
     </div>
 
     <div id="leftofpage">
+<?php
+  if ($dogame != 'no') {
+    echo "<div id='sidebar'>";
+    showPlayers($theLink);
+    echo "</div>";
+  }
+?>
     </div>
 
     <div id="rightofpage"> 
@@ -243,26 +252,25 @@ if ($result) {
           <table id='playerlist'> 
             <caption>Players in game:<br></caption>
             <tr>
-              <th>ID</th> <th>Login</th> 
-              <th>First Name</th> <th>Last Name</th>
+              <th>Login</th><th>First Name</th><th>Last Name</th>
             </tr>
           </table>
-          <form name="player" class="hideform" action="">
+          <form name="player" class="hideform" id="playerform" action="">
             <fieldset>
               <p style="font-size: 110%">
-                Enter ID of player to remove from game.
+                Enter login of player to remove from game.
               </p>
               <p>
-                <label for="pname3">Enter Player ID:</label>
+                <label for="pname3">Enter Player login:</label>
                 <input type="text" name="pname3" id="pname3">
                 <label class="error" for="pname3" id="pname3_error">
                   This field is required.</label>
               </p>
               <p style="font-size: 110%">
-                Enter ID of player to add to game.
+                Enter login of player to add to game.
               </p>
               <p>
-                <label for="pname4">Enter Player ID:</label>
+                <label for="pname4">Enter Player login:</label>
                 <input type="text" name="pname4" id="pname4">
                 <label class="error" for="pname4" id="pname4_error">
                   This field is required.</label>

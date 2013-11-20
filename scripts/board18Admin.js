@@ -163,15 +163,14 @@ function gamePlayersResult(response) {
     $('#playerlist caption').append(resp.game);
     var playerHTML ='';
     $.each(resp.players,function(index,listInfo) {
-      playerHTML += '<tr class="playerrow"> <td class="playerid">';
-      playerHTML += listInfo.player_id + '</td> <td>';
+      playerHTML += '<tr class="playerrow"> <td class="login">';
       playerHTML += listInfo.login + '</td> <td>';
       playerHTML += listInfo.firstname + '</td> <td>';
       playerHTML += listInfo.lastname + '</td> </tr>';
     }); // end of each
     $('#playerlist').append(playerHTML);
     $('.playerrow').mousedown(function() {
-      $('#pname3').val($(this).children('.playerid').text());
+      $('#pname3').val($(this).children('.login').text());
     }); // end playerrow mousedown 
   } else if (resp.stat === 'none') {
     var errmsgn = 'Can not find any players for ' + resp.game;
