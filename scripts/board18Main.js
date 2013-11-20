@@ -27,13 +27,16 @@ function listReturn(response) {
   if (resp.stat === 'success') {
     var gameHTML ='';
     $.each(resp.games,function(index,listInfo) {
-      gameHTML += '<tr> <td class="gamename">';
+      gameHTML += '<tr class="gamerow"> <td>';
       gameHTML += '<a href="board18Map.php?dogame=';
       gameHTML += listInfo.game_id + ' ">';
       gameHTML += listInfo.gname + '</a></td> <td>';
       gameHTML += listInfo.bname + '</td> <td>';
       gameHTML += listInfo.version + '</td> <td>';
-      gameHTML += listInfo.start_date + '</td> </tr>';
+      gameHTML += listInfo.start_date + '</td> <td>';
+      gameHTML += '<a href="board18Admin.php?dogame=';
+      gameHTML += listInfo.game_id + '"><button type="button">';
+      gameHTML += 'Edit</button></a> </td> </tr>';
     }); // end of each
     $('#gamelist').append(gameHTML);
   } else if (resp.stat === 'none') {
@@ -66,7 +69,7 @@ function registerMainMenu() {
       administration: {
         name: "Administration",
         callback: function(){
-          window.location = "board18Admin.php?changeit=no";
+          window.location = "board18Admin.php";
         }
       },
       logout: {

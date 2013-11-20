@@ -28,26 +28,6 @@ A copy of this license can be found in the LICENSE.text file.
       $(function() {
         $.post('php/myGameList.php', listReturn);
         registerMainMenu();
-        $('.gamename').mouseover(function() {
-          var ttLeft,
-          ttTop,
-          $this = $(this),
-          $tip = $('#gamelink'),
-          triggerPos = $this.offset(),
-          tipH = $tip.outerHeight();
-          ttTop = triggerPos.top - tipH;
-          ttLeft = triggerPos.left + 100;
-          $tip
-          .css({
-            left : ttLeft ,
-            top : ttTop,
-            position: 'absolute'
-          })
-          .show();
-        }); // end mouseover
-        $('.gamename').mouseout(function() {
-          $('#gamelink').hide();
-        }); // end mouseout
       }); // end ready
     </script>
   </head>
@@ -80,17 +60,18 @@ A copy of this license can be found in the LICENSE.text file.
             <tr>
               <th>Game Name</th> <th>Box Name</th> 
               <th>Version</th> <th>Start Date</th> 
+              <th>Edit</th>
             </tr>
           </table>
         </div>
         <div>
-        <p>At this point you can select an existing game to play 
-          <br>or you can use the menu to start up a new game,<br>
-          perform configuration options or do other stuff. 
+        <p>At this point you can select an existing game to play,<br>
+          you can click the Edit button for a given game to update it
+          <br>or you can use the menu to start up a new game, perform
+          <br>general administrative functions and do other stuff. 
         </p>   
         </div>
       </div> 
     </div>  
-    <div id="gamelink"><p>Click link to play this game.</p></div>
   </body>
 </html>

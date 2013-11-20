@@ -149,3 +149,42 @@ function administrate(currpw) {
   $.post("php/updateUser.php", aString, adminResult);
   return false;
 }
+
+/* Function gamePlayersResult is the success callback function for 
+ * the ajax myGameList.php call. It appends a list of players for
+ * the requested game to the table in board18Admin.php.
+ */
+function gamePlayersResult(response) {
+  if (response.indexOf("<!doctype html>") !== -1) { // User has timed out.
+    window.location = "access-denied.html";
+  }
+  var resp = jQuery.parseJSON(response);
+  if (resp.stat === 'success') {
+    $('#playerlist caption').append(resp.game);
+    var playerHTML ='';
+    $.each(resp.players,function(index,listInfo) {
+      playerHTML += '<tr class="playerrow"> <td class="playerid">';
+      playerHTML += listInfo.player_id + '</td> <td>';
+      playerHTML += listInfo.login + '</td> <td>';
+      playerHTML += listInfo.firstname + '</td> <td>';
+      playerHTML += listInfo.lastname + '</td> </tr>';
+    }); // end of each
+    $('#playerlist').append(playerHTML);
+    $('.playerrow').mousedown(function() {
+      $('#pname3').val($(this).children('.playerid').text());
+    }); // end playerrow mousedown 
+  } else if (resp.stat === 'none') {
+    var errmsgn = 'Can not find any players for ' + resp.game;
+    errmsgn += '.\nThis should definately not happen!\n';
+    errmsgn += 'Please contact the BOARD18 webmaster.';
+    alert(errmsgn);
+  } else if (resp.stat === 'fail') {
+    var errmsg1 = 'Program error in gamePlayers.php.\n';
+    errmsg1 += 'Please contact the BOARD18 webmaster.';
+    alert(errmsg1);
+  } else {  // Something is definitly wrong in the code.
+    var nerrmsg = 'Invalid return code from gamePlayers.php.\n';
+    nerrmsg += response + '\nPlease contact the BOARD18 webmaster.';
+    alert(nerrmsg);
+  }
+} // end of gamePlayersResult

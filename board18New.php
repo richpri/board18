@@ -67,9 +67,6 @@ function showPlayers($conn) {
       while ($row = mysqli_fetch_array($result)) {
         echo "<p class='plall'><span class='plid'>$row[0]</span>
         <br><span class='plnm'>$row[1] $row[2]</span></p>";
-        if ($row[3] === $loggedinplayer) {
-          //
-        }
       }
     } else {
       echo "<p style='color: red'>";
@@ -122,7 +119,6 @@ function showPlayers($conn) {
         });
         $('.gbrow').mousedown(function() {
           $('#boxid').val($(this).children('.gbid').text());
-//        selectGameBox($(this).children('.gbid').text());
         });
         $("#newgame").submit(function() {
           newgame();

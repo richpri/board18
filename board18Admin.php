@@ -7,12 +7,25 @@
 require_once('php/auth.php');
 require_once('php/config.php');
 
+//Function to sanitize values received from POST. 
+//Prevents SQL injection
+function clean( $conn, $str ) {
+  $str = @trim($str);
+  return mysqli_real_escape_string( $conn, $str );
+}
+
 $link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 $open = '';
 if (!$link) {
   error_log('Failed to connect to server: ' . mysqli_connect_error());
   $open = 'fail';
   exit;
+}
+
+//Sanitize the dogame value
+$dogame = 'no';
+if (isset($_REQUEST['dogame'])) {
+    $dogame = clean( $link, $_REQUEST['dogame']);
 }
 
 //Create query
@@ -67,7 +80,15 @@ if ($result) {
         if (<?php echo "$changeit"; ?> === 1) {
           $('#passwd form').show();
         } else {
-          $('#admin form').show();
+          if ('<?php echo "$dogame"; ?>' !== 'no')  {
+            $('#players form').show();
+            $('#players table').show();
+            var curgame = <?php echo "$dogame"; ?>;
+            var gameString = 'gameID=' + curgame;
+            $.post("php/gamePlayers.php", gameString, gamePlayersResult);
+          } else {
+            $('#admin form').show();
+          }
         } // end changeit
         $("#passwd").submit(function() {
           forceChange('<?php echo $passwd; ?>');
@@ -92,6 +113,11 @@ if ($result) {
           window.location = "board18Main.php";
           return false;
         }); // end button4 click
+        $("#button6").click(function() {
+          window.location = "board18Main.php";
+          return false;
+        }); // end button6 click
+       
       }); // end ready
     </script>
   </head>
@@ -212,9 +238,46 @@ if ($result) {
             </fieldset>
           </form>
         </div>
+        
+        <div id="players">
+          <table id='playerlist'> 
+            <caption>Players in game:<br></caption>
+            <tr>
+              <th>ID</th> <th>Login</th> 
+              <th>First Name</th> <th>Last Name</th>
+            </tr>
+          </table>
+          <form name="player" class="hideform" action="">
+            <fieldset>
+              <p style="font-size: 110%">
+                Enter ID of player to remove from game.
+              </p>
+              <p>
+                <label for="pname3">Enter Player ID:</label>
+                <input type="text" name="pname3" id="pname3">
+                <label class="error" for="pname3" id="pname3_error">
+                  This field is required.</label>
+              </p>
+              <p style="font-size: 110%">
+                Enter ID of player to add to game.
+              </p>
+              <p>
+                <label for="pname4">Enter Player ID:</label>
+                <input type="text" name="pname4" id="pname4">
+                <label class="error" for="pname4" id="pname4_error">
+                  This field is required.</label>
+              </p>
+              <p>
+                <input type="submit" name="playerbutton" class="pwbutton"  
+                       id="button5" value="Submit" >
+                <input type="button" name="canbutton" class="pwbutton"  
+                       id="button6" value="Exit" >
+              </p>
+            </fieldset>
+          </form>
+        </div>        
 
       </div> 
     </div>  
   </body>
 </html>
-
