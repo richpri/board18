@@ -1,5 +1,8 @@
 <?php
 /*
+ * The market page consists of the page header, the stock  
+ * market and the left sidebar containing the token trays.
+ * 
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */

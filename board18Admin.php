@@ -1,5 +1,9 @@
 <?php
 /*
+ * The board18Admin.php page can be used to change the player's 
+ * first name, last name, email address or password.  
+ * It also has a special form to handle forced password changes.
+ * 
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
@@ -100,6 +104,10 @@ if ($result) {
           administrate('<?php echo $passwd; ?>');
           return false;
         }); // end admin
+        $("#playerform").submit(function() {
+          changePlayer(<?php echo $login; ?>);
+          return false;
+        }); // end players
         $("#button2").click(function() {
           $('.error').hide();
           $('#admin form #pname').val('<?php echo $login; ?>');
@@ -264,7 +272,7 @@ if ($result) {
                 <label for="pname3">Enter Player login:</label>
                 <input type="text" name="pname3" id="pname3">
                 <label class="error" for="pname3" id="pname3_error">
-                  This field is required.</label>
+                  Press submit again to remove yourself.</label>
               </p>
               <p style="font-size: 110%">
                 Enter login of player to add to game.
@@ -273,7 +281,7 @@ if ($result) {
                 <label for="pname4">Enter Player login:</label>
                 <input type="text" name="pname4" id="pname4">
                 <label class="error" for="pname4" id="pname4_error">
-                  This field is required.</label>
+                  No player action selected.</label>
               </p>
               <p>
                 <input type="submit" name="playerbutton" class="pwbutton"  

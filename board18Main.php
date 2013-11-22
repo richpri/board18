@@ -3,6 +3,12 @@ require_once('php/auth.php');
 ?>
 <!doctype html>
 <!--
+The board18Main.php page displays a list of the logged in player's active
+games. The player can select any of the listed games to start a game 
+session in that game or to link to the board18Misc page where miscellaneous
+service actions can be performed for that game. He can also select
+a link to the board18New page if he wishes to start a new game.
+
 Copyright (c) 2013 Richard E. Price under the The MIT License.
 A copy of this license can be found in the LICENSE.text file.
 -->

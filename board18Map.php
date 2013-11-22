@@ -1,11 +1,15 @@
 <?php
-
-require_once('php/auth.php');
-require_once('php/config.php');
 /*
+ * The map page consists of the page header, the game board (on the right) 
+ * and the left sidebar containing the tile and token trays.
+ * 
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
+
+require_once('php/auth.php');
+require_once('php/config.php'); 
+
 //Function to sanitize values received from POST. 
 //Prevents SQL injection
 function clean( $conn, $str ) {

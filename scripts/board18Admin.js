@@ -1,3 +1,9 @@
+/* All BD18 global variables are contained in one
+ * 'master variable' called BD18.  This isolates 
+ * them from global variables in other packages. 
+ */
+BD18.self = 0;
+
 /* 
  * Function forceResult is the callback function 
  * for the ajax forcePasswd call. 
@@ -105,7 +111,7 @@ function adminResult(response) {
  * Function administrate is called by the on-click
  * method of the administrate submit button. 
  * It checks the input for missing fields and
- * does an ajax call to updateuser.php. 
+ * does an ajax call to updateUser.php. 
  */
 function administrate(currpw) {
   $('.error').hide();
@@ -187,3 +193,39 @@ function gamePlayersResult(response) {
     alert(nerrmsg);
   }
 } // end of gamePlayersResult
+
+/* 
+ * Function changePlayer is called by the on-
+ * click method of the players submit button. 
+ * It sets mode based on missing fields and
+ * does an ajax call to gamePlayers.php. 
+ */
+function changePlayer(login) {
+  $('.error').hide();
+  var mode = 0;
+  var prem = $("input#pname3").val();
+  if (prem !== "") {
+    if (prem === login) {
+      if (BD18.self === 0) {
+        $("#pname3_error").show();
+        $("#pname3").focus();
+        BD18.self = 1;
+        return false;
+      }
+    }
+    mode += 1;
+  }
+  var padd = $("input#pname4").val();
+  if (prem !== "") {
+    mode += 2;
+  } else {
+    $("#pname4_error").show();
+    $("#pname4").focus();
+    return false;
+  }
+  var cString = 'mode=' + mode.toString();
+  cString += '&prem=' + prem + '&padd=' + padd;
+  alert(cString);
+  // $.post("php/gamePlayers.php", cString, gamePlayersResult);
+  return false;
+}

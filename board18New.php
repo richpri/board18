@@ -1,5 +1,9 @@
 <?php
 /*
+ * The board18New.php page contains a form that can be used to create 
+ * a new BOARD18 game session. It displays a list of the available game
+ * boxes and a list of the available players as aids to filling out the form. 
+ * 
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
