@@ -1,7 +1,10 @@
 /* 
  * The board18Map3 file contains tile and token manipulation
  * functions. These functions manipulate obects on the map board.
- */ 
+ *
+ * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
+ */
 
 /* Function logoutOK is the callback function for the ajax
  * lgout call. 

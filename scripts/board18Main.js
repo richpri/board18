@@ -34,7 +34,7 @@ function listReturn(response) {
       gameHTML += listInfo.bname + '</td> <td>';
       gameHTML += listInfo.version + '</td> <td>';
       gameHTML += listInfo.start_date + '</td> <td>';
-      gameHTML += '<a href="board18Admin.php?dogame=';
+      gameHTML += '<a href="board18Misc.php?dogame=';
       gameHTML += listInfo.game_id + '"><button type="button">';
       gameHTML += 'Edit</button></a> </td> </tr>';
     }); // end of each

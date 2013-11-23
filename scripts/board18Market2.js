@@ -1,4 +1,9 @@
-/* The board18Market2 file contains startup functions */
+/* 
+ * The board18Market2 file contains startup functions 
+ * 
+ * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
+ */
 
 /* Function makeTrays() initializes all of the tray objects.
  * It calls the TokenSheet constructor for each mtok sheet.   

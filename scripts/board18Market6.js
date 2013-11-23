@@ -4,6 +4,9 @@
  * Market page and on the main and tray menues.  But right click 
  * events that cause a context menu to be displayed are handled
  * by functions in the board18Market5.js file.
+ *
+ * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
  */
 
 /* The registerMainMenu function creates the main menu on the 

@@ -1,6 +1,12 @@
-/* The board18Map2 file contains startup functions */
+/*
+ * The board18Map2 file contains startup functions 
+ *
+ * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
+ */
 
-/* Function makeTrays() initializes all of the tray objects.
+/* 
+ * Function makeTrays() initializes all of the tray objects.
  * It calls the TileSheet constructor for each tile sheet.  
  * It calls the TokenSheet constructor for each token sheet.   
  * It also adds the trayNumb to each new tray object.

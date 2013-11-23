@@ -1,6 +1,9 @@
 /* 
  * board18Market7.js contains all the functions that
  * implement the keyboard shortcut events.
+ *
+ * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
  */
 
 /* 

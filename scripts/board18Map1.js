@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
+ */
+
 "use strict";
 
 /* All BD18 global variables are contained in one

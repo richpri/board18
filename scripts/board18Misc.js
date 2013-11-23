@@ -4,6 +4,13 @@
  */
 
 /* 
+ * All BD18 global variables are contained in one
+ * 'master variable' called BD18.  This isolates 
+ * them from global variables in other packages. 
+ */
+BD18.self = 0;
+
+/* 
  * Function forceResult is the callback function 
  * for the ajax forcePasswd call. 
  */
@@ -152,5 +159,79 @@ function administrate(currpw) {
     aString += '&passwd=' + hash;
   }
   $.post("php/updateUser.php", aString, adminResult);
+  return false;
+}
+
+/* Function gamePlayersResult is the success callback function for 
+ * the ajax myGameList.php call. It appends a list of players for
+ * the requested game to the table in board18Admin.php.
+ */
+function gamePlayersResult(response) {
+  if (response.indexOf("<!doctype html>") !== -1) { // User has timed out.
+    window.location = "access-denied.html";
+  }
+  var resp = jQuery.parseJSON(response);
+  if (resp.stat === 'success') {
+    $('#playerlist caption').append(resp.game);
+    var playerHTML ='';
+    $.each(resp.players,function(index,listInfo) {
+      playerHTML += '<tr class="playerrow"> <td class="login">';
+      playerHTML += listInfo.login + '</td> <td>';
+      playerHTML += listInfo.firstname + '</td> <td>';
+      playerHTML += listInfo.lastname + '</td> </tr>';
+    }); // end of each
+    $('#playerlist').append(playerHTML);
+    $('.playerrow').mousedown(function() {
+      $('#pname3').val($(this).children('.login').text());
+    }); // end playerrow mousedown 
+  } else if (resp.stat === 'none') {
+    var errmsgn = 'Can not find any players for ' + resp.game;
+    errmsgn += '.\nThis should definately not happen!\n';
+    errmsgn += 'Please contact the BOARD18 webmaster.';
+    alert(errmsgn);
+  } else if (resp.stat === 'fail') {
+    var errmsg1 = 'Program error in gamePlayers.php.\n';
+    errmsg1 += 'Please contact the BOARD18 webmaster.';
+    alert(errmsg1);
+  } else {  // Something is definitly wrong in the code.
+    var nerrmsg = 'Invalid return code from gamePlayers.php.\n';
+    nerrmsg += response + '\nPlease contact the BOARD18 webmaster.';
+    alert(nerrmsg);
+  }
+} // end of gamePlayersResult
+
+/* 
+ * Function changePlayer is called by the on-
+ * click method of the players submit button. 
+ * It sets mode based on missing fields and
+ * does an ajax call to gamePlayers.php. 
+ */
+function changePlayer(login) {
+  $('.error').hide();
+  var mode = 0;
+  var prem = $("input#pname3").val();
+  if (prem !== "") {
+    if (prem === login) {
+      if (BD18.self === 0) {
+        $("#pname3_error").show();
+        $("#pname3").focus();
+        BD18.self = 1;
+        return false;
+      }
+    }
+    mode += 1;
+  }
+  var padd = $("input#pname4").val();
+  if (prem !== "") {
+    mode += 2;
+  } else {
+    $("#pname4_error").show();
+    $("#pname4").focus();
+    return false;
+  }
+  var cString = 'mode=' + mode.toString();
+  cString += '&prem=' + prem + '&padd=' + padd;
+  alert(cString);
+  // $.post("php/gamePlayers.php", cString, gamePlayersResult);
   return false;
 }

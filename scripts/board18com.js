@@ -1,6 +1,9 @@
 /* 
  * This file contains scripts that are common to 
  * all board18 web pages.
+ *
+ * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
  */
 
 /* All board18 global variables are contained in one

@@ -1,6 +1,9 @@
 /* 
  * The board18Market3 file contains token manipulation functions. 
  * These functions manipulate tokens on the stock market chart.
+ *
+ * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
  */
 
 /* Function logoutOK is the callback function for the ajax

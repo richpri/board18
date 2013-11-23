@@ -2,6 +2,9 @@
  * board18Map4.js contains all the functions that
  * implement the multi token selection logic for
  * cases where more than one token is on the same hex.
+ *
+ * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
  */
 
 /* The selectToken function uses the  BD18.hexList.tokens

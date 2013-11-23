@@ -1,26 +1,29 @@
 <?php
 /*
- * The board18Admin.php page can be used to change the player's 
- * first name, last name, email address or password.  
- * It also has a special form to handle forced password changes.
+ * The board18Misc.php page can be used to perform miscellaneous 
+ * service actions on an in progress game session. 
  * 
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
 
 require_once('php/auth.php');
-require_once('php/config.php');
+require_once('php/makeTables.php');
 
-// Connect to database.
-$theLink = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
-$open = '';
-if (!$theLink) {
-  error_log('Failed to connect to database: ' . mysqli_connect_error());
-  $open = 'fail';
-  exit;
+//Function to sanitize values received from POST. 
+//Prevents SQL injection
+function clean( $conn, $str ) {
+  $str = @trim($str);
+  return mysqli_real_escape_string( $conn, $str );
 }
 
-// Get information about the logged in player.
+//Sanitize the dogame value
+$dogame = 'no';
+if (isset($_REQUEST['dogame'])) {
+    $dogame = clean( $theLink, $_REQUEST['dogame']);
+}
+
+//Create query
 $qry = "SELECT * FROM players WHERE player_id='$loggedinplayer'";
 
 $result = mysqli_query($theLink, $qry);
@@ -52,14 +55,14 @@ if ($result) {
     <title>BOARD18 - Remote Play Tool For 18xx Style Games</title>
     <link rel="shortcut icon" href="images/favicon.ico" >
     <link rel="stylesheet" href="style/board18com.css" />
-    <link rel="stylesheet" href="style/board18Admin.css" />
+    <link rel="stylesheet" href="style/board18Misc.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
     <script type="text/javascript" src="scripts/sha256-min.js">
     </script>
     <script type="text/javascript" src="scripts/board18com.js">
     </script>
-    <script type="text/javascript" src="scripts/board18Admin.js">
+    <script type="text/javascript" src="scripts/board18Misc.js">
     </script>
     <script type="text/javascript" >
       $(function() {
@@ -72,7 +75,25 @@ if ($result) {
         if (<?php echo "$changeit"; ?> === 1) {
           $('#passwd form').show();
         } else {
-          $('#admin form').show();
+          if ('<?php echo "$dogame"; ?>' !== 'no')  {
+            $('#players form').show();
+            $('#players table').show();
+            $('.plnm').hide();
+            $('.plall').mouseover(function() {
+              $(this).children('.plnm').show();
+            });
+            $('.plall').mouseout(function() {
+              $(this).children('.plnm').hide();
+            });
+            $('.plall').mousedown(function() {
+              $('#pname4').val($(this).children('.plid').text());
+            });
+            var curgame = <?php echo "$dogame"; ?>;
+            var gameString = 'gameID=' + curgame;
+            $.post("php/gamePlayers.php", gameString, gamePlayersResult);
+          } else {
+            $('#admin form').show();
+          }
         } // end changeit
         $("#passwd").submit(function() {
           forceChange('<?php echo $passwd; ?>');
@@ -82,6 +103,10 @@ if ($result) {
           administrate('<?php echo $passwd; ?>');
           return false;
         }); // end admin
+        $("#playerform").submit(function() {
+          changePlayer(<?php echo $login; ?>);
+          return false;
+        }); // end players
         $("#button2").click(function() {
           $('.error').hide();
           $('#admin form #pname').val('<?php echo $login; ?>');
@@ -97,6 +122,11 @@ if ($result) {
           window.location = "board18Main.php";
           return false;
         }); // end button4 click
+        $("#button6").click(function() {
+          window.location = "board18Main.php";
+          return false;
+        }); // end button6 click
+       
       }); // end ready
     </script>
   </head>
@@ -120,6 +150,13 @@ if ($result) {
     </div>
 
     <div id="leftofpage">
+<?php
+  if ($dogame != 'no') {
+    echo "<div id='sidebar'>";
+    showPlayers($theLink);
+    echo "</div>";
+  }
+?>
     </div>
 
     <div id="rightofpage"> 
@@ -216,7 +253,45 @@ if ($result) {
               </p>
             </fieldset>
           </form>
-        </div>      
+        </div>
+        
+        <div id="players">
+          <table id='playerlist'> 
+            <caption>Players in game:<br></caption>
+            <tr>
+              <th>Login</th><th>First Name</th><th>Last Name</th>
+            </tr>
+          </table>
+          <form name="player" class="hideform" id="playerform" action="">
+            <fieldset>
+              <p style="font-size: 110%">
+                Enter login of player to remove from game.
+              </p>
+              <p>
+                <label for="pname3">Enter Player login:</label>
+                <input type="text" name="pname3" id="pname3">
+                <label class="error" for="pname3" id="pname3_error">
+                  Press submit again to remove yourself.</label>
+              </p>
+              <p style="font-size: 110%">
+                Enter login of player to add to game.
+              </p>
+              <p>
+                <label for="pname4">Enter Player login:</label>
+                <input type="text" name="pname4" id="pname4">
+                <label class="error" for="pname4" id="pname4_error">
+                  No player action selected.</label>
+              </p>
+              <p>
+                <input type="submit" name="playerbutton" class="pwbutton"  
+                       id="button5" value="Submit" >
+                <input type="button" name="canbutton" class="pwbutton"  
+                       id="button6" value="Exit" >
+              </p>
+            </fieldset>
+          </form>
+        </div>        
+
       </div> 
     </div>  
   </body>

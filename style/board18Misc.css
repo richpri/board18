@@ -1,12 +1,10 @@
 /* 
- *  Document   : board18Admin
- *  Created on : Oct 17, 2013, 10:52:03 AM
- *  Author     : rich
- *  Description: CSS Document for board18Admin page.
- *
- * Copyright (c) 2013 Richard E. Price under the The MIT License.
- * A copy of this license can be found in the LICENSE.text file.
- */
+    Document   : board18Admin
+    Created on : Oct 17, 2013, 10:52:03 AM
+    Author     : rich
+    Description:
+        CSS Document for board18Admin page.
+*/
 
 #sidebar {
   width:120px;
@@ -14,6 +12,12 @@
   background-color:#ddffdd;
   left:0px;
   top:0px; 
+}
+
+.plid {
+	width: 115px;
+  margin-left: 5px;
+  text-indent: 10px;
 }
 
 #passwd {
@@ -38,6 +42,39 @@
 	top: 6px;
 	z-index: 30;
 }
+#players {
+	width: 420px;
+	position: absolute;
+	left: 150px;
+	top: 6px;
+	z-index: 40;
+}
+
+#playerlist {
+  display: none;
+  margin: 10px;
+  margin-left: 90px;
+  border: 2px solid black;
+  background-color:#ddffdd; 
+  border-collapse:collapse;
+}
+
+#playerlist td {
+  border: 1px solid black;
+}
+
+#playerlist tr {
+  border: 1px solid black;
+}
+
+#playerlist th {
+  border: 1px solid black;
+}
+
+#playerlist caption {
+  margin: 5px;
+  font-weight: bold;
+}
 
 .hideform {
   margin-bottom: 10px;
@@ -48,7 +85,7 @@
 }
 .hideform label {
 	display: inline-block;
-	width: 200px;
+	width: 150px;
 	margin: 0 15px 0 0;
 	color: rgb(58,80,123);
 }
