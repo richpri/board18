@@ -28,7 +28,7 @@ function forceResult(response) {
   }
   else { // Something is definitly wrong in the code.
     var nerrmsg ='Invalid return code from forcePasswd.php.\n';
-    nerrmsg += response + 'Please contact the BOARD18 webmaster.';
+    nerrmsg += response + '\nPlease contact the BOARD18 webmaster.';
     alert(nerrmsg);
   }
 }
@@ -101,7 +101,7 @@ function adminResult(response) {
   }
   else { // Something is definitly wrong in the code.
     var nerrmsg ='Invalid return code from updateUser.php.\n';
-    nerrmsg += response + 'Please contact the BOARD18 webmaster.';
+    nerrmsg += response + '\nPlease contact the BOARD18 webmaster.';
     alert(nerrmsg);
   }
 }

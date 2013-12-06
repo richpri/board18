@@ -9,7 +9,7 @@
  * 
  * showBoxes($conn) - create a table of all game boxes in database.
  * showPlayers($conn) - create a table of all players in database.
- * 
+ * gamePlayers($gameid, $conn) - create a table of players in game.
  * 
  * The makeTables.php file initializes these variables:
  *
@@ -77,6 +77,45 @@ function showPlayers($conn) {
     error_log('Show players: select call failed.');
     $open = 'fail';
     exit;
+  }
+}
+
+function gamePlayers($gameid, $conn) {
+  $qry0 = "SELECT gname FROM game WHERE game_id='$gameid'";
+  $result0 = mysqli_query($conn,$qry0);
+  if (!$result0 || (mysqli_num_rows($result0) !== 1)) { 
+    $logMessage = 'Failed to find name for game' . mysqli_error($conn);
+    error_log($logMessage);
+    $open = 'fail';
+    exit;
+  } else {
+    $rowg = mysqli_fetch_array($result0);
+    $gname =  $rowg[0];
+  }
+
+  $qry1 = "SELECT a.player_id, b.login, b.firstname, b.lastname
+            FROM game_player AS a 
+              JOIN (players AS b)
+                ON (a.game_id = $gameid
+                    AND a.player_id = b.player_id)
+            ORDER BY a.player_id";
+  $result1 = mysqli_query($conn,$qry1);
+  if ($result1) {
+    if (mysqli_num_rows($result1) === 0) { // no players.
+      error_log('Failed to find any players for game ' . $gname);
+      $open = 'fail';
+    } else {
+      echo "<caption>List of players in<br>$gname</caption> <tr>
+      <tr><th>Login</th><th>First Name</th><th>Last Name</th></tr>";
+      while ($row = mysqli_fetch_array($result1)) {
+        echo "<tr class='playerrow'> <td class='login'>$row[1]</td> 
+          <td>$row[2]</td> <td>$row[3]</td> </tr>";
+      }
+    }
+  } else {
+    $logMessage = 'Error on SELECT query: ' . mysqli_error($conn);
+    error_log($logMessage);
+    $open = 'fail';
   }
 }
 ?>

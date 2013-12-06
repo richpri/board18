@@ -1,10 +1,12 @@
 /* 
-    Document   : board18Admin
-    Created on : Oct 17, 2013, 10:52:03 AM
-    Author     : rich
-    Description:
-        CSS Document for board18Admin page.
-*/
+ *  Document   : board18Misc
+ *  Created on : Nov. 23, 2013
+ *  Author     : rich
+ *  Description: CSS Document for board18Misc page.
+ *
+ * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
+ */
 
 #sidebar {
   width:120px;
@@ -20,28 +22,6 @@
   text-indent: 10px;
 }
 
-#passwd {
-	width: 300px;
-	position: absolute;
-	left: 150px;
-	top: 8px;
-	z-index: 10;
-}
-
-#admin {
-	width: 500px;
-	position: absolute;
-	left: 150px;
-	top: 6px;
-	z-index: 20;
-}
-#lostid {
-	width: 300px;
-	position: absolute;
-	left: 150px;
-	top: 6px;
-	z-index: 30;
-}
 #players {
 	width: 420px;
 	position: absolute;
@@ -51,7 +31,6 @@
 }
 
 #playerlist {
-  display: none;
   margin: 10px;
   margin-left: 90px;
   border: 2px solid black;
@@ -76,20 +55,18 @@
   font-weight: bold;
 }
 
-.hideform {
+#playerform {
   margin-bottom: 10px;
 	padding: 10px 10px 10px 10px;
   border-style: double;
-	display: none;	
 	background-color:#ddffdd;
 }
-.hideform label {
+#playerform label {
 	display: inline-block;
-	width: 150px;
+  font-weight: bold;
 	margin: 0 15px 0 0;
-	color: rgb(58,80,123);
 }
-.hideform input {
+#playerform input {
 	font-size: 14px;
 /*  width: 60px; */
 }

@@ -177,7 +177,7 @@ if ($result) {
               <p>
                 <input type="submit" name="adminbutton" class="pwbutton"  
                        id="button1" value="Submit" >
-                <input type="button" name="canbutton" class="pwbutton"  
+                <input type="button" name="resbutton" class="pwbutton"  
                        id="button2" value="Reset Form" >
                 <input type="button" name="canbutton" class="pwbutton"  
                        id="button4" value="Exit" >
