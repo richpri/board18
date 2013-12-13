@@ -58,6 +58,32 @@ function makeNewGame(name, boxid, players, player) {
 }
 
 /* 
+ * Function emailPlayerResult is the call back function for the
+ * ajax calls to emailPlayerAdd.php. It only needs to check for
+ * errors and it only needs to report the first error.
+ * 
+ * Output from emailPlayerAdd.php is an echo return status:
+ *   "success" - Email sent.
+ *   "fail"    - Uexpected error - No email sent.
+ */
+function emailPlayerResult(result) {
+  if (response === 'fail') {
+    if (BD18.mailError === false) {
+      var errmsg = 'Send email to player failed.\n';
+      errmsg += 'Please contact the BOARD18 webmaster.';
+      alert(errmsg);
+      BD18.mailError = true;
+    }
+  }
+  else if (response !== 'success') { 
+    // Something is definitly wrong in the code.
+    var nerrmsg ='Invalid return code from emailPlayers.php.\n';
+    nerrmsg += response + '\nPlease contact the BOARD18 webmaster.';
+    alert(nerrmsg);
+  }
+}
+
+/* 
  * Function newgameOK is the callback function for the ajax
  * newgame call. 
  */
@@ -75,15 +101,21 @@ function newgameOK(response) {
   } else if (response === "success") {
     $('#newgame .error').hide();
     $('#newgame :text').val('');
-    var loginNote ='New game has been created.';
-    $('#lognote').text(loginNote);
+    // Send an email notification to each player in the game.
+    var cString;
+    BD18.mailError = false;
+    for (var i = 0; i < BD18.playerCount; i++) {
+        cString = 'game=' + BD18.name + '&login=' + BD18.player[i];
+        $.post("php/emailPlayerAdd.php", cString, emailPlayerResult);
+    }
+    window.location.reload(true);
   } else if (response === "fail") {
     var ferrmsg ='New game was not created due to an error.\n';
     ferrmsg += 'Please contact the BOARD18 webmaster.';
     alert(ferrmsg);
   } else { // Something is definitly wrong in the code.
     var nerrmsg ='Invalid return code from createGame.php.\n';
-    nerrmsg += response + 'Please contact the BOARD18 webmaster.';
+    nerrmsg += response + '\nPlease contact the BOARD18 webmaster.';
     alert(nerrmsg);
   }
 }

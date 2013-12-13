@@ -47,7 +47,7 @@ $padd = clean($link, $_REQUEST['padd']);
 
 // If add request then get player id of player to be added to game
 if ($mode === '2' || $mode === '3') {  
-  $qry1 = "SELECT player_id FROM players WHERE login = $padd";
+  $qry1 = "SELECT player_id FROM players WHERE login = '$padd'";
   $result1 = mysqli_query($link, $qry1);
   if (!$result1) { 
     $logMessage = 'Error on SELECT player query: ' . mysqli_error($link);
@@ -64,7 +64,7 @@ if ($mode === '2' || $mode === '3') {
   $rowr = mysqli_fetch_array($result1);
   $paddid = $rowr[0]; //  Player ID of player to be added.
 
-  $qry2 = "SELECT * FROM game_player WHERE player_id = $paddid)";
+  $qry2 = "SELECT * FROM game_player WHERE player_id = $paddid";
   $result2 = mysqli_query($link, $qry2);
   if (!$result2) {
     $logMessage = 'Error on SELECT game_player query: ' . 
@@ -88,7 +88,7 @@ if ($mode === '2' || $mode === '3') {
   }
   
   $qry4 = "INSERT INTO game_player
-           SET game_id = $game, player_id =  $paddid";
+           SET game_id = '$game', player_id =  $paddid";
   if (!mysqli_query($link, $qry4)) {
     $logMessage = 'Error on INSERT query: ' . mysqli_error($link);
     error_log($logMessage);
@@ -103,7 +103,7 @@ if ($mode === '1' || $mode === '3') {
   $qry5 = "SELECT b.player_id
           FROM players AS a 
             JOIN (game_player AS b)
-              ON (a.login = $prem
+              ON (a.login = '$prem'
                 AND b.game_id = $game
                 AND a.player_id = b.player_id)";
   $result5 = mysqli_query($link, $qry5);
@@ -133,4 +133,18 @@ if ($mode === '1' || $mode === '3') {
 $qry7 = "COMMIT";
 echo "success";
 mysqli_query($link, $qry7); // COMMIT
+switch ($mode) {
+  case '1':
+    $_SESSION['SESS_HEADER_MESSAGE'] = 
+      'Player has been successfully removed.';
+    break;
+  case '2':
+    $_SESSION['SESS_HEADER_MESSAGE'] = 
+      'Player has been successfully added.';
+    break;
+  case '3':
+    $_SESSION['SESS_HEADER_MESSAGE'] = 
+      'Player has been successfully replaced.';
+    break;
+}
 ?>

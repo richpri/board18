@@ -4,7 +4,7 @@
  * 
  * Input is the following JSON data structure.
  * {
- *  "gname": "name",
+ *   "gname": "name",
  *   "boxid": "boxid",
  *   "players": [
  *     "pname0",
@@ -151,5 +151,7 @@ for ($i = 0; $i < $count; $i++) {
 }
 $qry8 = "COMMIT";
 echo "success";
+$_SESSION['SESS_HEADER_MESSAGE'] = 
+   'New game has been created.';
 mysqli_query($link, $qry8); // COMMIT
 ?>

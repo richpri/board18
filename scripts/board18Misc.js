@@ -18,12 +18,12 @@ BD18.self = 0;
  *   "success" - Email sent.
  *   "fail"    - Uexpected error - No email sent.
  */
-function emailPlayerResult(result) {
+function emailPlayerResult(response) {
   if (response === 'success') {
     if (BD18.pcount === 2) {
       BD18.pcount = 1;
     } else {
-      window.location = "board18Misc.php";
+      window.location.reload(true);
     }
   }
   else if (response === 'fail') {
@@ -47,27 +47,23 @@ function emailPlayerResult(result) {
  *   "fail"    - Uexpected error - No changes have been made.
  *   "dupadd"  - Add ID is duplicate - No changes have been made.
  */
-function changePlayerResult(result) {
+function changePlayerResult(response) {
   if (response.indexOf("<!doctype html>") !== -1) { // User has timed out.
     window.location = "access-denied.html";
   }
   else if (response === 'success') {
-    var changeNote;
     var cString;
     BD18.pcount = 1;
     switch(BD18.mode) {
       case 1:
-        changeNote = 'Player has been successfully removed.';
         cString = 'game=' + BD18.gname + '&login=' + BD18.prem;
         $.post("php/emailPlayerRem.php", cString, emailPlayerResult);
         break;
       case 2:
-        changeNote = 'Player has been successfully added.';
         cString = 'game=' + BD18.gname + '&login=' + BD18.padd;
         $.post("php/emailPlayerAdd.php", cString, emailPlayerResult);     
         break;
       case 3:
-        changeNote = 'Player has been successfully replaced.';
         cString = 'game=' + BD18.gname + '&login=' + BD18.padd;
         $.post("php/emailPlayerAdd.php", cString, emailPlayerResult);
         cString = 'game=' + BD18.gname + '&login=' + BD18.prem;

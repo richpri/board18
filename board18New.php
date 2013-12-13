@@ -73,6 +73,10 @@ if ($result) {
           newgame();
           return false;
         }); // end newgame
+        $('#button2').click(function() {
+          window.location = "board18Main.php";
+          return false;
+        }); // end button2 click
 //      Make this player be player 1 in the new game.
         addPlayer('<?php echo "$login"; ?>'); 
       }); // end ready
@@ -174,6 +178,8 @@ if ($result) {
                        id="button1" value="Submit" >
                 <label class="error" for="button1" id="signon_error">
                   Duplicate Game Name.</label>
+                <input type="button" name="canbutton" class="pwbutton"  
+                       id="button2" value="Exit" >
               </p>
             </fieldset>
           </form>
