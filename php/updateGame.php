@@ -2,7 +2,11 @@
 /*
  * updateGame.php is the server side code for the 
  * AJAX updateGame call.
+ * 
+ * It loads game status updates into the database.
+ * 
  * Input is the JSON game session data and the gameID.
+ * 
  * Output will be "success", "failure" or "collision".
  * 
  * The SESS_UPDATE_COUNTER session variable is used

@@ -1,7 +1,11 @@
 <?php
 /*
  * This is the server side code for the AJAX gameBox call.
+ * 
+ * It returns a game box in JSON format.
+ * 
  * Input is the game box id.
+ * 
  * Output is JSON game box data.
  */
 

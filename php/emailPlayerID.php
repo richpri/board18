@@ -3,6 +3,16 @@
  * emailPlayerID.php is the server side code for the 
  * AJAX emailPlayerID call.
  * 
+ * It creates a text email to remind a player (that
+ * has forgotten) of his player ID. If the email
+ * creation is successful it then calls sendEmail.php
+ * and exits. This leaves it to sendEmail to return the
+ * final 'success" status. 
+ * 
+ * Input consists the "email" parameter.
+ * 
+ * Output, if any, is the echo return status "fail" or "bademail". 
+ *
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */

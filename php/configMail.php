@@ -1,7 +1,7 @@
 <?php
 /*
- * configMail.php is included at the start of all pages and php routines
- * that send SMTP email via PHPMailer.  Modify MAIL_HOST, MAIL_PORT,
+ * configMail.php is included at the start of sendEmail.php which
+ * sends SMTP emails via PHPMailer.  Modify MAIL_HOST, MAIL_PORT,
  * MAIL_USER and MAIL_PASS to the values appropriate for your Email server.
  */
 	define('MAIL_HOST', 'mail.gandalf.ws');

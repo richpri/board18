@@ -1,7 +1,9 @@
 <?php
 /*
  * updateUser.php is the server side code for the 
- * AJAX updateUser call.
+ * AJAX updateUser call. 
+ * 
+ * It updates a row in the players table.
  * 
  * Input consists the following parameters:
  *   pname
@@ -11,7 +13,8 @@
  *   passwrd
  * But note that the passwrd parameter is optional.
  * 
- * Output will be "success", "fail" or an edit failure code.
+ * Output is the echo return status: 
+ *   "success", "fail", "bademail" or "email xxxx". 
  * 
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.

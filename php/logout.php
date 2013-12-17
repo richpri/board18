@@ -1,5 +1,14 @@
 <?php
 /*
+ * logout.php is the server side code for the AJAX logout call.
+ * 
+ * It will unset all of the session variables, delete the session 
+ * cookie and finally, destroy the session.
+ * 
+ * There are no input parameters.
+ * 
+ * Output will always be "success".
+ * 
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */

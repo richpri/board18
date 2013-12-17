@@ -5,7 +5,7 @@ require_once('configMail.php');
 
 // the sendEmail() function uses SMTP to send plain text emails.
 // Use configMail.php to specify the server and server access 
-// information. You can use the SMTP server provided by your
+// information. You should use the SMTP server provided by your
 // ISP or your hosting service for these Emails.
 function sendEmail($email, $subject, $body) {
   $mailObj = new PHPMailer;

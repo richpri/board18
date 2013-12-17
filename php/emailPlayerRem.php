@@ -1,8 +1,19 @@
 <?php
 /*
  * emailPlayerRem.php is the server side code for the 
- * AJAX emailPlayerRem call.
+ * AJAX emailPlayerRem call. 
+ * It creates a text email to notify a player
+ * that has been removed from a game. If the email
+ * creation is successful it then calls sendEmail.php
+ * and exits. This leaves it to sendEmail to return the
+ * final 'success" status. 
  * 
+ * Input consists the following parameters:
+ *   login
+ *   game
+ * 
+ * Output, if any, is the echo return status "fail". 
+ *
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */

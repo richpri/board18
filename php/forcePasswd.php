@@ -3,6 +3,8 @@
  * forcePasswd.php is the server side code for the 
  * AJAX forcePasswd call.
  * 
+ * It will process a forced password change.
+ * 
  * Input consists the following parameters:
  *   player
  *   passwd

@@ -3,6 +3,9 @@
  * validateUser.php is the server side code for the 
  * AJAX validateUser call. 
  * 
+ * It checks the current players login and password and, 
+ * if they are valid, it logs the current player in to BOARD18.
+ * 
  * Input consists the following parameters:
  *   login
  *   password

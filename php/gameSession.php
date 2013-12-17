@@ -1,13 +1,17 @@
 <?php
-/*
+ /*
  * This is the server side code for the AJAX gameSession call.
+ * 
+ * It returns game activity information in JSON format.
+ * 
  * Input is the game_id.
+ * 
  * Output is JSON game session data.
  * 
- * SESS_UPDATE_COUNTER and is initialized
- * here and used by updateGame.php to support optimistic 
- * database locking. This should stop concurrent updates from
- * messing up the database.
+ * The SESS_UPDATE_COUNTER is initialized here and used by
+ * updateGame.php to support optimistic  database locking.
+ * This should stop concurrent updates from messing up the 
+ * database.
  */
 
 require_once('auth.php');

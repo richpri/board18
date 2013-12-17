@@ -1,6 +1,8 @@
 <?php
 /*
  * This is the server side code for the AJAX createGame call.
+ * It creates a new row in the game table and adds a row in 
+ * the game_player table for each player in the game. 
  * 
  * Input is the following JSON data structure.
  * {
@@ -13,7 +15,7 @@
  *   ] 
  * }
  * 
- * Output is the return status: 
+ * Output is the echo return status: 
  *   "success", "fail", "nobox" or "noplayer #".
  */
 require_once('auth.php');

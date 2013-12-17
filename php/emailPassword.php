@@ -3,11 +3,17 @@
  * emailPassword.php is the server side code for the 
  * AJAX emailPassword call.
  * 
+ * It creates a text email to inform a player of his
+ * new temporary password. If the email
+ * creation is successful it then calls sendEmail.php
+ * and exits. This leaves it to sendEmail to return the
+ * final 'success" status. 
+ * 
  * Input consists the following parameters:
- *   pame
+ *   name
  *   email
  * 
- * Output will be "success", "fail" or an edit failure code.
+ * Output, if any, is the echo return status "fail" or "bademail".
  * 
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.

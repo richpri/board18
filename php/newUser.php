@@ -1,7 +1,19 @@
 <?php
 /*
  * newUser.php is the server side code for the 
- * AJAX newUser call.
+ * AJAX newUser call. It inserts a row in the 
+ * players table to define a new player.
+ * 
+ * Input consists the following parameters:
+ *   fname
+ *   lname
+ *   newuser
+ *   passwrd
+ *   email
+ * 
+ * Output is the echo return status: 
+ *   "success", "fail", "bademail", 
+ *   "email xxxx" or "duplicate". 
  * 
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.

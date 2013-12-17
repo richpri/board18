@@ -2,6 +2,9 @@
 /*
  * This is the server side code for the AJAX myGameList call.
  * 
+ * It produces the data needed to create a list of all games
+ * that the signed in player is playing.
+ * 
  * There are no input parameters.
  *
  * Output is the following stringified JSON data structure. 
