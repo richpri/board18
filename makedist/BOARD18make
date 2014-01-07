@@ -1,0 +1,47 @@
+#!/bin/bash
+source $(dirname $0)/config.sh
+# Create a new distribution of BOARD18
+cd $BD18Root
+rm ~/board18-$versionNo.zip
+rm -r ~/board18-$versionNo
+mkdir ~/board18-$versionNo
+mkdir ~/board18-$versionNo/webroot
+mkdir ~/board18-$versionNo/webroot/images
+mkdir ~/board18-$versionNo/webroot/php 
+mkdir ~/board18-$versionNo/webroot/scripts 
+mkdir ~/board18-$versionNo/webroot/style
+mkdir ~/board18-$versionNo/utility
+mkdir ~/board18-$versionNo/utility/control
+install -p -t ~/board18-$versionNo Documentation/README.txt
+install -p -t ~/board18-$versionNo Documentation/LICENSE.txt
+install -p -t ~/board18-$versionNo Documentation/INSTALL.txt
+install -p -t ~/board18-$versionNo Documentation/ReleaseNotes.txt
+install -p -t ~/board18-$versionNo/webroot *.html *.php
+rm ~/board18-$versionNo/webroot/phpinfo.php
+install -p -t ~/board18-$versionNo/webroot/php php/*.*
+install -p -t ~/board18-$versionNo/webroot/scripts scripts/*.*
+install -p -t ~/board18-$versionNo/webroot/style style/*.*
+install -p -t ~/board18-$versionNo/webroot/images images/*.*
+install -p -t ~/board18-$versionNo/webroot/php templates/webconfig.php
+rm ~/board18-$versionNo/webroot/php/config.php
+mv ~/board18-$versionNo/webroot/php/webconfig.php ~/board18-$versionNo/webroot/php/config.php
+rm ~/board18-$versionNo/webroot/php/configMail.php
+install -p -t ~/board18-$versionNo/webroot/php templates/configMail.php
+install -p -t ~/board18-$versionNo/utility utility/*
+install -p -t ~/board18-$versionNo/utility templates/utilconfig.php
+rm ~/board18-$versionNo/utility/config.php
+mv ~/board18-$versionNo/utility/utilconfig.php ~/board18-$versionNo/utility/config.php
+cd $boxesRoot 
+pushd control > /dev/null
+install -p -t ~/board18-$versionNo/utility/control *.*
+popd > /dev/null
+for i in images/* ; do
+  if [ -d "$i" ]; then
+    j=${i##*/}
+    mkdir ~/board18-$versionNo/webroot/images/$j
+    pushd images/$j > /dev/null
+    install -p -t ~/board18-$versionNo/webroot/images/$j *.*
+    popd > /dev/null
+  fi
+done
+zip -r ~/board18-$versionNo.zip ~/board18-$versionNo

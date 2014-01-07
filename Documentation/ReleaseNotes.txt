@@ -1,4 +1,47 @@
-BOARD18 0.1.0 Alpha 1 Release Notes
+BOARD18 0.2.0 Release Notes
+
+Changes from 0.1.0 Release:
+
+* Added an 1870 game box. 
+
+* Added full support for Chrome and Safari browsers.
+
+* Added the ability to recover Player ID's and passwords.
+
+* Added a new Administration page for updating player information 
+  and changing passwords.
+
+* Added a management function for in progress games. 
+  It will initially be limited to adding and removing players.
+
+* Enhanced the board18New.php page as follows:
+** Reduced the minimum player count from 2 to 1.
+** Automatically add the logged on player as player 1.
+** Make clicking on a game box in the list of the available game boxes 
+   enter that game box into the create new game form.
+** Make clicking on a player in the list of the available players add 
+   that player to the create new game form.
+** Prevent the same player from being added to the game more than once.
+
+* Enhanced the board18Main.php page to allow any player in a game  
+  to add or remove players from that game.
+
+* Enhanced the board18Map.php page by renaming the "Toggle. . ." 
+  main menu option to "Show/Hide".
+
+Issues not resolved in this release:
+
+* Support for IE browser has not been tested.
+
+* There is no "undo" capability.
+
+* Context menu options still require a right click.
+
+* Some context menus may not be positioned correctly.
+
+* Support for creating new game boxes is VERY rudimentary.
+
+BOARD18 0.1.0 Release Notes
 
 Changes from Pre Alpha Release:
 

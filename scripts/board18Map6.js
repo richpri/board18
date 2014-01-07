@@ -34,7 +34,7 @@ function registerMainMenu() {
         }
       },
       hideshow: {
-        name: "Toggle Map",
+        name: "Hide/Show",
         callback: function(){
           if (BD18.hideMapItems === false) {
             BD18.hideMapItems = true;
