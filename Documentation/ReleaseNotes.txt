@@ -1,3 +1,13 @@
+BOARD18 0.2.2 Release Notes
+
+Changes from 0.2.0 Release:
+
+* Fixed typo in board18db.txt
+
+* Fixed errors in makedist files.
+
+* Added copy of favicon.ico to root.
+
 BOARD18 0.2.0 Release Notes
 
 Changes from 0.1.0 Release:

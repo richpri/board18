@@ -2,8 +2,8 @@
 source $(dirname $0)/config.sh
 # Create a new distribution of BOARD18
 cd $BD18Root
-rm ~/board18-$versionNo.zip
-rm -r ~/board18-$versionNo
+rm -f ~/board18-$versionNo.zip
+rm -f -r ~/board18-$versionNo
 mkdir ~/board18-$versionNo
 mkdir ~/board18-$versionNo/webroot
 mkdir ~/board18-$versionNo/webroot/images
@@ -16,7 +16,7 @@ install -p -t ~/board18-$versionNo Documentation/README.txt
 install -p -t ~/board18-$versionNo Documentation/LICENSE.txt
 install -p -t ~/board18-$versionNo Documentation/INSTALL.txt
 install -p -t ~/board18-$versionNo Documentation/ReleaseNotes.txt
-install -p -t ~/board18-$versionNo/webroot *.html *.php
+install -p -t ~/board18-$versionNo/webroot *.html *.php favicon.ico
 rm ~/board18-$versionNo/webroot/phpinfo.php
 install -p -t ~/board18-$versionNo/webroot/php php/*.*
 install -p -t ~/board18-$versionNo/webroot/scripts scripts/*.*
@@ -44,4 +44,5 @@ for i in images/* ; do
     popd > /dev/null
   fi
 done
-zip -r ~/board18-$versionNo.zip ~/board18-$versionNo
+cd ~
+zip -r ~/board18-$versionNo.zip board18-$versionNo

@@ -80,15 +80,15 @@ CREATE TABLE `players` (
   `player_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `firstname` varchar(25) CHARACTER SET utf8 DEFAULT NULL,
   `lastname` varchar(25) CHARACTER SET utf8 DEFAULT NULL,
-  `email` varchar(25) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `login` varchar(16) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `passwd` varchar(64) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `email` varchar(25) CHARACTER SET utf8 NOT NULL,
+  `login` varchar(16) CHARACTER SET utf8 NOT NULL,
+  `passwd` varchar(64) CHARACTER SET utf8 NOT NULL,
   `create-date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `level` varchar(10) CHARACTER SET utf8 NOT NULL DEFAULT 'player',
-  `force` tinyint(1) CHARACTER SET utf8 NOT NULL DEFAULT '0',
+  `changeit` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`player_id`),
-  UNIQUE KEY `login` (`login`)
-  UNIQUE KEY `email` (`email`)
+  UNIQUE KEY (`login`),
+  UNIQUE KEY (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
