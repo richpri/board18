@@ -254,6 +254,7 @@ function deleteToken(ix) {
   var tix = BD18.boardTokens[ix];
   if (!tix) return false;
   increaseCount(tix.sheet.trayNumb,tix.index);
+  BD18.deletedBoardToken = tix;
   delete BD18.boardTokens[ix];
   return true;
 }
@@ -308,6 +309,7 @@ function acceptMove() {
     return;
   }
   if (BD18.tokenIsSelected === true) {
+    BD18.deletedBoardToken = null;
     addToken();
     return;
   }

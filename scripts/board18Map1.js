@@ -32,6 +32,7 @@ BD18.tknMenu.timeoutID = 0;
 BD18.tknMenu.on = false;
 BD18.tknMenu.go = false;
 BD18.hexList = {};
+BD18.deletedBoardToken = null;
 
 /*  
  * Constructor functions.

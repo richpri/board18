@@ -1,3 +1,11 @@
+BOARD18 0.2.3 Release Notes
+
+Changes from 0.2.2 Release:
+
+* Increased inactivity timeout to one day.
+
+* Fixed cancel token move issue [Bug 16].
+
 BOARD18 0.2.2 Release Notes
 
 Changes from 0.2.0 Release:

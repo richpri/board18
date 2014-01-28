@@ -26,6 +26,7 @@ BD18.boxIsSelected = false;
 BD18.tknMenu = {};
 BD18.tknMenu.timeoutID = 0;
 BD18.onBoxList = {};
+BD18.deletedMarketToken = null;
 
 /*  
  * Constructor functions.

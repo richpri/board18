@@ -154,6 +154,7 @@ function deleteToken(ix) {
   var tix = BD18.marketTokens[ix];
   if (!tix)
     return false;
+  BD18.deletedMarketToken = tix;
   delete BD18.marketTokens[ix];
   return true;
 }
@@ -207,6 +208,7 @@ function updateDatabase() {
 function acceptMove() {
   if (BD18.boxIsSelected === true &&
           BD18.tokenIsSelected === true) {
+    BD18.deletedMarketToken = null;
     addToken();
   }
 }
