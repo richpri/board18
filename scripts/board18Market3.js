@@ -95,10 +95,20 @@ function dropToken(x, y, xI, yI) {
  * BD18.tempToken array.
  */
 function repositionToken(xI, yI) {
-  BD18.tempToken[3] = xI;
-  BD18.tempToken[4] = yI;
-  BD18.curMktX = xI;
-  BD18.curMktY = yI;
+  var xs = BD18.stockMarket.xStart;
+  var ys = BD18.stockMarket.yStart;
+  var xm = BD18.stockMarket.width;
+  var ym = BD18.stockMarket.height;
+  // If new position is within stock market grid.
+  if ((xI > xs)&&(yI > ys)&&(xI < xm)&&(yI < ym)) {
+    BD18.tempToken[3] = xI;
+    BD18.tempToken[4] = yI;
+    BD18.curMktX = xI;
+    BD18.curMktY = yI;
+  } else { // restore curMkt values.
+    BD18.curMktX = BD18.tempToken[3];
+    BD18.curMktY = BD18.tempToken[4];
+  }
   var sn = BD18.tempToken[0];
   var ix = BD18.tempToken[1];
   var flip = BD18.tempToken[2];
@@ -106,12 +116,12 @@ function repositionToken(xI, yI) {
   var by = BD18.tempToken[4];
   var stack = BD18.tempToken[5];  
   toknCanvasApp(true);
-  var temp = new MarketToken(sn, ix, flip, stack, xI, yI);
+  var temp = new MarketToken(sn, ix, flip, stack, bx, by);
   BD18.curBoxX = temp.hx;
   BD18.curBoxY = temp.hy;
   temp.place(0.5); // Semi-transparent
-  var messg = "Select 'Menu-Accept Move' to make ";
-  messg += "token placement permanent.";
+  var messg = "Select 'Menu-Accept Move' or press Enter ";
+  messg += "to make token placement permanent.";
   doLogNote(messg);
 }
 

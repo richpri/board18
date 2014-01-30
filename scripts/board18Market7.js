@@ -27,6 +27,17 @@ function setUpKeys() {
         acceptMove();
         break;
       case 67: // "C" keycode
+        if (BD18.deletedMarketToken) {
+          BD18.curTrayNumb = BD18.deletedMarketToken.snumb;
+          BD18.curIndex = BD18.deletedMarketToken.index;
+          BD18.curFlip = BD18.deletedMarketToken.flip;
+          BD18.curStack = BD18.deletedMarketToken.stack;
+          BD18.curMktX = BD18.deletedMarketToken.bx;
+          BD18.curMktY = BD18.deletedMarketToken.by;
+          BD18.curBoxX = BD18.deletedMarketToken.hx;
+          BD18.curBoxY = BD18.deletedMarketToken.hy;
+          addToken();
+        }
         trayCanvasApp();
         mainCanvasApp();
         toknCanvasApp();

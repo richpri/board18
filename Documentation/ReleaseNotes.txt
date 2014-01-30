@@ -1,3 +1,11 @@
+BOARD18 0.2.4 Release Notes
+
+Changes from 0.2.3 Release:
+
+* Fixed move a token off of the stock chart issue [Bug 17].
+
+* Revised fix to cancel token move issue [Bug 16].
+
 BOARD18 0.2.3 Release Notes
 
 Changes from 0.2.2 Release:

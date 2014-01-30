@@ -25,6 +25,14 @@ function setUpKeys() {
         acceptMove();
         break;
       case 67: // "C" keycode
+        if (BD18.deletedBoardToken) {
+          BD18.curTrayNumb = BD18.deletedBoardToken.snumb;
+          BD18.curIndex = BD18.deletedBoardToken.index;
+          BD18.curFlip = BD18.deletedBoardToken.flip;
+          BD18.curMapX = BD18.deletedBoardToken.bx;
+          BD18.curMapY = BD18.deletedBoardToken.by;
+          addToken();
+        }
         trayCanvasApp();
         mainCanvasApp();
         toknCanvasApp();
