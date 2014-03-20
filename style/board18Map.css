@@ -54,6 +54,8 @@
   position: absolute;
   left:0px;
   top:0px; 
+  padding:0;
+  margin:0;
   z-index: 1;
 }
 
@@ -61,14 +63,18 @@
   position: absolute;
   left:0px;
   top:0px; 
+  padding:0;
+  margin:0;  
   z-index: 2;
 }
 
 #canvas2 {
-  z-index: 4;
   position: absolute;
   left:0px;
-  top:0px; 
+  top:0px;
+  padding:0;
+  margin:0;
+  z-index: 4;
 }
 
 #canvas3 {

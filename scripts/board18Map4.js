@@ -18,12 +18,21 @@ function selectToken(event) {
   $('#canvas3').css('opacity', '1');
   $('#canvas3').attr('height', 40); 
   $('#canvas3').attr('width', numbtok*40);
-  $('#canvas3').position({
-    my: "right top",
-    at: "left bottom",
-    of: event,
-    collision: "none"
-  });
+  if (BD18.hexList.hexX <= 3) {
+    $('#canvas3').position({
+      my: "left top",
+      at: "left bottom",
+      of: event,
+      collision: "none"
+    });
+  } else {
+      $('#canvas3').position({
+      my: "right top",
+      at: "left bottom",
+      of: event,
+      collision: "none"
+    });
+  }
   BD18.canvas3 = document.getElementById('canvas3');
   if (!BD18.canvas3 || !BD18.canvas3.getContext) {
     alert ("Canvas3 error in board18Map3.js!");
