@@ -131,6 +131,15 @@ function registerTrayMenu() {
       });
     },
     callback: function(key, options) {
+      /* Remove any uncompleted moves. */
+      if (BD18.hexIsSelected === true) {
+        mainCanvasApp();
+        toknCanvasApp();
+        BD18.hexIsSelected = false;
+        BD18.tokenIsSelected = false;
+        BD18.tileIsSelected = false;
+        BD18.curFlip = false;
+      }
       var ix = parseInt(key.substring(4));
       BD18.trays[ix].place(null);
     },
