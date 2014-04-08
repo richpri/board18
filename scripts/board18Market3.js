@@ -43,10 +43,8 @@ function fromUpdateGm(resp) {
     msg += "Your move has been backed out because ";
     msg += resp.substr(10);
     msg += " updated the database after you read it.";
-    $('#lognote').text(msg);
-    trayCanvasApp();
-    mainCanvasApp();
-    tokenCanvasApp();
+    alert(msg);                           // Fix for BUG 25
+    window.location = "board18Mrket.php"; // Fix for BUG 25
   }
   else {
     msg = "Invalid return code from updateGame [" + resp + "]. ";
