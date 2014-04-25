@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * Copyright (c) 2014 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
 
@@ -260,64 +260,4 @@ function lostpw() {
   var dataString = 'name=' + name + '&email=' + email;
   $.post("php/emailPassword.php", dataString, emailPasswdResult);
   return false;
-}
-
-/* 
- * The registerMainMenu function creates the 
- * main menu on the board18 index page. It uses
- * the jquery context menu plugin.
- */
-function registerMainMenu() {
-  $.contextMenu({
-    selector: "#newmainmenu",
-    trigger: "left",
-    className: "bigMenu",
-    items: {
-      login: {
-        name: "Log In",
-        callback: function() {
-          $('#login .error').hide();
-          $('#login #password').val('');
-          $('#login :text').val('');
-          $('#register form').hide();
-          $('#login form').slideToggle(300);
-          $("#username").focus();
-        }
-      },
-      register: {
-        name: "Register",
-        callback: function() {
-          $('#register .error').hide();
-          $('#register :password').val('');
-          $('#register :text').val('');
-          $('#register form').slideToggle(300);
-          $("#newuser").focus();
-        }
-      },
-      help: {
-        name: "Help",
-        callback: function() {
-          window.open("http://wiki.board18.org/w/User%27s_Guide", "UserGuide");
-        }
-      },
-      close: {
-        name: "Close Menu",
-        callback: function() {
-        }
-      }
-    },
-    zIndex: 10,
-    position: function(opt, x, y) {
-      opt.$menu.position({
-        my: 'left top',
-        at: 'left bottom',
-        of: opt.$trigger
-      });
-    },
-    callback: function(key, options) {
-      var m = "clicked on " + key + " on element ";
-      m = m + options.$trigger.attr("id");
-      alert(m);
-    }
-  });
 }

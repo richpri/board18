@@ -7,5 +7,5 @@
 	define('MAIL_HOST', 'mail.gandalf.ws');
   define('MAIL_PORT', '587');  // STARTTLS
   define('MAIL_USER', 'rich@gandalf.ws');
-  define('MAIL_PASS', 'HPeds2010');
+  define('MAIL_PASS', 'BD18dream');
 ?>

@@ -3,9 +3,10 @@
 <!--
 The index.html page is one of the two pages which is not password protected. 
 It is the introductory page to BOARD18 and contains a welcome message. 
-It is currently used for logging in to Board18 and for registering new players. Links to some player ID and password recovery functions should be added soon. 
+It is used for logging in to Board18 and for registering new players. 
+It also contains player ID and password recovery functions. 
 
-Copyright (c) 2013 Richard E. Price under the The MIT License.
+Copyright (c) 2014 Richard E. Price under the The MIT License.
 A copy of this license can be found in the LICENSE.text file.
 -->
   <head>
@@ -14,15 +15,10 @@ A copy of this license can be found in the LICENSE.text file.
     <link rel="shortcut icon" href="images/favicon.ico" >
     <link rel="stylesheet" href="style/board18com.css" />
     <link rel="stylesheet" href="style/board18Index.css" />
-    <link rel="stylesheet" href="style/jquery.contextMenu.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
     <script type="text/javascript" src="scripts/sha256-min.js">
     </script> 
-    <script type="text/javascript" src="scripts/jquery.ui.position.js">
-    </script>
-    <script type="text/javascript" src="scripts/jquery.contextMenu.js">
-    </script>
     <script type="text/javascript" src="scripts/board18com.js">
     </script>
     <script type="text/javascript" src="scripts/board18index.js">
@@ -31,26 +27,35 @@ A copy of this license can be found in the LICENSE.text file.
       $(function() {
         $('.error').hide(); 
         $('#pointer').hide(); 
-         registerMainMenu();
         $("#login").submit(function() {  
           login();
           return false;
         }); // end login
         $("#buttonx").click(function(){
-          $('#login form').slideUp(300);
           $('#lostid form').slideDown(300);
           return false;
         }); // end buttonx click
+        $("#regbutton").click(function(){
+          $('#register .error').hide();
+          $('#register :password').val('');
+          $('#register :text').val('');
+          $('#register form').slideDown(300);
+          $("#newuser").focus();
+          return false;
+        }); // end regbutton click
+        $("#helpbutton").click(function(){
+          window.open("http://wiki.board18.org/w/User%27s_Guide", "UserGuide");
+          return false;
+        }); // end helpbutton click
         $("#buttony").click(function(){
-          $('#login form').slideUp(300);
           $('#lostpw form').slideDown(300);
           return false;
-        }); // end buttonx click
+        }); // end buttony click
         $("#register").submit(function() {  
           register();
           return false;
         }); // end register submit
-        $("#button3").click(function(){
+        $("#button3").click(function(){  //cancel register
           $('#register form').slideUp(300);
           return false;
         }); // end button3 click
@@ -76,20 +81,14 @@ A copy of this license can be found in the LICENSE.text file.
           $('#lostpw form').hide();
           $('#lostid form').hide();
           $('#register form').hide();
-          $('#login form').hide();
-          $('#pointer').fadeToggle(600);
         }); // end content click
         $("#leftofpage").click(function(){
           $('#lostpw form').hide();
           $('#lostid form').hide();
           $('#register form').hide();
           $('#login form').hide();
-          $('#pointer').fadeToggle(600);
         }); // end leftofpage click
-        $("#pointer").click(function(){
-          $('#pointer').fadeOut(600);
-        }); // end pointer click
-      }); // end ready
+       }); // end ready
     </script>
   </head>
   <body>
@@ -102,7 +101,6 @@ A copy of this license can be found in the LICENSE.text file.
         <h1>BOARD18 - Remote Play Tool For 18xx Style Games</h1>
       </div>
       <div>
-        <span id="newmainmenu"> MENU </span>
         <p id="lognote"></p>
       </div>
     </div>
@@ -113,7 +111,7 @@ A copy of this license can be found in the LICENSE.text file.
     
     <div id="rightofpage"> 
       <div id="login">
-        <form name="login" class="hideform" action="">
+        <form name="login" action="">
           <fieldset>
             <p style="font-size: 130%">Login to BOARD18</p>
             <p>
@@ -133,6 +131,12 @@ A copy of this license can be found in the LICENSE.text file.
                      id="button1" value="Submit" >
               <label class="error" for="button1" id="signon_error">
                 Username or password is invalid.</label>
+            </p>
+            <p>
+              <input type="button" name="regbutton" class="pwbutton" 
+                     id="regbutton" value="Register" >
+              <input type="button" name="helpbutton" class="pwbutton" 
+                     id="helpbutton" value="Help" >
             </p>
             <p>
               <input type="button" name="lostbuttonx" class="pwbutton" 
@@ -240,10 +244,7 @@ A copy of this license can be found in the LICENSE.text file.
           </fieldset>
         </form>
       </div>   
-      <div id="pointer">
-        <img src="images/clickmenu.png" alt="To Start Click Menu"/>
-      </div>
-      <div id="content"  style="padding: 10px">    
+      <div id="content" style="padding-right: 10px">    
         <p style="font-size: 130%"><b>Welcome to Board18.</b></p>
         <p>BOARD18 is intended to be used with a spreadsheet to play an 
           18xx style game remotely.  The Google+ spreadsheet is a good 
@@ -251,23 +252,18 @@ A copy of this license can be found in the LICENSE.text file.
           Email to the other players. The Email will contain a list of 
           recent moves ending with his current move. It may also have an 
           updated copy of the spread sheet  being use to track the game 
-          finances [if you don't use Google+]. But it will no longer need 
-          to contain any other files.
+          finances [if you don't use Google+]. 
         </p>
         <p>
           The BOARD18 game session associated with the game will be used 
           to display the game board and the stock market for the game. 
-          It will be updateable by any player who can log in to the game.
-        </p>
-        <p>          
-          Please use the menu items to login to BOARD18 or to
-          register an account with BOARD18.
+          Any active player can update the game.
         </p>
         <p style="color: red">          
           <span style="font-size: 130%">NOTE:</span> 
           BOARD18 is designed to take advantage of the HTML5 standard.
-          Currently Internet Explorer does not fully support this 
-          standard. <br>For best results, please use a fairly current 
+          Internet Explorer may not fully support this 
+          standard. For best results, please use a fairly current 
           release of Firefox, Chrome or Safari when accessing BOARD18.
         </p>
       </div>
