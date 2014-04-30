@@ -62,6 +62,8 @@ if ($result2 && mysqli_num_rows($result2) == 1) {
     <link rel="stylesheet" href="style/board18Misc.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
+    <script type="text/javascript" src="scripts/jqueryMigrate.js">
+    </script> 
     <script type="text/javascript" src="scripts/board18com.js">
     </script>
     <script type="text/javascript" src="scripts/board18Misc.js">

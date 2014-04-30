@@ -74,10 +74,12 @@ if ($result1) {
                WHERE login='$name'";
       $result2 = mysqli_query($link, $qry2);
       if ($result2) {   // If the query was successful.
-        $subject = 'BOARD18 Password recovery';
-        $body = 'The new temporary password for user ' . $name . 
-            ' at ' . $email . ' is  ' . $pw1[$rnd10] . 
-            '  - - -  You must change this password when you next log in.';
+        $subject = 'BOARD18 Password Recovery';
+        $body = 'This is a message from the BOARD18 server at ';
+        $body .= $_SERVER['SERVER_NAME'] . ".\n \n";
+        $body .= 'The new temporary password for user ' . $name; 
+        $body .= ' at ' . $email . ' is  ' . $pw1[$rnd10]; 
+        $body .= ".\n \nYou must change this password when you next log in.";
         sendEmail($email, $subject, $body);
         exit; 
       } else { 

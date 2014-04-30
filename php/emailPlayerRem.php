@@ -49,9 +49,11 @@ if ($result1) {
     exit;
   } else { // Found login in database!
     $playerrow = mysqli_fetch_assoc($result1);
-    $subject = 'BOARD18 Game Action Report';
-    $body = 'You have been removed from the BOARD18 game titled ' . 
-    $body .= $game;
+    $subject = 'BOARD18 Game Removal Report';
+    $body = 'This is a message from the BOARD18 server at ';
+    $body .= $_SERVER['SERVER_NAME'] . ".\n \n";
+    $body .= "You have been removed from the BOARD18 game titled \n\t";
+    $body .= $game . ".\n \nHave a nice day!";
     sendEmail($playerrow['email'], $subject, $body);
     exit;
   }

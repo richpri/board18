@@ -54,9 +54,11 @@ if ($result1) {
     exit;
   } else { // Found email address in database!
     $playerrow = mysqli_fetch_assoc($result1);
-    $subject = 'BOARD18 Player ID recovery';
-    $body = 'The player id for user ' . $email .
-            ' is ' . $playerrow['login'] . '.';
+    $subject = 'BOARD18 Player ID Recovery';
+    $body = 'This is a message from the BOARD18 server at ';
+    $body .= $_SERVER['SERVER_NAME'] . ".\n \n";
+    $body .= 'The player id for user at ' . $email;
+    $body .= ' is ' . $playerrow['login'] . '.';
     sendEmail($email, $subject, $body);
     exit;
   }

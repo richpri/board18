@@ -22,6 +22,8 @@ A copy of this license can be found in the LICENSE.text file.
     <link rel="stylesheet" href="style/board18Main.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
+    <script type="text/javascript" src="scripts/jqueryMigrate.js">
+    </script> 
     <script type="text/javascript" src="scripts/jquery.ui.position.js">
     </script>
     <script type="text/javascript" src="scripts/jquery.contextMenu.js">

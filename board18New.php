@@ -39,6 +39,8 @@ if ($result) {
     <link rel="stylesheet" href="style/jquery.contextMenu.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
+    <script type="text/javascript" src="scripts/jqueryMigrate.js">
+    </script> 
     <script type="text/javascript" src="scripts/jquery.ui.position.js">
     </script>
     <script type="text/javascript" src="scripts/jquery.contextMenu.js">

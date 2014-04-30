@@ -1,7 +1,7 @@
 /*!
  * jQuery contextMenu - Plugin for simple contextMenu handling
  *
- * Version: git-master
+ * Version: 1.6.5
  *
  * Authors: Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://medialize.github.com/jQuery-contextMenu/
@@ -10,7 +10,11 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *   
- *   Modified by Rich Price on 5/22/2013 - removed 'filter: alpha(opacity=50);' from line 1186
+ *   Modified by Rich Price on 5/22/2013 - removed 
+ *      'filter: alpha(opacity=50);' from line 1186
+ * 
+ *   Modified by Rich Price on 4/28/2014 - changed 
+ *       deprecated command andSelf to addBack on line 1129 
  *
  */
 
@@ -18,7 +22,8 @@
     
     // TODO: -
         // ARIA stuff: menuitem, menuitemcheckbox und menuitemradio
-        // create <menu> structure if $.support[htmlCommand || htmlMenuitem] and !opt.disableNative
+        // create <menu> structure if $.support[htmlCommand || htmlMenuitem] 
+        // and !opt.disableNative
 
 // determine html5 compatibility
 $.support.htmlMenuitem = ('HTMLMenuItemElement' in window);
@@ -1126,7 +1131,8 @@ var // currently active contextMenu trigger
             // reset and apply changes in the end because nested
             // elements' widths wouldn't be calculatable otherwise
             if (!nested) {
-                $menu.find('ul').andSelf().css({
+                $menu.find('ul').addBack().css({  // Modified by Rich Price
+                    // on 4/28/2014 to replace depricated "andSelf()"
                     position: '', 
                     display: '',
                     minWidth: '',

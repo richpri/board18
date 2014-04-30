@@ -50,7 +50,10 @@ if ($result1) {
   } else { // Found login in database!
     $playerrow = mysqli_fetch_assoc($result1);
     $subject = 'BOARD18 New Game';
-    $body = 'You have been added to the BOARD18 game titled ' . $game;
+    $body = 'This is a message from the BOARD18 server at ';
+    $body .= $_SERVER['SERVER_NAME'] . ".\n \n";
+    $body .= "You have been added to the BOARD18 game titled \n\t";
+    $body .= $game . ".\n \nHave a good game!";
     sendEmail($playerrow['email'], $subject, $body);
     exit;
   }

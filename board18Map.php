@@ -58,6 +58,8 @@ if ($gamefound == 'no') {
     <link rel="stylesheet" href="style/board18Map.css" />
     <link rel="stylesheet" href="style/jquery.contextMenu.css" />
     <script type="text/javascript" src="scripts/jquery.js">
+    </script>
+    <script type="text/javascript" src="scripts/jqueryMigrate.js">
     </script> 
     <script type="text/javascript" src="scripts/board18com.js">
     </script>

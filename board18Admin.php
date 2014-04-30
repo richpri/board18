@@ -55,6 +55,8 @@ if ($result) {
     <link rel="stylesheet" href="style/board18Admin.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
+    <script type="text/javascript" src="scripts/jqueryMigrate.js">
+    </script> 
     <script type="text/javascript" src="scripts/sha256-min.js">
     </script>
     <script type="text/javascript" src="scripts/board18com.js">

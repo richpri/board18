@@ -1,7 +1,12 @@
 /*
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
+ *
+ * All BD18 global variables are contained in one
+ * 'master variable' called BD18.  This isolates 
+ * them from global variables in other packages. 
  */
+BD18.goToMain.timeoutID = 0;
 
 /* 
  * I found this generalized numeric test function
@@ -23,6 +28,32 @@ function logoutOK(resp) {
   else {
     alert("Logout failed! This should never happen.");
   } 
+}
+
+/* 
+ * The goToMain function transfers control to the
+ * board18Main.php page.
+ */
+function goToMain() {
+  document.location.assign('board18Main.php');
+}
+
+/* 
+ * The delayGoToMain function waits 5 seconds before
+ * calling the goToMain function.
+ */
+function delayGoToMain() {
+  BD18.goToMain.timeoutID = window.setTimeout(goToMain, 5000);
+}
+
+/* 
+ * The killGoToMain function stops any delayed
+ * calling of the goToMain function.
+ */
+function killGoToMain() {
+  if (BD18.goToMain.timeoutID) {
+    window.clearTimeout(BD18.goToMain.timeoutID);
+  }
 }
 
 /* 
@@ -60,7 +91,8 @@ function makeNewGame(name, boxid, players, player) {
 /* 
  * Function emailPlayerResult is the call back function for the
  * ajax calls to emailPlayerAdd.php. It only needs to check for
- * errors and it only needs to report the first error.
+ * errors and it only needs to report the first error. Before  
+ * reporting this error it will call the killGoToMain() function.
  * 
  * Output from emailPlayerAdd.php is an echo return status:
  *   "success" - Email sent.
@@ -71,6 +103,7 @@ function emailPlayerResult(result) {
     if (BD18.mailError === false) {
       var errmsg = 'Send email to player failed.\n';
       errmsg += 'Please contact the BOARD18 webmaster.';
+      killGoToMain();
       alert(errmsg);
       BD18.mailError = true;
     }
@@ -79,13 +112,15 @@ function emailPlayerResult(result) {
     // Something is definitly wrong in the code.
     var nerrmsg ='Invalid return code from emailPlayers.php.\n';
     nerrmsg += response + '\nPlease contact the BOARD18 webmaster.';
+    killGoToMain();
     alert(nerrmsg);
   }
 }
 
 /* 
  * Function newgameOK is the callback function for the ajax
- * newgame call. 
+ * newgame call. After sending emails to all players it calls
+ * the delayGoToMain() function.
  */
 function newgameOK(response) {
   if (response.indexOf("<!doctype html>") !== -1) { // User has timed out.
@@ -108,7 +143,7 @@ function newgameOK(response) {
         cString = 'game=' + BD18.name + '&login=' + BD18.player[i];
         $.post("php/emailPlayerAdd.php", cString, emailPlayerResult);
     }
-    window.location.reload(true);
+    delayGoToMain();
   } else if (response === "fail") {
     var ferrmsg ='New game was not created due to an error.\n';
     ferrmsg += 'Please contact the BOARD18 webmaster.';
