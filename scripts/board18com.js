@@ -21,9 +21,14 @@ function setPage()
 {
   var winH = $(window).height();
   var winW = $(window).width();
+  var winName = location.pathname.
+          substring(location.pathname.lastIndexOf("/") + 1);
   $('#rightofpage').css('height', winH-90);
   $('#rightofpage').css('width', winW-135);
-  $('#leftofpage').css('height', winH-90);
+  if(winName === "board18Map.php" || winName === "board18Market.php") {
+    $('#botleftofpage').css('height', winH-100);
+  }
+  else $('#leftofpage').css('height', winH-90);
 }
 
 /* Function resize() waits for 200 ms before

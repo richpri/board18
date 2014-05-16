@@ -120,8 +120,10 @@ if ($gamefound == 'no') {
       </div>
     </div>
 
-    <div id="leftofpage">
+    <div id="topleftofpage">
       <span id="traymenu"> Trays </span>
+    </div>  
+    <div id="botleftofpage">
       <div id="sidebar">
         <div id="tiles" onclick="traySelect(event);">
           <canvas id="canvas0" width="120">

@@ -1,5 +1,30 @@
-/* CSS Document for board page  */
-/* File: style/board18Map.css */
+/* 
+ *  Document   : board18Map
+ *  Author     : rich
+ *  Description: CSS Document for board18Map page.
+ *
+ * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
+ */
+
+#topleftofpage {
+  background-color:#ddffdd;
+  position:fixed;
+  left:0px;
+  top:90px;
+  width:135px;
+  height:10px;
+}
+
+#botleftofpage {
+  background-color:#ddffdd;
+  position:fixed;
+  overflow-y:scroll;
+  left:0px;
+  top:100px;
+  width:135px;
+  height:400px;
+}
 
 #sidebar {
   width:120px;

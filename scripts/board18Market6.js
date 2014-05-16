@@ -116,6 +116,15 @@ function registerTrayMenu() {
       });
     },
     callback: function(key, options) {
+      /* Remove any uncompleted moves. */
+      if (BD18.boxIsSelected === true) {
+        mainCanvasApp();
+        toknCanvasApp();
+        BD18.boxIsSelected = false;
+        BD18.tokenIsSelected = false;
+        BD18.curFlip = false;
+      }
+      $("#botleftofpage").scrollTop(0);
       var ix = parseInt(key.substring(4));
       BD18.trays[ix].place(null);
     },

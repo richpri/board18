@@ -66,7 +66,10 @@ function GameBoard(image,board) {
    * The default value for keepHexSelect is false;
    */
   this.clear2=function clear2(keepHexSelect) {
+    BD18.context2.save();
+    BD18.context2.setTransform(1, 0, 0, 1, 0, 0);
     BD18.context2.clearRect(0, 0, this.width, this.height);
+    BD18.context2.restore();
     BD18.hexIsSelected = (keepHexSelect) ? true : false;
   };
   /* This function calculates the board coordinates of the containing

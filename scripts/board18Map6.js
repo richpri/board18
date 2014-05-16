@@ -140,6 +140,7 @@ function registerTrayMenu() {
         BD18.tileIsSelected = false;
         BD18.curFlip = false;
       }
+      $("#botleftofpage").scrollTop(0);
       var ix = parseInt(key.substring(4));
       BD18.trays[ix].place(null);
     },
