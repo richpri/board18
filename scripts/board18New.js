@@ -128,6 +128,9 @@ function newgameOK(response) {
   } else if (response === "nobox") {
     $("#bi_error").text('Invalid Game Box ID.').show();  
     $("#boxid").focus();
+  } else if (response === "dupname") {
+    $("#sn_error").text('Duplicate Game Name is not allowed.').show();  
+    $("#sessionname").focus();
   } else if (response.indexOf("noplayer") !== -1) {  
     // Response contains "noplayer".
     var plerr = 'Player #' + response.substr(9) + ' does not exist';

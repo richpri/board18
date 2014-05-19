@@ -16,7 +16,7 @@
  * }
  * 
  * Output is the echo return status: 
- *   "success", "fail", "nobox" or "noplayer #".
+ *   "success", "fail", "dupname", "nobox" or "noplayer #".
  */
 require_once('auth.php');
 require_once('config.php');
@@ -54,6 +54,23 @@ if (!$result1) {
   $logMessage = 'MySQL Error 2: ' . mysqli_error($link);
   error_log($logMessage);
   echo "fail";
+  exit;
+}
+
+// Check for duplicate game session name
+$qry9 = "SELECT * FROM game WHERE gname='$name'";
+$result9 = mysqli_query($link,$qry9);
+if ($result9) {
+  if (mysqli_num_rows($result9) != 0) { // Duplicate game name!
+    echo 'dupname';
+    mysqli_query($link, $qry0); // ROLLBACK
+    exit;
+  }
+} else {
+  $logMessage = 'MySQL Error 9: ' . mysqli_error($link);
+  error_log($logMessage);
+  echo "fail"; 
+  mysqli_query($link, $qry0); // ROLLBACK
   exit;
 }
 

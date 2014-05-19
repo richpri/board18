@@ -123,7 +123,8 @@ function toknCanvasApp(keepHexSelect){
 }
 
 /* Function CanvasApp initializes all canvases.
- * It then calls trayCanvasApp and mainCanvasApp.
+ * It then calls trayCanvasApp, tokenCanvasApp
+ * and mainCanvasApp.
  */
 function canvasApp()
 {
