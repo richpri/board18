@@ -93,7 +93,7 @@ function canvasApp()
 {
   var hh = parseInt(BD18.stockMarket.height, 10);
   var ww = parseInt(BD18.stockMarket.width, 10);
-  $('#content').css('height', hh+20); 
+  $('#content').css('height', hh); 
   $('#content').css('width', ww);     
   $('#canvas1').attr('height', hh); 
   $('#canvas1').attr('width', ww); 
@@ -157,9 +157,7 @@ function loadBox(box) {
   BD18.bx = box;
   var market = BD18.bx.market;
   var sheets = BD18.bx.tray;
-  var marketWidth = parseInt(market.imgWdth,10);
-  var marketHeight = parseInt(market.imgHght,10);
-  BD18.mktImage = new Image(marketWidth,marketHeight);
+  BD18.mktImage = new Image();
   BD18.mktImage.src = market.imgLoc;
   BD18.mktImage.onload = itemLoaded; 
   BD18.loadCount++ ;

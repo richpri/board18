@@ -130,11 +130,11 @@ function canvasApp()
 {
   var hh = parseInt(BD18.gameBoard.height, 10);
   var ww = parseInt(BD18.gameBoard.width, 10);
-  $('#content').css('height', hh+250); 
+  $('#content').css('height', hh); 
   $('#content').css('width', ww);     
-  $('#canvas1').attr('height', hh+240); 
+  $('#canvas1').attr('height', hh); 
   $('#canvas1').attr('width', ww); 
-  $('#canvas2').attr('height', hh+240); 
+  $('#canvas2').attr('height', hh); 
   $('#canvas2').attr('width', ww); 
   BD18.canvas0 = document.getElementById('canvas0');
   if (!BD18.canvas0 || !BD18.canvas0.getContext) {
@@ -197,9 +197,7 @@ function loadBox(box) {
   BD18.bx = box;
   var board = BD18.bx.board;
   var sheets = BD18.bx.tray;
-  var boardWidth = parseInt(board.imgWdth,10);
-  var boardHeight = parseInt(board.imgHght,10);
-  BD18.bdImage = new Image(boardWidth,boardHeight);
+  BD18.bdImage = new Image();
   BD18.bdImage.src = board.imgLoc;
   BD18.bdImage.onload = itemLoaded; 
   BD18.loadCount++ ;

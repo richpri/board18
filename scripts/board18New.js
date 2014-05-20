@@ -39,11 +39,11 @@ function goToMain() {
 }
 
 /* 
- * The delayGoToMain function waits 5 seconds before
+ * The delayGoToMain function waits 3 seconds before
  * calling the goToMain function.
  */
 function delayGoToMain() {
-  BD18.goToMain.timeoutID = window.setTimeout(goToMain, 5000);
+  BD18.goToMain.timeoutID = window.setTimeout(goToMain, 3000);
 }
 
 /* 

@@ -40,8 +40,8 @@ BD18.deletedMarketToken = null;
  */
 function StockMarket(image,market) {
   this.image=image;
-  this.height=parseInt(market.imgHght,10);
-  this.width=parseInt(market.imgWdth,10);
+  this.height=parseInt(image.height,10);
+  this.width=parseInt(image.width,10);
   this.xStart=parseInt(market.xStart,10);
   this.xStep=parseInt(market.xStep,10);
   this.yStart=parseInt(market.yStart,10);

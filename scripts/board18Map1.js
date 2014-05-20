@@ -46,8 +46,8 @@ BD18.deletedBoardToken = null;
  */
 function GameBoard(image,board) {
   this.image=image;
-  this.height=parseInt(board.imgHght,10);
-  this.width=parseInt(board.imgWdth,10);
+  this.height=parseInt(image.height,10);
+  this.width=parseInt(image.width,10);
   this.xStart=parseInt(board.xStart,10);
   this.xStep=parseInt(board.xStep,10);
   this.yStart=parseInt(board.yStart,10);
