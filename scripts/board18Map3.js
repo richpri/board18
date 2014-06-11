@@ -44,6 +44,7 @@ function fromUpdateGm(resp) {
     msg += resp.substr(10);
     msg += " updated the database after you read it.";
     alert(msg);                         // Fix for BUG 25
+    document.location.reload(true);     // Fix for BUG 25
   }
   else {
     msg = "Invalid return code from updateGame ["+resp+"]. ";

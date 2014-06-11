@@ -1,3 +1,43 @@
+BOARD18 0.3.0 Release Notes
+
+Changes from 0.2.6 Release:
+
+* Upgraded to JQuery version 1.11.0.
+
+* Upgraded to jQuery UI Position version 1.10.4.
+
+* Login form is now a direct part of the index page and is not a pop-up menu [Bug 14].
+
+* Added Login form to access denied page [Bug 15].
+
+* Stopped "Trays" menu from scrolling on Map and Stock pages.
+
+* Modified CreateGame.php to add a check to eliminate duplicate game names [Bug 24].
+
+* Fixed distorted game board map by getting image size direct from image [Bug 8].
+
+* Changed all Email messages to show server name.
+
+* On successful new game creation, Newgame will now go back to Mainpage.
+
+BOARD18 0.2.6 Release Notes
+
+Changes from 0.2.5 Release:
+
+* Modified help logic to allow for release dependent help files.
+
+* Updated fix to problem with lockout due to simultaneous updates [Bug 25].
+
+BOARD18 0.2.5 Release Notes
+
+Changes from 0.2.4 Release:
+
+* Fixed problem with unaccepted tile play [Bug 22].
+
+* Fixed "Select Tokens" menu positioning problem  [Bug 23].
+
+* Fixed problem with lockout due to simultaneous updates [Bug 25].
+
 BOARD18 0.2.4 Release Notes
 
 Changes from 0.2.3 Release:

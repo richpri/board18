@@ -85,7 +85,7 @@ function registerMainMenu() {
       help: {
         name: "Help",
         callback: function(){
-          window.open("http://wiki.board18.org/w/User%27s_Guide", "UserGuide");
+          window.open(BD18.help, "HelpGuide");
         }
       },
       close: {
