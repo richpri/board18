@@ -33,16 +33,18 @@ rm ~/board18-$versionNo/utility/config.php
 mv ~/board18-$versionNo/utility/utilconfig.php ~/board18-$versionNo/utility/config.php
 cd $boxesRoot 
 pushd control > /dev/null
-install -p -t ~/board18-$versionNo/utility/control *.*
+install -p -t ~/board18-$versionNo/utility/control 1830-REP01.json
+install -p -t ~/board18-$versionNo/utility/control 1870-REP01.json
 popd > /dev/null
-for i in images/* ; do
-  if [ -d "$i" ]; then
-    j=${i##*/}
-    mkdir ~/board18-$versionNo/webroot/images/$j
-    pushd images/$j > /dev/null
-    install -p -t ~/board18-$versionNo/webroot/images/$j *.*
-    popd > /dev/null
-  fi
-done
+pushd images > /dev/null
+mkdir ~/board18-$versionNo/webroot/images/1830-REP01
+pushd 1830-REP01 > /dev/null
+install -p -t ~/board18-$versionNo/webroot/images/1830-REP01 *.*
+popd > /dev/null
+mkdir ~/board18-$versionNo/webroot/images/1870-REP01
+pushd 1870-REP01 > /dev/null
+install -p -t ~/board18-$versionNo/webroot/images/1870-REP01 *.*
+popd > /dev/null
+popd > /dev/null
 cd ~
 zip -r ~/board18-$versionNo.zip board18-$versionNo
