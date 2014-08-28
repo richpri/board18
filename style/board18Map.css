@@ -13,7 +13,7 @@
   left:0px;
   top:90px;
   width:135px;
-  height:10px;
+  height:50px;
 }
 
 #botleftofpage {
@@ -21,7 +21,7 @@
   position:fixed;
   overflow-y:scroll;
   left:0px;
-  top:100px;
+  top:140px;
   width:135px;
   height:400px;
 }
@@ -31,7 +31,7 @@
   position: absolute;
   background-color:#ddffdd;
   left:0px;
-  top:50px; 
+  top:0px; 
 }
 
 .sidebaritem {

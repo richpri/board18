@@ -27,7 +27,7 @@ function setPage()
   $('#rightofpage').css('height', winH-90);
   $('#rightofpage').css('width', winW-135);
   if(winName === "board18Map.php" || winName === "board18Market.php") {
-    $('#botleftofpage').css('height', winH-100);
+    $('#botleftofpage').css('height', winH-140);
   }
   else $('#leftofpage').css('height', winH-90);
 }
