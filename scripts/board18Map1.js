@@ -16,6 +16,7 @@ BD18.boardTiles = [];
 BD18.boardTokens = [];
 BD18.trays = [];
 BD18.curTrayNumb = null;
+BD18.curTrayStep = null;
 BD18.curIndex = null;
 BD18.curRot = 0;
 BD18.curFlip = false;
@@ -118,14 +119,15 @@ function TileSheet(image,sheet) {
     this.tileRots[i]=parseInt(sheet.tile[i].rots,10);
   }
   this.place=function place(high) {
-    var a = 10;  // This is the tray's Top Margin.
-    var b = 120; // This is the tray's Y Step Value.
     var img = this.image;
     var sx;
     var sy = this.yStart;
-    var szx = this.xSize;
+    var szx = Math.min(this.xSize,105);
     var szy = this.ySize;
+    var a = 10;  // This is the tray's Top and Left Margin.
+    var b = szy+5; // This is the tray's Y Step Value.
     BD18.curTrayNumb = this.trayNumb;
+    BD18.curTrayStep = b;
     BD18.tileIsSelected = false;
     BD18.tokenIsSelected = false;
     BD18.canvas0.height = a+(this.tilesOnSheet*b); 
@@ -134,17 +136,17 @@ function TileSheet(image,sheet) {
       sx = this.xStart+i*this.xStep;
       if (high === i) {
         BD18.context0.fillStyle = "red";
-        BD18.context0.fillRect(a,b*i,100,116);
+        BD18.context0.fillRect(a,b*i,szx,szy);
         BD18.context0.fillStyle = "black";
       }
-      BD18.context0.drawImage(img,sx,sy,szx,szy,a,b*i,100,116);
+      BD18.context0.drawImage(img,sx,sy,szx,szy,a,b*i,szx,szy);
       BD18.context0.font = "18pt Arial";
       BD18.context0.textBaseline = "top";
       BD18.context0.textAlign = "left";
       BD18.context0.fillText(BD18.gm.trayCounts[this.trayNumb][i],a,b*i);
       if (BD18.gm.trayCounts[this.trayNumb][i] === 0) {  
         BD18.context0.fillStyle = "rgba(255,255,255,0.7)";
-        BD18.context0.fillRect(a,b*i,100,116);
+        BD18.context0.fillRect(a,b*i,szx,szy);
         BD18.context0.fillStyle = "black";
       }      
     }
@@ -174,15 +176,16 @@ function TokenSheet(image,sheet) {
     this.tokenFlip[i]=sheet.token[i].flip;
   }
   this.place=function place(high) {
-    var a = 10; // This is the tray's Top Margin.
-    var b = 40; // This is the tray's Y Step Value.
-    var c = 20; // This is the token padding value.
     var img = this.image;
     var sx = this.xStart;
     var sy;
-    var szx = this.xSize;
+    var szx = Math.min(this.xSize,105);
     var szy = this.ySize;
+    var a = 10; // This is the tray's Top and Left Margin.
+    var b = szy+5; // This is the tray's Y Step Value.
+    var c = 20; // This is the token padding value.
     BD18.curTrayNumb = this.trayNumb;
+    BD18.curTrayStep = b;
     BD18.tileIsSelected = false;
     BD18.tokenIsSelected = false;
     BD18.canvas0.height = a+(this.tokensOnSheet*b); 
@@ -191,17 +194,17 @@ function TokenSheet(image,sheet) {
       sy = this.yStart+i*this.yStep;
       if (high === i) {
         BD18.context0.fillStyle = "red";
-        BD18.context0.fillRect(a,b*i,60,30);
+        BD18.context0.fillRect(a,b*i,szx+c,szy);
         BD18.context0.fillStyle = "black";
       }
-      BD18.context0.drawImage(img,sx,sy,szx,szy,a+c,b*i,30,30);
+      BD18.context0.drawImage(img,sx,sy,szx,szy,a+c,b*i,szx,szy);
       BD18.context0.font = "18pt Arial";
       BD18.context0.textBaseline = "top";
       BD18.context0.textAlign = "left";
       BD18.context0.fillText(BD18.gm.trayCounts[this.trayNumb][i],a,b*i);
       if (BD18.gm.trayCounts[this.trayNumb][i] === 0) {  
         BD18.context0.fillStyle = "rgba(255,255,255,0.7)";
-        BD18.context0.fillRect(a,b*i,60,30);
+        BD18.context0.fillRect(a,b*i,szx+c,szy);
         BD18.context0.fillStyle = "black";
       }      
     }
@@ -287,10 +290,10 @@ function BoardToken(snumb,index,flip,bx,by) {
     var sy = this.sheet.yStart + index*this.sheet.yStep;
     var szx = this.sheet.xSize;
     var szy = this.sheet.ySize;
-    var midx = this.bx - 15; // Adjust to center of token.
-    var midy = this.by - 15; // Adjust to center of token.
+    var midx = this.bx - (szx/2).toFixed(); // Adjust to center of token.
+    var midy = this.by - (szy/2).toFixed(); // Adjust to center of token.
     BD18.context2.globalAlpha = ga;
-    BD18.context2.drawImage(image,sx,sy,szx,szy,midx,midy,30,30);
+    BD18.context2.drawImage(image,sx,sy,szx,szy,midx,midy,szx,szy);
     BD18.context2.globalAlpha = 1;
   };
   /*

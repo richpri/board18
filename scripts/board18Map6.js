@@ -174,11 +174,11 @@ function traySelect(event) {
   var a, b, c, x, y;
   if(tray.sheetType==="tile") {
     a = 10;  // This is the tray Top Margin.
-    b = 120; // This is the tray Y Step Value.
+    b = BD18.curTrayStep; // This is the tray Y Step Value.
     c = tray.tilesOnSheet;
   } else if(tray.sheetType==="btok") {
     a = 0;  // This is the tray Top Margin.
-    b = 40;  // This is the tray Y Step Value.
+    b = BD18.curTrayStep;  // This is the tray Y Step Value.
     c = tray.tokensOnSheet;
   } else {
     return; // Invalid sheet type!!
