@@ -64,7 +64,7 @@ DROP TABLE IF EXISTS `game_player`;
 CREATE TABLE `game_player` (
   `game_id` int(11) NOT NULL,
   `player_id` int(11) NOT NULL,
-  `status` varchar(10) NOT NULL DEFAULT '''New''',
+  `status` varchar(10) NOT NULL DEFAULT '''P''',
   PRIMARY KEY (`game_id`,`player_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
