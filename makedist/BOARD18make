@@ -34,16 +34,16 @@ mv ~/board18-$versionNo/utility/utilconfig.php ~/board18-$versionNo/utility/conf
 cd $boxesRoot 
 pushd control > /dev/null
 install -p -t ~/board18-$versionNo/utility/control 1830-REP01.json
-install -p -t ~/board18-$versionNo/utility/control 1870-REP01.json
+install -p -t ~/board18-$versionNo/utility/control 1870-REP02.json
 popd > /dev/null
 pushd images > /dev/null
 mkdir ~/board18-$versionNo/webroot/images/1830-REP01
 pushd 1830-REP01 > /dev/null
 install -p -t ~/board18-$versionNo/webroot/images/1830-REP01 *.*
 popd > /dev/null
-mkdir ~/board18-$versionNo/webroot/images/1870-REP01
-pushd 1870-REP01 > /dev/null
-install -p -t ~/board18-$versionNo/webroot/images/1870-REP01 *.*
+mkdir ~/board18-$versionNo/webroot/images/1870-REP02
+pushd 1870-REP02 > /dev/null
+install -p -t ~/board18-$versionNo/webroot/images/1870-REP02 *.*
 popd > /dev/null
 popd > /dev/null
 cd ~

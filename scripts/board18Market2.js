@@ -131,8 +131,8 @@ function canvasApp()
 /* Startup Event Handler and Callback Functions.  */
 
 /* This function is an event handler for the game box images.
- * It calls makeTrays, makeBdTokenList and canvasApp after all 
- * itemLoaded events have occured.
+ * It calls makeTrays, makeBdTileList, canvasApp and 
+ * delayCheckForUpdate after all itemLoaded events have occured.
  */
 function itemLoaded(event) {
   BD18.loadCount--;
@@ -141,6 +141,7 @@ function itemLoaded(event) {
     makeTrays();
     makeMktTokenList();
     canvasApp();
+    delayCheckForUpdate();
   }
 }
 

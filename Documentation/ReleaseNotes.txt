@@ -1,3 +1,26 @@
+BOARD18 0.4.0 Release Notes
+
+Changes from 0.3.1 Release:
+
+* BOARD18 will now check every 2 minutes for updates made by other
+  players and will reload the page if any are found.
+
+* Added a new administrative utility to list all games in a database.
+
+* Removed resizing of tokens and tiles on map and stock chart. [Issue 29]
+  Uploaded graphics will no longer be resized so all graphics must 
+  be sized exactly correctly. 
+
+* Changed the second included game box from 1870-REP01 to 1870-REP02.
+
+* Some minor changes to the "Login to BOARD18" form.
+
+BOARD18 0.3.1 Release Notes
+
+Changes from 0.3.0 Release:
+
+* Fixed issue 32 - Some browsers do not display page correctly.
+
 BOARD18 0.3.0 Release Notes
 
 Changes from 0.2.6 Release:

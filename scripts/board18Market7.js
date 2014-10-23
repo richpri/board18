@@ -1,6 +1,7 @@
 /* 
- * board18Market7.js contains all the functions that
- * implement the keyboard shortcut events.
+ * board18Market7.js contains the function that implements the
+ * keyboard shortcut events and the functions that implement
+ * the call to the checkForUpdate.php routine.
  *
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
@@ -97,4 +98,63 @@ function setUpKeys() {
     }
     e.preventDefault();
   });
+}
+
+/* 
+ * The checkForUpdateCallback function is the callback function
+ * for the checkForUpdate function. It acts on the status
+ * returned by the checkForUpdate.php AJAX call.
+ */
+function checkForUpdateCallback(resp) {
+  if (resp.indexOf("<!doctype html>") !== -1) { // User has timed out.
+    window.location = "access-denied.html";
+  } 
+  var msg;
+  if(resp === 'failure') {
+    msg = "The page refresh function failed. This should not happen.";
+    msg += "Contact the site administrator about this error.";
+    alert(msg);
+  }
+  else if(resp === 'noupdate') {
+    resetCheckForUpdate();
+  }
+  else if(resp === 'updatefound') {
+    document.location.reload(true);
+  }
+  else {
+    msg = "Invalid return code from checkForUpdateCallback(resp). ";
+    msg += "Contact the site administrator about this error.";
+    alert(msg);
+  }
+}
+
+
+/* 
+ * The checkForUpdate function does an AJAX post call 
+ * for checkForUpdate.php passing the gameid.
+ */
+function checkForUpdate() {
+  var outstring = "gameid=" + BD18.gameID;
+  $.post("php/checkForUpdate.php", outstring, checkForUpdateCallback);
+}
+
+/* 
+ * The delayCheckForUpdate function waits 2 minutes before
+ * calling the checkForUpdate function.
+ */
+function delayCheckForUpdate() {
+  BD18.checkForUpdateTimeout = 
+    window.setTimeout(checkForUpdate, 120000);
+}
+
+/* 
+ * The resetCheckForUpdate function stops any current
+ * setTimeout for the checkForUpdate function and then
+ * calls the delayCheckForUpdate function.
+ */
+function resetCheckForUpdate() {
+  if (BD18.checkForUpdateTimeout) {
+    window.clearTimeout(BD18.checkForUpdateTimeout);
+  }
+  delayCheckForUpdate();
 }

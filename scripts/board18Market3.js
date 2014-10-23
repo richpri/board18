@@ -201,8 +201,10 @@ function updateMarketTokens() {
 
 /* This function sends the stringified BD18.gm object
  * to the updateGame.php function via an AJAX call.
+ * But, it first calls the resetCheckForUpdate function.
  */
 function updateDatabase() {
+  resetCheckForUpdate();
   var jstring = JSON.stringify(BD18.gm);
   var outstring = "json=" + jstring + "&gameid=" + BD18.gameID;
   $.post("php/updateGame.php", outstring, fromUpdateGm);
