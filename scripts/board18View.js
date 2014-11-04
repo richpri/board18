@@ -20,8 +20,8 @@ function logoutOK(resp) {
 } // end of logoutOK
 
 /* Function listReturn is the success callback function for 
- * the ajax myGameList.php call. It appends a list if games
- * to the table in board18Main.php.
+ * the ajax allGameList.php call. It appends a list if games
+ * to the table in board18View.php.
  */
 function listReturn(response) {
   if (response.indexOf("<!doctype html>") !== -1) { // User has timed out.
@@ -37,22 +37,19 @@ function listReturn(response) {
       gameHTML += listInfo.gname + '</a></td> <td>';
       gameHTML += listInfo.bname + '</td> <td>';
       gameHTML += listInfo.version + '</td> <td>';
-      gameHTML += listInfo.start_date + '</td> <td>';
-      gameHTML += '<a href="board18Misc.php?dogame=';
-      gameHTML += listInfo.game_id + '"><button type="button">';
-      gameHTML += 'Edit</button></a> </td> </tr>';
+      gameHTML += listInfo.start_date + '</td> </tr>';
     }); // end of each
     $('#gamelist').append(gameHTML);
   } else if (resp.stat === 'none') {
     var nogames = '<p id="gamehead">';
-    nogames += 'You are not currently playing any games</p>';
+    nogames += 'There are no active games in the database.</p>';
     $('#games').append(nogames);
   } else if (resp.stat === 'fail') {
-    var errmsg1 = 'Program error in myGameList.php.\n';
+    var errmsg1 = 'Program error in allGameList.php.\n';
     errmsg1 += 'Please contact the BOARD18 webmaster.';
     alert(errmsg1);
   } else {  // Something is definitly wrong in the code.
-    var nerrmsg = 'Invalid return code from myGameList.php.\n';
+    var nerrmsg = 'Invalid return code from allGameList.php.\n';
     nerrmsg += response + '\nPlease contact the BOARD18 webmaster.';
     alert(nerrmsg);
   }
@@ -70,10 +67,10 @@ function registerMainMenu() {
           window.location = "board18New.php";
         }
       },
-      viewgames: {
-        name: "View All Games",
+      mainpage: {
+        name: "Main Page",
         callback: function(){
-          window.location = "board18View.php";
+          window.location = "board18Main.php";
         }
       },
       administration: {

@@ -7,7 +7,8 @@
  * 
  * Input is the JSON game session data and the gameID.
  * 
- * Output will be "success", "failure" or "collision".
+ * Output will be "success", "failure", "notplaying"
+ * or "collision".
  * 
  * The SESS_UPDATE_COUNTER session variable is used
  * by updateGame.php to support optimistic database 
@@ -67,6 +68,24 @@ if (!$result2 || (mysqli_num_rows($result2) !== 1)) {
 $arr2 = mysqli_fetch_array($result2);
 $counter = $arr2[0]; // update_counter
 $updater = $arr2[1]; // last_updater
+
+//Check if logged in player is playing this game.
+$qry8 = "SELECT * FROM game_player
+         WHERE player_id = '$loggedinplayer'
+         AND game_id = '$gameid'";
+$result8 = mysqli_query($link, $qry8);
+if (!$result8) {   // If query failed
+  $logMessage = 'MySQL Error 8: ' . mysqli_error($link);
+  error_log($logMessage);
+  echo "failure";
+  mysqli_query($link, $qry0); // ROLLBACK
+  exit;
+}
+if ((mysqli_num_rows($result8) !== 1)) { // not playing!
+  echo "notplaying";
+  mysqli_query($link, $qry0); // ROLLBACK
+  exit;
+}
 
 //Check for concurrent update [AKA collision].
 if ($counter != $update_counter) { // collision 

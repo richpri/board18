@@ -64,7 +64,8 @@ if ($mode === '2' || $mode === '3') {
   $rowr = mysqli_fetch_array($result1);
   $paddid = $rowr[0]; //  Player ID of player to be added.
 
-  $qry2 = "SELECT * FROM game_player WHERE player_id = $paddid";
+  $qry2 = "SELECT * FROM game_player 
+           WHERE player_id = $paddid AND game_id = $game";
   $result2 = mysqli_query($link, $qry2);
   if (!$result2) {
     $logMessage = 'Error on SELECT game_player query: ' . 

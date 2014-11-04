@@ -46,6 +46,13 @@ function fromUpdateGm(resp) {
     alert(msg);                     // Fix for BUG 25
     document.location.reload(true); // Fix for BUG 25
   }
+  else if (resp === 'notplaying') {
+    msg = BD18.welcomename + ": ";
+    msg += "Your move has been rejected because";
+    msg += " you are not a player in this game.";
+    alert(msg);                    
+    document.location.reload(true); 
+  }
   else {
     msg = "Invalid return code from updateGame [" + resp + "]. ";
     msg += "Contact the site administrator about this error.";

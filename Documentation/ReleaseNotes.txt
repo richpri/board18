@@ -1,3 +1,11 @@
+BOARD18 0.5.0 Release Notes
+
+Changes from 0.4.0 Release:
+
+* Fixed issue 21 - Allow players to view games that they are not playing. 
+
+* Fixed bug in changePlayers.php
+
 BOARD18 0.4.0 Release Notes
 
 Changes from 0.3.1 Release:

@@ -43,9 +43,7 @@ if ($result) {
   }
 }
 if ($gamefound == 'no') {
-  $_SESSION['SESS_HEADER_MESSAGE'] =
-          'You are not a player in the selected game!';
-  header("location: board18Main.php");
+  $headermessage = 'You are not a player in the selected game.';
 }
 ?>
 <!doctype html>
