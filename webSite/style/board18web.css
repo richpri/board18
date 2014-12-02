@@ -6,24 +6,29 @@
 html, body {
   margin: 0;
   padding: 0;
+  background-color:#ddffdd;  
+  height:500px;
+  width:1100px;
 }
 
 #topofpage {
   background-color:#ffeedd;
+  border: 2px black solid;
   position:fixed;
   left:0px;
   top:0px;
   height:90px;
-  width:1004px;
+  width:1023px;
 }
 
 #leftofpage {
   background-color:#ddffdd;
+  border: 2px black solid;
   padding: 10px;
   position:fixed;
   left:0px;
   top:90px;
-  width:115px;
+  width:130px;
   height:384px;
 }
 
@@ -35,6 +40,7 @@ padding-left:0px;
 
 #leftofpage ul li {
 height:30px;
+padding-bottom: 10px;
 }
 
 #rightofpage {
@@ -42,10 +48,10 @@ height:30px;
   border: 2px black solid;
   padding: 20px;
   position:fixed;
-  left:130px;
-  height:360px;
+  left:150px;
+  height:363px;
   top:90px;
-  width:830px;
+  width:833px;
 }
 
 #logo {
