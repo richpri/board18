@@ -186,7 +186,7 @@ function itemLoaded(event) {
 /* The loadBox function is a callback function for
  * the gameBox.php getJSON function. It loads all
  * the game box images. 
- * It also initializes the BD18.gm.trayCounts  array
+ * It also initializes the BD18.gm.trayCounts array
  * if it is undefined or empty.
  * Finally it calls the makeMenues function.
  */
@@ -196,6 +196,14 @@ function loadBox(box) {
   } 
   BD18.bx = null;
   BD18.bx = box;
+  // check for missing orientation value and make sure
+  // that BD18.orientation is an upper case "P" or "F".
+  if ((typeof BD18.bx.board.orientation === 'undefined') ||
+        (BD18.bx.board.orientation.toUpperCase() !== "F")) {
+    BD18.orientation = "P";
+  } else { 
+    BD18.orientation = "F";
+  }
   var board = BD18.bx.board;
   var sheets = BD18.bx.tray;
   BD18.bdImage = new Image();

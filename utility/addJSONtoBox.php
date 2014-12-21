@@ -20,11 +20,12 @@ This game box must already exist in the database!
 } 
 $jsonstring = file_get_contents($argv[1]);
 if (!$jsonstring) {
-  die('Open failed on file ' . $argv[1] . 'DB update was not done.');
+  die('Open failed on file ' . $argv[1] . ' DB update was not done.');
   exit; // just in case
 }
 $decoded = json_decode($jsonstring,TRUE);
 $bname = $decoded["bname"];
+$version = $decoded["version"];
 require_once('config.php');
 $link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 if ( !$link ) {
@@ -34,7 +35,8 @@ if ( !$link ) {
 	exit; // just in case
 }
 
-$qry1 = "SELECT box_id FROM box WHERE bname = '$bname';"; 
+$qry1 = "SELECT box_id FROM box 
+         WHERE bname = '$bname' AND version = '$version';"; 
 $result1 = mysqli_query($link, $qry1);
 if (!$result1) {
   $logMessage = 'MySQL Error 1: ' . mysqli_error($link);
@@ -42,7 +44,7 @@ if (!$result1) {
   exit; // just in case
 }
 if (mysqli_num_rows($result1) !== 1) {
-  die('Game box ' . $bname . 'does not exist in data base.');
+  die('Game box ' . $bname . ' does not exist in data base.');
   exit; // just in case
 }
 $arr1 = mysqli_fetch_array($result1);

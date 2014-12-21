@@ -1,3 +1,11 @@
+BOARD18 0.6.0 Release Notes
+
+Changes from 0.5.0 Release:
+
+* Fixed issue 33 - Support hexes in both orientations. 
+
+* Fixed bug in the addJSONtoBox.php utility.
+
 BOARD18 0.5.0 Release Notes
 
 Changes from 0.4.0 Release:

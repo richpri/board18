@@ -77,20 +77,38 @@ function GameBoard(image,board) {
    * map hex given an exact position in pixels on the game board.
    */
   this.hexCoord = function hexCoord(xPix, yPix) {
-    var yCent = this.yStart + this.yStep*2/3;
-    var yIndex = Math.round(((yPix-yCent)/this.yStep));
-    var xCent = this.xStart + this.xStep;
-    var xIndex, xCentOdd;
-    if (yIndex%2===0) { //if yIndex is even.
-      xIndex = Math.round(((xPix-xCent)/this.xStep));
+    if (BD18.orientation === "P") {
+      var yCent = this.yStart + this.yStep*2/3;
+      var yIndex = Math.round(((yPix-yCent)/this.yStep));
+      var xCent = this.xStart + this.xStep;
+      var xIndex, xCentOdd;
+      if (yIndex%2===0) { //if yIndex is even.
+        xIndex = Math.round(((xPix-xCent)/this.xStep));
+      } else {
+        xCentOdd = xCent + this.xStep;
+        xIndex = Math.round(((xPix-xCentOdd)/this.xStep))+1;
+      }
+      var xDiff = xPix-xIndex*this.xStep-xCent;
+      if ((xIndex+yIndex)%2===1) { //if not both even or odd.
+        if (xDiff>0) {xIndex = xIndex + 1; }
+        else { xIndex = xIndex - 1; }
+      }
     } else {
-      xCentOdd = xCent + this.xStep;
-      xIndex = Math.round(((xPix-xCentOdd)/this.xStep))+1;
-    }
-    var xDiff = xPix-xIndex*this.xStep-xCent;
-    if ((xIndex+yIndex)%2===1) { //if not both even or odd.
-      if (xDiff>0) {xIndex = xIndex + 1; }
-      else { xIndex = xIndex - 1; }
+      var xCent = this.xStart + this.xStep*2/3;
+      var xIndex = Math.round(((xPix-xCent)/this.xStep));
+      var yCent = this.yStart + this.yStep;
+      var yIndex, yCentOdd;
+      if (xIndex%2===0) { //if xIndex is even. 
+        yIndex = Math.round(((yPix-yCent)/this.yStep));
+      } else {
+        yCentOdd = yCent + this.yStep;
+        yIndex = Math.round(((yPix-yCentOdd)/this.yStep))+1;
+      }
+      var yDiff = yPix-yIndex*this.yStep-yCent;
+      if ((yIndex+xIndex)%2===1) { //if not both even or odd.
+        if (yDiff>0) {yIndex = yIndex + 1; }
+        else { yIndex = yIndex - 1; }
+      }
     }
     return [xIndex, yIndex];
   };
@@ -241,7 +259,7 @@ function BoardTile(snumb,index,rotation,bx,by) {
     var szx = this.sheet.xSize;
     var szy = this.sheet.ySize;
     if (temp) {BD18.context1.globalAlpha = 0.5;}
-    BD18.context1.drawImage(image,sx,sy,szx,szy,dxf,dyf,100,116);
+    BD18.context1.drawImage(image,sx,sy,szx,szy,dxf,dyf,szx,szy);
     BD18.context1.globalAlpha = 1;
   };
   /*
