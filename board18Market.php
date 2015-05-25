@@ -7,43 +7,57 @@
  * A copy of this license can be found in the LICENSE.text file.
  */
 require_once('php/auth.php');
-require_once('php/config.php');
-
-$link = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
-if (!$link) {
-  error_log('Failed to connect to server: ' . mysql_error());
-  exit;
-}
-$db = mysql_select_db(DB_DATABASE);
-if (!$db) {
-  error_log("Unable to select database");
-  exit;
-}
+require_once('php/config.php'); 
 
 //Function to sanitize values received from POST. 
 //Prevents SQL injection
-function clean($str) {
+function clean( $conn, $str ) {
   $str = @trim($str);
-  return mysql_real_escape_string($str);
+  return mysqli_real_escape_string( $conn, $str );
 }
 
-//Sanitize the dogame value
-$dogame = clean($_REQUEST['dogame']);
-//Initialize $gamefound flag.
+//Initialize $gamefound and $status flags.
 $gamefound = 'no';
-$qry = "SELECT game_id FROM game_player 
+$status = 'ok';
+
+$link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+if ( !$link ) {
+	error_log('Failed to connect to server: ' . mysqli_connect_error());
+	$status = 'fail';
+}  
+  
+//Sanitize the dogame value
+$dogame = clean( $link, $_REQUEST['dogame']);
+
+$qry1 = "SELECT game_id FROM game_player 
         WHERE player_id = $loggedinplayer";
-$result = mysql_query($qry);
-if ($result) {
-  while ($row = mysql_fetch_array($result)) {
-    if (intval($row[0]) == intval($dogame)) {
+$result1 = mysqli_query( $link, $qry1 );
+if ($result1) {
+  while ($row1 = mysqli_fetch_array($result1)) {
+    if (intval($row1[0]) == intval($dogame)) {
       $gamefound = 'yes';
       break;
     }
   }
-}
-if ($gamefound == 'no') {
-  $headermessage = 'You are not a player in the selected game.';
+  
+  if ($gamefound == 'no') {
+    $headermessage = 'You are not a player in the selected game.';
+  } 
+
+  $qry2 = "SELECT * FROM game 
+            WHERE game_id = $intval($dogame)";
+  $result2 = mysqli_query( $link, $qry2 );
+  if ($result2 && (mysqli_num_rows($result2) == 1)) { 
+    $row2 = mysqli_fetch_assoc($result2);
+    $gamestat = $row2[status]; // game status
+    $gname = $row2[gname]; // game name
+  } else {   
+    error_log("status query failed");
+    $status = 'fail';
+  }
+} else {
+  error_log("game_id query failed");
+  $status = 'fail';
 }
 ?>
 <!doctype html>
@@ -110,7 +124,9 @@ if ($gamefound == 'no') {
         <img src="images/logo.png" alt="Logo"/> 
       </div>
       <div id="heading">
-        <h1>BOARD18 - Remote Play Tool For 18xx Style Games</h1>
+        <h1>BOARD18 - <?php echo $gname; ?> - 
+          <span style="font-size: smaller">Status: 
+            <?php echo $gamestat; ?></span></h1>
       </div>
       <div>
         <span id="newmainmenu"> MENU </span>

@@ -122,3 +122,57 @@ function doLogNote(note) {
     BD18.noteTimeout = null;
   },"20000");
 }
+
+/* The following functions are callback function for various 
+ * ajax calls to server side PHP code. 
+ */
+
+/* Function logoutOK is the callback function for the ajax
+ * lgout call. 
+ */
+function logoutOK(resp) {
+  if(resp === 'success') {
+    window.location = "index.html";
+  }
+  else {
+    alert("Logout failed! This should never happen.");
+  } 
+}
+
+/* Function statswapOK is the callback function for the ajax
+ * statSwap call. 
+ */
+function statswapOK(resp) {
+  if (resp.indexOf("<!doctype html>") !== -1) { // User has timed out.
+    window.location = "access-denied.html";
+  } 
+  var msg;
+  if(resp === 'success') {
+    document.location.reload(true);
+  }
+  else if(resp === 'failure') {
+    msg = "The toggle of the game status failed. ";
+    msg += "Contact the site administrator about this error.";
+    alert(msg);
+  }
+  else if(resp.substr(0,9) === 'collision') {
+    msg = BD18.welcomename + ": ";
+    msg += "Your move has been backed out because ";
+    msg += resp.substr(10);
+    msg += " updated the database after you read it.";
+    alert(msg); 
+    document.location.reload(true);
+  }
+  else if (resp === 'notplaying') {
+    msg = BD18.welcomename + ": ";
+    msg += "Your request has been rejected because";
+    msg += " you are not a player in this game.";
+    alert(msg);                    
+    document.location.reload(true); 
+  }
+  else {
+    msg = "Invalid return code from statSwap ["+resp+"]. ";
+    msg += "Contact the site administrator about this error.";
+    alert(msg);
+  }
+}

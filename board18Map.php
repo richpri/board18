@@ -17,32 +17,49 @@ function clean( $conn, $str ) {
   return mysqli_real_escape_string( $conn, $str );
 }
 
+//Initialize $gamefound and $status flags.
+$gamefound = 'no';
+$status = 'ok';
+
 $link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 if ( !$link ) {
 	error_log('Failed to connect to server: ' . mysqli_connect_error());
-	die( 'Connect error: (' . mysqli_connect_errno() . ') ' . 
-          mysqli_connect_error() );
-	exit; // just in case
-}
-
-
+	$status = 'fail';
+}  
+  
 //Sanitize the dogame value
 $dogame = clean( $link, $_REQUEST['dogame']);
-//Initialize $gamefound flag.
-$gamefound = 'no';
-$qry = "SELECT game_id FROM game_player 
+
+$qry1 = "SELECT game_id FROM game_player 
         WHERE player_id = $loggedinplayer";
-$result = mysqli_query( $link, $qry );
-if ($result) {
-  while ($row = mysqli_fetch_array($result)) {
-    if (intval($row[0]) == intval($dogame)) {
+$result1 = mysqli_query( $link, $qry1 );
+if ($result1) {
+  while ($row1 = mysqli_fetch_array($result1)) {
+    if (intval($row1[0]) == intval($dogame)) {
       $gamefound = 'yes';
       break;
     }
   }
-}
-if ($gamefound == 'no') {
-  $headermessage = 'You are not a player in the selected game.';
+  
+  if ($gamefound == 'no') {
+    $headermessage = 'You are not a player in the selected game.';
+  } 
+
+  $intgame = intval($dogame);
+  $qry2 = "SELECT * FROM game 
+            WHERE game_id = $intgame";
+  $result2 = mysqli_query( $link, $qry2 );
+  if ($result2 && (mysqli_num_rows($result2) == 1)) { 
+    $row2 = mysqli_fetch_assoc($result2);
+    $gamestat = $row2['status']; // game status
+    $gname = $row2['gname']; // game name
+  } else {   
+    error_log("status query failed");
+    $status = 'fail';
+  }
+} else {
+  error_log("game_id query failed");
+  $status = 'fail';
 }
 ?>
 <!doctype html>
@@ -81,6 +98,11 @@ if ($gamefound == 'no') {
     </script> 
     <script type="text/javascript">
       $(function() {
+        if ('<?php echo "$status"; ?>' === 'fail') {
+          var errmsg = 'Data Base access failed.\n';
+          errmsg += 'Please contact the BOARD18 webmaster.';
+          alert(errmsg);
+        }
         BD18.welcomename = "<?php echo "$welcomename"; ?>";
         BD18.headermessage = "<?php echo "$headermessage"; ?>";
         BD18.gameID = "<?php echo $dogame; ?>";
@@ -109,7 +131,9 @@ if ($gamefound == 'no') {
         <img src="images/logo.png" alt="Logo"/> 
       </div>
       <div id="heading">
-        <h1>BOARD18 - Remote Play Tool For 18xx Style Games</h1>
+        <h1>BOARD18 - <?php echo $gname; ?> - 
+          <span style="font-size: smaller">Status: 
+            <?php echo $gamestat; ?></span></h1>
       </div>
       <div>
         <span id="newmainmenu"> MENU </span>

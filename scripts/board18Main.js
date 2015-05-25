@@ -20,7 +20,7 @@ function logoutOK(resp) {
 } // end of logoutOK
 
 /* Function listReturn is the success callback function for 
- * the ajax myGameList.php call. It appends a list if games
+ * the ajax myGameList.php call. It appends a list of games
  * to the table in board18Main.php.
  */
 function listReturn(response) {

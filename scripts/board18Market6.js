@@ -46,6 +46,13 @@ function registerMainMenu() {
           window.location = "board18Main.php";
         }
       },
+      statswap: {
+        name: "Toggle Status",
+        callback: function(){
+          var swapstring = "&gameid=" + BD18.gameID;
+          $.post("php/statSwap.php", swapstring,  statswapOK);
+        }
+      },
       logout: {
         name: "Log Out",
         callback: function(){

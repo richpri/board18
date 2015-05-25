@@ -2,8 +2,8 @@
 /*
  * This is the server side code for the AJAX myGameList call.
  * 
- * It produces the data needed to create a list of all games
- * that the signed in player is playing.
+ * It produces the data needed to create a list of all active
+ * games that the signed in player is playing.
  * 
  * There are no input parameters.
  *
@@ -64,6 +64,7 @@ $qry = "SELECT b.game_id, b.gname, c.bname,
             JOIN (game AS b, box AS c)
               ON (a.player_id = $you
                 AND a.game_id = b.game_id
+                AND b.status = 'Active'
                 AND b.box_id = c.box_id)
           ORDER BY b.start_date DESC";
   $result = mysqli_query($link,$qry);

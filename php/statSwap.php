@@ -1,22 +1,22 @@
 <?php
 /*
- * updateGame.php is the server side code for the 
- * AJAX updateGame call.
+ * statSwap.php is the server side code for the 
+ * AJAX statSwap call.
  * 
- * It loads game status updates into the database.
+ * It toggles the game status field in the game table.
  * 
- * Input is the JSON game session data and the gameID.
+ * Input is the gameID.
  * 
  * Output will be "success", "failure", "notplaying"
  * or "collision".
  * 
  * The SESS_UPDATE_COUNTER session variable is used
- * by updateGame.php to support optimistic database 
+ * by statSwap.php to support optimistic database 
  * locking. This should stop concurrent updates from
  * messing up the database. [And do this without
  * incurring high overhead.]
  * 
- * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * Copyright (c) 2015 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
 require_once('auth.php');
@@ -40,8 +40,7 @@ function clean($link,$str) {
   return mysqli_real_escape_string($link,$str);
 }
 
-//Sanitize the POST values (but not json string)
-$gameSession = $_REQUEST['json'];
+//Sanitize the POST value
 $gameid = clean($link,$_REQUEST['gameid']);
 
 // Start transaction.
@@ -54,8 +53,8 @@ if (!$result1) {
   exit;
 }
 
-//Check for valid gameid ID and get counter and updater.
-$qry2 = "SELECT update_counter, last_updater
+//Check for valid gameid ID and get counter, status and updater.
+$qry2 = "SELECT update_counter, last_updater, status
   FROM game WHERE game_id='$gameid' FOR UPDATE";
 $result2 = mysqli_query($link, $qry2);
 if (!$result2 || (mysqli_num_rows($result2) !== 1)) { 
@@ -68,6 +67,7 @@ if (!$result2 || (mysqli_num_rows($result2) !== 1)) {
 $arr2 = mysqli_fetch_array($result2);
 $counter = $arr2[0]; // update_counter
 $updater = $arr2[1]; // last_updater
+$gamestat = $arr2[2]; // status
 
 //Check if logged in player is playing this game.
 $qry8 = "SELECT * FROM game_player
@@ -115,9 +115,10 @@ if ($arr3[0] == '') {  // If no firstname
 
 //Update game session.
 $counter += 1;
+$newstat = ($gamestat === "Active" ? "Completed" : "Active");
 $qry4 = "UPDATE game SET update_counter='$counter',
                 last_updater='$player',
-                json_text='$gameSession'
+                status='$newstat'
          WHERE game_id = '$gameid'";
 $result4 = mysqli_query($link, $qry4);
 if (!$result4) {   // If query failed
