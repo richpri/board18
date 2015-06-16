@@ -34,7 +34,8 @@ if (!$theLink) {
 
 function showBoxes($conn) {
   global $open;
-  $qry = "SELECT box_id, bname, version, author, create_date FROM box";
+  $qry = "SELECT box_id, bname, version, author, create_date 
+          FROM box WHERE status = 'Active' ORDER BY bname, version";
   $result = mysqli_query($conn, $qry);
   if ($result) {
     if (mysqli_num_rows($result) !== 0) {
