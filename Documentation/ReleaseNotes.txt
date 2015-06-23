@@ -1,3 +1,9 @@
+BOARD18 1.0.1 Release Notes
+
+Changes from 1.0.0 Release:
+
+* Fixed issue 38 - Placement problem with token selection popup. 
+
 BOARD18 1.0.0 Release Notes
 
 Changes from 0.6.0 Release:
