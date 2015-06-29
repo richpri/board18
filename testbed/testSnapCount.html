@@ -7,14 +7,14 @@
     </script>
     <script type="text/javascript">
       function testReturn(inData) {
-				$('#result').append(inData)  
+				$('#result').append(inData);
       };
       $(document).ready(function() {
-        var dataString = 'box=5';
-        $('#call').append(dataString)
+        var dataString = 'gameid=1';
+        $('#call').append(dataString);
         $.post("../php/snapCount.php", dataString, testReturn)
         .error(function() { 
-          var msg = "Error accessing game box. \n"
+          var msg = "Error accessing game_snap. \n";
           msg += "See /var/log/apache2/error.log \nfor more information.";
           alert(msg); 
         });

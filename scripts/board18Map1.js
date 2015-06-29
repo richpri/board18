@@ -34,6 +34,7 @@ BD18.tknMenu.on = false;
 BD18.tknMenu.go = false;
 BD18.hexList = {};
 BD18.deletedBoardToken = null;
+BD18.isSnap = false;
 
 /*  
  * Constructor functions.

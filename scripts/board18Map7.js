@@ -2,8 +2,10 @@
  * board18Map7.js contains the function that implements the
  * keyboard shortcut events and the functions that implement
  * the call to the checkForUpdate.php routine.
+ * 
+ * It now also contains the code for the new snapshot function.
  *
- * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * Copyright (c) 2015 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
 
@@ -20,50 +22,52 @@
  */
 function setUpKeys() {
   $(document).keydown(function(e){
-	  var keycode = (e.keyCode ? e.keyCode : e.which);
-    switch(keycode) {
-      case 13: // "Enter" keycode
-        acceptMove();
-        break;
-      case 67: // "C" keycode
-        if (BD18.deletedBoardToken) {
-          BD18.curTrayNumb = BD18.deletedBoardToken.snumb;
-          BD18.curIndex = BD18.deletedBoardToken.index;
-          BD18.curFlip = BD18.deletedBoardToken.flip;
-          BD18.curMapX = BD18.deletedBoardToken.bx;
-          BD18.curMapY = BD18.deletedBoardToken.by;
-          addToken();
-        }
-        trayCanvasApp();
-        mainCanvasApp();
-        toknCanvasApp();
-        break;    
-      case 77: // "M" keycode
-        window.location = "board18Market.php?dogame=" + BD18.gameID;
-        break;
-      case 70: // "F" keycode
-        if (BD18.hexIsSelected === true && 
-            BD18.tokenIsSelected === true){
-          flipToken();
-        };
-        break; 
-      case 82: // "R" keycode
-        if (BD18.hexIsSelected === true && 
-            BD18.tileIsSelected === true){
-          rotateTile("cw");
-        };
-        break; 
-      case 69: // "E" keycode
-        if (BD18.hexIsSelected === true && 
-            BD18.tileIsSelected === true){
-          rotateTile("ccw");
-        };
-        break; 
-      default:
+    if (BD18.isSnap === false) {
+  	  var keycode = (e.keyCode ? e.keyCode : e.which);
+      switch(keycode) {
+        case 13: // "Enter" keycode
+          acceptMove();
+          break;
+        case 67: // "C" keycode
+          if (BD18.deletedBoardToken) {
+            BD18.curTrayNumb = BD18.deletedBoardToken.snumb;
+            BD18.curIndex = BD18.deletedBoardToken.index;
+            BD18.curFlip = BD18.deletedBoardToken.flip;
+            BD18.curMapX = BD18.deletedBoardToken.bx;
+            BD18.curMapY = BD18.deletedBoardToken.by;
+            addToken();
+          }
+          trayCanvasApp();
+          mainCanvasApp();
+          toknCanvasApp();
+          break;    
+        case 77: // "M" keycode
+          window.location = "board18Market.php?dogame=" + BD18.gameID;
+          break;
+        case 70: // "F" keycode
+          if (BD18.hexIsSelected === true && 
+              BD18.tokenIsSelected === true){
+            flipToken();
+          };
+          break; 
+        case 82: // "R" keycode
+          if (BD18.hexIsSelected === true && 
+              BD18.tileIsSelected === true){
+            rotateTile("cw");
+          };
+          break; 
+        case 69: // "E" keycode
+          if (BD18.hexIsSelected === true && 
+              BD18.tileIsSelected === true){
+            rotateTile("ccw");
+          };
+          break; 
+        default:
+      }
+      e.preventDefault();
     }
-    e.preventDefault();
-  });
-}
+  })
+};
 
 /* 
  * The checkForUpdateCallback function is the callback function
@@ -122,4 +126,71 @@ function resetCheckForUpdate() {
     window.clearTimeout(BD18.checkForUpdateTimeout);
   }
   delayCheckForUpdate();
+}
+
+/* 
+ * Function snapshotOK is the call back function for the
+ * ajax snapShot.php call. 
+ * 
+ * Output from snapShot.php is an echo return status:
+ *   "success" - Snapshot has been successfull.
+ *   "fail"    - Uexpected error - No snapshot has been taken.
+ */
+function snapshotOK(response) {
+  if (response.indexOf("<!doctype html>") !== -1) { // User has timed out.
+    window.location = "access-denied.html";
+  }
+  else if (response === 'success') {
+    msg = BD18.welcomename + ": ";
+    msg += "Your snap shot request has been successful. ";
+    $('#lognote').text(msg);
+  }
+  else if (response === 'fail') {
+    var errmsg = 'Snapshot failed.\n';
+    errmsg += 'Please contact the BOARD18 webmaster.';
+    alert(errmsg);
+  }
+   else if(resp.substr(0,9) === 'collision') {
+    msg = BD18.welcomename + ": ";
+    msg += "Your snap shot request has been backed out because ";
+    msg += resp.substr(10);
+    msg += " updated the database after you read it.";
+    alert(msg); 
+    document.location.reload(true);   
+  }
+  else if (resp === 'notplaying') {
+    msg = BD18.welcomename + ": ";
+    msg += "Your snap shot request has been rejected because";
+    msg += " you are not a player in this game.";
+    alert(msg);                    
+    document.location.reload(true); 
+  }
+  else { // Something is definitly wrong in the code.
+    var nerrmsg = 'Invalid return code from snapShot.php.\n';
+    nerrmsg += resp + '\nPlease contact the BOARD18 webmaster.';
+    alert(nerrmsg);
+  }
+}
+
+/* 
+ * Function snapshot is called by the submit
+ * method of the snapname submit button. It 
+ * checks the input for missing fields and
+ * does an ajax call to snapShot.php. 
+ */
+function snapshot() {
+  $('.error').hide();  
+  BD18.roundname = $("input#rname").val();  
+  if (BD18.roundname === "") {  
+    $("#rname_error").show();  
+    $("#rname").focus();  
+    return;  
+  }
+  var postString = 'gameid=' + BD18.gameID;
+  postString += '&roundname=' + BD18.roundname;
+  $.post("php/snapShot.php", postString,  function(response) {
+    snapshotOK(response);
+  });
+  $('#snapname form').hide();
+  BD18.isSnap = false;
 }

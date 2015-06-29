@@ -52,23 +52,23 @@ CREATE TABLE `game` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `game_cp`
+-- Table structure for table `game_snap`
 --
 
-DROP TABLE IF EXISTS `game_cp`;
+DROP TABLE IF EXISTS `game_snap`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `game_cp` (
+CREATE TABLE `game_snap` (
+  `cp_id` int(11) NOT NULL AUTO_INCREMENT,
   `game_id` int(11) NOT NULL,
-  `cp_id` int(11) NOT NULL,
   `cp_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `update_counter` int(11) NOT NULL DEFAULT '0',
-  `player_id` int(11) unsigned NOT NULL,
+  `player` varchar(16) CHARACTER SET utf8 NOT NULL,
   `last_updater` varchar(16) CHARACTER SET utf8 NOT NULL,
   `game_round` varchar(16) CHARACTER SET utf8 NOT NULL,
   `json_text` mediumtext CHARACTER SET utf8 NOT NULL,
-  PRIMARY KEY (`game_id`, `cp_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`cp_id`),
+  INDEX (`game_id`, `cp_id` DESC)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

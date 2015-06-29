@@ -127,3 +127,39 @@
   	background-color:#b1ccb1;	
     text-decoration: none;
 }
+
+/* 
+ *  Added by Rich Price on June 19 2015 for 
+ *  Issue 28 - Create a Checkpoint/Revert Function
+ */
+#snapname {
+	width: 500px;
+	position: absolute;
+	left: 140px;
+	top: 100px;
+	z-index: 10;
+}
+
+#rname {
+  width:300px;
+}
+
+.hideform {
+	padding: 10px 10px 10px 10px;
+  border-style: double;
+	display: none;	
+	background-color:#ddffdd;
+}
+.hideform label {
+	display: inline-block;
+	width: 300px;
+	margin: 0 15px 0 0;
+	color: rgb(58,80,123);
+}
+.hideform input {
+	font-size: 14px;	
+}
+.error {
+  color: red !important;
+}
+

@@ -68,6 +68,16 @@ function registerMainMenu() {
           $.post("php/statSwap.php", swapstring,  statswapOK);
         }
       },
+      snap: {
+        name: "Take Snapshot",
+        callback: function(){
+          $('#snapname .error').hide();
+          $('#snapname :text').val('');
+          $('#snapname form').slideDown(300);
+          BD18.isSnap = true;
+          $('#rname').focus();
+        } 
+      },            
       logout: {
         name: "Log Out",
         callback: function(){
