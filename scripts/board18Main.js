@@ -7,18 +7,6 @@
  * them from global variables in other packages. 
  */
 
-/* Function logoutOK is the callback function for the ajax
- * logout call. 
- */
-function logoutOK(resp) {
-  if(resp === 'success') {
-    window.location = "index.html";
-  }
-  else {
-    alert("Logout failed! This should never happen.");
-  } 
-} // end of logoutOK
-
 /* Function listReturn is the success callback function for 
  * the ajax myGameList.php call. It appends a list of games
  * to the table in board18Main.php.

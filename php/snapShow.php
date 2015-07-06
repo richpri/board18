@@ -4,11 +4,11 @@
  * 
  * It returns an array of the game_snap records for this game.
  * 
- * Input is: gameid, blocksize and startrow.
+ * Input is: gameid, blocksz and startrow.
  * 
  * Output is the following stringified JSON data structure. 
  *   {
- *     "stat":"success||short||none||fail",
+ *     "stat":"success||none||fail",
  *     "snaps":
  *     [
  *       {
@@ -27,7 +27,7 @@
  * 
  */
 
-// require_once('auth.php');
+require_once('auth.php');
 require_once('config.php');
 
 class Snapline
@@ -99,17 +99,9 @@ if (mysqli_num_rows($result1) === 0) { // no games.
     $ii += 1;
   }
 }
-if (mysqli_num_rows($result1) < $blocksize) { // short block.
-  $shortResp = new Response();
-  $shortResp->stat = "short";
-  $shortResp->snaps = $snaplist;
-  echo json_encode($shortResp);
-  exit;
-} else {
-  $succResp = new Response();
-  $succResp->stat = "success";
-  $succResp->snaps = $snaplist;
-  echo json_encode($succResp);
-  exit;
-}
+$succResp = new Response();
+$succResp->stat = "success";
+$succResp->snaps = $snaplist;
+echo json_encode($succResp);
+exit;
 ?>

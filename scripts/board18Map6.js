@@ -55,6 +55,22 @@ function registerMainMenu() {
           window.location = "board18Market.php?dogame=" + BD18.gameID;
         }
       },
+      snap: {
+        name: "Take Snapshot",
+        callback: function(){
+          $('#snapname .error').hide();
+          $('#snapname :text').val('');
+          $('#snapname form').slideDown(300);
+          BD18.isSnap = true;
+          $('#rname').focus();
+        } 
+      },
+      snaplist: {
+        name: "Show Snap List",
+        callback: function(){
+          window.location = "board18SnapList.php?gameid=" + BD18.gameID;
+        }
+      },     
       main: {
         name: "Main Page",
         callback: function(){
@@ -68,16 +84,6 @@ function registerMainMenu() {
           $.post("php/statSwap.php", swapstring,  statswapOK);
         }
       },
-      snap: {
-        name: "Take Snapshot",
-        callback: function(){
-          $('#snapname .error').hide();
-          $('#snapname :text').val('');
-          $('#snapname form').slideDown(300);
-          BD18.isSnap = true;
-          $('#rname').focus();
-        } 
-      },            
       logout: {
         name: "Log Out",
         callback: function(){
