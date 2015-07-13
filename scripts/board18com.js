@@ -26,7 +26,10 @@ function setPage()
           substring(location.pathname.lastIndexOf("/") + 1);
   $('#rightofpage').css('height', winH-90);
   $('#rightofpage').css('width', winW-135);
-  if(winName === "board18Map.php" || winName === "board18Market.php") {
+  if(winName === "board18Map.php" || 
+     winName === "board18Market.php" || 
+     winName === "board18SnapMap.php" || 
+     winName === "board18SnapMrk.php") {
     $('#botleftofpage').css('height', winH-140);
   }
   else $('#leftofpage').css('height', winH-90);

@@ -6,6 +6,7 @@
  * 'master variable' called BD18.  This isolates 
  * them from global variables in other packages. 
  */
+BD18.goToMain  = {};
 BD18.goToMain.timeoutID = 0;
 
 /* 

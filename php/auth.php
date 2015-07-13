@@ -3,7 +3,7 @@
  * auth.php is included at the start of all password protected pages 
  * and all password protected PHP programs called via AJAX.
  * It starts a php session and then checks to see that the player is
- * logged in and has been active sometime in the last 30 minutes.
+ * logged in and has been active sometime in the last day.
  */
 	//Start session
 	session_start();

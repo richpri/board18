@@ -42,7 +42,7 @@ function clean($link,$str) {
 $gameid = clean($link,$_REQUEST['gameid']);
 
 //Check for valid gameid ID and get counter and updater.
-$qry2 = "SELECT update_counter
+$qry2 = "SELECT update_counter, last_updater
   FROM game WHERE game_id='$gameid'";
 $result2 = mysqli_query($link, $qry2);
 if (!$result2 || (mysqli_num_rows($result2) !== 1)) { 
@@ -53,9 +53,10 @@ if (!$result2 || (mysqli_num_rows($result2) !== 1)) {
 }
 $arr2 = mysqli_fetch_array($result2);
 $counter = $arr2[0]; // update_counter
+$updater = $arr2[1]; // update_counter
 
 //Check for update made by another player.
-if ($counter != $update_counter) { 
+if ($counter != $update_counter && $updater != $loggedinplayer) { 
   echo "updatefound";
   exit;
 }
