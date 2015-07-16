@@ -1,7 +1,7 @@
 /*
- * The board18SnapMap.js file contains all the functions that
+ * The board18SnapMrk.js file contains all the functions that
  * respond to various onclick events on the game board in the 
- * SnapMap page and on the main and tray menues.  But note that 
+ * SnapMrk page and on the main and tray menues.  But note that 
  * right click events are not used on snapshot displays.
  *
  * Copyright (c) 2015 Richard E. Price under the The MIT License.
@@ -9,7 +9,7 @@
  */
 
 /* The registerMainMenu function creates the 
- * main menu on the board18SnapMap page. It uses
+ * main menu on the board18SnapMrk page. It uses
  * the jquery context menu plugin.
  */
 function registerMainMenu() {
@@ -34,10 +34,10 @@ function registerMainMenu() {
           }
         }
       },
-      stock: {
-        name: "Stock Market",
+      map: {
+        name: "Map Board",
         callback: function(){
-          window.location = "board18SnapMrk.php?show=" + BD18.snapID;
+          window.location = "board18SnapMap.php?show=" + BD18.snapID;
         }
       },
       snaplist: {
@@ -45,7 +45,7 @@ function registerMainMenu() {
         callback: function(){
           window.location = "board18SnapList.php?gameid=" + BD18.gameID;
         }
-      },   
+      },  
       game: {
         name: "Return to Game",
         callback: function(){
@@ -146,13 +146,13 @@ function registerTrayMenu() {
 }
 
 /* 
- * This makeMenus function is a stub to make board18SnapMap
- * compatable with board18Map2.php
+ * This makeMenus function is a stub to make board18SnapMrk
+ * compatable with board18Market2.php
  */
 function makeMenus() { };
 
 /* 
  * This delayCheckForUpdate function is a stub to make 
- * board18SnapMap compatable with board18Map2.php
+ * board18SnapMrk compatable with board18Market2.php
  */
 function delayCheckForUpdate() { };

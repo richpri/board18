@@ -44,8 +44,9 @@ if ($result1) {
     $headermessage = 'You are not a player in the selected game.';
   } 
 
+  $intgame = intval($dogame);
   $qry2 = "SELECT * FROM game 
-            WHERE game_id = $intval($dogame)";
+            WHERE game_id = $intval($intgame)";
   $result2 = mysqli_query( $link, $qry2 );
   if ($result2 && (mysqli_num_rows($result2) == 1)) { 
     $row2 = mysqli_fetch_assoc($result2);
@@ -96,6 +97,11 @@ if ($result1) {
     </script> 
     <script type="text/javascript">
       $(function() {
+        if ('<?php echo "$status"; ?>' === 'fail') {
+          var errmsg = 'Data Base access failed.\n';
+          errmsg += 'Please contact the BOARD18 webmaster.';
+          alert(errmsg);
+        }
         BD18.welcomename = "<?php echo "$welcomename"; ?>";
         BD18.headermessage = "<?php echo "$headermessage"; ?>";
         BD18.gameID = "<?php echo $dogame; ?>";
@@ -106,6 +112,15 @@ if ($result1) {
         $('#content').on({
           "mousedown": mapMouseEvent
         });
+        $("#snapname").submit(function() {  
+          snapshot();
+          return false;
+        }); // end snapname submit
+        $("#button2").click(function(){  //cancel snapshot
+          $('#snapname form').slideUp(300);
+          BD18.isSnap = false;
+          return false;
+        }); // end button2 click
         registerMainMenu(); 
         var gameToPlay = 'session=<?php echo $dogame; ?>';
         $.getJSON("php/gameSession.php", gameToPlay, loadSession)
@@ -159,6 +174,33 @@ if ($result1) {
       <canvas id="canvas3">
       </canvas>
     </div>
-
+    
+    <div id="snapname">
+      <form name="snapname" class="hideform" action="">
+        <fieldset>
+          <p style="font-size: 130%">Take a snapshot of
+             <br><?php echo $gname; ?>.
+          </p>
+          <p>
+             Pressing the Snapshot button will take a snapshot
+             of the current game status and then display a list 
+             of all the snapshots that exist for this game.
+          </p>
+          <p>
+            <label for="rname"> Enter Stock or Operating Round: </label>
+            <input type="text" name="rname" id="rname">
+            <label class="error" for="rname" id="rname_error">
+              This field is required. </label>
+          </p>
+          <p>
+            <input type="submit" name="snapbutton"  
+                   id="button1" value="Take Snapshot" >
+            <input type="button" name="canbutton"  
+                   id="button2" value="Cancel" >              
+          </p>
+        </fieldset>
+      </form>
+    </div>     
+    
   </body>
 </html>

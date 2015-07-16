@@ -53,7 +53,7 @@ if (!$result2 || (mysqli_num_rows($result2) !== 1)) {
 }
 $arr2 = mysqli_fetch_array($result2);
 $counter = $arr2[0]; // update_counter
-$updater = $arr2[1]; // update_counter
+$updater = $arr2[1]; // last_updater
 
 //Check for update made by another player.
 if ($counter != $update_counter && $updater != $loggedinplayer) { 

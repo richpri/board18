@@ -28,6 +28,7 @@ BD18.tknMenu = {};
 BD18.tknMenu.timeoutID = 0;
 BD18.onBoxList = {};
 BD18.deletedMarketToken = null;
+BD18.isSnap = false;
 
 /*  
  * Constructor functions.
