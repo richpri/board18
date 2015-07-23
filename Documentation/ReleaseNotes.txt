@@ -1,3 +1,11 @@
+BOARD18 1.1.0 Release Notes
+
+Changes from 1.0.1 Release:
+
+* Implemented issue 28 - Create a Checkpoint/Revert Function.
+
+* Made some other minor aesthetic code upgrades.
+
 BOARD18 1.0.1 Release Notes
 
 Changes from 1.0.0 Release:

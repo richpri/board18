@@ -1,6 +1,6 @@
 /*
  * The board18SnapMrk.js file contains all the functions that
- * respond to various onclick events on the game board in the 
+ * respond to various onclick events on the stock market in the 
  * SnapMrk page and on the main and tray menues.  But note that 
  * right click events are not used on snapshot displays.
  *

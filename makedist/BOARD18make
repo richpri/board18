@@ -41,9 +41,9 @@ mkdir ~/board18-$versionNo/webroot/images/1830-REP01
 pushd 1830-REP01 > /dev/null
 install -p -t ~/board18-$versionNo/webroot/images/1830-REP01 *.*
 popd > /dev/null
-mkdir ~/board18-$versionNo/webroot/images/1870-REP02
-pushd 1870-REP02 > /dev/null
-install -p -t ~/board18-$versionNo/webroot/images/1870-REP02 *.*
+mkdir ~/board18-$versionNo/webroot/images/1870-REP03
+pushd 1870-REP03 > /dev/null
+install -p -t ~/board18-$versionNo/webroot/images/1870-REP03 *.*
 popd > /dev/null
 popd > /dev/null
 cd ~

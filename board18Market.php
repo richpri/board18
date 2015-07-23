@@ -6,6 +6,7 @@
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
+
 require_once('php/auth.php');
 require_once('php/config.php'); 
 
