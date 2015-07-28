@@ -238,7 +238,7 @@ function deleteTile(ix) {
 /* 
  * The deleteToken function deletes a board token object 
  * from the BD18.boardTokens array. The ix parameter is
- * the index of the tile to be deleted.  This function 
+ * the index of the token to be deleted.  This function 
  * also increases the count of available tokens for the
  * token that is being deleted.  This function returns
  * false if no token is deleted and true otherwise.

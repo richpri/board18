@@ -57,14 +57,14 @@
     exit;
 	}
   
-  	//Check for ill formed email address
+  //Check for ill formed email address
   if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     // The email address is ill formed
     echo 'bademail';
     exit;
   }
   
-  	//Check for duplicate email address
+  //Check for duplicate email address
   $qry2 = "SELECT login FROM players WHERE email='$email'";
 	$result2 = mysqli_query( $link, $qry2 );
 	if($result2) {

@@ -1,7 +1,5 @@
 #!/bin/bash 
 #
-# THIS SCRIPT HAS NOT BEEN TESTED
-#
 # This script will create a new game box row in the box
 # table of the board18 database for each JSON file in 
 # the given diectory.
@@ -15,7 +13,7 @@
 #
 if [ $# -ne 1 ]
 then 
-   echo "Usage: loadAllBoxes boxname version author FILE"
+   echo "Usage: loadAllBoxes directory"
    exit
 fi
 shopt -s nullglob

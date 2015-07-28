@@ -195,6 +195,7 @@ function traySelect(event) {
   var index = Math.floor((inde<0)?0:inde);
   BD18.curIndex = index;
   BD18.curFlip = false; // Eliminate any previous flip.
+  BD18.deletedMarketToken = 0; // Eliminate any backout of token delete.
   tray.place(index); // Set highlight.
   BD18.tokenIsSelected = true;
 }

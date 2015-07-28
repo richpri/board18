@@ -217,6 +217,7 @@ function traySelect(event) {
   BD18.curIndex = index;
   BD18.curRot = 0; // Eliminate any previous rotation.
   BD18.curFlip = false; // Eliminate any previous flip.
+  BD18.deletedBoardToken = 0; // Eliminate any backout of token delete.
   tray.place(index); // Set highlight.
   if(tray.sheetType==="tile") {BD18.tileIsSelected = true;}
   if(tray.sheetType==="btok") {BD18.tokenIsSelected = true;}
