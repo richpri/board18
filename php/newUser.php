@@ -81,9 +81,24 @@
     exit;
 	}
 
+  //Check for empty players table. IE: Is this first player?
+  $qry3 = "SELECT COUNT(*) FROM players";
+	$result3 = mysqli_query( $link, $qry3 );
+	if($result3) {
+    $array3 = mysqli_fetch_array($result3);
+    $playerscount = $array3[0];
+	} else {
+		error_log("Check first player: Query failed");
+		echo 'fail';
+    exit;
+	}
+	
 	//Create INSERT query
 	$qry = "INSERT INTO players SET firstname='$fname', lastname='$lname',
           email='$email', login='$login', passwd='$passwrd'";
+  if ($playerscount == 0) { // This is the first player.
+    $qry .= ", level='admin'"; // First player is admin.
+	}        
 	$result = @mysqli_query( $link, $qry );
 	if($result) {   // Was the query successful
 		echo 'success';

@@ -1,3 +1,27 @@
+BOARD18 1.1.2 Release Notes
+
+Changes from 1.1.1 Release:
+
+* Removed invalid error handling code from loadBox function in
+  board18Map2.js and board18Market2.js.
+
+* Removed invalid error handling code from loadSession function in
+  board18Map2.js and board18Market2.js.
+
+* Implemented issue 27 Phase 1 in newUser.php - Make first player level "admin".
+
+BOARD18 1.1.1 Release Notes
+
+Changes from 1.1.0 Release:
+
+* Fixed bug 42 - Invalid backout of token delete.
+
+* Fixed loadAllBoxes utility.
+
+* Added BOARD18update utility.
+
+* Updated BOARD18/website index.html file
+
 BOARD18 1.1.0 Release Notes
 
 Changes from 1.0.1 Release:

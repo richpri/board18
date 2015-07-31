@@ -191,9 +191,6 @@ function itemLoaded(event) {
  * Finally it calls the makeMenues function.
  */
 function loadBox(box) {
-  if (typeof response === "string") { // User has timed out.
-    window.location = "access-denied.html";
-  } 
   BD18.bx = null;
   BD18.bx = box;
   // check for missing orientation value and make sure
@@ -247,9 +244,6 @@ function loadBox(box) {
  * loads the game box file.
  */
 function loadSession(session) {
-  if (typeof response === "string")  { // User has timed out.
-    window.location = "access-denied.html";
-  } 
   BD18.gm = null;
   BD18.gm = session;
   var boxstring = 'box=';
