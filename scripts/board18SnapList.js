@@ -18,8 +18,8 @@ function listReturn(response) {
   var resp = jQuery.parseJSON(response);
   if (resp.stat === 'success') {
     var snapHTML = '<table id="snaplist"> <tr>';
-    snapHTML += '<th>Game Round</th> <th>Snaped By</th>';
-    snapHTML += '<th>Last Update By</th> <th>Snap Date</th></tr>';       
+    snapHTML += '<th>Snapshot Name</th> <th>Snapped By</th>';
+    snapHTML += '<th>Last Updater</th> <th>Snap Date</th></tr>';       
     $.each(resp.snaps,function(index,listInfo) {
       snapHTML += '<tr class="snaprow"> <td>';
       snapHTML += '<a href="board18SnapMap.php?show=';

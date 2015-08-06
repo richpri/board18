@@ -17,8 +17,9 @@ function clean( $conn, $str ) {
   return mysqli_real_escape_string( $conn, $str );
 }
 
-//Initialize $gamefound and $status flags.
+//Initialize $gamefound, $snapfound and $status flags.
 $gamefound = 'no';
+$snapfound = 'no';
 $status = 'ok';
 
 $link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
@@ -53,7 +54,22 @@ if ($result1) {
     $row2 = mysqli_fetch_assoc($result2);
     $gamestat = $row2[status]; // game status
     $gname = $row2[gname]; // game name
-  } else {   
+    $qry3 = "SELECT * FROM game_snap
+            WHERE game_id = $intgame ORDER BY cp_id DESC";
+    $result3 = mysqli_query( $link, $qry3 );
+    if ($result3) {
+      if (mysqli_num_rows($result3) != 0) {
+        $snapfound = 'yes';
+        $row3 = mysqli_fetch_assoc($result3);
+        $roundname = $row3['game_round']; // game round name
+        $snapername = $row3['player']; // snaped by
+        $snapdate = $row3['cp_date']; // snap date
+      }
+    } else {   
+      error_log("snap query failed");
+      $status = 'fail';
+    }
+  } else {    
     error_log("status query failed");
     $status = 'fail';
   }
@@ -182,13 +198,24 @@ if ($result1) {
           <p style="font-size: 130%">Take a snapshot of
              <br><?php echo $gname; ?>.
           </p>
+          <?php if ($snapfound == 'no') { ?>
+          <p>No snapshots have been taken for this game.</p>
+          <?php } else { ?>
           <p>
-             Pressing the Snapshot button will take a snapshot
-             of the current game status and then display a list 
-             of all the snapshots that exist for this game.
+            The last snapshot taken for this game was 
+              <?php echo $roundname;?>.
           </p>
           <p>
-            <label for="rname"> Enter Stock or Operating Round: </label>
+            It was taken by <?php echo $snapername; ?>
+            at <?php echo $snapdate; ?>.
+          </p>
+          <?php } ?>
+          <p>
+             Pressing the Snapshot button will take a snapshot
+             of the current game status. Please take a snapshot
+             once per round and include the round in its name.
+          <p>
+            <label for="rname"> Enter Snapshot Name: </label>
             <input type="text" name="rname" id="rname">
             <label class="error" for="rname" id="rname_error">
               This field is required. </label>

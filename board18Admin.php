@@ -4,6 +4,10 @@
  * first name, last name, email address or password.  
  * It also has a special form to handle forced password changes.
  * 
+ * If the logged in player has the "admin" level then board18Admin.php 
+ * will display, in the "leftofpage" division, a menu of special 
+ * administrative tooles.
+ *      
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
@@ -34,6 +38,7 @@ if ($result) {
     $email = $playerrow['email'];
     $login = $playerrow['login'];
     $passwd = $playerrow['passwd'];
+    $level = $playerrow['level']; 
     $changeit = $playerrow['changeit'];
   } else {
     //Player not found
@@ -76,6 +81,9 @@ if ($result) {
         } else {
           $('#admin form').show();
         } // end changeit
+        if ("<?php echo "$level"; ?>" === "admin") {
+          $('#adminlevel').show();
+        } // end adminlevel
         $("#passwd").submit(function() {
           forceChange('<?php echo $passwd; ?>');
           return false;
@@ -122,6 +130,13 @@ if ($result) {
     </div>
 
     <div id="leftofpage">
+      <div id="adminlevel">
+        <p> Administrator<br>Utilities</p>
+        <p> <a href="board18Boxes.php">Manage Boxes</a></p>
+        <p> <a href="board18Games.php">Manage Games</a></p>
+        <p> <a href="board18Players.php">Manage Players</a></p>
+        
+      </div>
     </div>
 
     <div id="rightofpage"> 
