@@ -81,7 +81,7 @@ if ($result2) {
   if (mysqli_num_rows($result2) > 0) { 
     while ($playerrow2 = mysqli_fetch_assoc($result2)) {
       if ($playerrow2['login'] !== $login) { // duplicate email
-        $duperr = 'email' . $playerrow['login'];
+        $duperr = 'email' . $playerrow2['login'];
         echo $duperr;
         exit;
       }

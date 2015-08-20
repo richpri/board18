@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Test page for snapShow.php development.</title>
+    <title>Test page for playerShow.php development.</title>
     <meta charset="utf-8" />
     <script type="text/javascript" src="../scripts/jquery.js">
     </script>
@@ -10,11 +10,11 @@
 				$('#result').append(inData);
       };
       $(document).ready(function() {
-        var dataString = 'gameid=1&blocksz=10&startrow=10';
+        var dataString = 'blocksz=10&startrow=1';
         $('#call').append(dataString);
-        $.post("../php/snapShow.php", dataString, testReturn)
+        $.post("../php/playerShow.php", dataString, testReturn)
         .error(function() { 
-          var msg = "Error accessing game_snap. \n";
+          var msg = "Error accessing player_show. \n";
           msg += "See /var/log/apache2/error.log \nfor more information.";
           alert(msg); 
         });
