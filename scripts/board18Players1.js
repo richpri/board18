@@ -1,10 +1,13 @@
 /*
+ * The board18Players1 script contains all of the js functions
+ * for the board18Players page except for the Email functions 
+ * and the registerMainMenu function.
+ * 
  * Copyright (c) 2015 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  *
- * All BD18 global variables are contained in one
- * 'master variable' called BD18.  This isolates 
- * them from global variables in other packages. 
+ * All BD18 global variables are contained in one 'master variable'
+ * called BD18.  This isolates them from all other global variables. 
  */
 
 /* Function listReturn is the success callback function for 
@@ -45,9 +48,7 @@ function listReturn(response) {
   }
 } // end of listReturn
 
-function playerResult() {};
-
-/* This function performs an AJAX call
+/* The doPageList function performs an AJAX call
  * to the playerShow.php function.
  */
 function doPageList() {
@@ -58,7 +59,7 @@ function doPageList() {
   $.post("php/playerShow.php", outstring, listReturn);
 }
 
-/* Function doPageLinks create page links for multi page
+/* Function doPageLinks creates page links for multi page
  * player list output. 
  */
 function doPageLinks() {
@@ -139,9 +140,10 @@ function paintPlayer() {
 }
 
 /* Function getReturn is the success callback function for 
- * the ajax playerGet.php call. It opens the player dialog
- * and then it appends a list if games to the leftofpage 
- * division in board18Players.php.
+ * the ajax playerGet.php call. It initializes the BD18.player
+ * object and then it uses the paintPlayer() function to 
+ * open the player dialog and to append a list if games to 
+ * the leftofpage division in the board18Players page.
  */
 function getReturn(response) {
   if (response.indexOf("<!doctype html>") !== -1) { // User has timed out.
@@ -172,7 +174,7 @@ function getReturn(response) {
 /* Function playerResult is the success callback function for 
  * the ajax playerUpdate.php call. It processes the response 
  * from playerUpdate.php. If 'success' it calls playerGet.php
- * Else if not 'fail' it turns on the approperate error text
+ * else if not 'fail' it turns on the approperate error text
  * and returns.
  */
 function playerResult(response) {
@@ -206,7 +208,7 @@ function playerResult(response) {
   }
 } // end of playerResult
 
-/* This function performs an AJAX call
+/* The doPlayer function performs an AJAX call
  * to the playerGet.php function.
  */
 function doPlayer(login) {
@@ -242,63 +244,4 @@ function updatePlayer() {
   aString += '&player=' + BD18.player.playerid;
   $.post("php/playerUpdate.php", aString, playerResult);
   return false;
-}
-
-function sendBroadcast() {};
-
-function registerMainMenu() {
-  $.contextMenu({
-    selector: "#newmainmenu", 
-    trigger: "left",
-    className: "bigMenu",
-    items: {
-      broadcast: {
-        name: "Send Broadcast",
-        callback: function(){
-          sendBroadcast();
-        }
-      },
-      goback: {
-        name: "Return To Admin",
-        callback: function(){
-          window.location = "board18Admin.php";
-        }
-      },
-      mainpage: {
-        name: "Goto Main Page",
-        callback: function(){
-          window.location = "board18Main.php";
-        }
-      },
-      logout: {
-        name: "Log Out",
-        callback: function(){
-          $.post("php/logout.php", logoutOK);
-        }
-      },
-      help: {
-        name: "Help",
-        callback: function(){
-          window.open(BD18.help, "HelpGuide");
-        }
-      },
-      close: {
-        name: "Close Menu",
-        callback: function(){}
-      }
-    },
-    zIndex: 10,
-    position: function(opt, x, y) {
-      opt.$menu.position({
-        my: 'left top',
-        at: 'left bottom',
-        of: opt.$trigger
-      });
-    },
-    callback: function(key, options) {
-      var m = "clicked on " + key + " on element ";
-      m =  m + options.$trigger.attr("id");
-      alert(m); 
-    }
-  });
 }

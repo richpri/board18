@@ -59,7 +59,9 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
     </script>
     <script type="text/javascript" src="scripts/board18com.js">
     </script>
-    <script type="text/javascript" src="scripts/board18Players.js">
+    <script type="text/javascript" src="scripts/board18Players1.js">
+    </script>
+    <script type="text/javascript" src="scripts/board18Players2.js">
     </script>
     <script type="text/javascript" >
       $(function() {
@@ -98,6 +100,30 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
           BD18.player.update = 'no';
           return false;
         }); // end button3 click
+        $('#button4').click(function() {
+          $('#theplayer').slideUp(300);
+          $('#gamelist').remove();
+          $('.error').hide();
+          $('#oneto').html(BD18.player.login);
+          $('#onemail').slideDown(300);
+          BD18.player.update = 'no';
+          return false;
+        }); // end button4 click
+        $('#button11').click(function() {
+          doEmail();
+          return false;
+        }); // end button11 click
+        $('#button12').click(function() {
+          $('.error').hide();
+          $("#subject1").val('');
+          $("#body1").val('');
+          return false;
+        }); // end button12 click
+        $('#button13').click(function() {
+          $('#onemail').slideUp(300);
+          $('#theplayer').slideDown(300);
+          return false;
+        }); // end button13 click
       }); // end ready
     </script>
   </head>
@@ -169,9 +195,42 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
                      id="button2" value="Reset Form" >
               <input type="button" name="canbutton" class="pwbutton"  
                      id="button3" value="Exit" >
+              <input type="button" name="mailbutton" class="pwbutton"  
+                     id="button4" value="Send Email" >
             </p>
           </fieldset>
         </form>
+      </div>
+      <div id="onemail" class="hidediv">
+        <form name="onemail" class="playerform" action="">
+          <fieldset>
+            <p>
+              Send an administrative Email to <span id="oneto">dummy</span>.   
+            </p>
+            <p>
+              <label for="subject" style="width: 80px;">Subject:</label>
+              <input type="text" name="subject" id="subject1" value="">
+              <label class="error" for="subject" id="subject1_error">
+                This field is required.</label>
+            </p>
+            <p>
+              <label for="body" style="width: 80px; vertical-align:top;">
+                Body: </label>
+              <textarea name="body" id="body1" cols=60 rows=10></textarea>
+            </p>
+            <p>
+              <input type="button" name="emailonebutton" class="pwbutton"  
+                     id="button11" value="Send Email" >
+              <input type="button" name="resbutton" class="pwbutton"  
+                     id="button12" value="Reset Form" >
+              <input type="button" name="canbutton" class="pwbutton"  
+                     id="button13" value="Exit" >
+            </p>
+          </fieldset>
+        </form>
+      </div>
+      <div id="allmail" class="hidediv">
+        
       </div>
     </div>   
   </body>
