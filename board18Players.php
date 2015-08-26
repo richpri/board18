@@ -122,8 +122,23 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
         $('#button13').click(function() {
           $('#onemail').slideUp(300);
           $('#theplayer').slideDown(300);
+          playerGames();
           return false;
         }); // end button13 click
+        $('#button21').click(function() {
+          sendBroadcast();  
+          return false;
+        }); // end button21 click
+        $('#button22').click(function() {
+          $('.error').hide();
+          $("#subject2").val('');
+          $("#body2").val('');
+          return false;
+        }); // end button22 click
+        $('#button23').click(function() {
+          $('#allmail').slideUp(300);
+          return false;
+        }); // end button23 click
       }); // end ready
     </script>
   </head>
@@ -230,7 +245,32 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
         </form>
       </div>
       <div id="allmail" class="hidediv">
-        
+        <form name="allmail" class="playerform" action="">
+          <fieldset>
+            <p>
+              Send an administrative Email to all players.   
+            </p>
+            <p>
+              <label for="subject" style="width: 80px;">Subject:</label>
+              <input type="text" name="subject" id="subject2" value="">
+              <label class="error" for="subject" id="subject2_error">
+                This field is required.</label>
+            </p>
+            <p>
+              <label for="body" style="width: 80px; vertical-align:top;">
+                Body: </label>
+              <textarea name="body" id="body2" cols=60 rows=10></textarea>
+            </p>
+            <p>
+              <input type="button" name="emailonebutton" class="pwbutton"  
+                     id="button21" value="Send Email" >
+              <input type="button" name="resbutton" class="pwbutton"  
+                     id="button22" value="Reset Form" >
+              <input type="button" name="canbutton" class="pwbutton"  
+                     id="button23" value="Exit" >
+            </p>
+          </fieldset>
+        </form>
       </div>
     </div>   
   </body>

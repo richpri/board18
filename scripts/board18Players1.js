@@ -23,7 +23,8 @@ function listReturn(response) {
     var playerHTML= '<table id="playerlist"> <tr>';
     playerHTML+= '<th>Player ID</th> <th>First Name</th>';
     playerHTML+= '<th>Last Name</th> <th>Email Address</th>';
-    playerHTML+= '<th>Level</th> <th>Games</th> <th>Active</th> </tr>';       
+    playerHTML+= '<th>Level</th> <th>Games</th> <th>Active</th> </tr>'; 
+    BD18.players = resp.players;
     $.each(resp.players,function(index,listInfo) {
       playerHTML+= '<tr> <td class="playerid">';
       playerHTML+= listInfo.login + '</td> <td>';      
@@ -82,10 +83,33 @@ function doPageLinks() {
   }
 }
 
+/* Function playerGames uses the BD18.player.games object to 
+ * append a list if games associated with the player 
+ * to the leftofpage division in board18Players.php if the
+ * player is associated with one or more games.
+ */
+function playerGames() {
+  if (BD18.player.stat === 'success') { // player is in games
+    var gamestat;
+    var gameHTML= '<table id="gamelist"> <tr>';
+    gameHTML+= '<th>Game List</th>';     
+    $.each(BD18.player.games,function(index,gameInfo) {
+      if (gameInfo.status === 'Active') { 
+        gamestat = 'greenit';
+      } else {
+        gamestat = 'redit';
+      }
+      gameHTML+= '<tr> <td class="' + gamestat + '">';
+      gameHTML+= gameInfo.gname + '</td> </tr>';
+    }); // end of each
+    gameHTML+= '</table>';
+    $('#pagelinks').append(gameHTML);
+  }
+}
+
 /* Function paintPlayer uses the BD18.player object to create a 
  * table of information about a player, to create and display a
- * player dialog and to append a list if games associated with 
- * the player to the leftofpage division in board18Players.php.
+ * player dialog and then calls the playerGames function.
  */
 function paintPlayer() {
   $("#gamelist").remove();
@@ -119,24 +143,9 @@ function paintPlayer() {
   }
   levelHTML += '</select>';
   $('#levelselect').html(levelHTML);
-  if (BD18.player.stat === 'success') {
-    var gamestat;
-    var gameHTML= '<table id="gamelist"> <tr>';
-    gameHTML+= '<th>Game List</th>';     
-    $.each(BD18.player.games,function(index,gameInfo) {
-      if (gameInfo.status === 'Active') { 
-        gamestat = 'greenit';
-      } else {
-        gamestat = 'redit';
-      }
-      gameHTML+= '<tr> <td class="' + gamestat + '">';
-      gameHTML+= gameInfo.gname + '</td> </tr>';
-    }); // end of each
-    gameHTML+= '</table>';
-    $('#pagelinks').append(gameHTML);
-  }
   $('#theplayer .error').hide();
   $('#theplayer').slideDown(300);
+  playerGames();
 }
 
 /* Function getReturn is the success callback function for 

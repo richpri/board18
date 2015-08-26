@@ -58,13 +58,31 @@ function doEmail() {
   cString += '&body=' + body;
   $.post("php/emailPlayer.php", cString, emailPlayerResult);
   $('#lognote').html('Email is being sent.');
-  var to1 = window.setTimeout(function(){ $('#lognote').html('  ');}, 5000);
+  var to1 = window.setTimeout(function(){ $('#lognote').html(' ');}, 5000);
   $("#subject1").val('');
   $("#body1").val('');
 }
 
 function sendBroadcast() {
-  
+  $('.error').hide();
+  var subject = $("#subject2").val();     
+  var body = $("#body2").val();
+  if (subject === "") {
+    $("#subject2_error").text('This field is required.').show();
+    $("#subject2").focus();
+    return false;
+  }
+  BD18.mailError = false;
+  var dString = '&subject=' + subject + '&body=' + body;
+  var eString = '';
+  $.each(BD18.players,function(index,listInfo) {
+    eString = 'login=' + listInfo.login + dString;
+    $.post("php/emailPlayer.php", eString, emailPlayerResult);
+  });
+  $('#lognote').html('Broadcast Emails are being sent.');
+  var to1 = window.setTimeout(function(){ $('#lognote').html(' ');}, 5000);
+  $("#subject2").val('');
+  $("#body2").val('');
 };
 
 function registerMainMenu() {
@@ -76,7 +94,11 @@ function registerMainMenu() {
       broadcast: {
         name: "Send Broadcast",
         callback: function(){
-          sendBroadcast();
+          $('#theplayer').slideUp(300);
+          $('#gamelist').remove();
+          $('.error').hide();
+          $('#allmail').slideDown(300);
+          BD18.player.update = 'no';
         }
       },
       goback: {
