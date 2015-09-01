@@ -79,6 +79,7 @@ function doPageLinks() {
     }
     plist += "</div>";
     $("#paginator").remove();
+    $("#gamelist").remove();
     $("#pagelinks").append(plist);
   }
 }
@@ -103,6 +104,8 @@ function playerGames() {
       gameHTML+= gameInfo.gname + '</td> </tr>';
     }); // end of each
     gameHTML+= '</table>';
+    $("#paginator").remove();
+    $("#gamelist").remove();
     $('#pagelinks').append(gameHTML);
   }
 }
