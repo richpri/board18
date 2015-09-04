@@ -2,6 +2,8 @@
  * board18Market7.js contains the function that implements the
  * keyboard shortcut events and the functions that implement
  * the call to the checkForUpdate.php routine.
+ * 
+ * It now also contains the code for the new snapshot function.
  *
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.

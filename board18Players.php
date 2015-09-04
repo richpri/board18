@@ -39,7 +39,7 @@ if ($result1) {
   $status = 'fail';
   exit;
 }
-$pagesize = 10;
+$pagesize = 10; 
 $pagecount = ceil((float)$totalcount/(float)$pagesize);
 ?>
 <!doctype html>
@@ -97,6 +97,7 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
         $('#button3').click(function() {
           $('#gamelist').remove();
           $('#theplayer').slideUp(300);
+          doPageLinks();
           BD18.player.update = 'no';
           return false;
         }); // end button3 click

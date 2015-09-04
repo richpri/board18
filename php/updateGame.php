@@ -110,7 +110,7 @@ $arr3 = mysqli_fetch_array($result3);
 if ($arr3[0] == '') {  // If no firstname
   $player = $arr3[1];  // then use login.
 } else {
-  $player = $arr3[0];
+  $player = $arr3[0] . ' (' . $arr3[1] . ')';
 }
 
 //Update game session.

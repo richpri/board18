@@ -1,3 +1,14 @@
+BOARD18 1.2.0 Release Notes
+
+Changes from 1.1.5 Release:
+
+* Implemented issue 43 - Increase the maximum size of some  
+  fields in the BOARD18 database. If upgrading from a 1.1.x 
+  release, please see the notice about database changes at:
+  http://wiki.board18.org/w/Two_Table_Fixes_for_release_1.2.x 
+
+* Fixed BOARD18update utility.
+
 BOARD18 1.1.5 Release Notes
 
 Changes from 1.1.4 Release:
