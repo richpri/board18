@@ -5,8 +5,8 @@
  * It also has a special form to handle forced password changes.
  * 
  * If the logged in player has the "admin" level then board18Admin.php 
- * will display, in the "leftofpage" division, a menu of special 
- * administrative tooles.
+ * will display, in the "leftofpage" division, a series of links to 
+ * pages containing administrative tools.
  *      
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.

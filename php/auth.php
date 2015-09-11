@@ -23,6 +23,7 @@
     $loggedinplayer = $_SESSION['SESS_PLAYER_ID'];
     $welcomename = $_SESSION['SESS_FIRST_NAME'];
     $headermessage = $_SESSION['SESS_HEADER_MESSAGE'];
+    $playerlevel = $_SESSION['SESS_PLAYER_LEVEL'];
     $_SESSION['SESS_HEADER_MESSAGE'] = '';
   }
 ?>

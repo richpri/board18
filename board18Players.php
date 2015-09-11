@@ -15,6 +15,12 @@
  */
 
 require_once('php/auth.php');
+if ($playerlevel != 'admin') {
+  $_SESSION['SESS_HEADER_MESSAGE'] = 'You are not an admin level player.';
+  session_write_close();
+  header("location: board18Main.php");
+	exit;
+}
 require_once('php/config.php');
 $status = 'ok';
 $link = @mysqli_connect(DB_HOST, DB_USER, 

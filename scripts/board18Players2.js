@@ -63,6 +63,11 @@ function doEmail() {
   $("#body1").val('');
 }
 
+/* 
+ * Function sendBroadcast checks the input for missing fields and then
+ * and then does an ajax call to emailPlayer.php for every player in 
+ * the players table. 
+ */
 function sendBroadcast() {
   $('.error').hide();
   var subject = $("#subject2").val();     
@@ -85,6 +90,10 @@ function sendBroadcast() {
   $("#body2").val('');
 };
 
+/* The registerMainMenu function creates the 
+ * main menu on the board18Players page. It uses
+ * the jquery context menu plugin.
+ */
 function registerMainMenu() {
   $.contextMenu({
     selector: "#newmainmenu", 
