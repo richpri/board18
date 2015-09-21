@@ -174,10 +174,9 @@ function repositionToken(xI,yI) {
  * BD18.tempToken array.
  */
 function flipToken() {
-  if (BD18.trays[BD18.curTrayNumb].tokenFlip[BD18.curIndex] === false) 
-    {
-      return;
-    }
+  if (BD18.trays[BD18.curTrayNumb].tokenFlip[BD18.curIndex] === false) {
+    return;
+  }
   BD18.tempToken[2] = !BD18.curFlip;
   BD18.curFlip = BD18.tempToken[2];
   var sn = BD18.tempToken[0];

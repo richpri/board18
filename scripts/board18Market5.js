@@ -97,16 +97,17 @@ function makeMenuItems(e) {
       break;
     case "3":
       menuText = {
-        dtoken: {
-          name: 'Delete Token',
+        ftoken: {
+          name: 'Flip Token',
           callback: function(){
-            deleteToken(BD18.onBoxList.tokens[0].mtindex);
-            updateMarketTokens();
-            toknCanvasApp();
-            trayCanvasApp();
-            updateDatabase();
-            BD18.boxIsSelected = false;
-            BD18.tokenIsSelected = false;
+            var ix = BD18.onBoxList.tokens[0].mtindex;
+            var smtok = BD18.marketTokens[ix];
+            if (BD18.trays[smtok.snumb].tokenFlip[smtok.index] === true) 
+            { 
+              moveSetup(smtok);
+              deleteToken(ix);
+              flipToken();
+            }
           }
         },
         adjtoken: {
@@ -177,6 +178,18 @@ function makeMenuItems(e) {
             repositionToken(BD18.curMktX,BD18.curMktY);
           }
         },
+        dtoken: {
+          name: 'Delete Token',
+          callback: function(){
+            deleteToken(BD18.onBoxList.tokens[0].mtindex);
+            updateMarketTokens();
+            toknCanvasApp();
+            trayCanvasApp();
+            updateDatabase();
+            BD18.boxIsSelected = false;
+            BD18.tokenIsSelected = false;
+          }
+        },               
         close: {
           name: 'Close Menu',
           callback: function(){}

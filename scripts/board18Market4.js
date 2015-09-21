@@ -50,6 +50,9 @@ function selectToken(event) {
     image = BD18.onBoxList.tokens[i].sheet.image;
     ix = BD18.onBoxList.tokens[i].index;
     sx = BD18.onBoxList.tokens[i].sheet.xStart;
+        if (BD18.onBoxList.tokens[i].flip) {
+      sx = sx +  BD18.onBoxList.tokens[i].sheet.xStep;
+    }
     sy = BD18.onBoxList.tokens[i].sheet.yStart + 
        ix*BD18.onBoxList.tokens[i].sheet.yStep;
     szx = BD18.onBoxList.tokens[i].sheet.xSize;
@@ -125,25 +128,24 @@ function moveSetup(mktok) {
  */
 function doTknMenu(event) {
   // find token that was clicked
-  var xPix, yPix, index;
+  var xPix, yPix, index, ix, mtok, ss;
 // [xPix, yPix] = offsetIn(event, BD18.canvas3); 
   var tArray = offsetIn(event, BD18.canvas3); 
   xPix = tArray[0];
   yPix = tArray[1];
   index = Math.floor(xPix/40);
   // do requested function to that token.
-  var ix = BD18.onBoxList.tokens[index].mtindex;
-  var mktok = BD18.marketTokens[ix];
-  var ss = BD18.marketTokens[ix].stack;
+  ix = BD18.onBoxList.tokens[index].mtindex;
+  mktok = BD18.marketTokens[ix];
+  ss = BD18.marketTokens[ix].stack;
   switch(BD18.tknMenu.funct) {
-    case "delete":
-      deleteToken(ix);
-      updateMarketTokens();
-      toknCanvasApp();
-      trayCanvasApp();
-      updateDatabase();
-      BD18.boxIsSelected = false;
-      BD18.tokenIsSelected = false;
+    case "flip":
+      if (BD18.trays[bdtok.snumb].tokenFlip[bdtok.index] === true) 
+      { 
+        moveSetup(mktok);
+        deleteToken(ix);
+        flipToken();
+      }
       break;
     case "adjust":
       moveSetup(mktok);
@@ -205,6 +207,15 @@ function doTknMenu(event) {
       BD18.onBoxList.stackSpread(ss+2);
       mktok.stack = ss+2;
       finishMove();
+      break;
+    case "delete":
+      deleteToken(ix);
+      updateMarketTokens();
+      toknCanvasApp();
+      trayCanvasApp();
+      updateDatabase();
+      BD18.boxIsSelected = false;
+      BD18.tokenIsSelected = false;
       break;
     default:
       alert("Invalid token menu function: " + BD18.tknMenu.funct);

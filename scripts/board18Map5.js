@@ -63,12 +63,14 @@ function getMenuType(event) {
 function makeMenuItems(e) {
   var menuType = getMenuType(e);
   var menuText;
+  var ix;
+  var bdtok;
   switch(menuType)
     {
-    case "0":
+    case "0":   // Suppress the menue display entirely.
       menuText = "0";
       break;
-    case "1":
+    case "1":   // Current hex selected and token selected
       menuText = {
         flip: {
           name: 'Flip Token',
@@ -104,7 +106,7 @@ function makeMenuItems(e) {
         }
       };
       break;
-    case "2":
+    case "2":   // Current hex selected and tile selected
       menuText = {
         rcw: {
           name: 'Rotate CW',
@@ -138,23 +140,37 @@ function makeMenuItems(e) {
         }
       };
       break;
-    case "3":
+    case "3":   // Current unselected hex has only one token [no tile]
       menuText = {
-        dtoken: {
-          name: 'Delete Token',
+        ftoken: {
+          name: 'Flip Token',
           callback: function(){
-            deleteToken(BD18.hexList.tokens[0].btindex);
-            toknCanvasApp();
-            trayCanvasApp();
-            updateGmBrdTokens();
-            updateDatabase();
+            ix = BD18.hexList.tokens[0].btindex;
+            bdtok = BD18.boardTokens[ix];
+            if (BD18.trays[bdtok.snumb].tokenFlip[bdtok.index] === true) 
+            {           
+              BD18.tempToken = [bdtok.snumb,bdtok.index,
+              bdtok.flip,bdtok.bx,bdtok.by];
+              BD18.hexIsSelected = true;
+              BD18.tokenIsSelected = true;
+              BD18.curTrayNumb = bdtok.snumb;
+              BD18.curIndex = bdtok.index;
+              BD18.curRot = 0;
+              BD18.curFlip = bdtok.flip;
+              BD18.curHexX = bdtok.hx;
+              BD18.curHexY = bdtok.hy;
+              BD18.curMapX = bdtok.bx;
+              BD18.curMapY = bdtok.by;
+              deleteToken(ix);
+              flipToken();
+            }   
           }
         },
         mtoken: {
           name: 'Adjust Token on Hex',
           callback: function(){
-            var ix = BD18.hexList.tokens[0].btindex;
-            var bdtok = BD18.boardTokens[ix];
+            ix = BD18.hexList.tokens[0].btindex;
+            bdtok = BD18.boardTokens[ix];
             BD18.tempToken = [bdtok.snumb,bdtok.index,
             bdtok.flip,bdtok.bx,bdtok.by];
             BD18.hexIsSelected = true;
@@ -171,18 +187,28 @@ function makeMenuItems(e) {
             repositionToken(BD18.curMapX,BD18.curMapY);
           }
         },
+        dtoken: {
+          name: 'Delete Token',
+          callback: function(){
+            deleteToken(BD18.hexList.tokens[0].btindex);
+            toknCanvasApp();
+            trayCanvasApp();
+            updateGmBrdTokens();
+            updateDatabase();
+          }
+        },           
         close: {
           name: 'Close Menu',
           callback: function(){}
         }
       };
       break;
-    case "4":
+    case "4":   // Current unselected hex has mutiple tokens [no tile]
       menuText = {
         stoken1: {
-          name: 'Select Token to Delete',
+          name: 'Select Token to Flip',
           callback: function(){
-            BD18.tknMenu.funct = 'delete';
+            BD18.tknMenu.funct = 'flip';
             selectToken(e);
           }
         },
@@ -193,13 +219,20 @@ function makeMenuItems(e) {
             selectToken(e);
           }
         },
+        stoken3: {
+          name: 'Select Token to Delete',
+          callback: function(){
+            BD18.tknMenu.funct = 'delete';
+            selectToken(e);
+          }
+        },       
         close: {
           name: 'Close Menu',
           callback: function(){}
         }
       };
       break;
-    case "5":
+    case "5":   // Current unselected hex has only a tile [no token]
       menuText = {
         dtile: {
           name: 'Delete Tile',
@@ -217,8 +250,50 @@ function makeMenuItems(e) {
         }
       };
       break;
-    case "6":
+    case "6":   // Current unselected hex has a tile and one token
       menuText = {
+        ftoken: {
+          name: 'Flip Token',
+          callback: function(){
+            ix = BD18.hexList.tokens[0].btindex;
+            bdtok = BD18.boardTokens[ix];
+            BD18.tempToken = [bdtok.snumb,bdtok.index,
+            bdtok.flip,bdtok.bx,bdtok.by];
+            BD18.hexIsSelected = true;
+            BD18.tokenIsSelected = true;
+            BD18.curTrayNumb = bdtok.snumb;
+            BD18.curIndex = bdtok.index;
+            BD18.curRot = 0;
+            BD18.curFlip = bdtok.flip;
+            BD18.curHexX = bdtok.hx;
+            BD18.curHexY = bdtok.hy;
+            BD18.curMapX = bdtok.bx;
+            BD18.curMapY = bdtok.by;
+            deleteToken(ix);
+            flipToken();
+          }
+        },
+        mtoken: {
+          name: 'Adjust Token',
+          callback: function(){
+            ix = BD18.hexList.tokens[0].btindex;
+            bdtok = BD18.boardTokens[ix];
+            BD18.tempToken = [bdtok.snumb,bdtok.index,
+            bdtok.flip,bdtok.bx,bdtok.by];
+            BD18.hexIsSelected = true;
+            BD18.tokenIsSelected = true;
+            BD18.curTrayNumb = bdtok.snumb;
+            BD18.curIndex = bdtok.index;
+            BD18.curRot = 0;
+            BD18.curFlip = bdtok.flip;
+            BD18.curHexX = bdtok.hx;
+            BD18.curHexY = bdtok.hy;
+            BD18.curMapX = bdtok.bx;
+            BD18.curMapY = bdtok.by;
+            deleteToken(ix);
+            repositionToken(BD18.curMapX,BD18.curMapY);
+          }
+        },
         dtile: {
           name: 'Delete Tile',
           callback: function(){
@@ -239,35 +314,36 @@ function makeMenuItems(e) {
             updateDatabase();
           }
         },
-        mtoken: {
-          name: 'Move Token',
-          callback: function(){
-            var ix = BD18.hexList.tokens[0].btindex;
-            var bdtok = BD18.boardTokens[ix];
-            BD18.tempToken = [bdtok.snumb,bdtok.index,
-            bdtok.flip,bdtok.bx,bdtok.by];
-            BD18.hexIsSelected = true;
-            BD18.tokenIsSelected = true;
-            BD18.curTrayNumb = bdtok.snumb;
-            BD18.curIndex = bdtok.index;
-            BD18.curRot = 0;
-            BD18.curFlip = bdtok.flip;
-            BD18.curHexX = bdtok.hx;
-            BD18.curHexY = bdtok.hy;
-            BD18.curMapX = bdtok.bx;
-            BD18.curMapY = bdtok.by;
-            deleteToken(ix);
-            repositionToken(BD18.curMapX,BD18.curMapY);
-          }
-        },
+
         close: {
           name: 'Close Menu',
           callback: function(){}
         }
       };
       break;
-    case "7":
+    case "7":   // Current unselected hex has a tile and mutiple tokens
       menuText = {
+        stoken1: {
+          name: 'Select Token to Flip',
+          callback: function(){
+            BD18.tknMenu.funct = 'flip';
+            selectToken(e);
+          }
+        },
+        stoken2: {
+          name: 'Select Token to Adjust',
+          callback: function(){
+            BD18.tknMenu.funct = 'move';
+            selectToken(e);
+          }
+        },
+        stoken3: {
+          name: 'Select Token to Delete',
+          callback: function(){
+            BD18.tknMenu.funct = 'delete';
+            selectToken(e);
+          }
+        },   
         dtile: {
           name: 'Delete Tile',
           callback: function(){
@@ -276,20 +352,6 @@ function makeMenuItems(e) {
             trayCanvasApp();
             updateGmBrdTiles();
             updateDatabase();
-          }
-        },
-        stoken1: {
-          name: 'Select Token to Delete',
-          callback: function(){
-            BD18.tknMenu.funct = 'delete';
-            selectToken(e);
-          }
-        },
-        stoken2: {
-          name: 'Select Token to Move',
-          callback: function(){
-            BD18.tknMenu.funct = 'move';
-            selectToken(e);
           }
         },
         close: {

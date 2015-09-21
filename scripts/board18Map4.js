@@ -50,6 +50,9 @@ function selectToken(event) {
     image = BD18.hexList.tokens[i].sheet.image;
     ix = BD18.hexList.tokens[i].index;
     sx = BD18.hexList.tokens[i].sheet.xStart;
+    if (BD18.hexList.tokens[i].flip) {
+      sx = sx +  BD18.hexList.tokens[i].sheet.xStep;
+    }
     sy = BD18.hexList.tokens[i].sheet.yStart + 
        ix*BD18.hexList.tokens[i].sheet.yStep;
     szx = BD18.hexList.tokens[i].sheet.xSize;
@@ -108,7 +111,7 @@ function killHideTknMenu() {
  */
 function doTknMenu(event) {
   // find token that was clicked
-  var xPix, yPix, index;
+  var xPix, yPix, index, ix, bdtok;
 // [xPix, yPix] = offsetIn(event, BD18.canvas3); 
   var tArray = offsetIn(event, BD18.canvas3); 
   xPix = tArray[0];
@@ -124,10 +127,10 @@ function doTknMenu(event) {
       updateDatabase();
       break;
     case "move":
-      var ix = BD18.hexList.tokens[index].btindex;
-      var bdtok = BD18.boardTokens[ix];
+      ix = BD18.hexList.tokens[index].btindex;
+      bdtok = BD18.boardTokens[ix];
       BD18.tempToken = [bdtok.snumb,bdtok.index,
-      bdtok.flip,bdtok.bx,bdtok.by];
+        bdtok.flip,bdtok.bx,bdtok.by];
       BD18.hexIsSelected = true;
       BD18.tokenIsSelected = true;
       BD18.curTrayNumb = bdtok.snumb;
@@ -140,6 +143,27 @@ function doTknMenu(event) {
       BD18.curMapY = bdtok.by;
       deleteToken(ix);
       repositionToken(BD18.curMapX,BD18.curMapY);
+      break;
+    case "flip":
+      ix = BD18.hexList.tokens[index].btindex;
+      bdtok = BD18.boardTokens[ix];
+      if (BD18.trays[bdtok.snumb].tokenFlip[bdtok.index] === true) 
+      { 
+        BD18.tempToken = [bdtok.snumb,bdtok.index,
+          bdtok.flip,bdtok.bx,bdtok.by];
+        BD18.hexIsSelected = true;
+        BD18.tokenIsSelected = true;
+        BD18.curTrayNumb = bdtok.snumb;
+        BD18.curIndex = bdtok.index;
+        BD18.curRot = 0;
+        BD18.curFlip = bdtok.flip;
+        BD18.curHexX = bdtok.hx;
+        BD18.curHexY = bdtok.hy;
+        BD18.curMapX = bdtok.bx;
+        BD18.curMapY = bdtok.by;
+        deleteToken(ix);
+        flipToken();
+      }
       break;
     default:
       alert("Invalid token menu function: " + BD18.tknMenu.funct);

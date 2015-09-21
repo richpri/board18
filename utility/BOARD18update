@@ -7,17 +7,19 @@
 # The three directory paths in control.sh must 
 # be correct or the web site could be damaged.
 # 
-# This is version 2 of this script.
+# This is version 3 of this script.
 #
 source $(dirname $0)/control.sh
 
 if ! [ -a ${BD18New:?"Missing source file name"} ]
 then
   echo "The distribution source, $BD18New, is missing."
+  exit
 fi
 if ! [ -a ${BD18Site:?"Missing site name"} ]
 then
   echo "$BD18Site cannot be found."
+  exit
 fi
 rm -f -r ${BD18Old:?"Missing backup site name"}
 mkdir $BD18Old

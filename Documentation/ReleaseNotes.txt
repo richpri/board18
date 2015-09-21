@@ -1,3 +1,15 @@
+BOARD18 1.2.2 Release Notes
+
+Changes from 1.2.1 Release:
+
+* A "Flip Token" choice will appear as the top choice in
+  all applicable context menus. See Issue 36.
+* The "select token" menus will show the token choices as
+  flipped if they are flipped on the effected hex or box. 
+* Text in all context menus has been standardized.
+* utility/BOARD18update has been updated to version 3.
+* utility/control.sh has been updated to version 3.
+
 BOARD18 1.2.1 Release Notes
 
 Changes from 1.2.0 Release:
