@@ -33,6 +33,19 @@ if (mysqli_connect_error()) {
 }
 mysqli_set_charset($link, "utf-8");
 
+//Function to sanitize values received from the form. 
+//Prevents SQL injection
+function clean($link, $str) {
+  $str = @trim($str);
+  return mysqli_real_escape_string($link, $str);
+}
+
+//Check for transfer from board18Games.php and
+//sanitize the POST value if it is a transfer.
+$xfer = 0;
+if(!empty($_REQUEST['login'])) {
+  $xfer = clean($link, $_REQUEST['login']);
+}
 //Get count of player records.
 $qry1 = "SELECT COUNT(*) FROM players";
 $result1 = mysqli_query($link, $qry1);
@@ -40,7 +53,7 @@ if ($result1) {
   $row = mysqli_fetch_row($result1);
   $totalcount = $row[0];
 } else {
-  error_log("SELECT COUNT(*) FROM game_snap - Query failed");
+  error_log("SELECT COUNT(*) FROM players - Query failed");
   error_log($logMessage);
   $status = 'fail';
   exit;
@@ -80,6 +93,11 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
         doPageList();
         doPageLinks();
         registerMainMenu();
+        var playerselect = '<?php echo $xfer; ?>';
+        if (playerselect != 0) {
+          doPlayer(playerselect);
+          playerselect = 0;
+        }     
         $("#pagelinks").on("click", ".pagor", function() {
           BD18.curpage = $(".pagor").index(this) + 1;
           BD18.player.update = 'no';
@@ -87,7 +105,6 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
           doPageLinks();
         }); // end pagelinks.click
         $("#players").on("click", ".playerid", function() {
-          BD18.player.update = 'no';
           doPlayer($(this).html());
         }); // end players.click
         $('#button1').click(function() {

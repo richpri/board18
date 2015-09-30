@@ -31,9 +31,6 @@
  * 
  */
 
-// require_once('auth.php');
-require_once('config.php');
-
 class Gameline
 {
   public $gname;
@@ -55,6 +52,14 @@ class Response
 $errorResp = new Response();
 $errorResp->stat = "fail";
 $errResp = json_encode($errorResp);
+
+require_once('auth.php');
+if ($playerlevel != 'admin') {
+  error_log("playerGet: Not an admin level player");
+  echo $errResp;
+  exit;
+}
+require_once('config.php');
 
 $link = @mysqli_connect(DB_HOST, DB_USER, 
         DB_PASSWORD, DB_DATABASE);

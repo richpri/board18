@@ -22,7 +22,12 @@
  * A copy of this license can be found in the LICENSE.text file.
  */
 
-require_once('auth.php');  
+require_once('auth.php');
+if ($playerlevel != 'admin') {
+  error_log("playerUpdate: Not an admin level player");
+  echo "fail";
+  exit;
+}
 require_once('config.php');
 
 //Function to sanitize values received from the form. 

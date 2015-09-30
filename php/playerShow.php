@@ -17,7 +17,7 @@
  *         "lastname":"cccccc",
  *         "email":"eeeeee",
  *         "level":"llllll",
- *         "gcount":"nnnnnn"
+ *         "gcount":"nnnnnn",
  *         "acount":"nnnnnn"
  *       },
  *       . . . . more players . . . . . 
@@ -28,9 +28,6 @@
  * A copy of this license can be found in the LICENSE.text file.
  * 
  */
-
-require_once('auth.php');
-require_once('config.php');
 
 class Playerline
 {
@@ -52,6 +49,14 @@ class Response
 $errorResp = new Response();
 $errorResp->stat = "fail";
 $errResp = json_encode($errorResp);
+
+require_once('auth.php');
+if ($playerlevel != 'admin') {
+  error_log("playerShow: Not an admin level player");
+  echo $errResp;
+  exit;
+}
+require_once('config.php');
 
 $link = @mysqli_connect(DB_HOST, DB_USER, 
         DB_PASSWORD, DB_DATABASE);
