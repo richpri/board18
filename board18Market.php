@@ -48,12 +48,12 @@ if ($result1) {
 
   $intgame = intval($dogame);
   $qry2 = "SELECT * FROM game 
-            WHERE game_id = $intval($intgame)";
+            WHERE game_id = $intgame";
   $result2 = mysqli_query( $link, $qry2 );
   if ($result2 && (mysqli_num_rows($result2) == 1)) { 
     $row2 = mysqli_fetch_assoc($result2);
-    $gamestat = $row2[status]; // game status
-    $gname = $row2[gname]; // game name
+    $gamestat = $row2['status']; // game status
+    $gname = $row2['gname']; // game name
     $qry3 = "SELECT * FROM game_snap
             WHERE game_id = $intgame ORDER BY cp_id DESC";
     $result3 = mysqli_query( $link, $qry3 );
@@ -138,7 +138,6 @@ if ($result1) {
           BD18.isSnap = false;
           return false;
         }); // end button2 click
-        registerMainMenu(); 
         var gameToPlay = 'session=<?php echo $dogame; ?>';
         $.getJSON("php/gameSession.php", gameToPlay, loadSession)
                 .error(function() {
@@ -161,14 +160,28 @@ if ($result1) {
             <?php echo $gamestat; ?></span></h1>
       </div>
       <div>
-        <span id="newmainmenu"> MENU </span>
+        <span id="newmainmenu" onclick="$('.menu').hide();$('#mainmenu').toggle();event.stopPropagation();"> MENU </span>
         <p id="lognote"></p>
+	<div id="mainmenu" class="menu">
+          <ul class="bigMenu">
+            <li onclick="acceptMove();">Accept Move</li>
+            <li onclick="trayCanvasApp();mainCanvasApp();toknCanvasApp();">Cancel Move</li>
+            <li onclick="window.location = 'board18Map.php?dogame=' + BD18.gameID;">Map Board</li>
+            <li onclick="$('#snapname .error').hide();$('#snapname :text').val('');$('#snapname form').slideDown(300);
+				BD18.isSnap = true;$('#rname').focus();">Take Snapshot</li>
+            <li onclick="window.location = 'board18SnapList.php?gameid=' + BD18.gameID;">Show Snap List</li>
+            <li onclick="window.location = 'board18Main.php';">Main Page</li>
+            <li onclick="var swapstring = '&gameid=' + BD18.gameID;$.post('php/statSwap.php', swapstring,  statswapOK);">Toggle Status</li>
+            <li onclick="$.post('php/logout.php', logoutOK);">Log Out</li>
+            <li onclick="window.open(BD18.help, 'HelpGuide');">Help</li>
+            <li onclick="$('.menu').hide();">Close Menu</li>
+          </ul>
+        </div> 
       </div>
     </div>
 
     <div id="topleftofpage">
-      <span id="traymenu"> Trays </span>
-    </div>  
+    </div> 
     <div id="botleftofpage">
       <div id="sidebar">
         <div id="tiles" onclick="traySelect(event);">

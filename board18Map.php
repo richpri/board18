@@ -138,7 +138,6 @@ if ($result1) {
           BD18.isSnap = false;
           return false;
         }); // end button2 click
-        registerMainMenu();
         var gameToPlay = 'session=<?php echo $dogame; ?>';
         $.getJSON("php/gameSession.php", gameToPlay, loadSession)
                 .error(function() {
@@ -149,7 +148,7 @@ if ($result1) {
     </script>    
   </head>
 
-  <body>
+  <body onclick="$('.menu').hide();">
 
     <div id="topofpage">
       <div id="logo">
@@ -161,14 +160,31 @@ if ($result1) {
             <?php echo $gamestat; ?></span></h1>
       </div>
       <div>
-        <span id="newmainmenu"> MENU </span>
+        <span id="newmainmenu" onclick="$('.menu').hide();$('#mainmenu').toggle();event.stopPropagation();"> MENU </span>
         <p id="lognote"></p>
+	<div id="mainmenu" class="menu">
+          <ul class="bigMenu">
+            <li onclick="acceptMove();">Accept Move</li>
+            <li onclick="trayCanvasApp();mainCanvasApp();toknCanvasApp();">Cancel Move</li>
+            <li onclick="hideShow();">Hide/Show</li>
+            <li onclick="window.location = 'board18Market.php?dogame=' + BD18.gameID;">Stock Market</li>
+            <li onclick="$('#snapname .error').hide();$('#snapname :text').val('');$('#snapname form').slideDown(300);
+				BD18.isSnap = true;$('#rname').focus();">Take Snapshot</li>
+            <li onclick="window.location = 'board18SnapList.php?gameid=' + BD18.gameID;">Show Snap List</li>
+            <li onclick="window.location = 'board18Main.php';">Main Page</li>
+            <li onclick="var swapstring = '&gameid=' + BD18.gameID;$.post('php/statSwap.php', swapstring,  statswapOK);">Toggle Status</li>
+            <li onclick="$.post('php/logout.php', logoutOK);">Log Out</li>
+            <li onclick="window.open(BD18.help, 'HelpGuide');">Help</li>
+            <li onclick="$('.menu').hide();">Close Menu</li>
+          </ul>
+        </div> 
       </div>
     </div>
 
     <div id="topleftofpage">
-      <span id="traymenu"> Trays </span>
-    </div>  
+      <span id="traybutton" onclick="$('.menu').hide();$('#traymenu').toggle();event.stopPropagation();"> Trays </span>
+    </div> 
+    <div id="traymenu" class="menu"></div> 
     <div id="botleftofpage">
       <div id="sidebar">
         <div id="tiles" onclick="traySelect(event);">

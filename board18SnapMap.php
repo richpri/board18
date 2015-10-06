@@ -36,7 +36,7 @@ $result1 = mysqli_query( $link, $qry1 );
 if ($result1 && (mysqli_num_rows($result1) == 1)) { 
   $row1 = mysqli_fetch_assoc($result1);
   $gameid = $row1['game_id']; // game id
-  $gname = $row1['gname']; // game name
+  $gname = '';//$row1['gname']; // game name ## ajprog -- Field not in table
   $ground = $row1['game_round']; // game round
 } else {   
   error_log("game_snap query failed");
@@ -83,7 +83,6 @@ if ($result1 && (mysqli_num_rows($result1) == 1)) {
         var startMessage = BD18.welcomename + ": ";
         startMessage += BD18.headermessage;
         $('#lognote').text(startMessage);
-        registerMainMenu();
         var snapToShow = 'snapshot=<?php echo $cpid; ?>';
         $.getJSON("php/gameSnap.php", snapToShow, loadSession)
                 .error(function() {
@@ -106,14 +105,27 @@ if ($result1 && (mysqli_num_rows($result1) == 1)) {
             <?php echo $ground; ?></span></h1>
       </div>
       <div>
-        <span id="newmainmenu"> MENU </span>
+        <span id="newmainmenu" onclick="$('.menu').hide();$('#mainmenu').toggle();event.stopPropagation();"> MENU </span>
         <p id="lognote"></p>
+	<div id="mainmenu" class="menu">
+          <ul class="bigMenu">
+            <li onclick="hideShow();">Hide/Show</li>
+            <li onclick="window.location = 'board18SnapMrk.php?show=' + BD18.gameID;">Stock Market</li>
+            <li onclick="window.location = 'board18SnapList.php?gameid=' + BD18.gameID;">Return to Snap List</li>
+            <li onclick="window.location = 'board18Map.php?dogame=' + BD18.gameID;">Return to Game</li>
+            <li onclick="window.location = 'board18Main.php';">Main Page</li>
+            <li onclick="$.post('php/logout.php', logoutOK);">Log Out</li>
+            <li onclick="window.open(BD18.help, 'HelpGuide');">Help</li>
+            <li onclick="$('.menu').hide();">Close Menu</li>
+          </ul>
+        </div> 
       </div>
     </div>
 
     <div id="topleftofpage">
-      <span id="traymenu"> Trays </span>
-    </div>  
+      <span id="traybutton" onclick="$('.menu').hide();$('#traymenu').toggle();event.stopPropagation();"> Trays </span>
+    </div> 
+    <div id="traymenu" class="menu"></div> 
     <div id="botleftofpage">
       <div id="sidebar">
         <div id="tiles" onclick="traySelect(event);">

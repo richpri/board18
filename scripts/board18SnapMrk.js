@@ -8,126 +8,38 @@
  * A copy of this license can be found in the LICENSE.text file.
  */
 
-/* The registerMainMenu function creates the 
- * main menu on the board18SnapMrk page. It uses
- * the jquery context menu plugin.
- */
-function registerMainMenu() {
-  $.contextMenu({
-    selector: "#newmainmenu", 
-    trigger: "left",
-    className: "bigMenu",
-    items: {
-      hideshow: {
-        name: "Hide/Show",
-        callback: function(){
-          if (BD18.hideMapItems === false) {
-            BD18.hideMapItems = true;
-            trayCanvasApp();
-            BD18.gameBoard.place();
-            BD18.gameBoard.clear2();
-          } else {
-            BD18.hideMapItems = false;
-            trayCanvasApp();
-            mainCanvasApp();
-            toknCanvasApp();
-          }
-        }
-      },
-      map: {
-        name: "Map Board",
-        callback: function(){
-          window.location = "board18SnapMap.php?show=" + BD18.snapID;
-        }
-      },
-      snaplist: {
-        name: "Return to Snap List",
-        callback: function(){
-          window.location = "board18SnapList.php?gameid=" + BD18.gameID;
-        }
-      },  
-      game: {
-        name: "Return to Game",
-        callback: function(){
-          window.location = "board18Map.php?dogame=" + BD18.gameID;
-        }
-      },
-      main: {
-        name: "Main Page",
-        callback: function(){
-          window.location = "board18Main.php";
-        }
-      },
-      logout: {
-        name: "Log Out",
-        callback: function(){
-          $.post("php/logout.php", logoutOK);
-        }
-      },
-      help: {
-        name: "Help",
-        callback: function(){
-          window.open(BD18.help, "HelpGuide");
-        }
-      },
-      close: {
-        name: "Close Menu",
-        callback: function(){}
-      }
-    },
-    zIndex: 10,
-    position: function(opt, x, y) {
-      opt.$menu.position({
-        my: 'left top',
-        at: 'left bottom',
-        of: opt.$trigger
-      });
-    },
-    callback: function(key, options) {
-      var m = "clicked on " + key + " on element ";
-      m =  m + options.$trigger.attr("id");
-      alert(m); 
-    }
-  });
-}
-
 /* The makeTrayItems function will use the 
  * BD18.trays array to construct the items
  * to be displayed in the tray menu.
  */
 function makeTrayItems() {
-  var menuText = '{';
+  var menuText = '<ul class="leftMenu">';
   var lastItem = BD18.trays.length - 1;
   for (var ix = 0; ix < BD18.trays.length; ix++) {
-    menuText += '"tray' + ix + '": ';
-    menuText += '{"name": "' + BD18.trays[ix].trayName;
-    menuText += '"}';
-    menuText += (ix === lastItem) ? '}' : ',';
+    menuText += '<li onclick="leftMenuEvent(\'tray' + ix + '\');">';
+    menuText += BD18.trays[ix].trayName;
+    menuText += '</li>';
+    menuText += (ix === lastItem) ? '</ul>' : '';
   }
-  var menuItems = $.parseJSON(menuText);
-  return menuItems;
+  //var menuItems = $.parseJSON(menuText);
+  return menuText;
 }
 
 /* The registerTrayMenu function creates the 
- * tray menu on the board18SnapMap page. It uses
+ * tray menu on the board18Map page. It uses
  * the jquery context menu plugin and the
  * makeTrayItems function.
  */
 function registerTrayMenu() {
   var itemlist = makeTrayItems();
-  $.contextMenu({
-    selector: "#traymenu", 
-    trigger: "left",
-    className: "leftMenu",
-    zIndex: 10,
-    position: function(opt, x, y) {
-      opt.$menu.position({
-        my: 'left top',
-        at: 'left bottom',
-        of: opt.$trigger
-      });
-    },
-    callback: function(key, options) {
+  $('#traymenu').html(itemlist);
+}
+
+
+/* This function handles the selection of the leftMenu(Tray)
+ * and displays the proper BD18.tray.
+ */
+function leftMenuEvent(key) {
       /* Remove any uncompleted moves. */
       if (BD18.hexIsSelected === true) {
         mainCanvasApp();
@@ -140,9 +52,7 @@ function registerTrayMenu() {
       $("#botleftofpage").scrollTop(0);
       var ix = parseInt(key.substring(4));
       BD18.trays[ix].place(null);
-    },
-    items: itemlist
-  });
+      $('.menu').hide();
 }
 
 /* 

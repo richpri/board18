@@ -9,112 +9,22 @@
  * A copy of this license can be found in the LICENSE.text file.
  */
 
-/* The registerMainMenu function creates the 
- * main menu on the board18Map page. It uses
- * the jquery context menu plugin.
+
+/* The showHide function will use the 
+ * BD18.gameBoard to hide/show tiles on the map.
  */
-function registerMainMenu() {
-  $.contextMenu({
-    selector: "#newmainmenu", 
-    trigger: "left",
-    className: "bigMenu",
-    items: {
-      accept: {
-        name: "Accept Move",
-        callback: function(){
-          acceptMove();
-        }
-      },
-      reset: {
-        name: "Cancel Move",
-        callback: function(){
-          trayCanvasApp();
-          mainCanvasApp();
-          toknCanvasApp();
-        }
-      },
-      hideshow: {
-        name: "Hide/Show",
-        callback: function(){
-          if (BD18.hideMapItems === false) {
-            BD18.hideMapItems = true;
-            trayCanvasApp();
-            BD18.gameBoard.place();
-            BD18.gameBoard.clear2();
-          } else {
-            BD18.hideMapItems = false;
-            trayCanvasApp();
-            mainCanvasApp();
-            toknCanvasApp();
-          }
-        }
-      },
-      stock: {
-        name: "Stock Market",
-        callback: function(){
-          window.location = "board18Market.php?dogame=" + BD18.gameID;
-        }
-      },
-      snap: {
-        name: "Take Snapshot",
-        callback: function(){
-          $('#snapname .error').hide();
-          $('#snapname :text').val('');
-          $('#snapname form').slideDown(300);
-          BD18.isSnap = true;
-          $('#rname').focus();
-        } 
-      },
-      snaplist: {
-        name: "Show Snap List",
-        callback: function(){
-          window.location = "board18SnapList.php?gameid=" + BD18.gameID;
-        }
-      },     
-      main: {
-        name: "Main Page",
-        callback: function(){
-          window.location = "board18Main.php";
-        }
-      },
-      statswap: {
-        name: "Toggle Status",
-        callback: function(){
-          var swapstring = "&gameid=" + BD18.gameID;
-          $.post("php/statSwap.php", swapstring,  statswapOK);
-        }
-      },
-      logout: {
-        name: "Log Out",
-        callback: function(){
-          $.post("php/logout.php", logoutOK);
-        }
-      },
-      help: {
-        name: "Help",
-        callback: function(){
-          window.open(BD18.help, "HelpGuide");
-        }
-      },
-      close: {
-        name: "Close Menu",
-        callback: function(){}
-      }
-    },
-    zIndex: 10,
-    position: function(opt, x, y) {
-      opt.$menu.position({
-        my: 'left top',
-        at: 'left bottom',
-        of: opt.$trigger
-      });
-    },
-    callback: function(key, options) {
-      var m = "clicked on " + key + " on element ";
-      m =  m + options.$trigger.attr("id");
-      alert(m); 
-    }
-  });
+function hideShow(){
+  if (BD18.hideMapItems === false) {
+    BD18.hideMapItems = true;
+    trayCanvasApp();
+    BD18.gameBoard.place();
+    BD18.gameBoard.clear2();
+  } else {
+    BD18.hideMapItems = false;
+    trayCanvasApp();
+    mainCanvasApp();
+    toknCanvasApp();
+  }
 }
 
 /* The makeTrayItems function will use the 
@@ -122,16 +32,16 @@ function registerMainMenu() {
  * to be displayed in the tray menu.
  */
 function makeTrayItems() {
-  var menuText = '{';
+  var menuText = '<ul class="leftMenu">';
   var lastItem = BD18.trays.length - 1;
   for (var ix = 0; ix < BD18.trays.length; ix++) {
-    menuText += '"tray' + ix + '": ';
-    menuText += '{"name": "' + BD18.trays[ix].trayName;
-    menuText += '"}';
-    menuText += (ix === lastItem) ? '}' : ',';
+    menuText += '<li onclick="leftMenuEvent(\'tray' + ix + '\');">';
+    menuText += BD18.trays[ix].trayName;
+    menuText += '</li>';
+    menuText += (ix === lastItem) ? '</ul>' : '';
   }
-  var menuItems = $.parseJSON(menuText);
-  return menuItems;
+  //var menuItems = $.parseJSON(menuText);
+  return menuText;
 }
 
 /* The registerTrayMenu function creates the 
@@ -141,19 +51,14 @@ function makeTrayItems() {
  */
 function registerTrayMenu() {
   var itemlist = makeTrayItems();
-  $.contextMenu({
-    selector: "#traymenu", 
-    trigger: "left",
-    className: "leftMenu",
-    zIndex: 10,
-    position: function(opt, x, y) {
-      opt.$menu.position({
-        my: 'left top',
-        at: 'left bottom',
-        of: opt.$trigger
-      });
-    },
-    callback: function(key, options) {
+  $('#traymenu').html(itemlist);
+}
+
+
+/* This function handles the selection of the leftMenu(Tray)
+ * and displays the proper BD18.tray.
+ */
+function leftMenuEvent(key) {
       /* Remove any uncompleted moves. */
       if (BD18.hexIsSelected === true) {
         mainCanvasApp();
@@ -166,9 +71,7 @@ function registerTrayMenu() {
       $("#botleftofpage").scrollTop(0);
       var ix = parseInt(key.substring(4));
       BD18.trays[ix].place(null);
-    },
-    items: itemlist
-  });
+      $('.menu').hide();
 }
 
 /* This function calculates the board coordinates of a map
