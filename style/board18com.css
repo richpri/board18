@@ -83,7 +83,12 @@ html, body {
   top:50px;
   font-size: large;
 }
-
+.menu {
+    position: fixed;
+    z-index: 9;
+	display:none;
+    cursor: pointer;
+}
 #newmainmenu {
   display: inline-block;
   position: absolute;

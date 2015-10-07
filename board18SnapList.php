@@ -85,7 +85,6 @@ $pagecount = ceil((float)$snapcount/(float)$pagesize);
         BD18.curpage = 1;
         doPageList();
         doPageLinks();
-        registerMainMenu();
         $("#pagelinks").on("click", ".pagor", function() {
           BD18.curpage = $(".pagor").index(this) + 1;
           doPageList();
@@ -94,7 +93,7 @@ $pagecount = ceil((float)$snapcount/(float)$pagesize);
       }); // end ready
     </script>
   </head>
-  <body>
+  <body onclick="$('.menu').hide();">
     <div id="topofpage">
       <div id="logo">
         <img src="images/logo.png" alt="Logo"/> 
@@ -105,13 +104,22 @@ $pagecount = ceil((float)$snapcount/(float)$pagesize);
             <?php echo $gamestat; ?></span></h1>
       </div>
       <div>
-        <span id="newmainmenu"> MENU </span>
+        <span id="newmainmenu" onclick="$('.menu').hide();$('#mainmenu').toggle();event.stopPropagation();"> MENU </span>
         <p id="lognote"><?php echo "$welcomename: $headermessage"; ?>
           <span style="font-size: 70%">
             Click <a href="index.html">here</a> 
             if you are not <?php echo "$welcomename"; ?>.
           </span>
         </p>
+	<div id="mainmenu" class="menu">
+          <ul class="bigMenu">
+            <li onclick="window.location = 'board18Map.php?dogame=' + BD18.gameID;">Return to Game</li>
+            <li onclick="window.location = 'board18Main.php';">Main Page</li>
+            <li onclick="$.post('php/logout.php', logoutOK);">Log Out</li>
+            <li onclick="window.open(BD18.help, 'HelpGuide');">Help</li>
+            <li onclick="$('.menu').hide();">Close Menu</li>
+          </ul>
+        </div> 
       </div>
     </div>
     <div id="leftofpage">

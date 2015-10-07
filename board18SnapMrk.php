@@ -93,7 +93,7 @@ if ($result1 && (mysqli_num_rows($result1) == 1)) {
     </script>    
   </head>
 
-  <body>
+  <body onclick="$('.menu').hide();">
 
     <div id="topofpage">
       <div id="logo">

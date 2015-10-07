@@ -153,10 +153,11 @@ function hexSelect(event) {
   } else { // BD18.hexIsSelected === false
     if (BD18.tileIsSelected === true) {
       dropTile(x,y); 
-    }
-    if (BD18.tokenIsSelected === true) {
+    }else if (BD18.tokenIsSelected === true) {
       dropToken(x,y,xPix,yPix); 
-    }   
+    }else{
+      $('#content').contextMenu({x:event.clientX,y:event.clientY});
+    }
   }
 }
 

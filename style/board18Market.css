@@ -66,12 +66,6 @@
     top: 125px;
     left: 15px;
 }
-.menu {
-    position: fixed;
-    z-index: 9;
-	display:none;
-    cursor: pointer;
-}
 .leftMenu {
   border: 2px solid #000 !important;
   font-size: larger !important;

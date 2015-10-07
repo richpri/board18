@@ -123,8 +123,10 @@ function boxSelect(event) {
     }
   } else { // BD18.boxIsSelected === false
     if (BD18.tokenIsSelected === true) {
-      dropToken(x,y,xPix,yPix); 
-    }   
+      dropToken(x,y,xPix,yPix);
+    }else{
+      $('#content').contextMenu({x:event.clientX,y:event.clientY});
+    }
   }
 }
 
