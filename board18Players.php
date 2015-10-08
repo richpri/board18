@@ -103,7 +103,11 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
           BD18.player.update = 'no';
           doPageList();
           doPageLinks();
-        }); // end pagelinks.click
+        }); // end first pagelinks.click
+        $("#pagelinks").on("click", ".thegame", function() {
+          var gameURL = "board18Games.php?gname=" + $(this).html();
+          window.location = gameURL;
+        }); // end second pagelinks.click  
         $("#players").on("click", ".playerid", function() {
           doPlayer($(this).html());
         }); // end players.click

@@ -58,6 +58,7 @@ class Response
 $errorResp = new Response();
 $errorResp->stat = "fail";
 $errResp = json_encode($errorResp);
+error_log("Entering gameGet");       //debug
 
 require_once('auth.php');
 if ($playerlevel != 'admin') {

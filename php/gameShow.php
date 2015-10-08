@@ -15,8 +15,8 @@
  *         "gameid":"nnnn",
  *         "gname":"gggggg",
  *         "bname":"aaaaaa", 
- *         "sdate":"bbbbbb",
- *         "adate":"cccccc",
+ *         "sdate":"yyy-mm-dd hh:mm:ss",
+ *         "adate":"yyy-mm-dd hh:mm:ss",
  *         "boxid":"eeeeee",
  *         "status":"fffff",
  *         "pcount":"nnnnnn"

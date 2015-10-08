@@ -132,9 +132,9 @@ function paintGame() {
   getHTML+= '<caption id="gamehead">Current field values for Game ID ';
   getHTML+= BD18.game.gameid + '</caption>';
   getHTML+= '<tr><td>Game Name: ' + BD18.game.gname + '</td>';
-  getHTML+= '<td>Start Date: ' + BD18.game.sdate + '</td></tr><tr>';
+  getHTML+= '<td>Start Date: ' + BD18.game.sdate + '</td></tr>';
   getHTML+= '<tr><td>Box Name: ' + BD18.game.bname + '</td>';
-  getHTML+= '<td>Activity Date: ' + BD18.game.adate + '</td></tr><tr>';
+  getHTML+= '<td>Activity Date: ' + BD18.game.adate + '</td></tr>';
   getHTML+= '<tr><td>Last Updater: ' + BD18.game.lastupdater + '</td>';
   getHTML+= '<td>Game Status: ' + BD18.game.status + '</td></tr>';
   if (BD18.game.update === 'yes') {
@@ -223,14 +223,29 @@ function gameResult(response) {
   }
 } // end of gameResult
 
-/* The doPlayer function performs an AJAX call
- * to the playerGet.php function.
+/* The doGame function performs an AJAX call
+ * to the gameGet.php function.
  */
 function doGame(gameid) {
   BD18.game.update = 'no';
   var outstring = "gameid=" + gameid;
   $.post("php/gameGet.php", outstring, getReturn);
 };
+
+/* The findGame function searches the BD18.games
+ * array to find the gameid of the game with a
+ * given gname. It then calls doGame with it.
+ */
+function findGame(gname) {
+  var listInfo;
+  for (var i = 0; i < BD18.games.length; i++) {
+    listInfo = BD18.games[i];
+    if (listInfo.gname === gname) {
+      doGame(listInfo.gameid);
+      break;
+    }
+  }
+}
 
 /* 
  * Function updateGame is called by the on-click

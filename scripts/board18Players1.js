@@ -100,7 +100,7 @@ function playerGames() {
       } else {
         gamestat = 'redit';
       }
-      gameHTML+= '<tr> <td class="' + gamestat + '">';
+      gameHTML+= '<tr> <td class="thegame ' + gamestat + '">';
       gameHTML+= gameInfo.gname + '</td> </tr>';
     }); // end of each
     gameHTML+= '</table>';

@@ -199,9 +199,9 @@ function makeMenuItems(e) {
     case "4":
       menuText = {
         stoken1: {
-          name: 'Select Token to Delete',
+          name: 'Select Token to Flip',
           callback: function(){
-            BD18.tknMenu.funct = 'delete';
+            BD18.tknMenu.funct = 'flip';
             selectToken(e);
           }
         },
@@ -268,6 +268,14 @@ function makeMenuItems(e) {
             selectToken(e);
           }
         },   
+
+        stoken11: {
+          name: 'Select Token to Delete',
+          callback: function(){
+            BD18.tknMenu.funct = 'delete';
+            selectToken(e);
+          }
+        },
         close: {
           name: 'Close Menu',
           callback: function(){}
