@@ -131,7 +131,7 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
       }); // end ready
     </script>
   </head>
-  <body>
+  <body onclick="$('.menu').hide();">
     <div id="topofpage">
       <div id="logo">
         <img src="images/logo.png" alt="Logo"/> 
@@ -140,13 +140,22 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
         <h1>BOARD18 - Remote Play Tool For 18xx Style Games</h1>
       </div>
       <div>
-        <span id="newmainmenu"> MENU </span>
+        <span id="newmainmenu" onclick="$('.menu').hide();$('#mainmenu').toggle();event.stopPropagation();"> MENU </span>
         <p id="lognote"><?php echo "$welcomename: $headermessage"; ?>
           <span style="font-size: 70%">
             Click <a href="index.html">here</a> 
             if you are not <?php echo "$welcomename"; ?>.
           </span>
         </p>
+	<div id="mainmenu" class="menu">
+          <ul class="bigMenu">
+            <li onclick="window.location = 'board18Admin.php';">Return to Admin</li>
+            <li onclick="window.location = 'board18Main.php';">Main Page</li>
+            <li onclick="$.post('php/logout.php', logoutOK);">Log Out</li>
+            <li onclick="window.open(BD18.help, 'HelpGuide');">Help</li>
+            <li onclick="$('.menu').hide();">Close Menu</li>
+          </ul>
+        </div> 
       </div>
     </div>
     <div id="leftofpage">
