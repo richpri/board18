@@ -1,3 +1,4 @@
+.gitignore
 nbproject/
 working/
 documentation/.~lock*
