@@ -88,7 +88,6 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
         BD18.game.update = 'no';
         doPageList();
         doPageLinks();
-        registerMainMenu();
         var gameselect = '<?php echo $xfer; ?>';
         if (gameselect !== 0) {
           setTimeout(function(){ // This is to avoid a race condition.
