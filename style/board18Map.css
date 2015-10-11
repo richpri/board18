@@ -46,7 +46,7 @@
 	background-color:#b1ccb1;	
 }
 
-#traymenu {
+#traybutton {
   display: inline-block;
   z-index: 9;
   position: absolute;
@@ -59,12 +59,26 @@
   font-family: Verdana, Arial, Helvetica, sans-serif;
   background-color: #ffeedd;
   border: 2px solid #000;
+  cursor: pointer;
 }
-
+#traymenu {
+    top: 125px;
+    left: 15px;
+}
 .leftMenu {
   border: 2px solid #000 !important;
   font-size: larger !important;
-  background-color: #ffeedd !important;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.leftMenu li {
+  background-color: #ffeedd;
+  padding: 2px 2px 2px 24px;
+}
+
+.leftMenu li:hover {
+  background-color: #ddffdd;
 }
 
 #tiles {

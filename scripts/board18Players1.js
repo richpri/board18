@@ -1,7 +1,6 @@
 /*
  * The board18Players1 script contains all of the js functions
- * for the board18Players page except for the Email functions 
- * and the registerMainMenu function.
+ * for the board18Players page except for the Email functions. 
  * 
  * Copyright (c) 2015 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.

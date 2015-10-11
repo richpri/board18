@@ -1,6 +1,6 @@
 /*
- * The board18Players2 script contains the Email functions and
- * the registerMainMenu function for the board18Players page.
+ * The board18Players2 script contains the Email functions
+ * for the board18Players page.
  * 
  * Copyright (c) 2015 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
@@ -90,67 +90,3 @@ function sendBroadcast() {
   $("#body2").val('');
 };
 
-/* The registerMainMenu function creates the 
- * main menu on the board18Players page. It uses
- * the jquery context menu plugin.
- */
-function registerMainMenu() {
-  $.contextMenu({
-    selector: "#newmainmenu", 
-    trigger: "left",
-    className: "bigMenu",
-    items: {
-      broadcast: {
-        name: "Send Broadcast",
-        callback: function(){
-          $('#theplayer').slideUp(300);
-          $('#gamelist').remove();
-          $('.error').hide();
-          $('#allmail').slideDown(300);
-          BD18.player.update = 'no';
-        }
-      },
-      goback: {
-        name: "Return To Admin",
-        callback: function(){
-          window.location = "board18Admin.php";
-        }
-      },
-      mainpage: {
-        name: "Goto Main Page",
-        callback: function(){
-          window.location = "board18Main.php";
-        }
-      },
-      logout: {
-        name: "Log Out",
-        callback: function(){
-          $.post("php/logout.php", logoutOK);
-        }
-      },
-      help: {
-        name: "Help",
-        callback: function(){
-          window.open(BD18.help, "HelpGuide");
-        }
-      },
-      close: {
-        name: "Close Menu",
-        callback: function(){}
-      }
-    },
-    zIndex: 10,
-    position: function(opt, x, y) {
-      opt.$menu.position({
-        my: 'left top',
-        at: 'left bottom',
-        of: opt.$trigger
-      });
-    },
-    callback: function(key, options) {
-      var m = "clicked on " + key + " on element ";
-      m =  m + options.$trigger.attr("id");
-      alert(m); 
-    }
-  });
-}
