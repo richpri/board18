@@ -144,6 +144,10 @@ if ($result1) {
           var msg = "Error loading game file. \n";
           alert(msg);
         });
+	if ("ontouchstart" in window) {
+		$('#content').append('<div id="keyShortcut" style="position:fixed;top:91px;left:136px;z-index:4;"><input type="password" style="width:25px;height:25px;" /></div>');
+	}
+
       });
     </script>    
   </head>
