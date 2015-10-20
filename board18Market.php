@@ -86,7 +86,7 @@ if ($result1) {
     </title>
     <link rel="shortcut icon" href="images/favicon.ico" >
     <link rel="stylesheet" href="style/board18com.css" />
-    <link rel="stylesheet" href="style/board18Market.css" />
+    <link rel="stylesheet" href="style/board18Market-20151019.css" />
     <link rel="stylesheet" href="style/jquery.contextMenu.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
@@ -145,7 +145,7 @@ if ($result1) {
           alert(msg);
         });
 	if ("ontouchstart" in window) {
-		$('#content').append('<div id="keyShortcut" style="position:fixed;top:91px;left:136px;z-index:4;"><input type="password" style="width:25px;height:25px;" /></div>');
+		$('#topofpage').append('<div id="keyShortcut"><input type="password"/></div>');
 	}
 
       });
