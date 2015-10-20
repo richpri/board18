@@ -142,8 +142,8 @@ function hexSelect(event) {
       xPix = tArray[0];
       yPix = tArray[1];
   if (BD18.hexIsSelected === true) {
-    if (x !== BD18.curHexX) { return; }
-    if (y !== BD18.curHexY) { return; }
+    if (x !== BD18.curHexX) { $('#content').contextMenu({x:event.clientX,y:event.clientY});return; }
+    if (y !== BD18.curHexY) { $('#content').contextMenu({x:event.clientX,y:event.clientY});return; }
     if (BD18.tileIsSelected === true) {
       rotateTile("cw");       
     }

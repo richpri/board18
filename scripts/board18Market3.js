@@ -140,6 +140,8 @@ function flipToken() {
   var stack = BD18.tempToken[5]; 
   toknCanvasApp(true);
   var temp = new MarketToken(sn, ix, flip, stack, bx, by);
+  BD18.curBoxX = temp.hx;
+  BD18.curBoxY = temp.hy;
   temp.place(0.5); // Semi-transparent
   var messg = "Select 'Menu-Accept Move' to make ";
   messg += "token placement permanent.";

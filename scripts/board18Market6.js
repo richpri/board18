@@ -89,8 +89,8 @@ function boxSelect(event) {
   xPix = tArray[0];
   yPix = tArray[1];
   if (BD18.boxIsSelected === true) {
-    if (x !== BD18.curBoxX) { return; }
-    if (y !== BD18.curBoxY) { return; }
+    if (x !== BD18.curBoxX) { $('#content').contextMenu({x:event.clientX,y:event.clientY});return; }
+    if (y !== BD18.curBoxY) { $('#content').contextMenu({x:event.clientX,y:event.clientY});return; }
     if (BD18.tokenIsSelected === true) {
       repositionToken(xPix,yPix);
     }

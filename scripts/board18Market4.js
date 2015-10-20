@@ -118,6 +118,8 @@ function moveSetup(mktok) {
   BD18.curRot = 0;
   BD18.curFlip = mktok.flip;
   BD18.curStack = mktok.stack;
+  BD18.curMktX = mktok.bx;
+  BD18.curMktY = mktok.by;
 }
 
 /* 
@@ -140,7 +142,7 @@ function doTknMenu(event) {
   ss = BD18.marketTokens[ix].stack;
   switch(BD18.tknMenu.funct) {
     case "flip":
-      if (BD18.trays[bdtok.snumb].tokenFlip[bdtok.index] === true) 
+      if (BD18.trays[mktok.snumb].tokenFlip[mktok.index] === true) 
       { 
         moveSetup(mktok);
         deleteToken(ix);
@@ -149,44 +151,38 @@ function doTknMenu(event) {
       break;
     case "adjust":
       moveSetup(mktok);
-      BD18.curMktX = mktok.bx;
-      BD18.curMktY = mktok.by;
       deleteToken(ix);
       repositionToken(BD18.curMktX,BD18.curMktY);
       break;
     case "up":
       mktok.stack = null;
-      moveSetup(mktok);
       var subY = parseInt(BD18.stockMarket.yStep);
-      BD18.curMktX = mktok.bx;
-      BD18.curMktY = mktok.by-subY;
+      mktok.by -= subY;
+      moveSetup(mktok);
       deleteToken(ix);
       repositionToken(BD18.curMktX,BD18.curMktY);
       break;
     case "right":
       mktok.stack = null;
-      moveSetup(mktok);
       var addX = parseInt(BD18.stockMarket.xStep);
-      BD18.curMktX = mktok.bx+addX;
-      BD18.curMktY = mktok.by;
+      mktok.bx += addX;
+      moveSetup(mktok);
       deleteToken(ix);
       repositionToken(BD18.curMktX,BD18.curMktY);
       break;
     case "down":
       mktok.stack = null;
-      moveSetup(mktok);
       var addY = parseInt(BD18.stockMarket.yStep);
-      BD18.curMktX = mktok.bx;
-      BD18.curMktY = mktok.by+addY;
+      mktok.by += addY;
+      moveSetup(mktok);
       deleteToken(ix);
       repositionToken(BD18.curMktX,BD18.curMktY);
       break;
     case "left":
       mktok.stack = null;
-      moveSetup(mktok);
       var subX = parseInt(BD18.stockMarket.xStep);
-      BD18.curMktX = mktok.bx-subX;
-      BD18.curMktY = mktok.by;
+      mktok.bx -= subX;
+      moveSetup(mktok);
       deleteToken(ix);
       repositionToken(BD18.curMktX,BD18.curMktY);
       break;
