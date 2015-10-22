@@ -86,7 +86,7 @@ if ($result1) {
     </title>
     <link rel="shortcut icon" href="images/favicon.ico" >
     <link rel="stylesheet" href="style/board18com.css" />
-    <link rel="stylesheet" href="style/board18Map.css" />
+    <link rel="stylesheet" href="style/board18Map-20151019.css" />
     <link rel="stylesheet" href="style/jquery.contextMenu.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script>
@@ -144,6 +144,9 @@ if ($result1) {
           var msg = "Error loading game file. \n";
           alert(msg);
         });
+	if ("ontouchstart" in window) {
+		$('#topofpage').append('<div id="keyShortcut"><input type="password"/></div>');
+	}
       });
     </script>    
   </head>

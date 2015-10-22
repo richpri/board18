@@ -62,6 +62,46 @@ function makeMenuItems(e) {
             flipToken();
           }
         },
+        up: {
+          name: 'Move Up',
+          callback: function(){
+            var subY = parseInt(BD18.stockMarket.yStep);
+            BD18.curMktY -= subY;
+            BD18.tempToken[5] = null;
+            BD18.curStack  = null;
+            repositionToken(BD18.curMktX,BD18.curMktY);
+          }
+        },
+        right: {
+          name: 'Move Right',
+          callback: function(){
+            var addX = parseInt(BD18.stockMarket.xStep);
+            BD18.curMktX += addX;
+            BD18.tempToken[5] = null;
+            BD18.curStack  = null;
+            repositionToken(BD18.curMktX,BD18.curMktY);
+          }
+        },
+        down: {
+          name: 'Move Down',
+          callback: function(){
+            var addY = parseInt(BD18.stockMarket.yStep);
+            BD18.curMktY += addY;
+            BD18.tempToken[5] = null;
+            BD18.curStack  = null;
+            repositionToken(BD18.curMktX,BD18.curMktY);
+          }
+        },
+        left: {
+          name: 'Move Left',
+          callback: function(){
+            var subX = parseInt(BD18.stockMarket.xStep);
+            BD18.curMktX -= subX;
+            BD18.tempToken[5] = null;
+            BD18.curStack  = null;
+            repositionToken(BD18.curMktX,BD18.curMktY);
+          }
+        },
         accept: {
           name: 'Accept Move',
           callback: function(){
