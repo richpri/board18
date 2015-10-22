@@ -1,3 +1,13 @@
+BOARD18 1.3.1 Release Notes
+
+Changes from 1.3.0 Release:
+* More issue 10 fixes:
+  Add an input box for mobile devices so they can use keyboard shortcuts
+  Additional changes to the mobile input box, added versioning to the css files
+  Add if you have a token/hex selected and you click outside of the selected 
+  area the In-Map menu will be displayed. 
+* Fixed Issue 45 - Flipping Token in Stock Market sends it to Top Left corner
+
 BOARD18 1.3.0 Release Notes
 
 Changes from 1.2.2 Release:
