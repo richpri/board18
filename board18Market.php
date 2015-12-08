@@ -86,7 +86,7 @@ if ($result1) {
     </title>
     <link rel="shortcut icon" href="images/favicon.ico" >
     <link rel="stylesheet" href="style/board18com.css" />
-    <link rel="stylesheet" href="style/board18Market-20151019.css" />
+    <link rel="stylesheet" href="style/board18Market-20151208.css" />
     <link rel="stylesheet" href="style/jquery.contextMenu.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
@@ -185,7 +185,9 @@ if ($result1) {
     </div>
 
     <div id="topleftofpage">
-    </div> 
+      <span id="traybutton" onclick="$('.menu').hide();$('#traymenu').toggle();event.stopPropagation();"> Trays </span>
+    </div>
+    <div id="traymenu" class="menu"></div>
     <div id="botleftofpage">
       <div id="sidebar">
         <div id="tiles" onclick="traySelect(event);">
