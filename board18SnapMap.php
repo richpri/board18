@@ -110,7 +110,7 @@ if ($result1 && (mysqli_num_rows($result1) == 1)) {
 	<div id="mainmenu" class="menu">
           <ul class="bigMenu">
             <li onclick="hideShow();">Hide/Show</li>
-            <li onclick="window.location = 'board18SnapMrk.php?show=' + BD18.gameID;">Stock Market</li>
+            <li onclick="window.location = 'board18SnapMrk.php?show=' + BD18.snapID;">Stock Market</li>
             <li onclick="window.location = 'board18SnapList.php?gameid=' + BD18.gameID;">Return to Snap List</li>
             <li onclick="window.location = 'board18Map.php?dogame=' + BD18.gameID;">Return to Game</li>
             <li onclick="window.location = 'board18Main.php';">Main Page</li>
