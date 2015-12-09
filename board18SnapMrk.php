@@ -122,7 +122,9 @@ if ($result1 && (mysqli_num_rows($result1) == 1)) {
     </div>
 
     <div id="topleftofpage">
-    </div> 
+      <span id="traybutton" onclick="$('.menu').hide();$('#traymenu').toggle();event.stopPropagation();"> Trays </span>
+    </div>
+    <div id="traymenu" class="menu"></div>
     <div id="botleftofpage">
       <div id="sidebar">
         <div id="tiles" onclick="traySelect(event);">
