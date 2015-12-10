@@ -2,7 +2,7 @@
 # BOARD18make is run to create a new BOARD18 distribution.
 
 # Set versionNo to the version number of the new distribution
-versionNo="1.3.3"
+versionNo="1.3.4"
 
 # Set BD18Root to the root of the BOARD18 directory structure.
 BD18Root=~/NetBeansProjects/BOARD18/
