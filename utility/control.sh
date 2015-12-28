@@ -11,4 +11,4 @@ BD18Site=~/prod1.board18.org
 BD18Old=~/prod1.board18.old
 
 # Set BD18New to the webroot directory in the new BOARD18 release.
-BD18New=~/board18-1.1.6/webroot
+BD18New=~/board18-1.4.0/webroot
