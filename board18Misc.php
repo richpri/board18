@@ -46,6 +46,7 @@ if ($result2 && mysqli_num_rows($result2) == 1) {
   // Query Successful
   $gamerow = mysqli_fetch_assoc($result2);
   $gname = $gamerow['gname'];
+  $gstat = $gamerow['status'];
 } else {
   error_log("game name query failed");
   $open = 'fail';
@@ -95,6 +96,11 @@ if ($result2 && mysqli_num_rows($result2) == 1) {
           changePlayer(BD18.login, '<?php echo "$dogame"; ?>');  
           event.preventDefault();
         }); // end playerform
+        $('#button4').click(function() {
+          var swapstring = '&gameid=' + '<?php echo "$dogame"; ?>';
+          $.post('php/statSwap.php', swapstring,  statswapOK);
+          return false;
+        }); // end button4 click
         $('#button6').click(function() {
           window.location = "board18Main.php";
           return false;
@@ -134,6 +140,9 @@ if ($result2 && mysqli_num_rows($result2) == 1) {
           <table id='playerlist'>
             <?php gamePlayers($dogame, $theLink);?> 
           </table>
+          <p id="status1">
+                  The current status of this game is <?php echo "$gstat"; ?>.
+          </p>         
           <form name="player" id="playerform" action="">
             <fieldset>
               <p>
@@ -154,9 +163,13 @@ if ($result2 && mysqli_num_rows($result2) == 1) {
               </p>
               <p>
                 <input type="submit" name="playerbutton" class="pwbutton"  
-                       id="button5" value="Submit" >
+                       id="button3" value="Submit" >
+                <input type="button" name="toggle" class="pwbutton"  
+                       id="button4" value="Toggle Status" >
+                <input type="button" name="links" class="pwbutton"  
+                       id="button5" value="Maintain Links" >
                 <input type="button" name="canbutton" class="pwbutton"  
-                       id="button6" value="Exit" >
+                       id="button6" value="Exit" >   
               </p>
             </fieldset>
           </form>

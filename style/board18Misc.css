@@ -55,7 +55,14 @@
   font-weight: bold;
 }
 
+#status1 {
+  margin: 5px;
+  font-weight: bold;
+  width: 450px;
+}
+
 #playerform {
+  width: 450px;
   margin-bottom: 10px;
 	padding: 10px 10px 10px 10px;
   border-style: double;
@@ -71,7 +78,7 @@
 /*  width: 60px; */
 }
 .pwbutton {
-	margin-left: 50px;	
+	margin-left: 13px;	
 }
 
 #content {
