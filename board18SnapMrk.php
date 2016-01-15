@@ -51,7 +51,7 @@ if ($result1 && (mysqli_num_rows($result1) == 1)) {
     </title>
     <link rel="shortcut icon" href="images/favicon.ico" >
     <link rel="stylesheet" href="style/board18com.css" />
-    <link rel="stylesheet" href="style/board18Market-20151019.css" />
+    <link rel="stylesheet" href="style/board18Market-20151208.css" />
     <link rel="stylesheet" href="style/jquery.contextMenu.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
@@ -109,7 +109,7 @@ if ($result1 && (mysqli_num_rows($result1) == 1)) {
         <p id="lognote"></p>
 	<div id="mainmenu" class="menu">
           <ul class="bigMenu">
-            <li onclick="window.location = 'board18SnapMap.php?show=' + BD18.gameID;">Map Board</li>
+            <li onclick="window.location = 'board18SnapMap.php?show=' + BD18.snapID;">Map Board</li>
             <li onclick="window.location = 'board18SnapList.php?gameid=' + BD18.gameID;">Return to Snap List</li>
             <li onclick="window.location = 'board18Map.php?dogame=' + BD18.gameID;">Return to Game</li>
             <li onclick="window.location = 'board18Main.php';">Main Page</li>
@@ -122,7 +122,9 @@ if ($result1 && (mysqli_num_rows($result1) == 1)) {
     </div>
 
     <div id="topleftofpage">
-    </div> 
+      <span id="traybutton" onclick="$('.menu').hide();$('#traymenu').toggle();event.stopPropagation();"> Trays </span>
+    </div>
+    <div id="traymenu" class="menu"></div>
     <div id="botleftofpage">
       <div id="sidebar">
         <div id="tiles" onclick="traySelect(event);">

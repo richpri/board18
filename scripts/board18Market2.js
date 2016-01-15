@@ -24,6 +24,7 @@ function makeTrays() {
   }
   BD18.curTrayNumb = 0;
   BD18.trayCount = ix;
+  registerTrayMenu();
 }
 
 /* This function initializes the BD18.marketTokens array.

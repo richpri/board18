@@ -80,10 +80,10 @@ DROP TABLE IF EXISTS `game_link`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `game_link` (
   `game_id` int(11) NOT NULL,
-  `link_type` varchar(15) CHARACTER SET utf8 NOT NULL,
+  `link_name` varchar(30) CHARACTER SET utf8 NOT NULL,
   `link_url` varchar(100) CHARACTER SET utf8 NOT NULL,
   `activity_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`game_id`, `link_type`)
+  PRIMARY KEY (`game_id`, `link_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
