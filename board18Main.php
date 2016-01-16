@@ -61,7 +61,7 @@ A copy of this license can be found in the LICENSE.text file.
             <li onclick="window.location = 'board18Admin.php';">Administration</li>
             <li onclick="$.post('php/logout.php', logoutOK);">Log Out</li>
             <li onclick="window.open(BD18.help, 'HelpGuide');">Help</li>
-            <li onclick="$('.menu').hide();">Close Menu</li>
+            <li onclick="$('.menu').hide();aboutBoard18();">About BOARD18</li>
           </ul>
         </div> 
       </div>

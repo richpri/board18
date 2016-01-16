@@ -214,7 +214,7 @@ function loadLinks(newLinks) {
     var link = document.createElement('li');
     link.appendChild(document.createTextNode(newLinks[i].link_name));
     link.setAttribute("onclick", "window.open('"+newLinks[i].link_url+"');");
-    linkMenu.appendChild(link);
+    linkMenu.insertBefore(link, linkMenu.firstChild);
   }
 
 }
@@ -233,6 +233,9 @@ function loadBox(box) {
   if (box.links !== 'undefined') {
     loadLinks(box.links);
   }
+  $.getJSON("php/linkGet.php", 'gameid='+BD18.gameID,function(data) {
+    if (data.stat == "success") { loadLinks(data.links); }
+  });
   // check for missing orientation value and make sure
   // that BD18.orientation is an upper case "P" or "F".
   if ((typeof BD18.bx.board.orientation === 'undefined') ||
@@ -296,9 +299,6 @@ function loadSession(session) {
 		    msg = msg + "This is probably due to a game box format error.";
 		    alert(msg); 
 	    });
-    //$.getJson("php/linkGet.php", 'gameid='+BD18.gameID,function(data) {
-    //    if (data.stat == "success") { loadLinks(data.links); }
-    //});
   } else {
 	itemLoaded();
   }
