@@ -46,6 +46,8 @@ if ($result2 && mysqli_num_rows($result2) == 1) {
   // Query Successful
   $gamerow = mysqli_fetch_assoc($result2);
   $gname = $gamerow['gname'];
+  $gstat = $gamerow['status'];
+  $_SESSION['SESS_UPDATE_COUNTER'] = $gamerow['update_counter'];
 } else {
   error_log("game name query failed");
   $open = 'fail';
@@ -78,6 +80,7 @@ if ($result2 && mysqli_num_rows($result2) == 1) {
         }
         BD18.login = '<?php echo $login; ?>';
         BD18.gname = '<?php echo $gname; ?>'; 
+        BD18.dogame = '<?php echo $dogame; ?>'; 
         $('.plnm').hide();
         $('.plall').mouseover(function() {
           $(this).children('.plnm').show();
@@ -92,14 +95,46 @@ if ($result2 && mysqli_num_rows($result2) == 1) {
           $('#pname3').val($(this).children('.login').text());
         });
         $('#playerform').submit(function(event) {
-          changePlayer(BD18.login, '<?php echo "$dogame"; ?>');  
+          changePlayer(BD18.login, BD18.dogame);  
           event.preventDefault();
         }); // end playerform
+        $('#button1').click(function() {
+          deleteLink(BD18.dogame, BD18.selectDelete);
+          $('#delpop').slideUp(300);
+          $('#delgrey').hide();
+          return false;
+        }); // end button1 click
+        $('#button2').click(function() {
+          $('#delpop').slideUp(300);
+          $('#delgrey').hide();
+          return false;
+        }); // end button2 click
+        $('#button4').click(function() {
+          var swapstring = '&gameid=' + 'BD18.dogame';
+          $.post('php/statSwap.php', swapstring,  statswapOK);
+          return false;
+        }); // end button4 click
+        $('#button5').click(function() {
+          var linkstring = 'gameid=' + BD18.dogame;
+          $.post('php/linkGet.php', linkstring,  linkReturn);
+          return false;
+        }); // end button5 click
         $('#button6').click(function() {
           window.location = "board18Main.php";
           return false;
         }); // end button6 click
-        var space;
+        $("#linklist").on("click", ".deleteflag", function() {
+          deleteCheck($(this).html());
+        }); // end linklist.click
+        $('#button11').click(function() {
+          addLink();
+          return false;
+        }); // end button15 click
+        $('#button15').click(function() {
+          $('#linkdiv').slideUp(300);
+          $('#sidebar').show();
+          return false;
+        }); // end button15 click
       }); // end ready
     </script>
   </head>
@@ -125,7 +160,7 @@ if ($result2 && mysqli_num_rows($result2) == 1) {
     <div id="leftofpage">
       <div id='sidebar'>
         <?php showPlayers($theLink);?>
-      </div>;
+      </div>
     </div>
 
     <div id="rightofpage"> 
@@ -134,6 +169,9 @@ if ($result2 && mysqli_num_rows($result2) == 1) {
           <table id='playerlist'>
             <?php gamePlayers($dogame, $theLink);?> 
           </table>
+          <p id="status1">
+                  The current status of this game is <?php echo "$gstat"; ?>.
+          </p>         
           <form name="player" id="playerform" action="">
             <fieldset>
               <p>
@@ -154,14 +192,66 @@ if ($result2 && mysqli_num_rows($result2) == 1) {
               </p>
               <p>
                 <input type="submit" name="playerbutton" class="pwbutton"  
-                       id="button5" value="Submit" >
+                       id="button3" value="Submit" >
+                <input type="button" name="toggle" class="pwbutton"  
+                       id="button4" value="Toggle Status" >
+                <input type="button" name="links" class="pwbutton"  
+                       id="button5" value="Maintain Links" >
                 <input type="button" name="canbutton" class="pwbutton"  
-                       id="button6" value="Exit" >
+                       id="button6" value="Exit" >   
               </p>
             </fieldset>
           </form>
-        </div>        
+        </div> 
+        <div id='linkdiv'> 
+          <p id="linkheader">
+             Click on Link Name to delete link.
+          </p>
+          <div id='linklist'> 
+          </div> 
+          <form name="link" id="linkform" action="">
+            <fieldset>
+              <p>
+                <label for="lname1">
+                  Name of new link:
+                </label>
+                <input type="text" name="lname1" id="lname1">
+                <label class="error" for="lname1" id="lname1_error">
+                  This field is required.</label>
+              </p>
+              <p>
+                <label for="lnkurl1">
+                  URL of new link:
+                </label>
+                <input type="text" name="lnkurl1" id="lnkurl1">
+                <label class="error" for="lnkurl1" id="lnkurl1_error">
+                  This field is required.</label>
+              </p>
+              <p>
+                <input type="submit" name="linkbutton" class="pwbutton"  
+                       id="button11" value="Add" >
+                <input type="button" name="canbutton" class="pwbutton"  
+                       id="button15" value="Exit" >   
+              </p>
+            </fieldset>
+          </form>     
+        </div> 
       </div> 
-    </div>  
+    </div> 
+    <div id=delgrey></div>
+    <div id=delpop> 
+      <form name="del" id="delform" action="">
+        <fieldset>
+          <p> Do you really want to delete the 
+              <span id="delname"></span> link?</p>
+          <p>
+            <input type="button" name="yesbutton" class="pwbutton"  
+                   id="button1" value="Yes" >
+            <input type="button" name="nobutton" class="pwbutton"  
+                   id="button2" value="No" >   
+          </p>
+        </fieldset>
+      </form>     
+    </div>
   </body>
 </html>

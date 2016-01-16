@@ -27,7 +27,7 @@
 	position: absolute;
 	left: 150px;
 	top: 6px;
-	z-index: 40;
+	z-index: 10;
 }
 
 #playerlist {
@@ -55,7 +55,14 @@
   font-weight: bold;
 }
 
+#status1 {
+  margin: 5px;
+  font-weight: bold;
+  width: 450px;
+}
+
 #playerform {
+  width: 450px;
   margin-bottom: 10px;
 	padding: 10px 10px 10px 10px;
   border-style: double;
@@ -68,10 +75,89 @@
 }
 #playerform input {
 	font-size: 14px;
-/*  width: 60px; */
+}
+#links {
+  border: 2px solid black;
+} 
+
+#links td {
+  border: 1px solid black;
+  background-color:#FFEEDD;
+}
+
+#links tr {
+  border: 1px solid black;
+  background-color:#FFEEDD;
+}
+
+#links th {
+  border: 1px solid black;
+  background-color:#FFEEDD;
+}
+#linkdiv {
+	width: 710px;
+  height: 450px;
+	position: absolute;
+	left: 50px;
+	top: 6px;
+  padding: 10px 10px 10px 10px;
+  border-style: double;
+	background-color:#ddffdd;
+	z-index: 20;
+  display: none;
+}
+#linkheader {
+  margin: 5px;
+  font-weight: bold;
+}
+#linkform {
+  width: 700px;
+  margin-bottom: 10px;
+	padding: 10px 10px 10px 10px;
+	position: absolute;
+  bottom: 0px;
+}
+#linkform label {
+	display: inline-block;
+  font-weight: bold;
+	margin: 0 15px 0 0;
+}
+#linkform input {
+	font-size: 14px;
+}
+#lnkurl1{
+  width: 470px;
+}
+
+#delgrey {
+	width: 100%;
+  height: 100%;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	background-color: rgba(128, 128, 128, 0.5);
+	z-index: 30;
+  display: none;
+}
+#delpop {
+	width: 200px;
+  height: 180px;
+	position: absolute;
+  left: 50%;	
+  margin-left: -100px;
+	top: 50%;
+  margin-top: -90px;
+  padding: 10px 10px 10px 10px;
+  border-style: double;
+	background-color: #FFEEDD;
+	z-index: 35;
+  display: none;
+}
+.deleteflag{
+  color: blue;
 }
 .pwbutton {
-	margin-left: 50px;	
+	margin-left: 13px;	
 }
 
 #content {

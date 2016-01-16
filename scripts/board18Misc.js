@@ -124,3 +124,164 @@ function changePlayer(login, game) {
   $.post("php/changePlayers.php", cString, changePlayerResult);
   return false;
 }
+
+/*
+ * Function linkReturn is the call back function for the
+ * ajax linkGet.php call. It creates and displays the
+ * game_link update division for the current game session.
+ *
+ * The response is the following stringified JSON data structure. 
+ *   {
+ *     "stat":"success||none||fail",
+ *     "links":
+ *     [
+ *       {
+ *         "link_name":"aaaaaa",
+ *         "link_url":"bbbbbbb",
+ *         "act_date":"mm/dd/yyyy"
+ *       },
+ *       . . . . more links . . . . . 
+ *     ]
+ *   }
+ */
+ function linkReturn(response) {
+  if (response.indexOf("<!doctype html>") !== -1) { // User has timed out.
+    window.location = "access-denied.html";
+  }
+  var resp = jQuery.parseJSON(response);
+  var linkHTML;
+  if (resp.stat === 'success') {
+    linkHTML= '<table id="links"> <tr><th>Name</th>';
+    linkHTML+= '<th>Link URL</th><th>Act. Date</th></tr>';
+    BD18.links = resp.links;
+    $.each(resp.links,function(index,listInfo) {
+      linkHTML+= '<tr> <td class="deleteflag">';
+      linkHTML+= listInfo.link_name + '</td> <td>';      
+      linkHTML+= listInfo.link_url + '</td> <td>';
+      linkHTML+= listInfo.act_date.substring(0,10) + '</td> </tr>';
+    }); // end of each
+    linkHTML+= '</table>';
+    $("#links").remove();
+    $('#linklist').append(linkHTML);   
+    $('#linkdiv').slideDown(300);
+    $('#sidebar').hide();
+  } else if (resp.stat === 'none') {
+    linkHTML = '<p id="links" class="error">';
+    linkHTML+= 'There are no links for this game.</p>';
+    $("#links").remove();
+    $('#linklist').append(linkHTML);
+    $('#linkdiv').slideDown(300);
+    $('#sidebar').hide();
+  } else if (resp.stat === 'fail') {
+    var errmsg1 = 'Program error in linkGet.php.\n';
+    errmsg1 += 'Please contact the BOARD18 webmaster.';
+    alert(errmsg1);
+  } else {  // Something is definitly wrong in the code.
+    var nerrmsg = 'Invalid return code from linkGet.php.\n';
+    nerrmsg += response + '\nPlease contact the BOARD18 webmaster.';
+    alert(nerrmsg);
+  }
+} // end of linkReturn
+
+/* The delReturn function is the call back function for the
+ * ajax linkDel.php call. It processes the response. 
+ * On success, it calls the linkGet function.  
+ * The response is the echo return status: 
+ *   "success", "fail" or "missing".
+ */
+function delReturn(response) {
+  if (response.indexOf("<!doctype html>") !== -1) { // User has timed out.
+    window.location = "access-denied.html";
+  }
+  if (response === 'success') {
+    var linkstring = 'gameid=' + BD18.dogame;
+    $.post('php/linkGet.php', linkstring,  linkReturn);
+  } else if (response === 'missing') {
+    var errmsg1 = '"' + BD18.selectDelete;
+    errmsg1 += '" was not found by linkDel.php.\n';
+    errmsg1 += 'Please contact the BOARD18 webmaster.';
+    alert(errmsg1);
+  } else if (response === 'fail') {
+    var errmsg2 = 'Program error in linkDel.php.\n';
+    errmsg2 += 'Please contact the BOARD18 webmaster.';
+    alert(errmsg2);
+  } else {  // Something is definitly wrong in the code.
+    var nerrmsg = 'Invalid return code from linkDel.php.\n';
+    nerrmsg += response + '\nPlease contact the BOARD18 webmaster.';
+    alert(nerrmsg);
+  }
+} // end of delReturn
+
+/* The deleteLink function is called by the on-click method  
+ * of the "Yes" button on the delpop form. It  performs an 
+ * AJAX call to the linkDel.php function.
+ */
+function deleteLink(gameid,linkname) {
+  var outstring = "gameid=" + gameid + "&linkname=" + linkname;
+  $.post("php/linkDel.php", outstring, delReturn);
+};
+
+/* The deleteCheck function is called by the on-click method  
+ * of the Link Name. It queries to make sure that the delete 
+ * request is real.
+ */
+function deleteCheck(linkname) {
+  BD18.selectDelete = linkname;
+  $("#delname").html(BD18.selectDelete);
+  $("#delgrey").show();
+  $("#delpop").slideDown(300);
+};
+
+/* The addReturn function is the call back function for the
+ * ajax linkAdd.php call. It processes the response. 
+ * On success, it calls the linkGet function. 
+ * The response is the echo return status: 
+ *   "success", "fail" or "duplicate".
+ */
+function addReturn(response) {
+  if (response.indexOf("<!doctype html>") !== -1) { // User has timed out.
+    window.location = "access-denied.html";
+  }
+  if (response === 'success') {
+    var linkstring = 'gameid=' + BD18.dogame;
+    $.post('php/linkGet.php', linkstring,  linkReturn);
+  } else if (response === 'duplicate') {
+    var dupNote = 'A link named ' + BD18.newlink + ' already exists.';
+    $('#lognote').text(dupNote);
+    $("#lname1_error").show();
+    $("#lname1").focus();
+  } else if (response === 'fail') {
+    var errmsg1 = 'Program error in linkDel.php.\n';
+    errmsg1 += 'Please contact the BOARD18 webmaster.';
+    alert(errmsg1);
+  } else {  // Something is definitly wrong in the code.
+    var nerrmsg = 'Invalid return code from linkDel.php.\n';
+    nerrmsg += response + '\nPlease contact the BOARD18 webmaster.';
+    alert(nerrmsg);
+  }
+} // end of addReturn
+
+/* The addLink function is called by the on-click method of the
+ * Add button in the link form. It checks the input parameters 
+ * for validity and then performs an AJAX call to the 
+ * linkAdd.php function.
+ */
+function addLink() {
+  $('.error').hide();  
+  var lname1 = $("input#lname1").val();
+  if (lname1 === "") {
+    $("#lname1_error").show();
+    $("#lname1").focus();
+    return false;
+  }
+  BD18.newlink = lname1;
+  var lnkurl1 = $("input#lnkurl1").val();
+  if (lnkurl1 === "") {
+    $("#lnkurl1_error").show();
+    $("#lnkurl1").focus();
+    return false;
+  }
+  var outstring = "gameid=" + BD18.dogame + "&linkname=";
+  outstring += lname1 + "&linkurl=" + lnkurl1;
+  $.post("php/linkAdd.php", outstring, addReturn);
+}; 

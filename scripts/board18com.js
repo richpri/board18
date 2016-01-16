@@ -13,7 +13,8 @@
 var BD18 = {};
 BD18.noteTimeout = null; // Used by doLogNote().
 BD18.welcomename = null; // Used by doLogNote().
-BD18.help = "http://wiki.board18.org/w/Player%27s_Guide_V1.1";
+BD18.help = "http://wiki.board18.org/w/Player%27s_Guide_V1.4";
+BD18.version = "1.4.1";
 
 /* Function setPage() adjusts the height and width
  * of rightofpage and the height of lefttofpage.
@@ -30,7 +31,9 @@ function setPage()
      winName === "board18Market.php" || 
      winName === "board18SnapMap.php" || 
      winName === "board18SnapMrk.php") {
-    $('#botleftofpage').css('height', winH-140);
+     var top = $('#botleftofpage').css('top');
+     $('#botleftofpage').css('height', winH-top.substr(0,top.length-2));
+     if(BD18.doneWithLoad) BD18.trays[BD18.curTrayNumb].place(BD18.curIndex);
   }
   else $('#leftofpage').css('height', winH-90);
 }
@@ -178,4 +181,15 @@ function statswapOK(resp) {
     msg += "Contact the site administrator about this error.";
     alert(msg);
   }
+}
+
+/* Function aboutBoard18 is called from the MAIN menu on
+ * most BOARD18 pages. It displays a popup about message. 
+ */
+function aboutBoard18() {
+  var aboutmsg = 'BOARD18 version ' + BD18.version + '\n';
+  aboutmsg += '\nAN OPEN SOURCE APPLICATION';
+  aboutmsg += '\nCopyright (c) 2013 Richard E. Price';
+  aboutmsg += '\nDistributed under the MIT License';
+  alert(aboutmsg);
 }

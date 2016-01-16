@@ -59,6 +59,7 @@ function GameBoard(image,board) {
    * The place function places the game board on canvas1.
    */
   this.place=function place() {
+    $('#lognote').text("Placing Image "+BD18.loadCount);
     BD18.context1.drawImage(image,0,0);
     BD18.hexIsSelected = false;
     BD18.gameBoard = that;
@@ -141,24 +142,29 @@ function TileSheet(image,sheet) {
     var img = this.image;
     var sx;
     var sy = this.yStart;
-    var szx = Math.min(this.xSize,105);
+    var szx = this.xSize;
+    var dzx = $('#sidebar').width()-20;
+    var scale = dzx / szx;
     var szy = this.ySize;
+    var dzy = szy * scale;
     var a = 10;  // This is the tray's Top and Left Margin.
-    var b = szy+5; // This is the tray's Y Step Value.
+    var b = dzy+5; // This is the tray's Y Step Value.
     BD18.curTrayNumb = this.trayNumb;
     BD18.curTrayStep = b;
     BD18.tileIsSelected = false;
     BD18.tokenIsSelected = false;
+    BD18.canvas0.width = $('#sidebar').width();
     BD18.canvas0.height = a+(this.tilesOnSheet*b); 
     for (var i=0;i<this.tilesOnSheet;i++)
     {
       sx = this.xStart+i*this.xStep;
       if (high === i) {
         BD18.context0.fillStyle = "red";
-        BD18.context0.fillRect(a,b*i,szx,szy);
+        BD18.context0.fillRect(a,b*i,dzx,dzy);
         BD18.context0.fillStyle = "black";
+	BD18.tileIsSelected = true;
       }
-      BD18.context0.drawImage(img,sx,sy,szx,szy,a,b*i,szx,szy);
+      BD18.context0.drawImage(img,sx,sy,szx,szy,a,b*i,dzx,dzy);
       BD18.context0.font = "18pt Arial";
       BD18.context0.textBaseline = "top";
       BD18.context0.textAlign = "left";
@@ -215,6 +221,7 @@ function TokenSheet(image,sheet) {
         BD18.context0.fillStyle = "red";
         BD18.context0.fillRect(a,b*i,szx+c,szy);
         BD18.context0.fillStyle = "black";
+	BD18.tokenIsSelected = true;
       }
       BD18.context0.drawImage(img,sx,sy,szx,szy,a+c,b*i,szx,szy);
       BD18.context0.font = "18pt Arial";

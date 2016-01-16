@@ -5,6 +5,27 @@
  * A copy of this license can be found in the LICENSE.text file.
  */
 
+    Image.prototype.load = function(url){
+        var thisImg = this;
+        var xmlHTTP = new XMLHttpRequest();
+        xmlHTTP.open('GET', url,true);
+        xmlHTTP.responseType = 'arraybuffer';
+        xmlHTTP.onload = function(e) {
+            var blob = new Blob([this.response]);
+            thisImg.src = window.URL.createObjectURL(blob);
+        };
+        xmlHTTP.onprogress = function(e) {
+            thisImg.completedPercentage = parseInt((e.loaded / e.total) * 100);
+            $('#lognote').text("Map Loading " + thisImg.completedPercentage +'%');
+        };
+        xmlHTTP.onloadstart = function() {
+            thisImg.completedPercentage = 0;
+        };
+        xmlHTTP.send();
+    };
+
+    Image.prototype.completedPercentage = 0;
+
 /* 
  * Function makeTrays() initializes all of the tray objects.
  * It calls the TileSheet constructor for each tile sheet.  
@@ -172,6 +193,7 @@ function canvasApp()
  * delayCheckForUpdate after all itemLoaded events have occured.
  */
 function itemLoaded(event) {
+  $('#lognote').text("Item Loaded - "+BD18.loadCount);
   BD18.loadCount--;
   if (BD18.doneWithLoad === true && BD18.loadCount <= 0) {
     BD18.gameBoard = new GameBoard(BD18.bdImage,BD18.bx.board);
@@ -183,6 +205,20 @@ function itemLoaded(event) {
   }
 }
 
+/* The loadLinks function is called by loadBox and getLinks
+ * functions to add game links to the "Useful Links" sub-menu
+ */
+function loadLinks(newLinks) {
+  var linkMenu = document.getElementById('linkMenu');
+  for(var i=0; i<newLinks.length; i++) {
+    var link = document.createElement('li');
+    link.appendChild(document.createTextNode(newLinks[i].link_name));
+    link.setAttribute("onclick", "window.open('"+newLinks[i].link_url+"');");
+    linkMenu.appendChild(link);
+  }
+
+}
+
 /* The loadBox function is a callback function for
  * the gameBox.php getJSON function. It loads all
  * the game box images. 
@@ -191,8 +227,12 @@ function itemLoaded(event) {
  * Finally it calls the makeMenues function.
  */
 function loadBox(box) {
+  $('#lognote').text("GameBox Loaded - Start");
   BD18.bx = null;
   BD18.bx = box;
+  if (box.links !== 'undefined') {
+    loadLinks(box.links);
+  }
   // check for missing orientation value and make sure
   // that BD18.orientation is an upper case "P" or "F".
   if ((typeof BD18.bx.board.orientation === 'undefined') ||
@@ -204,7 +244,7 @@ function loadBox(box) {
   var board = BD18.bx.board;
   var sheets = BD18.bx.tray;
   BD18.bdImage = new Image();
-  BD18.bdImage.src = board.imgLoc;
+  BD18.bdImage.load(board.imgLoc);
   BD18.bdImage.onload = itemLoaded; 
   BD18.loadCount++ ;
   BD18.tsImages = [];
@@ -236,7 +276,6 @@ function loadBox(box) {
   makeMenus();    // Register Context Menus
   BD18.doneWithLoad = true;
   itemLoaded(); // Just in case onloads are very fast.
-  
 }
 
 /* The loadSession function is a callback function for
@@ -246,12 +285,21 @@ function loadBox(box) {
 function loadSession(session) {
   BD18.gm = null;
   BD18.gm = session;
-  var boxstring = 'box=';
-  boxstring = boxstring + BD18.gm.boxID;
-  $.getJSON("php/gameBox.php", boxstring, loadBox)
-  .error(function() { 
-    var msg = "Error loading game box file. \n";
-    msg = msg + "This is probably due to a game box format error.";
-    alert(msg); 
-  });
+  if( !BD18.doneWithLoad ){
+	BD18.history = [JSON.stringify(BD18.gm)];
+	BD18.historyPosition = 0;
+	var boxstring = 'box=';
+	boxstring = boxstring + BD18.gm.boxID;
+	$.getJSON("php/gameBox.php", boxstring, loadBox)
+	    .error(function() { 
+		    var msg = "Error loading game box file. \n";
+		    msg = msg + "This is probably due to a game box format error.";
+		    alert(msg); 
+	    });
+    //$.getJson("php/linkGet.php", 'gameid='+BD18.gameID,function(data) {
+    //    if (data.stat == "success") { loadLinks(data.links); }
+    //});
+  } else {
+	itemLoaded();
+  }
 }

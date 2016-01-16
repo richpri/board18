@@ -32,8 +32,13 @@ function makeTrayItems() {
  * makeTrayItems function.
  */
 function registerTrayMenu() {
-  var itemlist = makeTrayItems();
-  $('#traymenu').html(itemlist);
+  if( BD18.trayCount > 1 ) {
+    var itemlist = makeTrayItems();
+    $('#traymenu').html(itemlist);
+  } else {
+    $('#botleftofpage').css('top',90);
+    setPage();
+  }
 }
 
 /* This function handles the selection of the leftMenu(Tray)

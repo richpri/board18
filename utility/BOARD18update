@@ -7,7 +7,7 @@
 # The three directory paths in control.sh must 
 # be correct or the web site could be damaged.
 # 
-# This is version 3 of this script.
+# This is version 4 of this script.
 #
 source $(dirname $0)/control.sh
 
@@ -30,4 +30,4 @@ rm -r $BD18New/images/*
 cp -r $BD18Old/images/* $BD18New/images
 rm -r ${BD18Site:?}/*
 cp -r $BD18New/* $BD18Site
-ls $BD18Site
+diff -r -q BD18Site BD18Old
