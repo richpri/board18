@@ -119,6 +119,7 @@ function TokenSheet(image,sheet) {
         BD18.context0.fillStyle = "red";
         BD18.context0.fillRect(a,b*i,szx+c,szy);
         BD18.context0.fillStyle = "black";
+		BD18.tokenIsSelected = true;
       }
       BD18.context0.drawImage(img,sx,sy,szx,szy,a+c,b*i,szx,szy);
     }
@@ -248,3 +249,4 @@ function OnBox(boxX, boxY) {
     return true;
   };
 }
+

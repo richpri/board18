@@ -133,7 +133,7 @@ html, body {
     display: none;
 	z-index: 10;
 }
-.menu ul ul ul{
+.menu ul ul ul, #onMapMenu ul{
 	width:auto;
 }
 li:hover > ul {display:block !important;}

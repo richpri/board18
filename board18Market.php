@@ -87,7 +87,6 @@ if ($result1) {
     <link rel="shortcut icon" href="images/favicon.ico" >
     <link rel="stylesheet" href="style/board18com.css" />
     <link rel="stylesheet" href="style/board18Market-20151208.css" />
-    <link rel="stylesheet" href="style/jquery.contextMenu.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
     <script type="text/javascript" src="scripts/board18com.js">
@@ -95,8 +94,6 @@ if ($result1) {
     <script type="text/javascript" src="scripts/jqueryMigrate.js">
     </script> 
     <script type="text/javascript" src="scripts/jquery.ui.position.js">
-    </script>
-    <script type="text/javascript" src="scripts/jquery.contextMenu.js">
     </script>
     <script type="text/javascript" src="scripts/board18Market1.js">
     </script> 
@@ -126,9 +123,7 @@ if ($result1) {
         startMessage += BD18.headermessage;
         $('#lognote').text(startMessage);
         setUpKeys();
-        $('#content').on({
-          "mousedown": mapMouseEvent
-        });
+        $('#content').on({"click": mapMouseEvent});
         $("#snapname").submit(function() {  
           snapshot();
           return false;
@@ -138,7 +133,7 @@ if ($result1) {
           BD18.isSnap = false;
           return false;
         }); // end button2 click
-        var gameToPlay = 'session=<?php echo $dogame; ?>';
+        var gameToPlay = 'session='+BD18.gameID;
         $.getJSON("php/gameSession.php", gameToPlay, loadSession)
                 .error(function() {
           var msg = "Error loading game file. \n";
@@ -152,7 +147,7 @@ if ($result1) {
     </script>    
   </head>
 
-  <body onclick="$('.menu').hide();">
+  <body onclick="$('.menu').hide();$('.menu ul ul').hide();">
 
     <div id="topofpage">
       <div id="logo">
@@ -168,17 +163,38 @@ if ($result1) {
         <p id="lognote"></p>
 	<div id="mainmenu" class="menu">
           <ul class="bigMenu">
-            <li onclick="acceptMove();">Accept Move</li>
-            <li onclick="trayCanvasApp();mainCanvasApp();toknCanvasApp();">Cancel Move</li>
-            <li onclick="window.location = 'board18Map.php?dogame=' + BD18.gameID;">Map Board</li>
-            <li onclick="$('#snapname .error').hide();$('#snapname :text').val('');$('#snapname form').slideDown(300);
-				BD18.isSnap = true;$('#rname').focus();">Take Snapshot</li>
-            <li onclick="window.location = 'board18SnapList.php?gameid=' + BD18.gameID;">Show Snap List</li>
-            <li onclick="window.location = 'board18Main.php';">Main Page</li>
+            <li onclick="acceptMove();" class="active move" style="display:none;">Accept Move(Enter)</li>
+            <li onclick="cancelMove();" class="active move" style="display:none;">Cancel Move(C)</li>
+            <li onclick="historyMove(-1);" class="no move undo grey">Undo Move(Z)</li>
+            <li onclick="historyMove(1);" class="no move redo grey">Redo Move(Y)</li>
+            <li onclick="hideShow();">Hide/Show(H)</li>
+	    <li onclick="$('.menu ul ul').hide();$(this).children('ul').toggle();event.stopPropagation();">Go To <span class="right">></span>
+		<ul>
+		    <li onclick="window.location = 'board18Map.php?dogame=' + BD18.gameID;">Map Board(M)</li>
+
+		    <li onclick="window.location = 'board18Main.php';">Main Page(O)</li>
+            	    <li onclick="$.post('php/logout.php', logoutOK);">Log Out(X)</li>
+		</ul>
+	    </li>
+	    <li onclick="$('.menu ul ul').hide();$(this).children('ul').toggle();event.stopPropagation();">Snapshots <span class="right">></span>
+		<ul>
+		    <li onclick="$('#snapname .error').hide();$('#snapname :text').val('');$('#snapname form').slideDown(300);
+					BD18.isSnap = true;$('#rname').focus();">Take Snapshot(S)</li>
+		    <li onclick="window.location = 'board18SnapList.php?gameid=' + BD18.gameID;">Show Snap List</li>
+		</ul>
+	    </li>
             <li onclick="var swapstring = '&gameid=' + BD18.gameID;$.post('php/statSwap.php', swapstring,  statswapOK);">Toggle Status</li>
-            <li onclick="$.post('php/logout.php', logoutOK);">Log Out</li>
-            <li onclick="window.open(BD18.help, 'HelpGuide');">Help</li>
-            <li onclick="$('.menu').hide();">Close Menu</li>
+	    <li>Help <span class="right">></span>
+		<ul>
+		    <li onclick="window.open(BD18.help, 'HelpGuide');">Player's Guide</li>
+		    <li onclick="$('.menu ul ul').hide();$(this).children('ul').toggle();event.stopPropagation();">Useful Links <span class="right">></span>
+			<ul id="linkMenu">
+			    <li onclick="window.open('http://board18.org/');">Board18 Project</li>
+			</ul>
+		    </li>
+		</ul>
+	    </li>
+            <li onclick="$('.menu').hide();aboutBoard18();">About BOARD18</li>
           </ul>
         </div> 
       </div>
@@ -199,8 +215,9 @@ if ($result1) {
       </div>
     </div>
 
-    <div id="rightofpage">
-      <div id="content">
+    <div id="rightofpage" oncontextmenu="mapMouseEvent(event);">
+      <div id="onMapMenu" class="menu"><ul></ul></div>
+      <div id="content"><div class='debug' style="position:fixed;bottom:0;right:0;background:white;z-index:99;"></div>
         <canvas id="canvas1">
           Your browser does not support the HTML 5 Canvas. 
         </canvas>

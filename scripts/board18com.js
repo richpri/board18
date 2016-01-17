@@ -33,7 +33,8 @@ function setPage()
      winName === "board18SnapMrk.php") {
      var top = $('#botleftofpage').css('top');
      $('#botleftofpage').css('height', winH-top.substr(0,top.length-2));
-     if(BD18.doneWithLoad) BD18.trays[BD18.curTrayNumb].place(BD18.curIndex);
+     if(typeof(BD18.canvas0) !== 'undefined') BD18.trays[BD18.curTrayNumb].place(BD18.curIndex);
+
   }
   else $('#leftofpage').css('height', winH-90);
 }

@@ -204,10 +204,13 @@ function updateMarketTokens() {
 function updateDatabase() {
   resetCheckForUpdate();
   var jstring = JSON.stringify(BD18.gm);
+  if(BD18.historyPosition != BD18.history.length - 1)
+    BD18.history.length = BD18.historyPosition + 1;
+  BD18.history.push(jstring);
+  BD18.historyPosition = BD18.history.length - 1;
   var outstring = "json=" + jstring + "&gameid=" + BD18.gameID;
   $.post("php/updateGame.php", outstring, fromUpdateGm);
 }
-
 
 /* This function calls the addToken function if 
  * the market price box is selected and the
@@ -219,6 +222,22 @@ function acceptMove() {
     BD18.deletedMarketToken = null;
     addToken();
   }
+}
+
+/* This function moves in the BD18.history to provide
+ * undo/redo functionality
+ */
+function historyMove(move) {
+  resetCheckForUpdate();
+  if( move > 0 && ((BD18.historyPosition + 1) < BD18.history.length) ) {
+    loadSession(JSON.parse( BD18.history[++BD18.historyPosition] ));
+  } else if( move < 0 && BD18.historyPosition > 0 )  {
+    loadSession(JSON.parse( BD18.history[--BD18.historyPosition] ));
+  } else {
+    return;
+  }
+  var outstring = "json=" + BD18.history[BD18.historyPosition] + "&gameid=" + BD18.gameID;
+  $.post("php/updateGame.php", outstring, fromUpdateGm);
 }
 
 /* This function adds the current board token object 
@@ -264,3 +283,4 @@ function finishMove() {
   BD18.curFlip = false;
   updateDatabase();
 }
+

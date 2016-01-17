@@ -230,11 +230,11 @@ function loadBox(box) {
   $('#lognote').text("GameBox Loaded - Start");
   BD18.bx = null;
   BD18.bx = box;
-  if (box.links !== 'undefined') {
+  if (typeof(box.links) !== 'undefined' && box.links.length > 0) {
     loadLinks(box.links);
   }
   $.getJSON("php/linkGet.php", 'gameid='+BD18.gameID,function(data) {
-    if (data.stat == "success") { loadLinks(data.links); }
+    if (data.stat == "success" && typeof(data.links) !== 'undefined' && data.links.length > 0) { loadLinks(data.links); }
   });
   // check for missing orientation value and make sure
   // that BD18.orientation is an upper case "P" or "F".
