@@ -1,3 +1,12 @@
+BOARD18 1.4.1 Release Notes
+
+Changes from 1.4.0  Release:
+
+Added 3 new PHP functions. 
+They are linkGet, linkAdd and linkDel. 
+Updated board18Misc page to support toggling the current game status.
+Added link processing functions to board18Misc page.
+
 BOARD18 1.4.0 Release Notes
 
 Changes from 1.3.4 Release:
