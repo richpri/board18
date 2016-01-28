@@ -170,12 +170,16 @@ if ($result1) {
             <li onclick="acceptMove();">Accept Move</li>
             <li onclick="trayCanvasApp();mainCanvasApp();toknCanvasApp();">Cancel Move</li>
             <li onclick="hideShow();">Hide/Show</li>
-            <li onclick="window.location = 'board18Market.php?dogame=' + BD18.gameID;">Stock Market</li>
-            <li onclick="$('#snapname .error').hide();$('#snapname :text').val('');$('#snapname form').slideDown(300);
-				BD18.isSnap = true;$('#rname').focus();">Take Snapshot</li>
-            <li onclick="window.location = 'board18SnapList.php?gameid=' + BD18.gameID;">Show Snap List</li>
+            <li onclick="window.location = 'board18Market.php?dogame=' + BD18.gameID;">
+                Stock Market</li>
+            <li onclick="$('#snapname .error').hide();$('#snapname :text').val('');
+                         $('#snapname form').slideDown(300);
+				                 BD18.isSnap = true;$('#rname').focus();">Take Snapshot</li>
+            <li onclick="window.location = 'board18SnapList.php?gameid=' + BD18.gameID;">
+                Show Snap List</li>
             <li onclick="window.location = 'board18Main.php';">Main Page</li>
-            <li onclick="var swapstring = '&gameid=' + BD18.gameID;$.post('php/statSwap.php', swapstring,  statswapOK);">Toggle Status</li>
+            <li onclick="var swapstring = '&gameid=' + BD18.gameID;
+                         $.post('php/statSwap.php', swapstring,  statswapOK);">Toggle Status</li>
             <li onclick="$.post('php/logout.php', logoutOK);">Log Out</li>
             <li onclick="window.open(BD18.help, 'HelpGuide');">Help</li>
             <li onclick="$('.menu').hide();">Close Menu</li>
