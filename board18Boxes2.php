@@ -6,14 +6,14 @@
  * Copyright (c) 2015 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
-/*
+
 require_once('auth.php');
 if ($playerlevel != 'admin' && $playerlevel != 'author') {
   error_log("gameGet: Not an admin or author level player");
   echo $errResp;
   exit;
 }
- */
+
 require_once('php/rm_r.php');
 require_once('php/loadGameBox.php');
 if(isset($_POST['submit'])) { // If reload via zform submit.

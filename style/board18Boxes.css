@@ -50,16 +50,35 @@
     color: blue;
 }
 
-#playerhead {
+#gamehead {
   font-size: large;
   font-weight: bold;
 }
 
-#playerlist th {
-  text-align: left;
+#gamelist {
+  margin: 5px;
+  border: 2px solid black;
+  background-color:#ffeedd; 
+  border-collapse:collapse;
 }
 
-.playerid {
+#gamelist td {
+  border: 1px solid black;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#gamelist tr {
+  border: 1px solid black;
+}
+
+#gamelist th {
+  border: 1px solid black;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.gameid {
     color: blue;
 }
 

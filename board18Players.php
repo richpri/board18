@@ -93,7 +93,7 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
         doPageList();
         doPageLinks();
         var playerselect = '<?php echo $xfer; ?>';
-        if (playerselect != 0) {
+        if (playerselect != 0) { // Do not use "!==", it does not work here.
           doPlayer(playerselect);
           playerselect = 0;
         }     
@@ -104,8 +104,13 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
           doPageLinks();
         }); // end first pagelinks.click
         $("#pagelinks").on("click", ".thegame", function() {
-          var gameURL = "board18Games.php?gname=" + $(this).html();
-          window.location = gameURL;
+          var gamename = $(this).html();
+          $.each(BD18.player.games,function(index,gameInfo) {
+            if (gameInfo.gname === gamename) { 
+              var gid = gameInfo.gameid;
+              window.location = "board18Games.php?gameid=" + gid;
+            }
+          }); // end of each
         }); // end second pagelinks.click  
         $("#players").on("click", ".playerid", function() {
           doPlayer($(this).html());

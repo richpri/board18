@@ -41,13 +41,12 @@ function loadBox($zfile) {
   $errorResp = new Response();
   $errorResp->stat = "fail";
   $errResp = json_encode($errorResp);
-  /*
+
   require_once('auth.php');
   if ($playerlevel != 'admin' && $playerlevel != 'author') {
-    error_log("gameGet: Not an admin or author level player");
+    error_log("loadGameBox:loadBox: Not an admin or author level player");
     return $errResp;
   }
-   */
   require_once('config.php');
 
 

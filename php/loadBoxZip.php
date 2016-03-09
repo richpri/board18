@@ -36,14 +36,13 @@ class Response
 $errorResp = new Response();
 $errorResp->stat = "fail";
 $errResp = json_encode($errorResp);
-/*
+
 require_once('auth.php');
 if ($playerlevel != 'admin' && $playerlevel != 'author') {
-  error_log("gameGet: Not an admin or author level player");
+  error_log("loadBoxZip: Not an admin or author level player");
   echo $errResp;
   exit;
 }
- */
 require_once('config.php');
 require_once('rm_r.php');
 

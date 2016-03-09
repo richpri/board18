@@ -55,8 +55,33 @@
   font-weight: bold;
 }
 
+#playerlist {
+  margin: 5px;
+  border: 2px solid black;
+  background-color:#ccf8cc; 
+  border-collapse:collapse;
+}
+
 #playerlist th {
-  text-align: left;
+  border: 1px solid black;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#playerlist td {
+  border: 1px solid black;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#playerlist tr {
+  border: 1px solid black;
+}
+
+#playerlist th {
+  border: 1px solid black;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 .playerid {
