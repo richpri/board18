@@ -38,12 +38,13 @@ function clean($link, $str) {
   return mysqli_real_escape_string($link, $str);
 }
 
-//Check for transfer from board18Playerss.php and
-//sanitize the POST value if it is a transfer.
+// Check for transfer from board18Players.php or board18Boxs.php
+// and sanitize the POST value if it is a transfer.
 $xfer = 0;
-if(!empty($_REQUEST['gname'])) {
-  $xfer = clean($link, $_REQUEST['gname']);
+if(!empty($_REQUEST['gameid'])) {
+  $xfer = clean($link, $_REQUEST['gameid']);
 }
+
 //Get count of game records.
 $qry1 = "SELECT COUNT(*) FROM game";
 $result1 = mysqli_query($link, $qry1);
@@ -86,21 +87,23 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
         BD18.curpage = 1;
         BD18.game = {};
         BD18.game.update = 'no';
-        doPageList();
-        doPageLinks();
-        var gameselect = '<?php echo $xfer; ?>';
-        if (gameselect !== 0) {
+        var gameselect = "<?php echo $xfer; ?>";
+        if (gameselect != 0) { // Do not use "!==", it does not work here.
           setTimeout(function(){ // This is to avoid a race condition.
-            findGame(gameselect);
+            doGame(gameselect);
             gameselect = 0;
           }, 300);
         } 
+        else {
+          doPageList();
+          doPageLinks(); 
+        }
         $("#pagelinks").on("click", ".pagor", function() {
           BD18.curpage = $(".pagor").index(this) + 1;
           BD18.game.update = 'no';
           doPageList();
           doPageLinks();
-        }); // end pagelinks.click
+        }); // end pagelinks.click  
         $("#games").on("click", ".gameid", function() {
           BD18.game.update = 'no';
           doGame($(this).html());
@@ -125,6 +128,11 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
           BD18.game.update = 'no';
           doPageList();
           doPageLinks();
+          return false;
+        }); // end button3 click
+        $('#button4').click(function() {
+          var boxURL = "board18Boxes.php?boxid=" + BD18.game.boxid;
+          window.location = boxURL;
           return false;
         }); // end button3 click
       }); // end ready
@@ -186,6 +194,8 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
             <p>
               <input type="button" name="updatebutton" class="pwbutton"  
                      id="button1" value="Update Game" >
+              <input type="button" name="boxbutton" class="pwbutton"  
+                     id="button4" value="Go To Box" >
               <input type="button" name="resbutton" class="pwbutton"  
                      id="button2" value="Reset Form" >
               <input type="button" name="canbutton" class="pwbutton"  
