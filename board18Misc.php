@@ -110,7 +110,7 @@ if ($result2 && mysqli_num_rows($result2) == 1) {
           return false;
         }); // end button2 click
         $('#button4').click(function() {
-          var swapstring = '&gameid=' + 'BD18.dogame';
+          var swapstring = '&gameid=' + BD18.dogame;
           $.post('php/statSwap.php', swapstring,  statswapOK);
           return false;
         }); // end button4 click

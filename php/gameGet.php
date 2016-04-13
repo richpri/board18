@@ -12,7 +12,9 @@
  *     "stat":"success||"fail"||"noplayers",
  *     "gameid":"nnnn",
  *     "gname":"aaaaaa",
+ *     "boxid":"nnnn",
  *     "bname":"bbbbbb",
+ *     "version":"vvvvvvv",
  *     "sdate":"yyy-mm-dd hh:mm:ss",
  *     "adate":"yyy-mm-dd hh:mm:ss",
  *     "lastupdater":"llllllll",
@@ -46,7 +48,9 @@ class Response
   public $stat;
   public $gameid;
   public $gname;
+  public $boxid;
   public $bname;
+  public $version;
   public $sdate;
   public $adate;
   public $lastupdater;
@@ -58,7 +62,6 @@ class Response
 $errorResp = new Response();
 $errorResp->stat = "fail";
 $errResp = json_encode($errorResp);
-error_log("Entering gameGet");       //debug
 
 require_once('auth.php');
 if ($playerlevel != 'admin') {
@@ -71,7 +74,7 @@ require_once('config.php');
 $link = @mysqli_connect(DB_HOST, DB_USER, 
         DB_PASSWORD, DB_DATABASE);
 if (mysqli_connect_error()) {
-  $logMessage = 'MySQL Error 1: ' . mysqli_connect_error();
+  $logMessage = 'gameGet: MySQL Error 1: ' . mysqli_connect_error();
   error_log($logMessage);
   echo $errResp;
   exit;
@@ -89,10 +92,10 @@ function clean($link, $str) {
 $gameid = intval(clean($link, $_REQUEST['gameid']));
 
 //Get record from the game table.
-$qry1 = "SELECT * FROM game WHERE game_id=$gameid";
+$qry1 = "SELECT * FROM game WHERE game_id='$gameid'";
 $result1 = mysqli_query($link, $qry1);
 if (!$result1 || mysqli_num_rows($result1) === 0) {
-  error_log("SELECT FROM game for $gameid - Query failed");
+  error_log("gameGet: SELECT FROM game for $gameid - Query failed");
   echo $errResp;
   exit;
 } else {
@@ -100,6 +103,7 @@ if (!$result1 || mysqli_num_rows($result1) === 0) {
   $gameResp = new Response();
   $gameResp ->gameid  = $gamerow['game_id'];
   $gameResp ->gname = $gamerow['gname'];
+  $gameResp ->boxid = $gamerow['box_id'];
   $gameResp ->sdate = $gamerow['start_date'];
   $gameResp ->adate = $gamerow['activity_date'];
   $gameResp ->lastupdater = $gamerow['last_updater'];
@@ -108,15 +112,16 @@ if (!$result1 || mysqli_num_rows($result1) === 0) {
 
 //Get box name from box table.
 $boxid = $gamerow['box_id'];
-$qry2 = "SELECT bname FROM box WHERE box_id='$boxid'";
+$qry2 = "SELECT bname, version FROM box WHERE box_id='$boxid'";
 $result2 = mysqli_query($link, $qry2);
 if (!$result2 || mysqli_num_rows($result2) === 0) {
-  error_log("SELECT FROM box - Query failed");
+  error_log("gameGet: SELECT FROM box - Query failed");
   echo $errResp;
   exit;
 } else {
   $boxrow = mysqli_fetch_assoc($result2);
   $gameResp ->bname = $boxrow['bname'];
+  $gameResp ->version = $boxrow['version'];
 }
 
 //Get array of players in game.
@@ -147,7 +152,7 @@ if ($result3) {
   echo json_encode($gameResp);
   exit;
 } else {
-  error_log("SELECT JOIN - Query failed");
+  error_log("gameGet: SELECT JOIN - Query failed");
   echo $errResp;
   exit;
 } 

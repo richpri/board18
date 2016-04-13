@@ -7,7 +7,11 @@
  * If the logged in player has the "admin" level then board18Admin.php 
  * will display, in the "leftofpage" division, a series of links to 
  * pages containing administrative tools.
- *      
+ * 
+ * If the logged in player has the "author" level then board18Admin.php 
+ * will display, in the "leftofpage" division, a link to a
+ * page containing author tools.
+ *     
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
@@ -84,6 +88,9 @@ if ($result) {
         if ("<?php echo "$level"; ?>" === "admin") {
           $('#adminlevel').show();
         } // end adminlevel
+        if ("<?php echo "$level"; ?>" === "author") {
+          $('#authorlevel').show();
+        } // end authorlevel
         $("#passwd").submit(function() {
           forceChange('<?php echo $passwd; ?>');
           return false;
@@ -132,10 +139,14 @@ if ($result) {
     <div id="leftofpage">
       <div id="adminlevel">
         <p> Administrator<br>Utilities</p>
-        <p> <a href="board18Boxes.php">Manage Boxes</a></p>
-        <p> <a href="board18Games.php">Manage Games</a></p>
         <p> <a href="board18Players.php">Manage Players</a></p>
-        
+        <p> <a href="board18Games.php">Manage Games</a></p>
+        <p> <a href="board18Boxes.php">Manage Boxes</a></p>
+        <p> <a href="board18BoxLoad.php">Load Game Box</a></p>
+      </div>
+      <div id="authorlevel">
+        <p> AUthor<br>Utilities</p>
+        <p> <a href="board18BoxLoad.php">Load Game Box</a></p>
       </div>
     </div>
 
