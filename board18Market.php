@@ -140,7 +140,7 @@ if ($result1) {
           alert(msg);
         });
 	if ("ontouchstart" in window) {
-		$('#topofpage').append('<div id="keyShortcut"><input type="password"/></div>');
+		$('#topofpage').append('<div id="keyShortcut"><input type="text"/></div>');
 	}
 
       });

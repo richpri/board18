@@ -28,6 +28,7 @@
  *    D   Move Down One Box
  */
 function setUpKeys() {
+  $("#keyShortcut input").keydown(function(e){alert("key:"+e.keyCode+"|"+e.which);});
   $(document).keydown(function(e){
     if (BD18.isSnap === false) {
   	  var keycode = (e.keyCode ? e.keyCode : e.which);

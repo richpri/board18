@@ -7,7 +7,6 @@
  * A copy of this license can be found in the LICENSE.text file.
  */
 
-
 #topleftofpage {
   background-color:#ddffdd;
   position:fixed;
@@ -15,6 +14,7 @@
   top:90px;
   width:135px;
   height:50px;
+  min-width:5%;
 }
 
 #botleftofpage {
@@ -24,15 +24,16 @@
   left:0px;
   top:140px;
   width:135px;
-  height:390px;
+  height:400px;
+  min-width:5%;
 }
 
 #sidebar {
-  width:120px;
+  width:100%;
   position: absolute;
   background-color:#ddffdd;
   left:0px;
-  top:50px; 
+  top:0px; 
 }
 
 .sidebaritem {
@@ -84,7 +85,7 @@
 
 #tiles {
   margin-top:5px;
-  width:120px;
+  width:100%;
   float:left;
   overflow:auto;
 }
@@ -173,17 +174,21 @@
 }
 #keyShortcut {
     position: fixed;
-    top: 50px;
-    left: 100px;
+    top: 28px;
+    left: 80px;
     z-index: 4;
 }
 #keyShortcut::before {
-	content: 'A';
+    content: 'A';
     position: absolute;
+    font-size: 25px;
+    left: 22px;
+    top: 25px;
+    z-index: -1;
 }
 #keyShortcut input {
-    width: 25px;
-    height: 25px;
+    width: 60px;
+    height: 60px;
     background-color: transparent;
     border: none;
 }
