@@ -86,7 +86,7 @@ if ($result1) {
     </title>
     <link rel="shortcut icon" href="images/favicon.ico" >
     <link rel="stylesheet" href="style/board18com.css" />
-    <link rel="stylesheet" href="style/board18Map-20151019.css" />
+    <link rel="stylesheet" href="style/board18Map-20160413.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script>
     <script type="text/javascript" src="scripts/jqueryMigrate.js">

@@ -51,7 +51,7 @@ if ($result1 && (mysqli_num_rows($result1) == 1)) {
     </title>
     <link rel="shortcut icon" href="images/favicon.ico" >
     <link rel="stylesheet" href="style/board18com.css" />
-    <link rel="stylesheet" href="style/board18Market-20151208.css" />
+    <link rel="stylesheet" href="style/board18Market-20160413.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
     <script type="text/javascript" src="scripts/board18com.js">
