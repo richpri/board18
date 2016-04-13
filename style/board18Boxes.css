@@ -1,5 +1,5 @@
-/* CSS Document for Games page  */
-/* File: style/board18Games.css */
+/* CSS Document for Boxes page  */
+/* File: style/board18Boxes.css */
 
 #sidebar {
   width:120px;
@@ -18,6 +18,38 @@
   border: none;
 }
 
+#boxhead {
+  font-size: large;
+  font-weight: bold;
+}
+
+#boxlist {
+  margin: 5px;
+  border: 2px solid black;
+  background-color:#ccf8cc; 
+  border-collapse:collapse;
+}
+
+#boxlist td {
+  border: 1px solid black;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#boxlist tr {
+  border: 1px solid black;
+}
+
+#boxlist th {
+  border: 1px solid black;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.boxid {
+    color: blue;
+}
+
 #gamehead {
   font-size: large;
   font-weight: bold;
@@ -26,7 +58,7 @@
 #gamelist {
   margin: 5px;
   border: 2px solid black;
-  background-color:#ccf8cc; 
+  background-color:#ffeedd; 
   border-collapse:collapse;
 }
 
@@ -47,44 +79,6 @@
 }
 
 .gameid {
-    color: blue;
-}
-
-#playerhead {
-  font-size: large;
-  font-weight: bold;
-}
-
-#playerlist {
-  margin: 5px;
-  border: 2px solid black;
-  background-color:#ccf8cc; 
-  border-collapse:collapse;
-}
-
-#playerlist th {
-  border: 1px solid black;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#playerlist td {
-  border: 1px solid black;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#playerlist tr {
-  border: 1px solid black;
-}
-
-#playerlist th {
-  border: 1px solid black;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-.playerid {
     color: blue;
 }
 
@@ -139,19 +133,19 @@ a.selected {
 	background-color:#ddffdd;
 }
 
-.gameform {
+.boxform {
   border-style: none;
 }
-.gameform label {
+.boxform label {
 	display: inline-block;
 	width: 200px;
 	margin: 0 15px 0 0;
 	color: rgb(58,80,123);
 }
-.gameform input {
+.boxform input {
 	font-size: 14px;
 }
-.pwbutton {
+.zfbutton {
 	margin-left: 50px;	
 }
 
@@ -160,3 +154,4 @@ a.selected {
 }
 
 .reg { }
+

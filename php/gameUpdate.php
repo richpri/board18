@@ -36,7 +36,8 @@ function clean($conn, $str) {
 
 $link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 if (!$link) {
-  error_log('Failed to connect to server: ' . mysqli_connect_error());
+  $errmsg1 = 'gameUpdate failed to connect to server: ';
+  error_log($errmsg1 . mysqli_connect_error());
   echo 'fail';
 	exit; 
 }
@@ -51,14 +52,14 @@ $qry1 = "SELECT * FROM game WHERE game_id ='$gameid'";
 $result1 = mysqli_query($link, $qry1);
 if ($result1) {
   if (mysqli_num_rows($result1) === 0) { // no such game!
-    error_log("Check for existing player: No game found!");
+    error_log("gameUpdate: Check for existing game: No game found!");
     echo 'fail';
     exit;
   } else {
     $gamerow = mysqli_fetch_assoc($result1);
   }
 } else {
-  error_log("Check for existing game: Query failed");
+  error_log("gameUpdate: Check for existing game: Query failed");
   echo 'fail';
   exit;
 }
@@ -74,7 +75,7 @@ if ($gamerow['gname'] !== $gname) { // If game name changed
       exit;     
     }
   } else {
-    error_log("Check duplicate gname: Query failed");
+    error_log("gameUpdate: Check duplicate gname: Query failed");
     echo 'fail';
     exit;
   }
@@ -87,7 +88,7 @@ $result = @mysqli_query($link, $qry);
 if ($result) {   // Was the query successful
   echo 'success';
 } else {
-  error_log("Update player: Query failed");
+  error_log("Update game: Query failed");
   echo 'fail';
 }
 ?>

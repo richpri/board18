@@ -193,6 +193,7 @@ if ($result1) {
 		</ul>
 	    </li>
             <li onclick="$('.menu').hide();aboutBoard18();">About BOARD18</li>
+
           </ul>
         </div> 
       </div>

@@ -136,12 +136,22 @@ function paintPlayer() {
   $('#lname').val(BD18.player.lastname);
   var levelHTML = '<label for="level">Change Level: </label>';
   levelHTML += '<select name="level" id="level">';
-  if (BD18.player.level === 'admin') {
-    levelHTML += '<option value="player">player</option>';
-    levelHTML += '<option value="admin" selected>admin</option>';
-  } else {
-    levelHTML += '<option value="player" selected>player</option>';
-    levelHTML += '<option value="admin">admin</option>';  
+  switch (BD18.player.level) {
+    case 'admin':
+      levelHTML += '<option value="player">player</option>';
+      levelHTML += '<option value="admin" selected>admin</option>';
+      levelHTML += '<option value="author">author</option>';
+      break;
+    case 'author':
+      levelHTML += '<option value="player">player</option>';
+      levelHTML += '<option value="admin">admin</option>';
+      levelHTML += '<option value="author" selected>author</option>';
+      break;
+    default:
+      levelHTML += '<option value="player" selected>player</option>';
+      levelHTML += '<option value="admin">admin</option>';
+      levelHTML += '<option value="author">author</option>';
+      break;
   }
   levelHTML += '</select>';
   $('#levelselect').html(levelHTML);
@@ -172,7 +182,7 @@ function getReturn(response) {
     BD18.player.games = resp.games;
     paintPlayer();
   } else if (resp.stat === 'fail') {
-    var errmsg1 = 'Program error in playerGet.php.php.\n';
+    var errmsg1 = 'Program error in playerGet.php.\n';
     errmsg1 += 'Please contact the BOARD18 webmaster.';
     alert(errmsg1);
   } else {  // Something is definitly wrong in the code.

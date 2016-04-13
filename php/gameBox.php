@@ -7,6 +7,9 @@
  * Input is the game box id.
  * 
  * Output is JSON game box data.
+ * 
+ * Copyright (c) 2014 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
  */
 
 require_once('auth.php');

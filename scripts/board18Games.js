@@ -108,10 +108,6 @@ function gamePlayers() {
       playerHTML+= listInfo.lname + '</td> </tr>';
     }); // end of each
     playerHTML+= '</table>';
-    $("#paginator").remove();
-    $("#playerlist").remove();
-    $("#playerhead").remove();
-    $('#thegame').append(playerHTML);
   } else {
     playerHTML= '<p id="playerhead">There are no players in this game.</p>';
   }
@@ -131,10 +127,11 @@ function paintGame() {
   var getHTML = '<table id="getlist">';
   getHTML+= '<caption id="gamehead">Current field values for Game ID ';
   getHTML+= BD18.game.gameid + '</caption>';
-  getHTML+= '<tr><td>Game Name: ' + BD18.game.gname + '</td>';
-  getHTML+= '<td>Start Date: ' + BD18.game.sdate + '</td></tr>';
+  getHTML+= '<tr><td>Game Name: ' + BD18.game.gname + '</td></tr>';
   getHTML+= '<tr><td>Box Name: ' + BD18.game.bname + '</td>';
   getHTML+= '<td>Activity Date: ' + BD18.game.adate + '</td></tr>';
+  getHTML+= '<tr><td>Box Version: ' + BD18.game.version + '</td>';
+  getHTML+= '<td>Start Date: ' + BD18.game.sdate + '</td></tr>';
   getHTML+= '<tr><td>Last Updater: ' + BD18.game.lastupdater + '</td>';
   getHTML+= '<td>Game Status: ' + BD18.game.status + '</td></tr>';
   if (BD18.game.update === 'yes') {
@@ -176,7 +173,9 @@ function getReturn(response) {
     BD18.game.stat = resp.stat;
     BD18.game.gameid = resp.gameid;
     BD18.game.gname = resp.gname;
+    BD18.game.boxid = resp.boxid;
     BD18.game.bname = resp.bname;
+    BD18.game.version = resp.version;
     BD18.game.sdate = resp.sdate;
     BD18.game.adate = resp.adate;
     BD18.game.lastupdater = resp.lastupdater;
@@ -184,7 +183,7 @@ function getReturn(response) {
     BD18.game.players = resp.players;
     paintGame();
   } else if (resp.stat === 'fail') {
-    var errmsg1 = 'Program error in gameGet.php.php.\n';
+    var errmsg1 = 'Program error in gameGet.php.\n';
     errmsg1 += 'Please contact the BOARD18 webmaster.';
     alert(errmsg1);
   } else {  // Something is definitly wrong in the code.
@@ -231,21 +230,6 @@ function doGame(gameid) {
   var outstring = "gameid=" + gameid;
   $.post("php/gameGet.php", outstring, getReturn);
 };
-
-/* The findGame function searches the BD18.games
- * array to find the gameid of the game with a
- * given gname. It then calls doGame with it.
- */
-function findGame(gname) {
-  var listInfo;
-  for (var i = 0; i < BD18.games.length; i++) {
-    listInfo = BD18.games[i];
-    if (listInfo.gname === gname) {
-      doGame(listInfo.gameid);
-      break;
-    }
-  }
-}
 
 /* 
  * Function updateGame is called by the on-click

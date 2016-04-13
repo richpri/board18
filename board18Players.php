@@ -8,7 +8,7 @@
  * - Deleting a player.
  * - Sending a email to a specific player.
  * - Sending a broadcast email to all players.
- * - Granting "admin" status to a player.
+ * - Granting "admin" or "author" level to a player.
  * 
  * Copyright (c) 2015 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
@@ -93,7 +93,7 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
         doPageList();
         doPageLinks();
         var playerselect = '<?php echo $xfer; ?>';
-        if (playerselect != 0) {
+        if (playerselect != 0) { // Do not use "!==", it does not work here.
           doPlayer(playerselect);
           playerselect = 0;
         }     
@@ -104,8 +104,13 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
           doPageLinks();
         }); // end first pagelinks.click
         $("#pagelinks").on("click", ".thegame", function() {
-          var gameURL = "board18Games.php?gname=" + $(this).html();
-          window.location = gameURL;
+          var gamename = $(this).html();
+          $.each(BD18.player.games,function(index,gameInfo) {
+            if (gameInfo.gname === gamename) { 
+              var gid = gameInfo.gameid;
+              window.location = "board18Games.php?gameid=" + gid;
+            }
+          }); // end of each
         }); // end second pagelinks.click  
         $("#players").on("click", ".playerid", function() {
           doPlayer($(this).html());
@@ -178,7 +183,8 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
         <h1>BOARD18 - Remote Play Tool For 18xx Style Games</h1>
       </div>
       <div>
-        <span id="newmainmenu" onclick="$('.menu').hide();$('#mainmenu').toggle();event.stopPropagation();"> MENU </span>
+        <span id="newmainmenu" onclick="$('.menu').hide();$('#mainmenu').toggle();
+                                        event.stopPropagation();"> MENU </span>
         <p id="lognote"><?php echo "$welcomename: $headermessage"; ?>
           <span style="font-size: 70%">
             Click <a href="index.html">here</a> 
@@ -187,8 +193,9 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
         </p>
 	<div id="mainmenu" class="menu">
           <ul class="bigMenu">
-            <li onclick="$('#theplayer').slideUp(300);$('#gamelist').remove();$('.error').hide();$('#allmail').slideDown(300);
-				BD18.player.update = 'no';">Send Broadcast</li>
+            <li onclick="$('#theplayer').slideUp(300);$('#gamelist').remove();
+                         $('.error').hide();$('#allmail').slideDown(300);
+			                   BD18.player.update = 'no';">Send Broadcast</li>
             <li onclick="window.location = 'board18Admin.php';">Return to Admin</li>
             <li onclick="window.location = 'board18Main.php';">Main Page</li>
             <li onclick="$.post('php/logout.php', logoutOK);">Log Out</li>

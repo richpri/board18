@@ -1,3 +1,16 @@
+BOARD18 1.5.0 Release Notes
+
+Changes from 1.4.2  Release:
+
+* Implemented issue 27 Phase 4 - board18Boxes.php.
+* Added links between board18Boxes.php, board18Games.php and board18Players.php
+
+BOARD18 1.4.2 Release Notes
+
+Changes from 1.4.1  Release:
+
+Fixed status swap bug in board18Misc.php
+
 BOARD18 1.4.1 Release Notes
 
 Changes from 1.4.0  Release:

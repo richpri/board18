@@ -33,6 +33,7 @@
 
 class Gameline
 {
+  public $gameid;
   public $gname;
   public $status;
 }
@@ -100,7 +101,7 @@ if (!$result1 || mysqli_num_rows($result1) === 0) {
 }
 
 $player1 = $playerrow['player_id'];
-$qry2 = "SELECT b.gname, b.status 
+$qry2 = "SELECT b.game_id, b.gname, b.status 
          FROM game_player AS a 
            JOIN game AS b 
              ON (a.player_id =  $player1
@@ -115,6 +116,7 @@ if ($result2) {
     $ii = 0;
     while ($gamerow = mysqli_fetch_assoc($result2)) {
       $gamelist[$ii] = new Gameline();
+      $gamelist[$ii] ->gameid = $gamerow['game_id'];
       $gamelist[$ii] ->gname = $gamerow['gname'];
       $gamelist[$ii] ->status = $gamerow['status'];
       $ii += 1;
