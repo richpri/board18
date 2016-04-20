@@ -56,270 +56,39 @@ function makeMenuItems(e) {
       break;
     case "1":
       menuText = {
-        flip: {
-          name: 'Flip Token',
-          callback: function(){
-            flipToken();
-          }
-        },
-        up: {
-          name: 'Move Up',
-          callback: function(){
-            var subY = parseInt(BD18.stockMarket.yStep);
-            BD18.curMktY -= subY;
-            BD18.tempToken[5] = null;
-            BD18.curStack  = null;
-            repositionToken(BD18.curMktX,BD18.curMktY);
-          }
-        },
-        right: {
-          name: 'Move Right',
-          callback: function(){
-            var addX = parseInt(BD18.stockMarket.xStep);
-            BD18.curMktX += addX;
-            BD18.tempToken[5] = null;
-            BD18.curStack  = null;
-            repositionToken(BD18.curMktX,BD18.curMktY);
-          }
-        },
-        down: {
-          name: 'Move Down',
-          callback: function(){
-            var addY = parseInt(BD18.stockMarket.yStep);
-            BD18.curMktY += addY;
-            BD18.tempToken[5] = null;
-            BD18.curStack  = null;
-            repositionToken(BD18.curMktX,BD18.curMktY);
-          }
-        },
-        left: {
-          name: 'Move Left',
-          callback: function(){
-            var subX = parseInt(BD18.stockMarket.xStep);
-            BD18.curMktX -= subX;
-            BD18.tempToken[5] = null;
-            BD18.curStack  = null;
-            repositionToken(BD18.curMktX,BD18.curMktY);
-          }
-        },
-        accept: {
-          name: 'Accept Move',
-          callback: function(){
-            acceptMove();
-          }
-        },
-        reset: {
-          name: 'Cancel Move',
-          callback: function(){
-            if (BD18.deletedMarketToken) {
-              BD18.curTrayNumb = BD18.deletedMarketToken.snumb;
-              BD18.curIndex = BD18.deletedMarketToken.index;
-              BD18.curFlip = BD18.deletedMarketToken.flip;
-              BD18.curStack = BD18.deletedMarketToken.stack;
-              BD18.curMktX = BD18.deletedMarketToken.bx;
-              BD18.curMktY = BD18.deletedMarketToken.by;
-              BD18.curBoxX = BD18.deletedMarketToken.hx;
-              BD18.curBoxY = BD18.deletedMarketToken.hy;
-              addToken();
-            }
-            trayCanvasApp();
-            mainCanvasApp();
-            toknCanvasApp();
-            BD18.boxIsSelected = false;
-            BD18.tokenIsSelected = false;
-          }
-        },
-        close: {
-          name: 'Close Menu',
-          callback: function(){}
-        }
+        flip: {name: 'Flip Token'},
+        up: {name: 'Move Up'},
+        right: {name: 'Move Right'},
+        down: {name: 'Move Down'},
+        left: {name: 'Move Left'},
+        accept: {name: 'Accept Move'},
+        reset: {name: 'Cancel Move'}
       };
       break;
     case "3":
       menuText = {
-        ftoken: {
-          name: 'Flip Token',
-          callback: function(){
-            var ix = BD18.onBoxList.tokens[0].mtindex;
-            var smtok = BD18.marketTokens[ix];
-            if (BD18.trays[smtok.snumb].tokenFlip[smtok.index] === true) 
-            { 
-              moveSetup(smtok);
-              deleteToken(ix);
-              flipToken();
-            }
-          }
-        },
-        adjtoken: {
-          name: 'Adjust Token in Box',
-          callback: function(){
-            var ix = BD18.onBoxList.tokens[0].mtindex;
-            var smtok = BD18.marketTokens[ix];
-            moveSetup(smtok);
-            BD18.curMktX = smtok.bx;
-            BD18.curMktY = smtok.by;
-            deleteToken(ix);
-            repositionToken(BD18.curMktX,BD18.curMktY);
-          }
-        },
-        mutoken: {
-          name: 'Move Token Up',
-          callback: function(){
-            var ix = BD18.onBoxList.tokens[0].mtindex;
-            var addY = parseInt(BD18.stockMarket.yStep);
-            var smtok = BD18.marketTokens[ix];
-            smtok.stack = null;
-            moveSetup(smtok);
-            BD18.curMktX = smtok.bx;
-            BD18.curMktY = smtok.by-addY;
-            deleteToken(ix);
-            repositionToken(BD18.curMktX,BD18.curMktY);
-          }
-        },
-        mltoken: {
-          name: 'Move Token Left',
-          callback: function(){
-            var ix = BD18.onBoxList.tokens[0].mtindex;
-            var addX = parseInt(BD18.stockMarket.xStep);
-            var smtok = BD18.marketTokens[ix];
-            smtok.stack = null;
-            moveSetup(smtok);
-            BD18.curMktX = smtok.bx-addX;
-            BD18.curMktY = smtok.by;
-            deleteToken(ix);
-            repositionToken(BD18.curMktX,BD18.curMktY);
-          }
-        },
-        mdtoken: {
-          name: 'Move Token Down',
-          callback: function(){
-            var ix = BD18.onBoxList.tokens[0].mtindex;
-            var addY = parseInt(BD18.stockMarket.yStep);
-            var smtok = BD18.marketTokens[ix];
-            smtok.stack = null;
-            moveSetup(smtok);
-            BD18.curMktX = smtok.bx;
-            BD18.curMktY = smtok.by+addY;
-            deleteToken(ix);
-            repositionToken(BD18.curMktX,BD18.curMktY);
-          }
-        },
-        mrtoken: {
-          name: 'Move Token Right',
-          callback: function(){
-            var ix = BD18.onBoxList.tokens[0].mtindex;
-            var addX = parseInt(BD18.stockMarket.xStep);
-            var smtok = BD18.marketTokens[ix];
-            smtok.stack = null;
-            moveSetup(smtok);
-            BD18.curMktX = smtok.bx+addX;
-            BD18.curMktY = smtok.by;
-            deleteToken(ix);
-            repositionToken(BD18.curMktX,BD18.curMktY);
-          }
-        },
-        dtoken: {
-          name: 'Delete Token',
-          callback: function(){
-            deleteToken(BD18.onBoxList.tokens[0].mtindex);
-            updateMarketTokens();
-            toknCanvasApp();
-            trayCanvasApp();
-            updateDatabase();
-            BD18.boxIsSelected = false;
-            BD18.tokenIsSelected = false;
-          }
-        },               
-        close: {
-          name: 'Close Menu',
-          callback: function(){}
-        }
+        tflip: {name: 'Flip Token'},
+        tmove: {name: 'Adjust Token in Box'},
+        tup: {name: 'Move Token Up'},
+        tright: {name: 'Move Token Right'},
+        tdown: {name: 'Move Token Down'},
+        tleft: {name: 'Move Token Left'},
+        tdelete: {name: 'Delete Token'}              
       };
       break;
     case "4":
       menuText = {
-        stoken1: {
-          name: 'Select Token to Flip',
-          callback: function(){
-            BD18.tknMenu.funct = 'flip';
-            selectToken(e);
-          }
-        },
-        stoken2: {
-          name: 'Select Token to Adjust in Box',
-          callback: function(){
-            BD18.tknMenu.funct = 'adjust';
-            selectToken(e);
-          }
-        },
-        stoken3: {
-          name: 'Select Token to Move Up',
-          callback: function(){
-            BD18.tknMenu.funct = 'up';
-            selectToken(e);
-          }
-        },
-        stoken4: {
-          name: 'Select Token to Move Right',
-          callback: function(){
-            BD18.tknMenu.funct = 'right';
-            selectToken(e);
-          }
-        },
-        stoken5: {
-          name: 'Select Token to Move Down',
-          callback: function(){
-            BD18.tknMenu.funct = 'down';
-            selectToken(e);
-          }
-        },
-        stoken6: {
-          name: 'Select Token to Move Left',
-          callback: function(){
-            BD18.tknMenu.funct = 'left';
-            selectToken(e);
-          }
-        }, 
-        stoken7: {
-          name: 'Select Token to Put on Top',
-          callback: function(){
-            BD18.tknMenu.funct = 'top';
-            selectToken(e);
-          }
-        }, 
-        stoken8: {
-          name: 'Select Token to Put on Bottom',
-          callback: function(){
-            BD18.tknMenu.funct = 'bottom';
-            selectToken(e);
-          }
-        },
-        stoken9: {
-          name: 'Select Token to Raise 1 Step',
-          callback: function(){
-            BD18.tknMenu.funct = 'raise';
-            selectToken(e);
-          }
-        }, 
-        stoken10: {
-          name: 'Select Token to Lower 1 Step',
-          callback: function(){
-            BD18.tknMenu.funct = 'lower';
-            selectToken(e);
-          }
-        },   
-
-        stoken11: {
-          name: 'Select Token to Delete',
-          callback: function(){
-            BD18.tknMenu.funct = 'delete';
-            selectToken(e);
-          }
-        },
-        close: {
-          name: 'Close Menu',
-          callback: function(){}
-        }
+        stflip: {name: 'Select Token to Flip'},
+        stmove: {name: 'Select Token to Adjust in Box'},
+        stup: {name: 'Select Token to Move Up'},
+        stright: {name: 'Select Token to Move Right'},
+        stdown: {name: 'Select Token to Move Down'},
+        stleft: {name: 'Select Token to Move Left'},
+        sttop: {name: 'Select Token to Put on Top'},
+        stbottom: {name: 'Select Token to Put on Bottom'},
+        straise: {name: 'Select Token to Raise 1 Step'},
+        stlower: {name: 'Select Token to Lower 1 Step'},
+        stdelete: {name: 'Select Token to Delete'}
       };
       break;
     default:
@@ -336,7 +105,7 @@ function makeMenuItems(e) {
  * items in the menu to be displayed for a particular event.
  */
 function makeMenus() {
-  $.contextMenu({
+/*  $.contextMenu({
     selector: '#content', 
     trigger: "right",
     build: function($trigger, e) {
@@ -369,4 +138,6 @@ function makeMenus() {
       return opts;
     }
   });
+*/
 }
+	

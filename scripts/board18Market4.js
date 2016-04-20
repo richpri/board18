@@ -157,32 +157,32 @@ function doTknMenu(event) {
     case "up":
       mktok.stack = null;
       var subY = parseInt(BD18.stockMarket.yStep);
-      mktok.by -= subY;
       moveSetup(mktok);
+      BD18.curMktY = mktok.by-subY;
       deleteToken(ix);
       repositionToken(BD18.curMktX,BD18.curMktY);
       break;
     case "right":
       mktok.stack = null;
       var addX = parseInt(BD18.stockMarket.xStep);
-      mktok.bx += addX;
       moveSetup(mktok);
+      BD18.curMktX = mktok.bx+addX;
       deleteToken(ix);
       repositionToken(BD18.curMktX,BD18.curMktY);
       break;
     case "down":
       mktok.stack = null;
       var addY = parseInt(BD18.stockMarket.yStep);
-      mktok.by += addY;
       moveSetup(mktok);
+      BD18.curMktY = mktok.by+addY;
       deleteToken(ix);
       repositionToken(BD18.curMktX,BD18.curMktY);
       break;
     case "left":
       mktok.stack = null;
       var subX = parseInt(BD18.stockMarket.xStep);
-      mktok.bx -= subX;
       moveSetup(mktok);
+      BD18.curMktX = mktok.bx-subX;
       deleteToken(ix);
       repositionToken(BD18.curMktX,BD18.curMktY);
       break;
@@ -218,3 +218,4 @@ function doTknMenu(event) {
   }
   hideTknMenu();
 }
+

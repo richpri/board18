@@ -31,7 +31,10 @@ function setPage()
      winName === "board18Market.php" || 
      winName === "board18SnapMap.php" || 
      winName === "board18SnapMrk.php") {
-    $('#botleftofpage').css('height', winH-140);
+     var top = $('#botleftofpage').css('top');
+     $('#botleftofpage').css('height', winH-top.substr(0,top.length-2));
+     if(typeof(BD18.canvas0) !== 'undefined') BD18.trays[BD18.curTrayNumb].place(BD18.curIndex);
+
   }
   else $('#leftofpage').css('height', winH-90);
 }

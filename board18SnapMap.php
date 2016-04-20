@@ -51,8 +51,7 @@ if ($result1 && (mysqli_num_rows($result1) == 1)) {
     </title>
     <link rel="shortcut icon" href="images/favicon.ico" >
     <link rel="stylesheet" href="style/board18com.css" />
-    <link rel="stylesheet" href="style/board18Map-20151019.css" />
-    <link rel="stylesheet" href="style/jquery.contextMenu.css" />
+    <link rel="stylesheet" href="style/board18Map-20160413.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script>
     <script type="text/javascript" src="scripts/jqueryMigrate.js">
@@ -60,8 +59,6 @@ if ($result1 && (mysqli_num_rows($result1) == 1)) {
     <script type="text/javascript" src="scripts/board18com.js">
     </script>
     <script type="text/javascript" src="scripts/jquery.ui.position.js">
-    </script>
-    <script type="text/javascript" src="scripts/jquery.contextMenu.js">
     </script>
     <script type="text/javascript" src="scripts/board18Map1.js">
     </script> 
@@ -83,7 +80,8 @@ if ($result1 && (mysqli_num_rows($result1) == 1)) {
         var startMessage = BD18.welcomename + ": ";
         startMessage += BD18.headermessage;
         $('#lognote').text(startMessage);
-        var snapToShow = 'snapshot=<?php echo $cpid; ?>';
+        setUpKeys();
+        var snapToShow = 'snapshot='+BD18.snapID;
         $.getJSON("php/gameSnap.php", snapToShow, loadSession)
                 .error(function() {
           var msg = "Error loading game file. \n";
@@ -93,8 +91,7 @@ if ($result1 && (mysqli_num_rows($result1) == 1)) {
     </script>    
   </head>
 
-  <body onclick="$('.menu').hide();">
-
+  <body onclick="$('.menu').hide();$('.menu ul ul').hide();">
     <div id="topofpage">
       <div id="logo">
         <img src="images/logo.png" alt="Logo"/> 
@@ -109,14 +106,27 @@ if ($result1 && (mysqli_num_rows($result1) == 1)) {
         <p id="lognote"></p>
 	<div id="mainmenu" class="menu">
           <ul class="bigMenu">
-            <li onclick="hideShow();">Hide/Show</li>
-            <li onclick="window.location = 'board18SnapMrk.php?show=' + BD18.snapID;">Stock Market</li>
-            <li onclick="window.location = 'board18SnapList.php?gameid=' + BD18.gameID;">Return to Snap List</li>
-            <li onclick="window.location = 'board18Map.php?dogame=' + BD18.gameID;">Return to Game</li>
-            <li onclick="window.location = 'board18Main.php';">Main Page</li>
-            <li onclick="$.post('php/logout.php', logoutOK);">Log Out</li>
-            <li onclick="window.open(BD18.help, 'HelpGuide');">Help</li>
-            <li onclick="$('.menu').hide();">Close Menu</li>
+            <li onclick="hideShow();">Hide/Show(H)</li>
+	    <li onclick="window.location = 'board18SnapList.php?gameid=' + BD18.gameID;">Return to Snap List(S)</li>
+	    <li onclick="window.location = 'board18Map.php?dogame=' + BD18.gameID;">Return to Game(G)</li>
+	    <li onclick="$('.menu ul ul').hide();$(this).children('ul').toggle();event.stopPropagation();">Go To <span class="right">></span>
+		<ul>
+		    <li onclick="window.location = 'board18SnapMrk.php?show=' + BD18.snapID;">Stock Market(M)</li>
+		    <li onclick="window.location = 'board18Main.php';">Main Page(O)</li>
+		    <li onclick="$.post('php/logout.php', logoutOK);">Log Out(X)</li>
+		</ul>
+	    </li>
+	    <li>Help <span class="right">></span>
+		<ul>
+		    <li onclick="window.open(BD18.help, 'HelpGuide');">Player's Guide</li>
+		    <li onclick="$('.menu ul ul').hide();$(this).children('ul').toggle();event.stopPropagation();">Useful Links <span class="right">></span>
+			<ul id="linkMenu">
+			    <li onclick="window.open('http://board18.org/');">Board18 Project</li>
+			</ul>
+		    </li>
+		</ul>
+	    </li>
+
           </ul>
         </div> 
       </div>

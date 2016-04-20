@@ -1,7 +1,7 @@
 /* 
- *  Document   : board18Map
+ *  Document   : board18Market
  *  Author     : rich
- *  Description: CSS Document for board18Map page.
+ *  Description: CSS Document for board18Market page.
  *
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
@@ -14,6 +14,7 @@
   top:90px;
   width:135px;
   height:50px;
+  min-width:5%;
 }
 
 #botleftofpage {
@@ -24,10 +25,11 @@
   top:140px;
   width:135px;
   height:400px;
+  min-width:5%;
 }
 
 #sidebar {
-  width:120px;
+  width:100%;
   position: absolute;
   background-color:#ddffdd;
   left:0px;
@@ -83,7 +85,7 @@
 
 #tiles {
   margin-top:5px;
-  width:120px;
+  width:100%;
   float:left;
   overflow:auto;
 }
@@ -93,8 +95,6 @@
   position: absolute;
   left:0px;
   top:0px; 
-  padding:0;
-  margin:0;
   z-index: 1;
 }
 
@@ -102,18 +102,14 @@
   position: absolute;
   left:0px;
   top:0px; 
-  padding:0;
-  margin:0;  
   z-index: 2;
 }
 
 #canvas2 {
+  z-index: 4;
   position: absolute;
   left:0px;
-  top:0px;
-  padding:0;
-  margin:0;
-  z-index: 4;
+  top:0px; 
 }
 
 #canvas3 {
@@ -143,7 +139,7 @@
 }
 
 /* 
- *  Added by Rich Price on June 19 2015 for 
+ *  Added by Rich Price on July 15 2015 for 
  *  Issue 28 - Create a Checkpoint/Revert Function
  */
 #snapname {

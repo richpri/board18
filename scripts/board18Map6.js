@@ -27,6 +27,14 @@ function hideShow(){
   }
 }
 
+/* The updateMenu function will update the menu 
+ * move specific actions
+ */
+function updateMenu(menuType){
+  $('.move').hide();
+  $('.'+menuType+'.move').show();
+}
+
 /* The makeTrayItems function will use the 
  * BD18.trays array to construct the items
  * to be displayed in the tray menu.
@@ -50,8 +58,13 @@ function makeTrayItems() {
  * makeTrayItems function.
  */
 function registerTrayMenu() {
-  var itemlist = makeTrayItems();
-  $('#traymenu').html(itemlist);
+  if( BD18.trayCount > 1 ) {
+    var itemlist = makeTrayItems();
+    $('#traymenu').html(itemlist);
+  } else {
+    $('#botleftofpage').css('top',90);
+    setPage();
+  }
 }
 
 
@@ -67,6 +80,7 @@ function leftMenuEvent(key) {
         BD18.tokenIsSelected = false;
         BD18.tileIsSelected = false;
         BD18.curFlip = false;
+        updateMenu('no');
       }
       $("#botleftofpage").scrollTop(0);
       var ix = parseInt(key.substring(4));
@@ -122,8 +136,7 @@ function traySelect(event) {
   BD18.curFlip = false; // Eliminate any previous flip.
   BD18.deletedBoardToken = 0; // Eliminate any backout of token delete.
   tray.place(index); // Set highlight.
-  if(tray.sheetType==="tile") {BD18.tileIsSelected = true;}
-  if(tray.sheetType==="btok") {BD18.tokenIsSelected = true;}
+  updateMenu('active');
 }
 
 /* This function responds to left mousedown events in the  
@@ -142,8 +155,8 @@ function hexSelect(event) {
       xPix = tArray[0];
       yPix = tArray[1];
   if (BD18.hexIsSelected === true) {
-    if (x !== BD18.curHexX) { $('#content').contextMenu({x:event.clientX,y:event.clientY});return; }
-    if (y !== BD18.curHexY) { $('#content').contextMenu({x:event.clientX,y:event.clientY});return; }
+    if (x !== BD18.curHexX) { onMapMenu(event);return; }
+    if (y !== BD18.curHexY) { onMapMenu(event);return; }
     if (BD18.tileIsSelected === true) {
       rotateTile("cw");       
     }
@@ -156,45 +169,99 @@ function hexSelect(event) {
     }else if (BD18.tokenIsSelected === true) {
       dropToken(x,y,xPix,yPix); 
     }else{
-      $('#content').contextMenu({x:event.clientX,y:event.clientY});
+      onMapMenu(event)
     }
   }
 }
 
 /* This function responds to mousedown events on the map canvas.
- * It uses event.witch to determine which mouse button was pressed.
+ * It uses event.which to determine which mouse button was pressed.
  * If the left or center button was pressed then it calls the
  * hexSelect functon. Otherwise it assumes that the right button
  * was pressed and does nothing. Right mose events are handled
  * by the jquery.contextMenu library [see the makeMenus function].
  */
 function mapMouseEvent(event) {
-  if (event.which === 0 || event.which === 1) { // Left or Center
+  event.stopPropagation();
+  event.preventDefault();
+  event.cancelBubble = true;
+  $('.menu').hide();
+  if(event.which === 0 || event.which === 1) { // Left or Center
     hexSelect(event);
-  } 
+  } else {
+    onMapMenu(event)
+  }
 }
-
+/* This function uses makeMenuItems to create an onMapMenu
+ */
+function onMapMenu(event) {
+  var items = makeMenuItems(event);
+  if( items == 0 ) return;
+  var menuList = '';
+  for(var key in items) {
+    menuList += "<li class='contextMenu' data-action='"+key+"'>"+items[key].name+"</li>";
+  }
+  $('#onMapMenu ul').html(menuList);
+  $('#onMapMenu li').click(function(e){doit(this.getAttribute("data-action"),e);});
+  $('#onMapMenu').css({"left":event.clientX+10,"top":event.clientY+10});
+  $('#onMapMenu').show();
+}
 /* This function is called via onclick events coded into the
  * main menu on the board18Map page. the passed parameter 
  * indicates the menue choice to be acted upon.
  */
-function doit(mm) { // mm is the onclick action to be taken.
+function doit(mm,e) { // mm is the onclick action to be taken.
   switch(mm)
   {
-    case "cw":
+    case "rcw":
       rotateTile("cw");
       break;
-    case "ccw":
+    case "rccw":
       rotateTile("ccw");
       break;
-    case "add":
+    case "flip":
+      flipToken();
+      break;
+    case "accept":
       acceptMove();
       break;
     case "reset":
-      trayCanvasApp();
-      mainCanvasApp();
-      toknCanvasApp();
+      cancelMove();
       break;
+    case "stokenf":
+      BD18.tknMenu.funct = 'flip';
+      selectToken(e);
+      break;
+    case "stokenm":
+      BD18.tknMenu.funct = 'move';
+      selectToken(e);
+      break;
+    case "stokend":
+      BD18.tknMenu.funct = 'delete';
+      selectToken(e);
+      break;
+    case "ftoken":
+      BD18.tknMenu.funct = 'flip';
+      getToken(0);
+      break;
+    case "mtoken":
+      BD18.tknMenu.funct = 'move';
+      getToken(0);
+      break;
+    case "dtoken":
+      deleteToken(BD18.hexList.tokens[0].btindex);
+      toknCanvasApp();
+      trayCanvasApp();
+      updateGmBrdTokens();
+      updateDatabase();
+      break;
+    case "dtile":
+		  deleteTile(BD18.hexList.tile.btindex);
+		  mainCanvasApp();
+		  trayCanvasApp();
+		  updateGmBrdTiles();
+		  updateDatabase();
+			break;
     default:
       alert("Button pressed. " + mm);
   }   

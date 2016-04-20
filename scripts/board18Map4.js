@@ -127,46 +127,12 @@ function doTknMenu(event) {
       updateDatabase();
       break;
     case "move":
-      ix = BD18.hexList.tokens[index].btindex;
-      bdtok = BD18.boardTokens[ix];
-      BD18.tempToken = [bdtok.snumb,bdtok.index,
-        bdtok.flip,bdtok.bx,bdtok.by];
-      BD18.hexIsSelected = true;
-      BD18.tokenIsSelected = true;
-      BD18.curTrayNumb = bdtok.snumb;
-      BD18.curIndex = bdtok.index;
-      BD18.curRot = 0;
-      BD18.curFlip = bdtok.flip;
-      BD18.curHexX = bdtok.hx;
-      BD18.curHexY = bdtok.hy;
-      BD18.curMapX = bdtok.bx;
-      BD18.curMapY = bdtok.by;
-      deleteToken(ix);
-      repositionToken(BD18.curMapX,BD18.curMapY);
-      break;
     case "flip":
-      ix = BD18.hexList.tokens[index].btindex;
-      bdtok = BD18.boardTokens[ix];
-      if (BD18.trays[bdtok.snumb].tokenFlip[bdtok.index] === true) 
-      { 
-        BD18.tempToken = [bdtok.snumb,bdtok.index,
-          bdtok.flip,bdtok.bx,bdtok.by];
-        BD18.hexIsSelected = true;
-        BD18.tokenIsSelected = true;
-        BD18.curTrayNumb = bdtok.snumb;
-        BD18.curIndex = bdtok.index;
-        BD18.curRot = 0;
-        BD18.curFlip = bdtok.flip;
-        BD18.curHexX = bdtok.hx;
-        BD18.curHexY = bdtok.hy;
-        BD18.curMapX = bdtok.bx;
-        BD18.curMapY = bdtok.by;
-        deleteToken(ix);
-        flipToken();
-      }
+      getToken(index);
       break;
     default:
       alert("Invalid token menu function: " + BD18.tknMenu.funct);
   }
   hideTknMenu();
 }
+

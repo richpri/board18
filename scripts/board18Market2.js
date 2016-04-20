@@ -13,17 +13,17 @@
  */
 function makeTrays() {
   var sheets = BD18.bx.tray;
-  var ix = 0;
+  var i=0;
   var images = BD18.tsImages;
-  for (var i=0;i<sheets.length;i++) {
-    if(sheets[i].type === 'mtok') {
-      BD18.trays[ix] = new TokenSheet(images[i],sheets[i]);
-      BD18.trays[ix].trayNumb = ix;
-      ix++;
+  for (var ix=0;ix<sheets.length;ix++) {
+    if(sheets[ix].type === 'mtok') {
+      BD18.trays[i] = new TokenSheet(images[ix],sheets[ix]);
+      BD18.trays[i].trayNumb = i;
+      i++;
     }
   }
   BD18.curTrayNumb = 0;
-  BD18.trayCount = ix;
+  BD18.trayCount = i;
   registerTrayMenu();
 }
 
@@ -145,6 +145,20 @@ function itemLoaded(event) {
   }
 }
 
+/* The loadLinks function is called by loadBox and getLinks
+ * functions to add game links to the "Useful Links" sub-menu
+ */
+function loadLinks(newLinks) {
+  var linkMenu = document.getElementById('linkMenu');
+  for(var i=0; i<newLinks.length; i++) {
+    var link = document.createElement('li');
+    link.appendChild(document.createTextNode(newLinks[i].link_name));
+    link.setAttribute("onclick", "window.open('"+newLinks[i].link_url+"');");
+    linkMenu.insertBefore(link, linkMenu.firstChild);
+  }
+
+}
+
 /* The loadBox function is a callback function for
  * the gameBox.php getJSON function.
  * It loads all the game box images. 
@@ -153,6 +167,12 @@ function itemLoaded(event) {
 function loadBox(box) {
   BD18.bx = null;
   BD18.bx = box;
+  if (typeof(box.links) !== 'undefined' && box.links.length > 0) {
+    loadLinks(box.links);
+  }
+  $.getJSON("php/linkGet.php", 'gameid='+BD18.gameID,function(data) {
+    if (data.stat == "success" && typeof(data.links) !== 'undefined' && data.links.length > 0) { loadLinks(data.links); }
+  });
   var market = BD18.bx.market;
   var sheets = BD18.bx.tray;
   BD18.mktImage = new Image();
@@ -170,7 +190,6 @@ function loadBox(box) {
   makeMenus();    // Register Context Menus
   BD18.doneWithLoad = true;
   itemLoaded(); // Just in case onloads are very fast.
-  
 }
 
 /* The loadSession function is a callback function for
@@ -180,12 +199,19 @@ function loadBox(box) {
 function loadSession(session) {
   BD18.gm = null;
   BD18.gm = session;
-  var boxstring = 'box=';
-  boxstring = boxstring + BD18.gm.boxID;
-  $.getJSON("php/gameBox.php", boxstring, loadBox)
-  .error(function() { 
-    var msg = "Error loading game box file. \n";
-    msg = msg + "This is probably due to a game box format error.";
-    alert(msg); 
-  });
+  if( !BD18.doneWithLoad ){
+	BD18.history = [JSON.stringify(BD18.gm)];
+	BD18.historyPosition = 0;
+	var boxstring = 'box=';
+	boxstring = boxstring + BD18.gm.boxID;
+	$.getJSON("php/gameBox.php", boxstring, loadBox)
+	    .error(function() { 
+		    var msg = "Error loading game box file. \n";
+		    msg = msg + "This is probably due to a game box format error.";
+		    alert(msg); 
+	    });
+  } else {
+	itemLoaded();
+  }
 }
+

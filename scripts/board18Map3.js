@@ -110,6 +110,42 @@ function rotateTile(dir) {
   BD18.hexIsSelected = true;
 }
 
+/* The getToken function selects a token at a specified 
+ * location on the map board.  It sets the selected token
+ * and hex fields in BD18.
+ */
+function getToken(index) {
+  var ix = BD18.hexList.tokens[index].btindex;
+  var bdtok = BD18.boardTokens[ix];
+  if (BD18.trays[bdtok.snumb].tokenFlip[bdtok.index] === false && BD18.tknMenu.funct == "flip") {
+    return;
+  }
+  BD18.tempToken = [bdtok.snumb,bdtok.index,
+  bdtok.flip,bdtok.bx,bdtok.by];
+  BD18.hexIsSelected = true;
+  BD18.tokenIsSelected = true;
+  BD18.curTrayNumb = bdtok.snumb;
+  BD18.curIndex = bdtok.index;
+  BD18.curRot = 0;
+  BD18.curFlip = bdtok.flip;
+  BD18.curHexX = bdtok.hx;
+  BD18.curHexY = bdtok.hy;
+  BD18.curMapX = bdtok.bx;
+  BD18.curMapY = bdtok.by;
+  deleteToken(ix);
+  updateMenu('active');
+  switch(BD18.tknMenu.funct) {
+    case "move":
+      repositionToken(BD18.curMapX,BD18.curMapY);
+      break;
+    case "flip":
+      flipToken();
+      break;
+    default:
+      alert("Invalid token menu function: " + BD18.tknMenu.funct);
+  }
+}
+
 /* The dropToken function places a token at a specified 
  * location on the map board.  It calls the BoardToken
  * constructor function and then updates some global
@@ -287,6 +323,10 @@ function updateGmBrdTokens() {
 function updateDatabase() {
   resetCheckForUpdate();
   var jstring = JSON.stringify(BD18.gm);
+  if(BD18.historyPosition != BD18.history.length - 1)
+    BD18.history.length = BD18.historyPosition + 1;
+  BD18.history.push(jstring);
+  BD18.historyPosition = BD18.history.length - 1;
   var outstring = "json=" + jstring + "&gameid=" + BD18.gameID;
   $.post("php/updateGame.php", outstring, fromUpdateGm);
 }
@@ -311,6 +351,39 @@ function acceptMove() {
   return;
 }
 
+/* This function calls the CanvasApp() functions
+ * to reset trays and board when canceling a move
+ */
+function cancelMove() {
+  if (BD18.deletedBoardToken) {
+    BD18.curTrayNumb = BD18.deletedBoardToken.snumb;
+    BD18.curIndex = BD18.deletedBoardToken.index;
+    BD18.curFlip = BD18.deletedBoardToken.flip;
+    BD18.curMapX = BD18.deletedBoardToken.bx;
+    BD18.curMapY = BD18.deletedBoardToken.by;
+    addToken();
+  }
+  trayCanvasApp();
+  mainCanvasApp();
+  toknCanvasApp();
+  updateMenu('no');
+}
+
+/* This function moves in the BD18.history to provide
+ * undo/redo functionality
+ */
+function historyMove(move) {
+  resetCheckForUpdate();
+  if( move > 0 && ((BD18.historyPosition + 1) < BD18.history.length) ) {
+    loadSession(JSON.parse( BD18.history[++BD18.historyPosition] ));
+  } else if( move < 0 && BD18.historyPosition > 0 )  {
+    loadSession(JSON.parse( BD18.history[--BD18.historyPosition] ));
+  } else {
+    return;
+  }
+  var outstring = "json=" + BD18.history[BD18.historyPosition] + "&gameid=" + BD18.gameID;
+  $.post("php/updateGame.php", outstring, fromUpdateGm);
+}
 /* This function adds the current board tile object 
  * to the BD18.boardTiles array.  If a tile is 
  * already in the hex in question then that existing 
@@ -338,6 +411,7 @@ function addTile() {
     BD18.hexIsSelected = false;
     BD18.tokenIsSelected = false;
     BD18.tileIsSelected = false;
+    updateMenu('no');
     updateGmBrdTiles();
     updateDatabase();
   } else {
@@ -367,6 +441,7 @@ function addToken() {
     BD18.tokenIsSelected = false;
     BD18.tileIsSelected = false;
     BD18.curFlip = false;
+    updateMenu('no');
     updateGmBrdTokens();
     updateDatabase();
   } else {

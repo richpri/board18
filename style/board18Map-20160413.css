@@ -1,12 +1,11 @@
 /* 
- *  Document   : board18Market
+ *  Document   : board18Map
  *  Author     : rich
- *  Description: CSS Document for board18Market page.
+ *  Description: CSS Document for board18Map page.
  *
  * Copyright (c) 2013 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
-
 
 #topleftofpage {
   background-color:#ddffdd;
@@ -15,6 +14,7 @@
   top:90px;
   width:135px;
   height:50px;
+  min-width:5%;
 }
 
 #botleftofpage {
@@ -24,15 +24,16 @@
   left:0px;
   top:140px;
   width:135px;
-  height:390px;
+  height:400px;
+  min-width:5%;
 }
 
 #sidebar {
-  width:120px;
+  width:100%;
   position: absolute;
   background-color:#ddffdd;
   left:0px;
-  top:50px; 
+  top:0px; 
 }
 
 .sidebaritem {
@@ -84,7 +85,7 @@
 
 #tiles {
   margin-top:5px;
-  width:120px;
+  width:100%;
   float:left;
   overflow:auto;
 }
@@ -94,6 +95,8 @@
   position: absolute;
   left:0px;
   top:0px; 
+  padding:0;
+  margin:0;
   z-index: 1;
 }
 
@@ -101,14 +104,18 @@
   position: absolute;
   left:0px;
   top:0px; 
+  padding:0;
+  margin:0;  
   z-index: 2;
 }
 
 #canvas2 {
-  z-index: 4;
   position: absolute;
   left:0px;
-  top:0px; 
+  top:0px;
+  padding:0;
+  margin:0;
+  z-index: 4;
 }
 
 #canvas3 {
@@ -138,7 +145,7 @@
 }
 
 /* 
- *  Added by Rich Price on July 15 2015 for 
+ *  Added by Rich Price on June 19 2015 for 
  *  Issue 28 - Create a Checkpoint/Revert Function
  */
 #snapname {
@@ -173,17 +180,21 @@
 }
 #keyShortcut {
     position: fixed;
-    top: 50px;
-    left: 100px;
+    top: 28px;
+    left: 80px;
     z-index: 4;
 }
 #keyShortcut::before {
-	content: 'A';
+    content: 'A';
     position: absolute;
+    font-size: 25px;
+    left: 22px;
+    top: 25px;
+    z-index: -1;
 }
 #keyShortcut input {
-    width: 25px;
-    height: 25px;
+    width: 60px;
+    height: 60px;
     background-color: transparent;
     border: none;
 }

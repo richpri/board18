@@ -14,8 +14,14 @@
  * operations for the keyboard shortcut events.
  *   KEY  Action
  *  Enter Accept Move
- *    C   Cancel Move
+ *  C/ESC Cancel Move
+ *    Z   Undo Move
+ *    Y   Redo Move
+ *    H   Hide/Show
+ *    S   Take Snapshot
  *    M   Goto Stock Chart
+ *    O   Goto Main Page
+ *    X   Logout
  *    F   Flip Token
  *    R   Rotate Tile Clockwise
  *    E   Rotate Tile Counterclockwise
@@ -28,22 +34,35 @@ function setUpKeys() {
         case 13: // "Enter" keycode
           acceptMove();
           break;
+        case 27:// ESC keycode
         case 67: // "C" keycode
-          if (BD18.deletedBoardToken) {
-            BD18.curTrayNumb = BD18.deletedBoardToken.snumb;
-            BD18.curIndex = BD18.deletedBoardToken.index;
-            BD18.curFlip = BD18.deletedBoardToken.flip;
-            BD18.curMapX = BD18.deletedBoardToken.bx;
-            BD18.curMapY = BD18.deletedBoardToken.by;
-            addToken();
-          }
-          trayCanvasApp();
-          mainCanvasApp();
-          toknCanvasApp();
-          break;    
+          cancelMove();
+          break;  
+	case 90: // "Z" keycode
+	  historyMove(-1);
+          break;
+ 	case 89: // "Y" keycode
+	  historyMove(1);
+          break;
+	case 72: // "H" keycode
+	  hideShow();
+	  break;
+	case 83: // "S" keycode
+	  $('#snapname .error').hide();
+	  $('#snapname :text').val('');
+	  $('#snapname form').slideDown(300);
+	  BD18.isSnap = true;
+	  $('#rname').focus();
+	  break;
         case 77: // "M" keycode
           window.location = "board18Market.php?dogame=" + BD18.gameID;
           break;
+        case 79: // "O" keycode
+          window.location = "board18Main.php";
+          break;
+	case 88: // "X" keydode
+	  $.post('php/logout.php', logoutOK);
+          break; 
         case 70: // "F" keycode
           if (BD18.hexIsSelected === true && 
               BD18.tokenIsSelected === true){

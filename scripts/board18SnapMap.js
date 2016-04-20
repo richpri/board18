@@ -8,6 +8,47 @@
  * A copy of this license can be found in the LICENSE.text file.
  */
 
+/* 
+ * The setUpKeys function performs all of the bind 
+ * operations for the keyboard shortcut events.
+ *   KEY  Action
+ *    H   Hide/Show
+ *    M   Goto Stock Chart
+ *    G   Return to Game
+ *    S   Return to SnapList
+ *    O   Goto Main Page
+ *    X   Logout
+ */
+function setUpKeys() {
+  $(document).keydown(function(e){
+    if (BD18.isSnap === false) {
+      var keycode = (e.keyCode ? e.keyCode : e.which);
+      switch(keycode) {
+        case 72: // "H" keycode
+          hideShow();
+          break;
+        case 77: // "M" keycode
+          window.location = 'board18SnapMrk.php?show=' + BD18.snapID;
+          break;
+        case 71: // "G" keycode
+          window.location = 'board18Map.php?dogame=' + BD18.gameID;
+          break; 
+        case 83: // "S" keycode
+          window.location = 'board18SnapMrk.php?show=' + BD18.snapID;;
+          break;
+        case 79: // "O" keycode
+          window.location = "board18Main.php";
+          break;
+        case 88: // "X" keydode
+          $.post('php/logout.php', logoutOK);
+          break;  
+        default:
+      }
+      e.preventDefault();
+    }
+  })
+};
+
 /* The showHide function will use the 
  * BD18.gameBoard to hide/show tiles on the map.
  */
