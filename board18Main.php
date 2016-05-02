@@ -17,17 +17,10 @@ A copy of this license can be found in the LICENSE.text file.
     <meta charset="utf-8" />
     <title>BOARD18 - Remote Play Tool For 18xx Style Games</title>
     <link rel="shortcut icon" href="images/favicon.ico" >
-    <link rel="stylesheet" href="style/jquery.contextMenu.css" />
     <link rel="stylesheet" href="style/board18com.css" />
     <link rel="stylesheet" href="style/board18Main.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
-    <script type="text/javascript" src="scripts/jqueryMigrate.js">
-    </script> 
-    <script type="text/javascript" src="scripts/jquery.ui.position.js">
-    </script>
-    <script type="text/javascript" src="scripts/jquery.contextMenu.js">
-    </script>
     <script type="text/javascript" src="scripts/board18com.js">
     </script>
     <script type="text/javascript" src="scripts/board18Main.js">
@@ -47,7 +40,8 @@ A copy of this license can be found in the LICENSE.text file.
         <h1>BOARD18 - Remote Play Tool For 18xx Style Games</h1>
       </div>
       <div>
-        <span id="newmainmenu" onclick="$('.menu').hide();$('#mainmenu').toggle();event.stopPropagation();"> MENU </span>
+        <span id="newmainmenu" onclick="$('#mainmenu').toggle();
+          event.stopPropagation();"> MENU </span>
         <p id="lognote"><?php echo "$welcomename: $headermessage"; ?>
           <span style="font-size: 70%">
             Click <a href="index.html">here</a> 

@@ -116,6 +116,9 @@ if ($result1) {
           errmsg += 'Please contact the BOARD18 webmaster.';
           alert(errmsg);
         }
+        if ('<?php echo "$gamestat"; ?>' === 'Active') {
+          $("#togstat").hide();
+        } 
         BD18.welcomename = "<?php echo "$welcomename"; ?>";
         BD18.headermessage = "<?php echo "$headermessage"; ?>";
         BD18.gameID = "<?php echo $dogame; ?>";
@@ -159,7 +162,8 @@ if ($result1) {
             <?php echo $gamestat; ?></span></h1>
       </div>
       <div>
-        <span id="newmainmenu" onclick="$('.menu').hide();$('#mainmenu').toggle();event.stopPropagation();"> MENU </span>
+        <span id="newmainmenu" onclick="$('#traymenu').hide();
+          $('#mainmenu').toggle();event.stopPropagation();"> MENU </span>
         <p id="lognote"></p>
 	<div id="mainmenu" class="menu">
           <ul class="bigMenu">
@@ -183,7 +187,9 @@ if ($result1) {
 		    <li onclick="window.location = 'board18SnapList.php?gameid=' + BD18.gameID;">Show Snap List</li>
 		</ul>
 	    </li>
-            <li onclick="var swapstring = '&gameid=' + BD18.gameID;$.post('php/statSwap.php', swapstring,  statswapOK);">Toggle Status</li>
+            <li id="togstat" onclick="var swapstring = '&gameid=' + BD18.gameID;
+              $.post('php/statSwap.php', swapstring,  statswapOK);">
+              Activate Game</li>
 	    <li>Help <span class="right">></span>
 		<ul>
 		    <li onclick="window.open(BD18.help, 'HelpGuide');">Player's Guide</li>
@@ -201,7 +207,8 @@ if ($result1) {
     </div>
 
     <div id="topleftofpage">
-      <span id="traybutton" onclick="$('.menu').hide();$('#traymenu').toggle();event.stopPropagation();"> Trays </span>
+      <span id="traybutton" onclick="$('#mainmenu').hide();
+        $('#traymenu').toggle();event.stopPropagation();"> Trays </span>
     </div>
     <div id="traymenu" class="menu"></div>
     <div id="botleftofpage">

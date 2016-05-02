@@ -162,7 +162,9 @@ function changePlayer(login, game) {
     }); // end of each
     linkHTML+= '</table>';
     $("#links").remove();
-    $('#linklist').append(linkHTML);   
+    $('#linklist').append(linkHTML);  
+    $("#lname1").val([]);
+    $("#lnkurl1").val([]);
     $('#linkdiv').slideDown(300);
     $('#sidebar').hide();
   } else if (resp.stat === 'none') {
@@ -170,6 +172,8 @@ function changePlayer(login, game) {
     linkHTML+= 'There are no links for this game.</p>';
     $("#links").remove();
     $('#linklist').append(linkHTML);
+    $("#lname1").val([]);
+    $("#lnkurl1").val([]);
     $('#linkdiv').slideDown(300);
     $('#sidebar').hide();
   } else if (resp.stat === 'fail') {

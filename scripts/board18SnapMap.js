@@ -34,7 +34,7 @@ function setUpKeys() {
           window.location = 'board18Map.php?dogame=' + BD18.gameID;
           break; 
         case 83: // "S" keycode
-          window.location = 'board18SnapMrk.php?show=' + BD18.snapID;;
+          window.location = 'board18SnapList.php?gameid=' + BD18.gameID;
           break;
         case 79: // "O" keycode
           window.location = "board18Main.php";
@@ -46,7 +46,7 @@ function setUpKeys() {
       }
       e.preventDefault();
     }
-  })
+  });
 };
 
 /* The showHide function will use the 

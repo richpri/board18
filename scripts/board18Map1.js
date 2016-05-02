@@ -59,7 +59,6 @@ function GameBoard(image,board) {
    * The place function places the game board on canvas1.
    */
   this.place=function place() {
-    $('#lognote').text("Placing Image "+BD18.loadCount);
     BD18.context1.drawImage(image,0,0);
     BD18.hexIsSelected = false;
     BD18.gameBoard = that;

@@ -17,15 +17,8 @@ A copy of this license can be found in the LICENSE.text file.
     <link rel="shortcut icon" href="images/favicon.ico" >
     <link rel="stylesheet" href="style/jquery.contextMenu.css" />
     <link rel="stylesheet" href="style/board18com.css" />
-    <link rel="stylesheet" href="style/board18View.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
-    <script type="text/javascript" src="scripts/jqueryMigrate.js">
-    </script> 
-    <script type="text/javascript" src="scripts/jquery.ui.position.js">
-    </script>
-    <script type="text/javascript" src="scripts/jquery.contextMenu.js">
-    </script>
     <script type="text/javascript" src="scripts/board18com.js">
     </script>
     <script type="text/javascript" src="scripts/board18View.js">
@@ -45,7 +38,8 @@ A copy of this license can be found in the LICENSE.text file.
         <h1>BOARD18 - Remote Play Tool For 18xx Style Games</h1>
       </div>
       <div>
-        <span id="newmainmenu" onclick="$('.menu').hide();$('#mainmenu').toggle();event.stopPropagation();"> MENU </span>
+        <span id="newmainmenu" onclick="$('#mainmenu').toggle();
+          event.stopPropagation();"> MENU </span>
         <p id="lognote"><?php echo "$welcomename: $headermessage"; ?>
           <span style="font-size: 70%">
             Click <a href="index.html">here</a> 
@@ -59,7 +53,7 @@ A copy of this license can be found in the LICENSE.text file.
             <li onclick="window.location = 'board18Admin.php';">Administration</li>
             <li onclick="$.post('php/logout.php', logoutOK);">Log Out</li>
             <li onclick="window.open(BD18.help, 'HelpGuide');">Help</li>
-            <li onclick="$('.menu').hide();">Close Menu</li>
+            <li onclick="$('.menu').hide();aboutBoard18();">About BOARD18</li>
           </ul>
         </div> 
       </div>
@@ -70,9 +64,8 @@ A copy of this license can be found in the LICENSE.text file.
     <div id="rightofpage"> 
       <div id="content">  
         <div>
-        <p>Select the game that you wish to view. 
-        </div>
-        </p>   
+        <p>Select the game that you wish to view.  </p> 
+        </div>      
         <div id="games">
           <table id='gamelist'> 
             <tr>

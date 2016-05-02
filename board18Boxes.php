@@ -66,15 +66,10 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
     <meta charset="utf-8" />
     <title>BOARD18 - Remote Play Tool For 18xx Style Boxes</title>
     <link rel="shortcut icon" href="images/favicon.ico" >
-    <link rel="stylesheet" href="style/jquery.contextMenu.css" />
     <link rel="stylesheet" href="style/board18com.css" />
     <link rel="stylesheet" href="style/board18Boxes.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
-    <script type="text/javascript" src="scripts/jquery.ui.position.js">
-    </script>
-    <script type="text/javascript" src="scripts/jquery.contextMenu.js">
-    </script>
     <script type="text/javascript" src="scripts/board18com.js">
     </script>
     <script type="text/javascript" src="scripts/board18Boxes.js">
@@ -140,7 +135,8 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
         <h1>BOARD18 - Remote Play Tool For 18xx Style Games</h1>
       </div>
       <div>
-        <span id="newmainmenu" onclick="$('.menu').hide();$('#mainmenu').toggle();event.stopPropagation();"> MENU </span>
+        <span id="newmainmenu" onclick="$('#traymenu').hide();
+          $('#mainmenu').toggle();event.stopPropagation();"> MENU </span>
         <p id="lognote"><?php echo "$welcomename: $headermessage"; ?>
           <span style="font-size: 70%">
             Click <a href="index.html">here</a> 
@@ -153,7 +149,7 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
             <li onclick="window.location = 'board18Main.php';">Main Page</li>
             <li onclick="$.post('php/logout.php', logoutOK);">Log Out</li>
             <li onclick="window.open(BD18.help, 'HelpGuide');">Help</li>
-            <li onclick="$('.menu').hide();">Close Menu</li>
+            <li onclick="$('.menu').hide();aboutBoard18();">About BOARD18</li>
           </ul>
         </div> 
       </div>

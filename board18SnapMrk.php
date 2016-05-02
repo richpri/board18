@@ -102,38 +102,35 @@ if ($result1 && (mysqli_num_rows($result1) == 1)) {
             <?php echo $ground; ?></span></h1>
       </div>
       <div>
-        <span id="newmainmenu" onclick="$('.menu').hide();$('#mainmenu').toggle();event.stopPropagation();"> MENU </span>
+        <span id="newmainmenu" onclick="$('#traymenu').hide();
+          $('#mainmenu').toggle();event.stopPropagation();"> MENU </span>
         <p id="lognote"></p>
-	<div id="mainmenu" class="menu">
-          <ul class="bigMenu">
-            <li onclick="hideShow();">Hide/Show(H)</li>
-	    <li onclick="window.location = 'board18SnapList.php?gameid=' + BD18.gameID;">Return to Snap List(S)</li>
-	    <li onclick="window.location = 'board18Map.php?dogame=' + BD18.gameID;">Return to Game(G)</li>
-	    <li onclick="$('.menu ul ul').hide();$(this).children('ul').toggle();event.stopPropagation();">Go To <span class="right">></span>
-		<ul>
-		    <li onclick="window.location = 'board18SnapMap.php?show=' + BD18.snapID;">Map Board(M)</li>
-		    <li onclick="window.location = 'board18Main.php';">Main Page(O)</li>
-		    <li onclick="$.post('php/logout.php', logoutOK);">Log Out(X)</li>
-		</ul>
-	    </li>
-	    <li>Help <span class="right">></span>
-		<ul>
-		    <li onclick="window.open(BD18.help, 'HelpGuide');">Player's Guide</li>
-		    <li onclick="$('.menu ul ul').hide();$(this).children('ul').toggle();event.stopPropagation();">Useful Links <span class="right">></span>
-			<ul id="linkMenu">
-			    <li onclick="window.open('http://board18.org/');">Board18 Project</li>
-			</ul>
-		    </li>
-		</ul>
-	    </li>
-
-          </ul>
-        </div> 
+  <div id="mainmenu" class="menu">
+    <ul class="bigMenu" style="width: 300px;">
+      <li onclick="window.location = 'board18SnapMap.php?show=' + BD18.snapID;">
+        Go To Snapshot Map Board(M)
+      </li>
+      <li onclick="window.location = 'board18SnapList.php?gameid=' + BD18.gameID;">
+        Return to Snap List(S)
+      </li>
+      <li onclick="window.location = 'board18Map.php?dogame=' + BD18.gameID;">
+        Return to Game(G)
+      </li>
+      <li onclick="window.location = 'board18Main.php';">Go To Main Page(O)
+      </li>
+      <li onclick="$.post('php/logout.php', logoutOK);">Log Out(X)
+      </li>
+      <li onclick="window.open(BD18.help, 'HelpGuide');">Help
+      </li>
+      <li onclick="$('.menu').hide();aboutBoard18();">About BOARD18</li>
+    </ul>
+  </div>
       </div>
     </div>
 
     <div id="topleftofpage">
-      <span id="traybutton" onclick="$('.menu').hide();$('#traymenu').toggle();event.stopPropagation();"> Trays </span>
+      <span id="traybutton" onclick="$('#mainmenu').hide();
+        $('#traymenu').toggle();event.stopPropagation();"> Trays </span>
     </div>
     <div id="traymenu" class="menu"></div>
     <div id="botleftofpage">

@@ -25,7 +25,7 @@
     </div>
     <div id="leftofpage">
     </div>
-    <div id="rightofpage"> 
+    <div id="rightofpage" style="right:auto;left:135;"> 
       <div id="content">
         <p>
           <span style="font-size: xx-large">
