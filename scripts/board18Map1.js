@@ -203,14 +203,14 @@ function TokenSheet(image,sheet) {
     var img = this.image;
     var sx = this.xStart;
     var sy;
-    var c = $('#sidebar').width()/3; // This is the token padding value.
+    var c = $('#sidebar').width()/10; // This is the token padding value.
     var szx = Math.min(this.xSize,105);
     var dzx = $('#sidebar').width()-(c*2);
     var scale = dzx / szx;
     var szy = this.ySize;
     var dzy = szy * scale;
-    var a = c/8; // This is the tray's Top and Left Margin.
-    var b = dzy+a; // This is the tray's Y Step Value.
+    var a = 10; // This is the tray's Top and Left Margin.
+    var b = dzy+c; // This is the tray's Y Step Value.
     BD18.curTrayNumb = this.trayNumb;
     BD18.curTrayStep = b;
     BD18.tileIsSelected = false;

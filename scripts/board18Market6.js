@@ -158,7 +158,7 @@ function mapMouseEvent(event) {
   if (event.which === 0 || event.which === 1) { // Left or Center
     boxSelect(event);
   } else {
-    onMapMenu(event);
+    onMapMenu(event)
   }
 }
 
@@ -166,7 +166,7 @@ function mapMouseEvent(event) {
  */
 function onMapMenu(event) {
   var items = makeMenuItems(event);
-  if( items === 0 ) return;
+  if( items == 0 ) return;
   var menuList = '';
   for(var key in items) {
     menuList += "<li class='contextMenu' data-action='"+key+"'>"+items[key].name+"</li>";
@@ -313,7 +313,7 @@ function doit(mm,e) { // mm is the onclick action to be taken.
       selectToken(e);
       break;
     case "stmove":
-      BD18.tknMenu.funct = 'adjust';
+      BD18.tknMenu.funct = 'move';
       selectToken(e);
       break;
     case "stup":
