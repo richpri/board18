@@ -36,8 +36,10 @@ html, body {
   overflow-y:scroll;
   left:0px;
   top:90px;
-  width:135px;
+  width:10%;
+  min-width: 135px;
   height:400px;
+  z-index:10;
 }
 
 #rightofpage {
@@ -48,7 +50,8 @@ html, body {
   right:0;
   height:400px;
   top:90px;
-  max-width:95%;
+  width:90%;
+  z-index: 1;
 }
 
 #logo {

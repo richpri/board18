@@ -313,7 +313,7 @@ function doit(mm,e) { // mm is the onclick action to be taken.
       selectToken(e);
       break;
     case "stmove":
-      BD18.tknMenu.funct = 'move';
+      BD18.tknMenu.funct = 'adjust';
       selectToken(e);
       break;
     case "stup":

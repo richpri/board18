@@ -12,9 +12,8 @@
   position:fixed;
   left:0px;
   top:90px;
-  width:135px;
   height:50px;
-  min-width:5%;
+  width:10%;
 }
 
 #botleftofpage {
@@ -23,9 +22,8 @@
   overflow-y:scroll;
   left:0px;
   top:140px;
-  width:135px;
   height:400px;
-  min-width:5%;
+  width:10%;
 }
 
 #sidebar {

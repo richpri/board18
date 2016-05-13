@@ -26,7 +26,10 @@ function setPage()
   var winName = location.pathname.
           substring(location.pathname.lastIndexOf("/") + 1);
   $('#rightofpage').css('height', winH-90);
-  $('#rightofpage').css('width', winW-135);
+  if( $('#leftofpage').css('width') == "135px" ) 
+     $('#rightofpage').css('width', winW-135);
+  else
+     $('#rightofpage').css('width', '90%');
   if(winName === "board18Map.php" || 
      winName === "board18Market.php" || 
      winName === "board18SnapMap.php" || 

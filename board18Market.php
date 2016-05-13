@@ -86,7 +86,7 @@ if ($result1) {
     </title>
     <link rel="shortcut icon" href="images/favicon.ico" >
     <link rel="stylesheet" href="style/board18com.css" />
-    <link rel="stylesheet" href="style/board18Market-20160413.css" />
+    <link rel="stylesheet" href="style/board18Market-20160512.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
     <script type="text/javascript" src="scripts/board18com.js">
@@ -165,41 +165,48 @@ if ($result1) {
         <span id="newmainmenu" onclick="$('#traymenu').hide();
           $('#mainmenu').toggle();event.stopPropagation();"> MENU </span>
         <p id="lognote"></p>
-	<div id="mainmenu" class="menu">
+        <div id="mainmenu" class="menu">
           <ul class="bigMenu">
-            <li onclick="acceptMove();" class="active move" style="display:none;">Accept Move(Enter)</li>
-            <li onclick="cancelMove();" class="active move" style="display:none;">Cancel Move(C)</li>
+            <li onclick="acceptMove();" class="active move" style="display:none;">
+              Accept Move(Enter)</li>
+            <li onclick="cancelMove();" class="active move" style="display:none;">
+              Cancel Move(C)</li>
             <li onclick="historyMove(-1);" class="no move undo grey">Undo Move(Z)</li>
             <li onclick="historyMove(1);" class="no move redo grey">Redo Move(Y)</li>
             <li onclick="hideShow();">Hide/Show(H)</li>
-	    <li onclick="$('.menu ul ul').hide();$(this).children('ul').toggle();event.stopPropagation();">Go To <span class="right">></span>
-		<ul>
-		    <li onclick="window.location = 'board18Map.php?dogame=' + BD18.gameID;">Map Board(M)</li>
-
-		    <li onclick="window.location = 'board18Main.php';">Main Page(O)</li>
-            	    <li onclick="$.post('php/logout.php', logoutOK);">Log Out(X)</li>
-		</ul>
-	    </li>
-	    <li onclick="$('.menu ul ul').hide();$(this).children('ul').toggle();event.stopPropagation();">Snapshots <span class="right">></span>
-		<ul>
-		    <li onclick="$('#snapname .error').hide();$('#snapname :text').val('');$('#snapname form').slideDown(300);
+            <li onclick="$('.menu ul ul').hide();$(this).children('ul').toggle();
+              event.stopPropagation();">Go To -->
+              <ul>
+                <li onclick="window.location = 'board18Map.php?dogame=' + BD18.gameID;">
+                  Map Board(M)</li>
+                <li onclick="window.location = 'board18Main.php';">Main Page(O)</li>
+                <li onclick="$.post('php/logout.php', logoutOK);">Log Out(X)</li>
+              </ul>
+            </li>
+            <li onclick="$('.menu ul ul').hide();$(this).children('ul').toggle();
+              event.stopPropagation();">Snapshots -->
+              <ul>
+                <li onclick="$('#snapname .error').hide();$('#snapname :text').val('');
+                  $('#snapname form').slideDown(300);
 					BD18.isSnap = true;$('#rname').focus();">Take Snapshot(S)</li>
-		    <li onclick="window.location = 'board18SnapList.php?gameid=' + BD18.gameID;">Show Snap List</li>
-		</ul>
-	    </li>
+                <li onclick="window.location = 'board18SnapList.php?gameid=' + BD18.gameID;">
+                  Show Snap List</li>
+              </ul>
+            </li>
             <li id="togstat" onclick="var swapstring = '&gameid=' + BD18.gameID;
               $.post('php/statSwap.php', swapstring,  statswapOK);">
               Activate Game</li>
-	    <li>Help <span class="right">></span>
-		<ul>
-		    <li onclick="window.open(BD18.help, 'HelpGuide');">Player's Guide</li>
-		    <li onclick="$('.menu ul ul').hide();$(this).children('ul').toggle();event.stopPropagation();">Useful Links <span class="right">></span>
-			<ul id="linkMenu">
-			    <li onclick="window.open('http://board18.org/');">Board18 Project</li>
-			</ul>
-		    </li>
-		</ul>
-	    </li>
+            <li>Help -->
+              <ul>
+                <li onclick="window.open(BD18.help, 'HelpGuide');">Player's Guide</li>
+                <li onclick="$('.menu ul ul').hide();$(this).children('ul').toggle();
+                  event.stopPropagation();">Useful Links -->
+                  <ul id="linkMenu">
+                    <li onclick="window.open('http://board18.org/');">Board18 Project</li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
             <li onclick="$('.menu').hide();aboutBoard18();">About BOARD18</li>
           </ul>
         </div> 
