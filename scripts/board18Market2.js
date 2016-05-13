@@ -153,7 +153,8 @@ function loadLinks(newLinks) {
   for(var i=0; i<newLinks.length; i++) {
     var link = document.createElement('li');
     link.appendChild(document.createTextNode(newLinks[i].link_name));
-    link.setAttribute("onclick", "window.open('"+newLinks[i].link_url+"');");
+    link.setAttribute("onclick", 
+      "$('#mainmenu').hide();window.open('"+newLinks[i].link_url+"');");
     linkMenu.insertBefore(link, linkMenu.firstChild);
   }
 

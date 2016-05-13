@@ -200,7 +200,7 @@ if ($result1) {
                 <li onclick="$('.menu ul ul').hide();$(this).children('ul').toggle();
                   event.stopPropagation();">Useful Links -->
                   <ul id="linkMenu">
-                    <li onclick="window.open('http://board18.org/');">
+                    <li onclick="$('#mainmenu').hide();window.open('http://board18.org/');">
                       Board18 Project</li>
                   </ul>
                 </li>

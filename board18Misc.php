@@ -193,6 +193,8 @@ if ($result2 && mysqli_num_rows($result2) == 1) {
                        id="button3" value="Submit" >
                 <input type="button" name="toggle" class="pwbutton"  
                        id="button4" value="Toggle Status" >
+              </p>
+              <p>
                 <input type="button" name="links" class="pwbutton"  
                        id="button5" value="Maintain Links" >
                 <input type="button" name="canbutton" class="pwbutton"  

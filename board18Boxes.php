@@ -182,7 +182,7 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
             </p>
             <p>
               <input type="button" name="updatebutton" class="pwbutton"  
-                     id="button1" value="Update Game" >
+                     id="button1" value="Update Box" >
               <input type="button" name="resbutton" class="pwbutton"  
                      id="button2" value="Reset Form" >
               <input type="button" name="canbutton" class="pwbutton"  
