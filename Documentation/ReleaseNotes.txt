@@ -1,3 +1,19 @@
+BOARD18 2.0.0 Release Notes
+
+Changes from 1.5.0  Release:
+
+* Implemented Issue 1 - Request for an "undo" capability 
+* Implemented Issue 20 - Associated spreadsheet URL capability
+* Implemented Issue 47 - Rewrite JS to remove contextMenu API
+* Implemented Issue 50 - Long Term Ergonomic Proposal
+* Redesigned main menu for SnapMap and SnapMrk pages.
+* Added "About BOARD18" option to all main menus.
+* Fixed toggle on all main menus.
+* Enhanced support for browser zoom, but issue 48 is still unresolved.
+* Removed some leftover debugging code.
+* Made many other minor tweaks and fixes.
+
+
 BOARD18 1.5.0 Release Notes
 
 Changes from 1.4.2  Release:
