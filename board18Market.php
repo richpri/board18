@@ -85,8 +85,8 @@ if ($result1) {
     <title>BOARD18 - Remote Play Tool For 18xx Style Games
     </title>
     <link rel="shortcut icon" href="images/favicon.ico" >
-    <link rel="stylesheet" href="style/board18com.css" />
-    <link rel="stylesheet" href="style/board18Market-20160512.css" />
+    <link rel="stylesheet" href="style/board18com-160521.css" />
+    <link rel="stylesheet" href="style/board18Market-160521.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
     <script type="text/javascript" src="scripts/board18com.js">
@@ -173,7 +173,6 @@ if ($result1) {
               Cancel Move(C)</li>
             <li onclick="historyMove(-1);" class="no move undo grey">Undo Move(Z)</li>
             <li onclick="historyMove(1);" class="no move redo grey">Redo Move(Y)</li>
-            <li onclick="hideShow();">Hide/Show(H)</li>
             <li onclick="$('.menu ul ul').hide();$(this).children('ul').toggle();
               event.stopPropagation();">Go To -->
               <ul>

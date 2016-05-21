@@ -23,9 +23,6 @@ function setUpKeys() {
     if (BD18.isSnap === false) {
       var keycode = (e.keyCode ? e.keyCode : e.which);
       switch(keycode) {
-        case 72: // "H" keycode
-          hideShow();
-          break;
         case 77: // "M" keycode
           window.location = 'board18SnapMap.php?show=' + BD18.snapID;
           break;
