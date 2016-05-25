@@ -1,6 +1,12 @@
+BOARD18 2.1.1 Release Notes
+
+Changes from 2.1.0  Release:
+Removed some missed scaling code from enhanced support for browser zoom.
+
 BOARD18 2.1.0 Release Notes
 
 Changes from 2.0.0  Release:
+
 * Removed enhanced support for browser zoom. See 
   http://wiki.board18.org/w/Release_2.0.0_Issue
 * Made two other minor fixes.
@@ -19,7 +25,6 @@ Changes from 1.5.0  Release:
 * Enhanced support for browser zoom, but issue 48 is still unresolved.
 * Removed some leftover debugging code.
 * Made many other minor tweaks and fixes.
-
 
 BOARD18 1.5.0 Release Notes
 

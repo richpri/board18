@@ -14,7 +14,7 @@ var BD18 = {};
 BD18.noteTimeout = null; // Used by doLogNote().
 BD18.welcomename = null; // Used by doLogNote().
 BD18.help = "http://wiki.board18.org/w/Player%27s_Guide_V2.0";
-BD18.version = "2.1.0";
+BD18.version = "2.1.1";
 
 /* Function setPage() adjusts the height and width
  * of rightofpage and the height of lefttofpage.
@@ -26,18 +26,12 @@ function setPage()
   var winName = location.pathname.
           substring(location.pathname.lastIndexOf("/") + 1);
   $('#rightofpage').css('height', winH-90);
-  if( $('#leftofpage').css('width') == "135px" ) 
-     $('#rightofpage').css('width', winW-135);
-  else
-     $('#rightofpage').css('width', '90%');
+  $('#rightofpage').css('width', winW-135);
   if(winName === "board18Map.php" || 
      winName === "board18Market.php" || 
      winName === "board18SnapMap.php" || 
      winName === "board18SnapMrk.php") {
-     var top = $('#botleftofpage').css('top');
-     $('#botleftofpage').css('height', winH-top.substr(0,top.length-2));
-     if(typeof(BD18.canvas0) !== 'undefined') BD18.trays[BD18.curTrayNumb].place(BD18.curIndex);
-
+    $('#botleftofpage').css('height', winH-140);
   }
   else $('#leftofpage').css('height', winH-90);
 }

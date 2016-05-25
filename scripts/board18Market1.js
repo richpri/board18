@@ -103,29 +103,25 @@ function TokenSheet(image,sheet) {
     var img = this.image;
     var sx = this.xStart;
     var sy;
-    var c = $('#sidebar').width()/2.75; // This is the token padding value.
     var szx = Math.min(this.xSize,105);
-    var dzx = $('#sidebar').width()-(c*2);
-    var scale = dzx / szx;
     var szy = this.ySize;
-    var dzy = szy * scale;
-    var a = c/8; // This is the tray's Top and Left Margin.
-    var b = dzy+a; // This is the tray's Y Step Value.
+    var a = 10; // This is the tray's Top and Left Margin.
+    var b = szy+5; // This is the tray's Y Step Value.
+    var c = 20 // This is the token padding value. 
     BD18.curTrayNumb = this.trayNumb;
     BD18.curTrayStep = b;
     BD18.tokenIsSelected = false;
-    BD18.canvas0.width = $('#sidebar').width();
     BD18.canvas0.height = a+(this.tokensOnSheet*b); 
     for (var i=0;i<this.tokensOnSheet;i++)
     {
       sy = this.yStart+i*this.yStep;
       if (high === i) {
         BD18.context0.fillStyle = "red";
-        BD18.context0.fillRect(c,b*i,dzx,dzy);
+        BD18.context0.fillRect(a,b*i,szx+c,szy);
         BD18.context0.fillStyle = "black";
-	BD18.tokenIsSelected = true;
+	      BD18.tokenIsSelected = true;
       }
-      BD18.context0.drawImage(img,sx,sy,szx,szy,c,b*i,dzx,dzy);
+      BD18.context0.drawImage(img,sx,sy,szx,szy,a+c,b*i,szx,szy);
     }
   };
 }
@@ -253,4 +249,3 @@ function OnBox(boxX, boxY) {
     return true;
   };
 }
-

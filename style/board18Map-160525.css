@@ -176,23 +176,3 @@
 .error {
   color: red !important;
 }
-#keyShortcut {
-    position: fixed;
-    top: 28px;
-    left: 80px;
-    z-index: 4;
-}
-#keyShortcut::before {
-    content: 'A';
-    position: absolute;
-    font-size: 25px;
-    left: 22px;
-    top: 25px;
-    z-index: -1;
-}
-#keyShortcut input {
-    width: 60px;
-    height: 60px;
-    background-color: transparent;
-    border: none;
-}
