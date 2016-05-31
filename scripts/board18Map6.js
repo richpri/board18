@@ -54,8 +54,7 @@ function makeTrayItems() {
 
 /* The registerTrayMenu function creates the 
  * tray menu on the board18Map page. It uses
- * the jquery context menu plugin and the
- * makeTrayItems function.
+ * the makeTrayItems function.
  */
 function registerTrayMenu() {
   if( BD18.trayCount > 1 ) {
