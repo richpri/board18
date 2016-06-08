@@ -1,3 +1,9 @@
+BOARD18 2.1.2 Release Notes
+
+Changes from 2.1.1  Release:
+Fixed Issue 56 - context menus can overlap edge of screen
+Also made some documentation changes to comments in code.
+
 BOARD18 2.1.1 Release Notes
 
 Changes from 2.1.0  Release:

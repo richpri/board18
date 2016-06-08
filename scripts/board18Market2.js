@@ -172,7 +172,8 @@ function loadBox(box) {
     loadLinks(box.links);
   }
   $.getJSON("php/linkGet.php", 'gameid='+BD18.gameID,function(data) {
-    if (data.stat == "success" && typeof(data.links) !== 'undefined' && data.links.length > 0) { loadLinks(data.links); }
+    if (data.stat == "success" && typeof(data.links) !== 'undefined' 
+        && data.links.length > 0) { loadLinks(data.links); }
   });
   var market = BD18.bx.market;
   var sheets = BD18.bx.tray;
@@ -188,7 +189,6 @@ function loadBox(box) {
     BD18.tsImages[i].onload = itemLoaded;
     BD18.loadCount++;
   }
-  makeMenus();    // Register Context Menus
   BD18.doneWithLoad = true;
   itemLoaded(); // Just in case onloads are very fast.
 }
