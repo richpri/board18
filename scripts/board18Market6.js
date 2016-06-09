@@ -36,8 +36,7 @@ function makeTrayItems() {
 
 /* The registerTrayMenu function creates the 
  * tray menu on the board18Map page. It uses
- * the jquery context menu plugin and the
- * makeTrayItems function.
+ * the makeTrayItems function.
  */
 function registerTrayMenu() {
   if( BD18.trayCount > 1 ) {
@@ -139,7 +138,7 @@ function boxSelect(event) {
     if (BD18.tokenIsSelected === true) {
       dropToken(x,y,xPix,yPix);
     }else{
-      onMapMenu(event)
+      onMapMenu(event);
     }
   }
 }
@@ -148,8 +147,7 @@ function boxSelect(event) {
  * It uses event.witch to determine which mouse button was pressed.
  * If the left or center button was pressed then it calls the
  * boxSelect functon. Otherwise it assumes that the right button
- * was pressed and does nothing. Right mose events are handled
- * by the jquery.contextMenu library [see the makeMenus function].
+ * was pressed and calls the onMapMenu function.
  */
 function mapMouseEvent(event) {
   event.stopPropagation();
@@ -158,7 +156,7 @@ function mapMouseEvent(event) {
   if (event.which === 0 || event.which === 1) { // Left or Center
     boxSelect(event);
   } else {
-    onMapMenu(event)
+    onMapMenu(event);
   }
 }
 
@@ -166,14 +164,25 @@ function mapMouseEvent(event) {
  */
 function onMapMenu(event) {
   var items = makeMenuItems(event);
-  if( items == 0 ) return;
+  if( parseInt(items) === 0 ) return;
   var menuList = '';
+  var itemCount = 0;
   for(var key in items) {
-    menuList += "<li class='contextMenu' data-action='"+key+"'>"+items[key].name+"</li>";
+    itemCount += 1;
+    menuList += "<li class='contextMenu' data-action='";
+    menuList +=  key + "'>" + items[key].name + "</li>";
   }
   $('#onMapMenu ul').html(menuList);
-  $('#onMapMenu li').click(function(e){doit(this.getAttribute("data-action"),e);});
-  $('#onMapMenu').css({"left":event.clientX+10,"top":event.clientY+10});
+  $('#onMapMenu li').click(function(e){
+                           doit(this.getAttribute("data-action"),e);
+                          });
+  var xevent = event.screenX;
+  var xmax = $(window).width();
+  var xpos = (xmax>xevent+210) ? xevent : xevent-250;
+  var yevent = event.clientY;
+  var ymax = $(window).height();
+  var ypos = (ymax>yevent+25*itemCount) ? yevent : yevent-25*itemCount;
+  $('#onMapMenu').css({"left":xpos,"top":ypos});
   $('#onMapMenu').show();
 }
 

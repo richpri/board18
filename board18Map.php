@@ -227,7 +227,7 @@ if ($result1) {
 
     <div id="rightofpage" oncontextmenu="mapMouseEvent(event);">
       <div id="onMapMenu" class="menu"><ul></ul></div>
-      <div id="content"><div class='debug' style="position:fixed;bottom:0;right:0;background:white;z-index:99;"></div>
+      <div id="content">
         <canvas id="canvas1">
           Your browser does not support the HTML 5 Canvas. 
         </canvas>

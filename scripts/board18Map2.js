@@ -275,7 +275,6 @@ function loadBox(box) {
       }
     }
   }
-  makeMenus();    // Register Context Menus
   BD18.doneWithLoad = true;
   itemLoaded(); // Just in case onloads are very fast.
 }
