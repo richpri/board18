@@ -2,7 +2,7 @@
 <html lang="en">
 <!--
 The index.html page is one of the two pages which is not password protected. 
-It is the introductory page to BOARD18 and may contain a welcome message. 
+It is the introductory page to BOARD18 and contains a welcome message. 
 It is used for logging in to Board18 and for registering new players. 
 It also contains player ID and password recovery functions. 
 
@@ -15,17 +15,13 @@ A copy of this license can be found in the LICENSE.text file.
     <meta charset="utf-8" />
     <title>BOARD18 - Remote Play Tool For 18xx Style Games</title>
     <link rel="shortcut icon" href="images/favicon.ico" >
-    <link rel="stylesheet" href="style/board18Single.css" />
+    <link rel="stylesheet" href="style/board18com-160521.css" />
     <link rel="stylesheet" href="style/board18Index.css" />
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
     <script type="text/javascript" src="scripts/sha256-min.js">
     </script> 
-    <script type="text/javascript" src="scripts/board18BDvar.js">
-    </script>
-    <script type="text/javascript" src="scripts/board18Single.js">
-    </script>
-    <script type="text/javascript" src="scripts/board18Com.js">
+    <script type="text/javascript" src="scripts/board18com.js">
     </script>
     <script type="text/javascript" src="scripts/board18index.js">
     </script>
@@ -110,7 +106,11 @@ A copy of this license can be found in the LICENSE.text file.
       </div>
     </div>
     
-    <div id="restofpage"> 
+    <div id="leftofpage">
+
+    </div>
+    
+    <div id="rightofpage"> 
       <div id="login">
         <form name="login" action="">
           <fieldset>
@@ -272,7 +272,6 @@ A copy of this license can be found in the LICENSE.text file.
         </p>
       </div>
     </div>  
-    
+
   </body>
 </html>
-
