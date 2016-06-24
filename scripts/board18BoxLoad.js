@@ -34,19 +34,19 @@ function emailPlayerResult(response) {
 
 /* 
  * Function doMail sends an Email report to the author after the
- * ajax loadBoxZip.php call returns a success or an email status.
+ * ajax loadBox.php call returns a success or an email status.
  */
 function doMail(report) {
   var body = "";
   report.forEach(function(line) {
     body += line + "\n";
   });
-  var cString = 'login=rich&subject=loadBoxZip Report';
+  var cString = 'login=rich&subject=Load Box Report';
   cString += '&body=' + body;
   $.post("php/emailPlayer.php", cString, emailPlayerResult);
 }
 
-/* Function zipBoxOk processes the return from the loadBoxZip.php call. 
+/* Function zipBoxOk processes the return from the loadBox.php call. 
  * 
  * resp.stat will be "success||"fail"||"nofile"||"toobig"||"email"
  * 
@@ -61,17 +61,17 @@ function zipBoxOk(resp) {
     $("#zfile_error").text('The input zip file is too big.').show();
     $("#zfile").focus();
   } else if (resp.stat === 'success') {
-    $('#successmsg').show;
+    $('#successmsg').show();
     doMail(resp.rpttext);
   } else if (resp.stat === 'email') {
-    $('#failmsg').show;
+    $('#failmsg').show();
     doMail(resp.rpttext);
   } else if (resp.stat === 'fail') {
     var errmsg = 'Data Base access failed.\n';
     errmsg += 'Please contact the BOARD18 webmaster.';
     alert(errmsg);
   } else { // Something is definitly wrong in the code.
-    var nerrmsg = 'Invalid return code from loadBoxZip.php.\n';
+    var nerrmsg = 'Invalid return code from loadBox.php.\n';
     nerrmsg += resp.stat + '\nPlease contact the BOARD18 webmaster.';
     alert(nerrmsg);
   }
