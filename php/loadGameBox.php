@@ -179,20 +179,27 @@ function loadBox($zfile) {
   $report->rpttext[] = "  ";
 
 // check for backup directory 
-  if (!is_dir ($_SERVER['DOCUMENT_ROOT'] . 'backups/')) {
+  $backtmp = $_SERVER['DOCUMENT_ROOT'] . '/backups/';
+  $backdir = preg_replace('%//%', '/', $backtmp);
+  if (!is_dir ($backdir)) { // need to create backup directory
     $report->rpttext[] = "Backup directory for images does not exist.";
-    $report->rpttext[] = "Please create a directory named: ";
-    $report->rpttext[] = "   " . $_SERVER['DOCUMENT_ROOT'] . "backups/";
-    $report->rpttext[] = "Game box not created.";
-    $report->stat = "email";
-    $fr = json_encode($report);
-    return "$fr";
+    if (!mkdir ($backdir, $mode = 0755)) { 
+      $report->rpttext[] = "The attempt to create a directory named ";
+      $report->rpttext[] = "   " . $backdir . "  failed.";
+      $report->rpttext[] = "Game box not created.";
+      $report->stat = "email";
+      $fr = json_encode($report);
+      return "$fr";
+    }
+    $report->rpttext[] = "An image backup directory named ";
+    $report->rpttext[] = "   " . $backdir;
+    $report->rpttext[] = "was successfully created.";
+    $report->rpttext[] = "  ";
   }
   
 // Prepare to move image directory.
   $backdate = date("ymdhis");
-  $imageback = $_SERVER['DOCUMENT_ROOT'] . 'backups/';
-  $imageback .= $dirBname . '-' . $backdate;
+  $imageback = $backdir . $dirBname . '-' . $backdate;
   $scriptname = $_SERVER['SCRIPT_FILENAME'];
   $scriptprefix = str_replace("board18BoxLoad.php","",$scriptname);
   $imagedest = $scriptprefix . 'images/' . $dirBname;
@@ -209,7 +216,8 @@ function loadBox($zfile) {
   }
 
 // Move image directory.
-  if (rename($images,$imagedest)) {
+  exec("mv ".escapeshellarg($images)." ".escapeshellarg($imagedest), $exrtn);
+  if (!$exrtn) {
     $report->rpttext[] = "Image directory move succeeded.";  
     $report->rpttext[] = "  ";
   } else {

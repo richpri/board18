@@ -1,7 +1,4 @@
 <?php
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-use SplFileInfo;
 /**
  * Recursively delete a directory and all of it's contents - 
  * e.g.the equivalent of `rm -r` on the command-line.
@@ -39,3 +36,4 @@ function rm_r($dir)
     }
     return rmdir($dir);
 }
+?>

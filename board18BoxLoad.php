@@ -99,6 +99,9 @@ if(isset($_POST['submit'])) { // If reload via zform submit.
               <input type="button" name="canbutton" class="zfbutton"  
                      id="buttonz3" value="Exit"><br>
             </p>
+            <p>
+              Loading the Gamebox may take a few minutes. Please be patient.
+            </p>
           </fieldset>
         </form>
       </div>
