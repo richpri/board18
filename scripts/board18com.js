@@ -14,7 +14,7 @@ var BD18 = {};
 BD18.noteTimeout = null; // Used by doLogNote().
 BD18.welcomename = null; // Used by doLogNote().
 BD18.help = "http://wiki.board18.org/w/Player%27s_Guide_V2.0";
-BD18.version = "2.1.2";
+BD18.version = "2.1.3";
 
 /* Function setPage() adjusts the height and width
  * of rightofpage and the height of lefttofpage.
@@ -108,6 +108,27 @@ function offsetIn(event, obj) {
   var x = event.pageX - a;
   var y = event.pageY - b;
   return [x, y];
+}
+
+/*
+ * Function docPos(event) returns the position 
+ * in the document of a mouse event. 
+ */
+function docPos(event) {
+	var posx = 0;
+	var posy = 0;
+	if (!event) return;
+	if (event.pageX || event.pageY) 	{
+		posx = event.pageX;
+		posy = event.pageY;
+	}
+	else if (event.clientX || event.clientY) 	{
+		posx = event.clientX + document.body.scrollLeft
+			+ document.documentElement.scrollLeft;
+		posy = event.clientY + document.body.scrollTop
+			+ document.documentElement.scrollTop;
+	}
+  return [posx, posy];
 }
 
 /* Function doLogNote displays a lognote for 30 seconds.

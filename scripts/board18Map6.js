@@ -141,7 +141,7 @@ function traySelect(event) {
 /* This function responds to left mousedown events in the  
  * map canvas. It checks various conditions and executes 
  * the appropriate function based on them. If it can find 
- * no relevant condition then it merely returns.
+ * no relevant condition then it calls the ContextMenu function.
  */
 function hexSelect(event) {
       var x, y, xPix, yPix;
@@ -154,8 +154,8 @@ function hexSelect(event) {
       xPix = tArray[0];
       yPix = tArray[1];
   if (BD18.hexIsSelected === true) {
-    if (x !== BD18.curHexX) { onMapMenu(event);return; }
-    if (y !== BD18.curHexY) { onMapMenu(event);return; }
+    if (x !== BD18.curHexX) { ContextMenu(event);return; }
+    if (y !== BD18.curHexY) { ContextMenu(event);return; }
     if (BD18.tileIsSelected === true) {
       rotateTile("cw");       
     }
@@ -168,7 +168,7 @@ function hexSelect(event) {
     }else if (BD18.tokenIsSelected === true) {
       dropToken(x,y,xPix,yPix); 
     }else{
-      onMapMenu(event);
+      ContextMenu(event);
     }
   }
 }
@@ -177,7 +177,7 @@ function hexSelect(event) {
  * It uses event.which to determine which mouse button was pressed.
  * If the left or center button was pressed then it calls the
  * hexSelect functon. Otherwise it assumes that the right button
- * was pressed and calls the onMapMenu function.
+ * was pressed and calls the ContextMenu function.
  */
 function mapMouseEvent(event) {
   event.stopPropagation();
@@ -187,15 +187,16 @@ function mapMouseEvent(event) {
   if(event.which === 0 || event.which === 1) { // Left or Center
     hexSelect(event);
   } else {
-    onMapMenu(event);
+    ContextMenu(event);
   }
 }
 
-/* This function uses makeMenuItems to create an onMapMenu.
+/* 
+ * This function uses makeMenuItems to create a ContextMenu.
  * The menu will be positioned so as not to overlap the
- * bounderies of the window. The displayed menu will not scroll.
+ * bounderies of the document. The displayed menu will not scroll.
  */
-function onMapMenu(event) {
+function ContextMenu(event) {
   var items = makeMenuItems(event);
   if( parseInt(items) === 0 ) return;
   var menuList = '';
@@ -209,12 +210,15 @@ function onMapMenu(event) {
   $('#onMapMenu li').click(function(e){
                            doit(this.getAttribute("data-action"),e);
                           });
-  var xevent = event.screenX;
-  var xmax = $(window).width();
-  var xpos = (xmax>xevent+210) ? xevent : xevent-250;
-  var yevent = event.clientY;
-  var ymax = $(window).height();
-  var ypos = (ymax>yevent+25*itemCount) ? yevent : yevent-25*itemCount;
+// [BD18.xPx, BD18.yPx] = offsetIn(event, BD18.canvas1);
+  var tArray = docPos(event)
+  BD18.xPx = tArray[0];
+  BD18.yPx = tArray[1];
+  BD18.xMax = $(document).width();
+  BD18.yMax = $(document).height();
+  var xpos = (BD18.xMax>BD18.xPx+180) ? BD18.xPx : BD18.xPx-180;
+  var ysize = 25*itemCount;
+  var ypos = (BD18.yMax>BD18.yPx+ysize) ? BD18.yPx : BD18.yPx-ysize;
   $('#onMapMenu').css({"left":xpos,"top":ypos});
   $('#onMapMenu').show();
 }

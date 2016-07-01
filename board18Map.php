@@ -226,7 +226,6 @@ if ($result1) {
     </div>
 
     <div id="rightofpage" oncontextmenu="mapMouseEvent(event);">
-      <div id="onMapMenu" class="menu"><ul></ul></div>
       <div id="content">
         <canvas id="canvas1">
           Your browser does not support the HTML 5 Canvas. 
@@ -234,8 +233,6 @@ if ($result1) {
         <canvas id="canvas2">
         </canvas>
       </div>  
-      <canvas id="canvas3">
-      </canvas>
     </div>
 
     <div id="snapname">
@@ -276,6 +273,8 @@ if ($result1) {
         </fieldset>
       </form>
     </div>     
-    
+    <div id="onMapMenu" class="menu"><ul></ul></div>
+    <canvas id="canvas3">
+    </canvas>
   </body>
 </html>
