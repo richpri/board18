@@ -95,10 +95,10 @@ function canvasApp()
   var ww = parseInt(BD18.stockMarket.width, 10);
   $('#content').css('height', hh); 
   $('#content').css('width', ww);     
-  $('#canvas1').attr('height', hh); 
-  $('#canvas1').attr('width', ww); 
-  $('#canvas2').attr('height', hh); 
-  $('#canvas2').attr('width', ww); 
+  $('#canvas1').prop('height', hh); 
+  $('#canvas1').prop('width', ww); 
+  $('#canvas2').prop('height', hh); 
+  $('#canvas2').prop('width', ww); 
   BD18.canvas0 = document.getElementById('canvas0');
   if (!BD18.canvas0 || !BD18.canvas0.getContext) {
     return;

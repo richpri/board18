@@ -17,8 +17,8 @@
 function selectToken(event) {
   var numbtok = BD18.hexList.tokens.length;
   $('#canvas3').css('opacity', '1');
-  $('#canvas3').attr('height', 40); 
-  $('#canvas3').attr('width', numbtok*40);
+  $('#canvas3').prop('height', 40); 
+  $('#canvas3').prop('width', numbtok*40);
   var xsize = numbtok*40;
   var xpos = (BD18.xMax>BD18.xPx+xsize) ? BD18.xPx : BD18.xPx-xsize;
   var ypos = (BD18.yMax>BD18.yPx+45) ? BD18.yPx : BD18.yPx-40;
