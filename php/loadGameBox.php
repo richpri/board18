@@ -1,6 +1,6 @@
 <?php
 /*
- * loadGameBox.php is a required module for board18Box2.php.
+ * loadGameBox.php is a required module for board18BoxLoad.php.
  * 
  * Copyright (c) 2015 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
@@ -10,7 +10,7 @@
  * function loadBox($zfile)
  * 
  * loadBox validates an input zip file, unzips it and uses its 
- * contents to create a game box or to mosify an existing game box. 
+ * contents to create a game box or to modify an existing game box. 
  * It returns the output described below with a status and with 
  * optional report information to be emailed to the author.
  * 
@@ -87,7 +87,7 @@ function loadBox($zfile) {
   // Get file name and test for valid extension [.zip].
   $dirAlength = strpos($zfileName,'.zip');
   if ($dirAlength) {
-    $dirAname = substr($zfileName,0,$dirAlength);
+    $dirAname = 'board18' . substr($zfileName,7,$dirAlength-7);
     $dirBname = substr($dirAname,8);
   } else { // process error and return
     $report->rpttext[] = "Invalid extension on uploaded file.";
@@ -135,17 +135,30 @@ function loadBox($zfile) {
   // Locate control [.json] file and images directory.
   $control = $extractTmpLoc . $dirAname . '/' . $dirBname . '.json';
   $images = $extractTmpLoc . $dirAname . '/' . $dirBname;
-  if ((substr($dirAname,0,7) !== 'board18') || (!file_exists ($control)) || 
-      (!file_exists ($images))) {
+  if (strtolower(substr($dirAname,0,7)) !== 'board18') {
     $report->rpttext[] = "Unziped file does not have a valid directory structure.";
-    $report->rpttext[] = "  control should be " . $control;
-    $report->rpttext[] = "  images should be " . $images;
+    $report->rpttext[] = "  zipped directory name should start 'board18' " ;
     $report->rpttext[] = "Game box not created.";
     $report->stat = "email";
     $fr = json_encode($report);
     return "$fr";
   }
-
+  if (!file_exists ($control)) {
+    $report->rpttext[] = "Unziped file does not have a valid directory structure.";
+    $report->rpttext[] = "  control file name should be " . $control;
+    $report->rpttext[] = "Game box not created.";
+    $report->stat = "email";
+    $fr = json_encode($report);
+    return "$fr";
+  }
+  if (!is_dir ($images)) {
+    $report->rpttext[] = "Unziped file does not have a valid directory structure.";
+    $report->rpttext[] = "  images directory name should be " . $images;
+    $report->rpttext[] = "Game box not created.";
+    $report->stat = "email";
+    $fr = json_encode($report);
+    return "$fr";
+  }
   // Read control file.
   $jsonstring = file_get_contents($control);
   if (!$jsonstring) {
@@ -165,17 +178,50 @@ function loadBox($zfile) {
   $report->rpttext[] = "  auther = " . $auth;
   $report->rpttext[] = "  ";
 
-  // Move image directory.
+// check for backup directory 
+  $backtmp = $_SERVER['DOCUMENT_ROOT'] . '/backups/';
+  $backdir = preg_replace('%//%', '/', $backtmp);
+  if (!is_dir ($backdir)) { // need to create backup directory
+    $report->rpttext[] = "Backup directory for images does not exist.";
+    if (!mkdir ($backdir, $mode = 0755)) { 
+      $report->rpttext[] = "The attempt to create a directory named ";
+      $report->rpttext[] = "   " . $backdir . "  failed.";
+      $report->rpttext[] = "Game box not created.";
+      $report->stat = "email";
+      $fr = json_encode($report);
+      return "$fr";
+    }
+    $report->rpttext[] = "An image backup directory named ";
+    $report->rpttext[] = "   " . $backdir;
+    $report->rpttext[] = "was successfully created.";
+    $report->rpttext[] = "  ";
+  }
+  
+// Prepare to move image directory.
   $backdate = date("ymdhis");
-  $imageback = $_SERVER['DOCUMENT_ROOT'] . 'backups/';
-  $imageback .= $dirBname . '-' . $backdate;
+  $imageback = $backdir . $dirBname . '-' . $backdate;
   $scriptname = $_SERVER['SCRIPT_FILENAME'];
-  $scriptprefix = str_replace("board18Boxes2.php","",$scriptname);
+  $scriptprefix = str_replace("board18BoxLoad.php","",$scriptname);
   $imagedest = $scriptprefix . 'images/' . $dirBname;
-  if ((file_exists ($imagedest)) && (!copy($imagedest,$imageback)) || 
-      (!rename($images,$imagedest))) {
+  if (file_exists ($imagedest)) { // Need to backup old images.
+    if (!rename($imagedest,$imageback)) { // Backup failed
+      $report->rpttext[] = "Existing image directory backup failed."; 
+      $report->rpttext[] = "  directory name = " . $imagedest;
+      $report->rpttext[] = "  backup name = " . $imageback;
+      $report->rpttext[] = "Game box not created.";
+      $report->stat = "email";
+      $fr = json_encode($report);
+      return "$fr";
+    }
+  }
+
+// Move image directory.
+  exec("mv ".escapeshellarg($images)." ".escapeshellarg($imagedest), $exrtn);
+  if (!$exrtn) {
+    $report->rpttext[] = "Image directory move succeeded.";  
+    $report->rpttext[] = "  ";
+  } else {
     $report->rpttext[] = "Image directory move failed.";  
-    $report->rpttext[] = "  backup name = " . $imageback;
     $report->rpttext[] = "  source name = " . $images;
     $report->rpttext[] = "  target name = " . $imagedest;
     $report->rpttext[] = "Game box not created.";
