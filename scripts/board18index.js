@@ -19,7 +19,7 @@ function loginOK(response) {
     loginNote += resp.firstname + ' ';
     loginNote += resp.lastname + ' at ';
     loginNote += resp.level + ' level';
-    $('#lognote').text(loginNote);
+    doLogNote(loginNote);
     $('#login form').slideUp(300);
     if (resp.changeit === '0') {
       window.location = "board18Main.php";
@@ -83,7 +83,7 @@ function regResult(response) {
     $('#register form').slideUp(300);
     $('#login form').slideDown(300);
     var loginNote = 'You have successfully registered. ';
-    $('#lognote').text(loginNote);
+    doLogNote(loginNote);
   }
   else if (response === 'duplicate') {
     $("#newuser_error").text('Username is already in use.').show();
@@ -160,7 +160,7 @@ function emailPlayerResult(response) {
     $('#lostid form').slideUp(300);
     $('#login form').slideDown(300);
     var lostidNote = 'Email with player ID has been sent.';
-    $('#lognote').text(lostidNote);
+    doLogNote(lostidNote);
   }
   else if (response === 'bademail') {
     $("#email1_error").text('Format of email address is invalid.')
@@ -208,7 +208,7 @@ function emailPasswdResult(response) {
     $('#lostpw form').slideUp(300);
     $('#login form').slideDown(300);
     var lostpwNote = 'Email with temporary password has been sent.';
-    $('#lognote').text(lostpwNote);
+    doLogNote(lostpwNote);
   }
   else if (response === 'bademail') {
     $("#email2_error").text('Format of email address is invalid.')

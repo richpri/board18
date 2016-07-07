@@ -19,7 +19,7 @@ function fromUpdateGm(resp) {
     msg = BD18.welcomename + ": ";
     msg += "Your move has been successfully updated ";
     msg += "to the server database.";
-    $('#lognote').text(msg);
+    doLogNote(msg);
   }
   else if(resp === 'failure') {
     msg = "Your move did not make it to the server database. ";
@@ -117,7 +117,8 @@ function rotateTile(dir) {
 function getToken(index) {
   var ix = BD18.hexList.tokens[index].btindex;
   var bdtok = BD18.boardTokens[ix];
-  if (BD18.trays[bdtok.snumb].tokenFlip[bdtok.index] === false && BD18.tknMenu.funct == "flip") {
+  if (BD18.trays[bdtok.snumb].tokenFlip[bdtok.index] === false 
+          && BD18.tknMenu.funct === "flip") {
     return;
   }
   BD18.tempToken = [bdtok.snumb,bdtok.index,

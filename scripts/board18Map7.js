@@ -85,7 +85,7 @@ function setUpKeys() {
       }
       e.preventDefault();
     }
-  })
+  });
 };
 
 /* 
@@ -162,7 +162,7 @@ function snapshotOK(response) {
   else if (response === 'success') {
     msg = BD18.welcomename + ": ";
     msg += "Your snap shot request has been successful. ";
-    $('#lognote').text(msg);
+    doLogNote(msg);
   }
   else if (response === 'fail') {
     var errmsg = 'Snapshot failed.\n';

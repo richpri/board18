@@ -13,7 +13,7 @@ function forceResult(response) {
   }
   else if (response === 'success') {
     var changeNote = 'You password has been successfully changed.';
-    $('#lognote').text(changeNote);
+    doLogNote(changeNote);
     $('#passwd form').slideUp(300);
     setTimeout(function(){window.location = "board18Main.php";}, 5000);
   }
@@ -92,7 +92,7 @@ function adminResult(response) {
     $('#register form').slideUp(300);
     $('#login form').slideDown(300);
     var loginNote = 'Your registration has been successfully updated. ';
-    $('#lognote').text(loginNote);
+    doLogNote(loginNote);
   }
   else if (response === 'fail') {
     var errmsg = 'Data Base update failed.\n';

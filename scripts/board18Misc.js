@@ -251,7 +251,7 @@ function addReturn(response) {
     $.post('php/linkGet.php', linkstring,  linkReturn);
   } else if (response === 'duplicate') {
     var dupNote = 'A link named ' + BD18.newlink + ' already exists.';
-    $('#lognote').text(dupNote);
+    doLogNote(dupNote);
     $("#lname1_error").show();
     $("#lname1").focus();
   } else if (response === 'fail') {

@@ -19,7 +19,7 @@ function fromUpdateGm(resp) {
     msg = BD18.welcomename + ": ";
     msg += "Your move has been successfully updated ";
     msg += "to the server database.";
-    $('#lognote').text(msg);
+    doLogNote(msg);
   }
   else if (resp === 'failure') {
     msg = "Your move did not make it to the server database. ";
@@ -204,7 +204,7 @@ function updateMarketTokens() {
 function updateDatabase() {
   resetCheckForUpdate();
   var jstring = JSON.stringify(BD18.gm);
-  if(BD18.historyPosition != BD18.history.length - 1)
+  if(BD18.historyPosition !== BD18.history.length - 1)
     BD18.history.length = BD18.historyPosition + 1;
   BD18.history.push(jstring);
   BD18.historyPosition = BD18.history.length - 1;

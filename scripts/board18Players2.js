@@ -57,8 +57,7 @@ function doEmail() {
   var cString = 'login=' + BD18.player.login + '&subject=' + subject;
   cString += '&body=' + body;
   $.post("php/emailPlayer.php", cString, emailPlayerResult);
-  $('#lognote').html('Email is being sent.');
-  var to1 = window.setTimeout(function(){ $('#lognote').html(' ');}, 5000);
+  doLogNote('Email is being sent.');
   $("#subject1").val('');
   $("#body1").val('');
 }
@@ -84,8 +83,7 @@ function sendBroadcast() {
     eString = 'login=' + listInfo.login + dString;
     $.post("php/emailPlayer.php", eString, emailPlayerResult);
   });
-  $('#lognote').html('Broadcast Emails are being sent.');
-  var to1 = window.setTimeout(function(){ $('#lognote').html(' ');}, 5000);
+  doLogNote('Broadcast Emails are being sent.');
   $("#subject2").val('');
   $("#body2").val('');
 };
