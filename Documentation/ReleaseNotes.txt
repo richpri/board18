@@ -1,6 +1,7 @@
 BOARD18 2.2.0 Release Notes
 
 Changes from 2.1.3 Release:
+Fixed Bug 58 - The doLogNote(note) function is not always used. 
 Implemented Issue 27 Part 5 - Provide a tool for loading a 
 game box from a zip file. And also make some minor edits that 
 prepare for the removal of jqueryMigrate package from BOARD18.
