@@ -201,8 +201,7 @@ function snapshotOK(response) {
     window.location = "access-denied.html";
   }
   else if (response === 'success') {
-    msg = BD18.welcomename + ": ";
-    msg += "Your snap shot request has been successful. ";
+    msg = "Your snap shot request has been successful. ";
     doLogNote(msg);
   }
   else if (response === 'fail') {

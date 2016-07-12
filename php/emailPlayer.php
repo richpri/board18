@@ -17,7 +17,7 @@
  * Copyright (c) 2015 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
-// require_once('auth.php'); test
+require_once('auth.php');
 require_once('config.php');
 require_once('sendEmail.php');
 

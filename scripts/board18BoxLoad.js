@@ -36,12 +36,13 @@ function emailPlayerResult(response) {
  * Function doMail sends an Email report to the author after the
  * ajax loadBox.php call returns a success or an email status.
  */
-function doMail(report) {
+function doMail(report,login) {
   var body = "";
   report.forEach(function(line) {
     body += line + "\n";
   });
-  var cString = 'login=rich&subject=Load Box Report';
+  var cString = 'login=' + login;
+  cString += '&subject=Load Box Report';
   cString += '&body=' + body;
   $.post("php/emailPlayer.php", cString, emailPlayerResult);
 }
@@ -62,10 +63,10 @@ function zipBoxOk(resp) {
     $("#zfile").focus();
   } else if (resp.stat === 'success') {
     $('#successmsg').show();
-    doMail(resp.rpttext);
+    doMail(resp.rpttext,resp.author);
   } else if (resp.stat === 'email') {
     $('#failmsg').show();
-    doMail(resp.rpttext);
+    doMail(resp.rpttext,resp.author);
   } else if (resp.stat === 'fail') {
     var errmsg = 'Data Base access failed.\n';
     errmsg += 'Please contact the BOARD18 webmaster.';

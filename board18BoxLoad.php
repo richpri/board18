@@ -13,10 +13,19 @@ if ($playerlevel != 'admin' && $playerlevel != 'author') {
   exit;
 }
  */
+require_once('php/auth.php');
 require_once('php/rm_r.php');
 require_once('php/loadGameBox.php');
+ 
+if ($playerlevel != 'admin' && $playerlevel != 'author') {
+  error_log("loadGameBox:loadBox: Not an admin or author level player");
+  $_SESSION['SESS_HEADER_MESSAGE'] = 'Not an admin or author level player';
+  header("location: board18Admin.php");
+	exit;
+}
+
 if(isset($_POST['submit'])) { // If reload via zform submit.
-  $reportout = loadBox($_FILES);
+  $reportout = loadBox($_FILES,$loggedinplayer);
 }
 
 ?>

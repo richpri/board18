@@ -7,18 +7,19 @@
  * 
  * ------------------------
  * 
- * function loadBox($zfile)
+ * function loadBox($zfile,$authorID)
  * 
  * loadBox validates an input zip file, unzips it and uses its 
  * contents to create a game box or to modify an existing game box. 
  * It returns the output described below with a status and with 
  * optional report information to be emailed to the author.
  * 
- * Input is the zip file containing the game box.
+ * Input is the zip file containing the game box and the authorID.
  * 
  * Output is the following stringified JSON data structure [object]. 
  *   {
  *     "stat":"success"||"fail"||"nofile"||"toobig"||"email",
+ *     "author":authorLogin
  *     "rpttext":
  *     [
  *       "textline"
@@ -30,7 +31,7 @@
  */
  
 
-function loadBox($zfile) {
+function loadBox($zfile,$authorID) {
   class Response
   {
     public $stat;
@@ -42,22 +43,35 @@ function loadBox($zfile) {
   $errorResp->stat = "fail";
   $errResp = json_encode($errorResp);
 
-  require_once('auth.php');
-  if ($playerlevel != 'admin' && $playerlevel != 'author') {
-    error_log("loadGameBox:loadBox: Not an admin or author level player");
-    return $errResp;
-  }
   require_once('config.php');
 
 
   $link = @mysqli_connect(DB_HOST, DB_USER, 
           DB_PASSWORD, DB_DATABASE);
   if (mysqli_connect_error()) {
-    $logMessage = 'MySQL Error 1: ' . mysqli_connect_error();
+    $logMessage = 'MySQL Error 0: ' . mysqli_connect_error();
     error_log($logMessage);
     return $errResp;
   }
   mysqli_set_charset($link, "utf-8");
+  
+  // Lookup author login in database.
+  $qry0 = "SELECT login FROM players 
+           WHERE player_id = '$authorID';"; 
+  $result0 = mysqli_query($link, $qry0);
+  if (!$result0) {
+    $logMessage = 'MySQL Error 1: ' . mysqli_error($link);
+    error_log($logMessage);
+    return $errResp;
+  }
+  if (mysqli_num_rows($result0) === 1) { // Author exists.
+    $arr0 = mysqli_fetch_array($result0);
+    $authorLogin = $arr0[0]; // login
+  } else { // Author does not exists - this should never happen.
+    $logMessage = 'MySQL Error 1: Author not found! ';
+    error_log($logMessage);
+    return $errResp;
+  }
 
   // get uploaded file information.
   $zfileName = $_FILES["zfile"]["name"]; // The file name
@@ -76,6 +90,7 @@ function loadBox($zfile) {
   }
   $report = new Response();
   $report->stat = "success";
+  $report->author = $authorLogin;
   $report->rpttext = [];
   $report->rpttext[] = "ZIP file was uploaded successfully.";
   $report->rpttext[] = "  file name = " . $zfileName;

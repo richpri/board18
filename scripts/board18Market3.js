@@ -16,8 +16,7 @@ function fromUpdateGm(resp) {
   }
   var msg;
   if (resp === 'success') {
-    msg = BD18.welcomename + ": ";
-    msg += "Your move has been successfully updated ";
+    msg = "Your move has been successfully updated ";
     msg += "to the server database.";
     doLogNote(msg);
   }
