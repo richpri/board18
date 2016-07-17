@@ -3,6 +3,8 @@ BOARD18 2.2.1 Release Notes
 Changes from 2.2.0 Release:
 Fixed some typos [due to Bug 58 fix] in log notes. 
 Fixed misrouting of game box load messages in board18BoxLoad.php
+Fixed two typos in board18Boxes.php.
+Upgraded the doLogNote(note) function to handle NULL BD18.welcomename.
 
 BOARD18 2.2.0 Release Notes
 

@@ -107,12 +107,12 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
         }); // end gameid.click
         $('#button1').click(function() {
           BD18.box.update = 'no';
-          updateGame();
+          updateBox();
           return false;
         }); // end button1 click
         $('#button2').click(function() {
           BD18.box.update = 'no';
-          paintGame();
+          paintBox();
           return false;
         }); // end button2 click
         $('#button3').click(function() {

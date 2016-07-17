@@ -30,6 +30,7 @@ function sendEmail($email, $subject, $body) {
   if ($mailObj->send()) {
     echo 'success';
   } else {
+    error_log('Mailer Error: ' . $mailObj->ErrorInfo);
     echo 'fail';
   }
 }

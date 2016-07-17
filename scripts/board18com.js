@@ -140,7 +140,11 @@ function doLogNote(note) {
   if(BD18.noteTimeout !== null) {
     clearTimeout(BD18.noteTimeout);
   }
-  var msg = BD18.welcomename + ": " + note;
+  if(BD18.welcomename !== null) {
+    var msg = BD18.welcomename + ": " + note;
+  } else {
+    var msg = note;
+  }
   $('#lognote').text(msg);
   BD18.noteTimeout = setTimeout(function() {
     $('#lognote').text("");
