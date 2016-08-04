@@ -172,10 +172,10 @@ $pagecount = ceil((float)$totalcount/(float)$pagesize);
         <form name="thebox" class="boxform" action="">
           <fieldset>
             <p>
-              <label for="gname">Change Game Name:</label>
-              <input type="text" name="gname" id="gname" class="reg"
+              <label for="bname">Change Box Name:</label>
+              <input type="text" name="bname" id="bname" class="reg"
                      value="">
-              <label class="error" for="gname" id="gname_error">
+              <label class="error" for="bname" id="bname_error">
                 This field is required.</label>
             </p>
             <p id="statusselect">

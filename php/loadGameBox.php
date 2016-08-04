@@ -184,13 +184,20 @@ function loadBox($zfile,$authorID) {
     return "$fr";
   }
   $decoded = json_decode($jsonstring,TRUE);
+  if ($decoded == NULL) {
+    $report->rpttext[] = "Invalid .json string in file " . $control . ".";
+    $report->rpttext[] = "Game box not created.";
+    $report->stat = "email";
+    $fr = json_encode($report);
+    return "$fr";
+  }
   $bname = $decoded["bname"];
   $ver = $decoded["version"];
   $auth = $decoded["author"];
   $report->rpttext[] = "Control [.json] file was read successfully.";
   $report->rpttext[] = "  box name = " . $bname;
   $report->rpttext[] = "  box version = " . $ver;
-  $report->rpttext[] = "  auther = " . $auth;
+  $report->rpttext[] = "  author = " . $auth;
   $report->rpttext[] = "  ";
 
 // check for backup directory 
